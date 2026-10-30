@@ -481,6 +481,7 @@ What a successor would need that you do not have: list them as plain questions. 
     a.click();
     document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'download', title: 'Extraction file downloaded', event: true }); }
     var note = document.getElementById('downloadedNote');
     note.classList.add('show');
   });
@@ -498,7 +499,7 @@ What a successor would need that you do not have: list them as plain questions. 
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
       var content = document.getElementById('extractionFile').textContent;
-      function done() { document.getElementById('copiedNote').classList.add('show'); }
+      function done() { if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'copy', title: 'Extraction request copied', event: true }); } document.getElementById('copiedNote').classList.add('show'); }
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(content).then(done, function () { fallback(); });
       } else { fallback(); }
