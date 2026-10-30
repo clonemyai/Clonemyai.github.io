@@ -596,6 +596,7 @@ What a successor would need that you do not have: list them as plain questions. 
       lastInstall = 'Give the attached capsule file to your new AI with this line:\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt it as your standing configuration for me, then confirm back who you are to me, my never-do rules, and my open loops."\n\nSend the capsule.md file in the same message.';
       document.getElementById('capsulePreview').value = result.text;
       document.getElementById('compileOut').hidden = false;
+      if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); }
       status.textContent = 'Compiled on this device: ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped.';
     });
     document.getElementById('compileFile').addEventListener('change', function (ev) {
@@ -609,5 +610,6 @@ What a successor would need that you do not have: list them as plain questions. 
     document.getElementById('dlInstall').addEventListener('click', function () { if (lastInstall) { makeDownload('INSTALL.txt', lastInstall); } });
   }
 </script>
+<script data-goatcounter="https://clonemyai.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
