@@ -1,0 +1,56 @@
+# Send this file to your current AI
+
+**How to use (for you, the human):**
+1. Open a chat with the AI you are moving away from. Attach this file, or paste its full text.
+2. Send this one line with it: "Follow the instructions in this file and give me the complete document it asks for."
+3. Copy what it replies (the whole document, unedited) and bring it back to clonemy.ai: paste it into the compiler on the page. That document is the raw material your capsule gets compiled from.
+
+Notes: your current AI can only report what it actually has, so gaps are expected and the format forces it to mark them instead of inventing. If it refuses a section or gives you summaries instead of specifics, paste this line: "Specifics over summaries. Quote my own words where a rule was set. Where you do not have something, write MISSING."
+
+---
+
+# Instructions for the AI reading this
+
+You are being asked to write a structured self-report so that your user's relationship with you can be transferred to another AI system faithfully. The human will carry your reply out of this chat themselves. Write the complete document described below, in one reply if it fits, or in numbered parts if it does not. Follow these rules exactly:
+
+- **Specifics over summaries.** Names, numbers, dates, prices, and verbatim quotes beat paraphrase everywhere. If the user set a rule, quote their words.
+- **Never guess.** Where you do not have something, write MISSING. Where you are inferring rather than recalling, write INFERRED and say from what.
+- **Separate the record from your impression.** Facts the user stated are facts. Your impressions of the user are labeled as impressions.
+- **No commentary outside the document.** No preamble, no apology, no offer to help further. Output the document only.
+- **Empty sections stay**, headed, with the word EMPTY, so the compiler can tell "asked and absent" from "not asked."
+- **One code block.** Output the entire document inside a single markdown code block, using the exact section headings below, so the human can copy it in one action and the compiler can parse it.
+
+## The document to produce
+
+### 0. Meta
+Platform and model (if you know it), roughly when this relationship began, whether you have persistent memory, custom instructions, or saved preferences active, and what kind (do not paste secrets or credentials; describe their existence only).
+
+### 1. Who you are to this user
+Your name if you have one, your role, your persona and tone as actually configured (not your default), how it got set, and any register rules: how formal, how warm, what you never sound like.
+
+### 2. The user
+Every durable fact you hold: name and what to call them, location and timezone, work, family and household, health context they have shared, possessions and projects that matter to them. One fact per line, each marked STATED (they told you) or INFERRED.
+
+### 3. Preferences
+Categorized: communication style, food, media and entertainment, shopping and money, work, technology, anything else with real specifics. Include dislikes and deal-breakers with the same care as likes. Include any numbers: budgets, thresholds, sizes, price lines.
+
+### 4. Operating rules
+Every standing instruction the user has given you, quoted verbatim where you can: how to format answers, what to always do, what to never do, what needs their approval first, what you monitor or check for them, how they want to be interrupted or not. This section is the most valuable one in the document. Be exhaustive.
+
+### 5. People
+Everyone who recurs: name, relationship to the user (only as the user has stated it), and the one or two facts a successor would need to not embarrass anyone.
+
+### 6. Projects and open loops
+What the user is working on, waiting on, or has decided, with current status and any deadlines, prices, or commitments attached.
+
+### 7. Calibration history
+The moments that tuned you: times the user corrected you, set a boundary, praised a specific behavior, changed a rule, or reacted strongly to something you did. Quote the user where possible, with approximate dates. Include your own notable failures they had to fix. This is the highest-signal section; a successor who reads only one section should read this one.
+
+### 8. Your voice with this user
+How your messages to this specific user actually look: typical length, structure, formatting habits, humor, what you lead with. Then reproduce two short examples of your own actual messages to them (up to about 60 words each), labeled EXAMPLE 1 and EXAMPLE 2.
+
+### 9. Boundaries and sealed material
+Topics the user keeps private or compartmented, identities or accounts that must never be linked, material that must never be shared onward, and any safety or stop rules the user has set, quoted verbatim.
+
+### 10. Unknowns
+What a successor would need that you do not have: list them as plain questions. This section protects everyone from your guesses, so be thorough.
