@@ -361,25 +361,65 @@
     </section>
 
     <section class="contrast" aria-label="Import versus capsule">
-      <div class="contrast-grid">
-        <div class="contrast-col">
-          <h3>Their import</h3>
-          <ul>
-            <li>Chat logs and auto-summaries</li>
-            <li>Your rules, flattened into a preferences list</li>
-            <li>Your upload trains their model by default</li>
-            <li>Arrives as a stranger who read your diary</li>
-          </ul>
-        </div>
-        <div class="contrast-col capsule">
-          <h3>Your capsule</h3>
-          <ul>
-            <li>A compiled pattern, not a transcript</li>
-            <li>Your rules quoted in your own words, your people, your calibration history</li>
-            <li>Never used to train anything</li>
-            <li>Arrives as yours, and proves it</li>
-          </ul>
-        </div>
+<style>
+  .compare-wrap { max-width: 860px; margin: 0 auto; }
+  table.compare { width: 100%; border-collapse: collapse; text-align: left; font-size: .98rem; }
+  table.compare th, table.compare td { padding: .85rem .9rem; border-bottom: 1px solid rgba(140,150,255,.16); vertical-align: top; line-height: 1.45; }
+  table.compare thead th { border-bottom: 2px solid rgba(140,150,255,.35); font-size: 1.08rem; }
+  table.compare thead .col-icon { display: block; margin-bottom: .45rem; }
+  table.compare tbody th { font-weight: 600; opacity: .85; white-space: nowrap; }
+  table.compare td.theirs { opacity: .72; }
+  table.compare td.ours { }
+  .mark { font-weight: 800; margin-right: .35rem; }
+  .mark.no { color: #ff6b6b; }
+  .mark.yes { color: #3ddc84; }
+  @media (max-width: 640px) {
+    table.compare tbody th { white-space: normal; }
+    table.compare th, table.compare td { padding: .65rem .5rem; font-size: .9rem; }
+  }
+</style>
+      <div class="compare-wrap">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th scope="col"><span class="col-icon"></span></th>
+            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="6" y="20" width="36" height="20" rx="4" stroke="#8a8fa3" stroke-width="2.5"/><path d="M24 6v18m0 0l-6-6m6 6l6-6" stroke="#8a8fa3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Their import</th>
+            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="cmpGrad" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient></defs><rect x="13" y="13" width="26" height="26" rx="6" stroke="url(#cmpGrad)" stroke-width="2.5" opacity="0.55"/><rect x="8" y="8" width="26" height="26" rx="6" fill="rgba(123,108,255,0.12)" stroke="url(#cmpGrad)" stroke-width="2.5"/><path d="M15 27c3 3.5 7 5 10 5 4.5 0 9-3 12-8" stroke="url(#cmpGrad)" stroke-width="2.5" stroke-linecap="round"/><circle cx="17.5" cy="19" r="1.8" fill="url(#cmpGrad)"/><circle cx="25.5" cy="19" r="1.8" fill="url(#cmpGrad)"/></svg></span>Your capsule</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th scope="row">What actually moves</th>
+          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Chat logs and auto-summaries</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> A compiled pattern: persona, rules, people, calibration history</td>
+        </tr>
+        <tr>
+          <th scope="row">Your rules</th>
+          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Flattened into a preferences list</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> Quoted back in your own words</td>
+        </tr>
+        <tr>
+          <th scope="row">Your upload</th>
+          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Trains their model by default</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> Never used to train anything. The compile happens in your browser</td>
+        </tr>
+        <tr>
+          <th scope="row">Proof the move worked</th>
+          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Silence. No score, no receipt</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> A parity check: what carried, what did not, what the platform blocked</td>
+        </tr>
+        <tr>
+          <th scope="row">Ownership</th>
+          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Locked inside the platform that made it</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> A file you own. It works on any platform, including the next one</td>
+        </tr>
+        <tr>
+          <th scope="row">Who shows up on day one</th>
+          <td class="theirs"><span class="mark no" aria-label="No">✗</span> A stranger who read your diary</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> Yours, and it can prove it</td>
+        </tr>
+        </tbody>
+      </table>
       </div>
     </section>
 
