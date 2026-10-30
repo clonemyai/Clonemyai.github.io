@@ -423,21 +423,45 @@
       </div>
     </section>
 
-    <section class="journey" aria-label="How clonemy.ai works">
-      <div class="journey-grid">
-        <div class="journey-step">
-          <h3><span class="num">01</span> Extract</h3>
-          <p>Your current AI writes its self-report.</p>
+    <section class="howitworks" aria-labelledby="how-heading">
+<style>
+  .howitworks { margin: 3.5rem auto; max-width: 960px; }
+  .howitworks h2 { font-size: 1.6rem; text-align: center; margin-bottom: .4rem; }
+  .howitworks .lede { text-align: center; opacity: .85; margin-bottom: 2rem; line-height: 1.55; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+  .how-card { border: 1px solid rgba(140,150,255,.22); border-radius: 16px; padding: 1.3rem 1.2rem; background: rgba(255,255,255,.03); text-align: left; }
+  .how-card .num { font-size: .8rem; letter-spacing: .18em; opacity: .6; font-weight: 700; }
+  .how-card .how-icon { display: block; margin: .55rem 0 .7rem; }
+  .how-card h3 { margin: 0 0 .5rem; font-size: 1.15rem; }
+  .how-card p { margin: 0 0 .8rem; line-height: 1.55; opacity: .88; font-size: .95rem; }
+  .how-card .youdo { font-size: .88rem; border-top: 1px solid rgba(140,150,255,.16); padding-top: .7rem; opacity: .95; }
+  .how-card .youdo strong { color: #37c8e8; }
+  .howitworks .continuity { text-align: center; margin-top: 2rem; }
+  @media (max-width: 720px) { .how-grid { grid-template-columns: 1fr; } }
+</style>
+      <h2 id="how-heading">How it works</h2>
+      <p class="lede">Three steps, one file each way, and you are the courier the whole time. Nothing about you passes through our hands, because we do not have hands: there is no server.</p>
+      <div class="how-grid">
+        <div class="how-card">
+          <span class="num">01</span>
+          <span class="how-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M10 8h28v24H28l-8 8v-8H10V8z" stroke="url(#cmpGrad)" stroke-width="2.5" stroke-linejoin="round"/><path d="M17 17h14M17 24h9" stroke="url(#cmpGrad)" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+          <h3>Extract</h3>
+          <p>Your current AI writes its self-report under strict rules: specifics over summaries, your rules quoted in your own words, and gaps marked MISSING instead of filled with invention.</p>
+          <p class="youdo"><strong>You do:</strong> send it one file, or point it at clonemy.ai/extract. One message.</p>
         </div>
-        <div class="arrow" aria-hidden="true">→</div>
-        <div class="journey-step">
-          <h3><span class="num">02</span> Compile</h3>
-          <p>We turn it into your capsule, in your browser. Nothing is uploaded.</p>
+        <div class="how-card">
+          <span class="num">02</span>
+          <span class="how-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="14" y="14" width="24" height="24" rx="6" stroke="url(#cmpGrad)" stroke-width="2.5" opacity="0.55"/><rect x="9" y="9" width="24" height="24" rx="6" stroke="url(#cmpGrad)" stroke-width="2.5"/><path d="M16 28c2.5 3 6 4.5 9 4.5" stroke="url(#cmpGrad)" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+          <h3>Compile</h3>
+          <p>The raw report becomes a capsule: the 8K remaster. Ordered, deduplicated, with an install protocol on top and a parity self-check at the end. It runs in your browser; nothing is uploaded.</p>
+          <p class="youdo"><strong>You do:</strong> paste the reply into the compiler above and download the pack.</p>
         </div>
-        <div class="arrow" aria-hidden="true">→</div>
-        <div class="journey-step">
-          <h3><span class="num">03</span> Restore</h3>
-          <p>Your new AI starts as yours. Every restore ships with a parity receipt: what carried, what did not, and what the new platform will not allow. Nobody else grades the move.</p>
+        <div class="how-card">
+          <span class="num">03</span>
+          <span class="how-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="17" r="7" stroke="url(#cmpGrad)" stroke-width="2.5"/><path d="M10 40c2-7 7-10 14-10s12 3 14 10" stroke="url(#cmpGrad)" stroke-width="2.5" stroke-linecap="round"/><path d="M31 12l4 4 7-8" stroke="#3ddc84" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Restore</h3>
+          <p>Your new AI adopts the capsule and confirms back who it is to you, your never-do rules, and your open loops. The parity self-check shows exactly what carried and what did not.</p>
+          <p class="youdo"><strong>You do:</strong> send the capsule and the install line to your new AI. Done.</p>
         </div>
       </div>
       <p class="continuity"><strong>Built once, kept current.</strong> The day you switch, you are already packed.</p>
