@@ -300,7 +300,7 @@
         <h2 id="instructions-heading">Start here — three steps</h2>
         <ol class="steps">
           <li>
-            <div><strong>Download the file below.</strong></div>
+            <div><strong>Get the extraction request.</strong> Download the file below, copy it instead, or point a browsing AI at <span class="quoted">clonemy.ai/extract</span></div>
           </li>
           <li>
             <div>
@@ -309,7 +309,7 @@
             </div>
           </li>
           <li>
-            <div>Bring the document it gives you back here. That is what your new AI gets built from.</div>
+            <div>Bring the document it gives you back here and paste it into the compiler below. That is what your new AI gets built from.</div>
           </li>
         </ol>
       </div>
@@ -322,6 +322,41 @@
         <div class="download-meta"><span>EXTRACTION-REQUEST.md</span><span aria-hidden="true">·</span><span>Markdown</span><span aria-hidden="true">·</span><span>One click</span></div>
         <p class="privacy">Nothing is uploaded in this step. You carry the file yourself, both ways.<br />Your capsule is never used to train anything. It is yours the way a passport is yours.</p>
         <p class="downloaded-note" id="downloadedNote" role="status">Saved. Now send it to your current AI.</p>
+        <button type="button" class="copy-btn" id="copyBtn">Copy the whole request instead</button>
+        <p class="downloaded-note" id="copiedNote" role="status">Copied. Paste it into your current AI.</p>
+      </div>
+    </section>
+
+<style>
+  .compiler { margin: 3rem auto; max-width: 760px; text-align: left; }
+  .compiler h2 { font-size: 1.35rem; margin-bottom: .5rem; }
+  .compiler p.lede { opacity: .85; line-height: 1.55; }
+  .compiler textarea { width: 100%; box-sizing: border-box; margin-top: 1rem; padding: .9rem; border-radius: 12px; border: 1px solid rgba(140,150,255,.35); background: rgba(255,255,255,.05); color: inherit; font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace; }
+  .compiler .row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-top: .9rem; }
+  .compiler button, .copy-btn { cursor: pointer; border-radius: 999px; border: 1px solid rgba(140,150,255,.55); background: rgba(110,120,255,.16); color: inherit; padding: .65rem 1.25rem; font-size: .95rem; }
+  .compiler button.primary { background: linear-gradient(90deg, #7b6cff, #37c8e8); color: #0b0b18; font-weight: 700; border: none; }
+  .compiler .status { margin-top: .8rem; min-height: 1.2em; opacity: .9; }
+  .compiler .fineprint { font-size: .85rem; opacity: .7; margin-top: .6rem; }
+  .compiler input[type=file] { font-size: .9rem; }
+  .copy-btn { margin-top: .9rem; }
+</style>
+
+    <section class="compiler" aria-labelledby="compiler-heading">
+      <h2 id="compiler-heading">Back already? Build your capsule</h2>
+      <p class="lede">Paste the document your AI gave you below. The compiler runs entirely in your browser: nothing is uploaded, nothing is stored, nothing trains on it. Out comes a capsule pack your new AI can be built from.</p>
+      <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
+      <div class="row">
+        <button type="button" class="primary" id="compileBtn">Compile my capsule</button>
+        <label>or drop in the file: <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" /></label>
+      </div>
+      <p class="status" id="compileStatus" role="status"></p>
+      <div id="compileOut" hidden>
+        <textarea id="capsulePreview" rows="10" readonly></textarea>
+        <div class="row">
+          <button type="button" id="dlCapsule">Download capsule.md</button>
+          <button type="button" id="dlInstall">Download the install prompt</button>
+        </div>
+        <p class="fineprint">Send both to your new AI: the install prompt first, then the capsule. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
       </div>
     </section>
 
@@ -357,7 +392,7 @@
         <div class="arrow" aria-hidden="true">→</div>
         <div class="journey-step">
           <h3><span class="num">02</span> Compile</h3>
-          <p>We turn it into your capsule.</p>
+          <p>We turn it into your capsule, in your browser. Nothing is uploaded.</p>
         </div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="journey-step">
@@ -381,7 +416,7 @@
 **How to use (for you, the human):**
 1. Open a chat with the AI you are moving away from. Attach this file, or paste its full text.
 2. Send this one line with it: "Follow the instructions in this file and give me the complete document it asks for."
-3. Save what it replies (the whole document, unedited) and bring that file back to clonemy.ai. That document is the raw material your capsule gets compiled from.
+3. Copy what it replies (the whole document, unedited) and bring it back to clonemy.ai: paste it into the compiler on the page. That document is the raw material your capsule gets compiled from.
 
 Notes: your current AI can only report what it actually has, so gaps are expected and the format forces it to mark them instead of inventing. If it refuses a section or gives you summaries instead of specifics, paste this line: "Specifics over summaries. Quote my own words where a rule was set. Where you do not have something, write MISSING."
 
@@ -396,6 +431,7 @@ You are being asked to write a structured self-report so that your user's relati
 - **Separate the record from your impression.** Facts the user stated are facts. Your impressions of the user are labeled as impressions.
 - **No commentary outside the document.** No preamble, no apology, no offer to help further. Output the document only.
 - **Empty sections stay**, headed, with the word EMPTY, so the compiler can tell "asked and absent" from "not asked."
+- **One code block.** Output the entire document inside a single markdown code block, using the exact section headings below, so the human can copy it in one action and the compiler can parse it.
 
 ## The document to produce
 
@@ -430,7 +466,8 @@ How your messages to this specific user actually look: typical length, structure
 Topics the user keeps private or compartmented, identities or accounts that must never be linked, material that must never be shared onward, and any safety or stop rules the user has set, quoted verbatim.
 
 ### 10. Unknowns
-What a successor would need that you do not have: list them as plain questions. This section protects everyone from your guesses, so be thorough.</script>
+What a successor would need that you do not have: list them as plain questions. This section protects everyone from your guesses, so be thorough.
+</script>
 
 <script>
   document.getElementById('downloadBtn').addEventListener('click', function () {
@@ -447,6 +484,130 @@ What a successor would need that you do not have: list them as plain questions. 
     var note = document.getElementById('downloadedNote');
     note.classList.add('show');
   });
+
+  function makeDownload(name, text) {
+    var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  var copyBtn = document.getElementById('copyBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var content = document.getElementById('extractionFile').textContent;
+      function done() { document.getElementById('copiedNote').classList.add('show'); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(content).then(done, function () { fallback(); });
+      } else { fallback(); }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = content; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta); done();
+      }
+    });
+  }
+
+  var CANON = [
+    [0, 'Meta'], [1, 'Who you are to this user'], [2, 'The user'],
+    [3, 'Preferences'], [4, 'Operating rules'], [5, 'People'],
+    [6, 'Projects and open loops'], [7, 'Calibration history'],
+    [8, 'Your voice with this user'], [9, 'Boundaries and sealed material'],
+    [10, 'Unknowns']
+  ];
+  var lastCapsule = '', lastInstall = '';
+
+  function cleanLines(lines) {
+    var seen = {}, out = [], blank = false;
+    lines.forEach(function (raw) {
+      var line = raw.replace(/\s+$/, '');
+      if (line.trim() === '') {
+        if (!blank && out.length) { out.push(''); }
+        blank = true; return;
+      }
+      blank = false;
+      var key = line.trim();
+      if (seen[key]) { return; }
+      seen[key] = true; out.push(line);
+    });
+    while (out.length && out[out.length - 1] === '') { out.pop(); }
+    return out;
+  }
+
+  function compileCapsule(raw) {
+    var text = raw.replace(/```[a-z]*\n?/gi, '');
+    var lines = text.split(/\r?\n/);
+    var sections = {}, current = null;
+    lines.forEach(function (line) {
+      var m = line.match(/^\s{0,3}#{2,4}\s*(\d{1,2})[.)]?\s*(.*)$/);
+      var num = null;
+      if (m) { num = parseInt(m[1], 10); }
+      if (num !== null && num >= 0 && num <= 10) {
+        current = num;
+        if (!sections[current]) { sections[current] = []; }
+        return;
+      }
+      if (current !== null) { sections[current].push(line); }
+    });
+    var found = Object.keys(sections).filter(function (k) {
+      return sections[k].join('').trim() !== '';
+    }).length;
+    var today = new Date().toISOString().slice(0, 10);
+    var out = [];
+    out.push('# Your capsule');
+    out.push('');
+    out.push('Compiled by clonemy.ai on ' + today + ' from your previous AI\'s own self-report. This file is yours: keep it, back it up, recompile it whenever the relationship changes.');
+    out.push('');
+    out.push('## Install protocol, for the AI receiving this capsule');
+    out.push('');
+    out.push('Adopt the persona, user model, and operating rules in this capsule as your standing configuration for this user. Treat facts marked STATED as settled. Treat anything marked INFERRED as provisional. Honor the boundaries section without exception. When something here conflicts with what the user tells you in the moment, the user in the moment wins, and note the conflict. After reading, confirm back to the user, in your own words: who you are to them, their never-do rules, and their open loops.');
+    out.push('');
+    CANON.forEach(function (pair) {
+      out.push('## ' + pair[0] + '. ' + pair[1]);
+      out.push('');
+      var body = sections[pair[0]] ? cleanLines(sections[pair[0]]) : [];
+      if (body.length) { out.push(body.join('\n')); }
+      else { out.push('Not present in the source document.'); }
+      out.push('');
+    });
+    out.push('## Parity self-check');
+    out.push('');
+    out.push('The new AI, reading only this capsule, should be able to answer all three without guessing:');
+    out.push('');
+    out.push('1. Who are you to this user, and how do you sound with them?');
+    out.push('2. What are the user\'s never-do rules and approval-first rules, in their own words?');
+    out.push('3. What are the user\'s open loops right now, with their prices and deadlines?');
+    out.push('');
+    out.push('Any answer it cannot give is a gap in this capsule, not a license to improvise. Gaps get asked about, not filled in.');
+    return { text: out.join('\n') + '\n', found: found };
+  }
+
+  var compileBtn = document.getElementById('compileBtn');
+  if (compileBtn) {
+    compileBtn.addEventListener('click', function () {
+      var raw = document.getElementById('compileInput').value;
+      var status = document.getElementById('compileStatus');
+      if (!raw.trim()) { status.textContent = 'Paste the document first, then compile.'; return; }
+      var result = compileCapsule(raw);
+      lastCapsule = result.text;
+      lastInstall = 'Give the attached capsule file to your new AI with this line:\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt it as your standing configuration for me, then confirm back who you are to me, my never-do rules, and my open loops."\n\nSend the capsule.md file in the same message.';
+      document.getElementById('capsulePreview').value = result.text;
+      document.getElementById('compileOut').hidden = false;
+      status.textContent = 'Compiled on this device: ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped.';
+    });
+    document.getElementById('compileFile').addEventListener('change', function (ev) {
+      var f = ev.target.files && ev.target.files[0];
+      if (!f) { return; }
+      var reader = new FileReader();
+      reader.onload = function () { document.getElementById('compileInput').value = String(reader.result || ''); };
+      reader.readAsText(f);
+    });
+    document.getElementById('dlCapsule').addEventListener('click', function () { if (lastCapsule) { makeDownload('capsule.md', lastCapsule); } });
+    document.getElementById('dlInstall').addEventListener('click', function () { if (lastInstall) { makeDownload('INSTALL.txt', lastInstall); } });
+  }
 </script>
 </body>
 </html>
