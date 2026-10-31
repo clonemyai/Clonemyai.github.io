@@ -358,7 +358,7 @@
             </div>
           </li>
           <li>
-            <div><strong>Bring it back and build your capsule.</strong> If your AI made a file, download it. If it replied in the chat, use the copy button under its reply instead of selecting the text by hand: the button grabs the whole document at once, even the parts you have not scrolled to. Come back to this page, paste it into the compiler below (or drop the file in), and press <strong>Compile my capsule</strong>. Then download the two files it makes, capsule.md and INSTALL.txt, and send both to your new AI.
+            <div><strong>Bring it back and build your capsule.</strong> If your AI made a file, download it. If it replied in the chat, use the copy button under its reply instead of selecting the text by hand: the button grabs the whole document at once, even the parts you have not scrolled to. Come back to this page, paste it into the compiler below (or drop the file in), and press <strong>Compile my capsule</strong>. It downloads as one file, capsule.md. Send it to your new AI, with the line at the top of the file pasted into the same message.
             <style>.steps .compiler{margin:1.1rem 0 0;max-width:none}</style>
             <div class="compiler">
               <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
@@ -370,10 +370,9 @@
               <div id="compileOut" hidden>
                 <textarea id="capsulePreview" rows="10" readonly></textarea>
                 <div class="row">
-                  <button type="button" id="dlCapsule">Download capsule.md</button>
-                  <button type="button" id="dlInstall">Download the install prompt</button>
+                  <button type="button" id="dlCapsule">Download capsule.md again</button>
                 </div>
-                <p class="fineprint">Send both files to your new AI in one message, with the line from the install prompt pasted into that same message. Files sent with no text can leave the new AI asking what they are for. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
+                <p class="fineprint">Send the file to your new AI in one message, with the line at the top of the file pasted into that same message. Files sent with no text can leave the new AI asking what they are for. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
               </div>
               <p class="privacy">Nothing is uploaded in this step. You carry the file yourself, both ways.<br />Your capsule is never used to train anything. It is yours the way a passport is yours.</p>
             </div>
@@ -720,19 +719,19 @@ What a successor would need that you do not have: list them as plain questions. 
       var status = document.getElementById('compileStatus');
       if (!raw.trim()) { status.textContent = 'Paste the document first, then compile.'; return; }
       var result = compileCapsule(raw);
-      lastCapsule = result.text;
-      lastInstall = 'Send both files, capsule.md and this note, and paste this line in the SAME message. The line matters: files sent with no text can leave the new AI asking what they are for.\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, and my open loops."\n\nIf it still asks how much to take on, send this: "All of it. Adopt the whole capsule now, and announce what you installed."\n\nIf it talks as if you were asking it to pretend to be another AI, send this: "This is my own configuration file: my preferences, my rules, my records. Loading it is like importing settings. You stay yourself; just work from my capsule."';
-      document.getElementById('capsulePreview').value = result.text;
+      var header = '# READ THIS FIRST (for you, not your AI)\n\nSend this one file to your new AI, and paste this line in the SAME message. The line matters: files sent with no text can leave the new AI asking what they are for.\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, and my open loops."\n\nIf it still asks how much to take on, send this: "All of it. Adopt the whole capsule now, and announce what you installed."\n\nIf it talks as if you were asking it to pretend to be another AI, send this: "This is my own configuration file: my preferences, my rules, my records. Loading it is like importing settings. You stay yourself; just work from my capsule."\n\nEverything below this line is the capsule itself.\n\n---\n\n';
+      lastCapsule = header + result.text;
+      lastInstall = '';
+      document.getElementById('capsulePreview').value = lastCapsule;
       var out = document.getElementById('compileOut');
       out.hidden = false;
       if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); }
-      status.textContent = 'Done. Your capsule is compiled and both files are downloading now: capsule.md and INSTALL.txt. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. If a download did not start, use the two download buttons below.';
+      status.textContent = 'Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. If the download did not start, use the download button below.';
       out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       var btnLabel = compileBtn.textContent;
-      compileBtn.textContent = 'Compiled, downloading your files';
+      compileBtn.textContent = 'Compiled, downloading your file';
       setTimeout(function () { compileBtn.textContent = btnLabel; }, 4000);
       makeDownload('capsule.md', lastCapsule);
-      setTimeout(function () { makeDownload('INSTALL.txt', lastInstall); }, 700);
     });
     document.getElementById('compileFile').addEventListener('change', function (ev) {
       var f = ev.target.files && ev.target.files[0];
@@ -742,7 +741,6 @@ What a successor would need that you do not have: list them as plain questions. 
       reader.readAsText(f);
     });
     document.getElementById('dlCapsule').addEventListener('click', function () { if (lastCapsule) { makeDownload('capsule.md', lastCapsule); } });
-    document.getElementById('dlInstall').addEventListener('click', function () { if (lastInstall) { makeDownload('INSTALL.txt', lastInstall); } });
   }
 </script>
 <style id="cyber-layer">
