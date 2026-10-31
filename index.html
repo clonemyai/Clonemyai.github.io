@@ -320,20 +320,24 @@
   .way-btn { display: inline-block; font: inherit; font-weight: 700; font-size: .92rem; color: #eaf2ff; background: rgba(123,108,255,.14); border: 1px solid rgba(55,200,232,.55); border-radius: 10px; padding: .5rem .95rem; cursor: pointer; text-decoration: none; box-shadow: 0 0 16px rgba(55,200,232,.22); }
   .way-btn:hover { box-shadow: 0 0 24px rgba(55,200,232,.45); }
   .ai-btns { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .door-head { font-weight: 800; font-size: 1rem; color: #fff; margin: .35rem 0 .4rem; }
+  .door-manual { border-top: 1px solid rgba(140,150,255,.16); padding-top: .75rem; margin-top: .85rem; }
 </style>
               <strong>Get the extraction request.</strong>
               <div class="ways">
-                <p class="ways-title">4 ways to get started, pick whichever fits. Each one works right here:</p>
-                <div class="way-card">
-                  <div class="way-head"><span class="way-dot" aria-hidden="true"></span>One click: open your AI with it ready</div>
-                  <p class="way-detail">The fastest door. These open a new chat with your AI with the extraction request already typed in, addressed to it. You press Enter once and it starts. Works where the platform accepts a prepared prompt. Gemini does not, so for Gemini use the link door below.</p>
-                  <div class="ai-btns">
+                <p class="ways-title">Start one of two ways: one click, or by hand.</p>
+                <div class="door-head">One click: your AI opens with it ready</div>
+                <p class="way-detail">These four accept a prepared prompt. The button opens a new chat with your AI with the extraction request already typed in, addressed to it. You press Enter once and it starts.</p>
+                <div class="ai-btns">
                   <a class="way-btn ai-btn" data-ai="chatgpt" href="https://chatgpt.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.&hints=search" target="_blank" rel="noopener">Open in ChatGPT</a>
                   <a class="way-btn ai-btn" data-ai="claude" href="https://claude.ai/new?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener">Open in Claude</a>
                   <a class="way-btn ai-btn" data-ai="grok" href="https://grok.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener">Open in Grok</a>
                   <a class="way-btn ai-btn" data-ai="perplexity" href="https://www.perplexity.ai/search?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener">Open in Perplexity</a>
-                  </div>
                 </div>
+                <div class="door-head door-manual">By hand: works with any AI</div>
+                <p class="way-detail">For Gemini, and for any other AI without a button above. Gemini will not take a prepared prompt, so its button does the closest thing in a single click: it copies the request and opens Gemini together. Paste it in and press Enter.</p>
+                <button type="button" class="way-btn" id="geminiBtn">Open in Gemini (copies the prompt)</button>
+                <p class="downloaded-note" id="geminiNote" role="status">Copied. If Gemini did not open on its own, open it and paste the request in, then press Enter. On a phone, long-press the message box and tap Paste.</p>
                 <div class="way-card">
                   <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Download the file</div>
                   <p class="way-detail">Saves the extraction request as a file, EXTRACTION-REQUEST.md. Open a chat with your current AI, attach the file, and send it with the line in step 2 below.</p>
@@ -349,7 +353,7 @@
                   <p class="way-detail">No file, no wall of text. Copy this short link, paste it into the chat with your AI, and tell it to open it: <a class="quoted" href="https://clonemy.ai/extract" target="_blank" rel="noopener">clonemy.ai/extract</a>. The whole request is written on that page for it to read.</p>
                   <button type="button" class="way-btn" id="copyLinkBtn">Copy the link</button>
                 </div>
-                <p class="ways-note">Four separate doors, same request behind all of them, same capsule at the end.</p>
+                <p class="ways-note">Same request behind every door, same capsule at the end.</p>
               </div>
               <p class="downloaded-note" id="downloadedNote" role="status">Saved. Now send it to your current AI.</p>
               <p class="downloaded-note" id="copiedNote" role="status">Copied. Paste it into your current AI.</p>
@@ -358,6 +362,24 @@
                   b.addEventListener('click', function () {
                     if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'open-' + b.getAttribute('data-ai'), title: 'Opened AI with prompt ready: ' + b.getAttribute('data-ai'), event: true }); }
                   });
+                });
+                document.getElementById('geminiBtn').addEventListener('click', function () {
+                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, as a downloadable file named capsule-source.md if you can, otherwise as one full code block I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
+                  function done() {
+                    if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'open-gemini', title: 'Gemini copy-and-open clicked', event: true }); }
+                    document.getElementById('geminiNote').classList.add('show');
+                    window.open('https://gemini.google.com/app', '_blank', 'noopener');
+                  }
+                  function fallbackCopy() {
+                    try {
+                      var ta = document.createElement('textarea');
+                      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+                      document.body.appendChild(ta); ta.select();
+                      document.execCommand('copy');
+                      document.body.removeChild(ta);
+                    } catch (e) {}
+                  }
+                  if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(); done(); }); } else { fallbackCopy(); done(); }
                 });
                 document.getElementById('copyLinkBtn').addEventListener('click', function () {
                   var btn = this;
@@ -642,7 +664,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v2.0</span>
+    <span>clonemy.ai, working prototype &middot; v2.2</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
