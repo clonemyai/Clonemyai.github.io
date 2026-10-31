@@ -320,13 +320,10 @@
   .way-btn { display: inline-block; font: inherit; font-weight: 700; font-size: .92rem; color: #eaf2ff; background: rgba(123,108,255,.14); border: 1px solid rgba(55,200,232,.55); border-radius: 10px; padding: .5rem .95rem; cursor: pointer; text-decoration: none; box-shadow: 0 0 16px rgba(55,200,232,.22); }
   .way-btn:hover { box-shadow: 0 0 24px rgba(55,200,232,.45); }
   .ai-btns { display: flex; flex-wrap: wrap; gap: .45rem; }
-  .door-head { font-weight: 800; font-size: 1rem; color: #fff; margin: .35rem 0 .4rem; }
-  .door-manual { border-top: 1px solid rgba(140,150,255,.16); padding-top: .75rem; margin-top: .85rem; }
 </style>
               <strong>Get the extraction request.</strong>
               <div class="ways">
-                <p class="ways-title">Start one of two ways: one click, or by hand.</p>
-                <div class="door-head">One click: your AI opens with it ready</div>
+                <p class="ways-title">One click: your AI opens with it ready</p>
                 <p class="way-detail">These four accept a prepared prompt. The button opens a new chat with your AI with the extraction request already typed in, addressed to it. You press Enter once and it starts.</p>
                 <div class="ai-btns">
                   <a class="way-btn ai-btn" data-ai="chatgpt" href="https://chatgpt.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.&hints=search" target="_blank" rel="noopener">Open in ChatGPT</a>
@@ -334,7 +331,9 @@
                   <a class="way-btn ai-btn" data-ai="grok" href="https://grok.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener">Open in Grok</a>
                   <a class="way-btn ai-btn" data-ai="perplexity" href="https://www.perplexity.ai/search?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener">Open in Perplexity</a>
                 </div>
-                <div class="door-head door-manual">By hand: works with any AI</div>
+              </div>
+              <div class="ways">
+                <p class="ways-title">By hand: works with any AI</p>
                 <p class="way-detail">For Gemini, and for any other AI without a button above. Gemini will not take a prepared prompt, so its button does the closest thing in a single click: it copies the request and opens Gemini together. Paste it in and press Enter.</p>
                 <button type="button" class="way-btn" id="geminiBtn">Open in Gemini (copies the prompt)</button>
                 <p class="downloaded-note" id="geminiNote" role="status">Copied. If Gemini did not open on its own, open it and paste the request in, then press Enter. On a phone, long-press the message box and tap Paste.</p>
@@ -664,7 +663,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v2.2</span>
+    <span>clonemy.ai, working prototype &middot; v2.3</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
