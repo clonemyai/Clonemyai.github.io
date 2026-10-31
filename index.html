@@ -411,7 +411,11 @@
   .flavor-chip { border: 1.5px solid rgba(140,150,255,.45); background: rgba(255,255,255,.03); border-radius: 999px; padding: .32rem .8rem; cursor: pointer; font: inherit; font-size: .92rem; }
   .flavor-chip[aria-pressed="true"] { border-color: #37c8e8; background: rgba(55,200,232,.12); box-shadow: 0 0 12px rgba(55,200,232,.25); }
   .flavor-note { margin-top: .45rem; font-size: .92rem; line-height: 1.5; opacity: .85; }
-  .flavor-detect { margin-top: .55rem; font-size: .95rem; line-height: 1.5; border-left: 3px solid #37c8e8; padding-left: .6rem; }
+  .flavor-detect { margin-top: .7rem; font-size: 1rem; line-height: 1.6; padding: .75rem .95rem; border: 1.5px solid rgba(55,200,232,.6); border-radius: 12px; background: linear-gradient(90deg, rgba(123,108,255,.18), rgba(55,200,232,.10), rgba(255,94,168,.12)); box-shadow: 0 0 18px rgba(55,200,232,.18); }
+  .flavor-detect .fd-label { display: block; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; text-transform: uppercase; letter-spacing: .13em; font-size: .78rem; color: #37c8e8; margin-bottom: .3rem; }
+  .flavor-detect .fd-name { font-weight: 800; color: #ffffff; font-size: 1.07rem; }
+  .flavor-detect .fd-pill { display: inline-block; padding: .08rem .6rem; border-radius: 999px; background: linear-gradient(90deg, #7b6cff, #37c8e8, #ff5ea8); color: #ffffff; font-weight: 800; font-size: .95rem; }
+  .flavor-detect.locked { border-color: rgba(255,94,168,.7); box-shadow: 0 0 24px rgba(255,94,168,.25); }
   @keyframes flavorPulse { 0% { box-shadow: 0 0 0 rgba(55,200,232,0); } 30% { box-shadow: 0 0 22px rgba(55,200,232,.55); } 100% { box-shadow: 0 0 0 rgba(55,200,232,0); } }
   .flavor-row.pulse { animation: flavorPulse 1.8s ease-in-out; border-radius: 12px; }
 </style>
@@ -620,7 +624,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v1.8.1</span>
+    <span>clonemy.ai, working prototype &middot; v1.8.2</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -935,23 +939,26 @@ What a successor would need that you do not have: list them as plain questions. 
     var parts = [t ? t.value : ""].concat(window.__capsuleExtraTexts || []);
     return parts.join("\n\n");
   }
+  function escHtml(x) { return String(x).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
   function updateFlavorDetect(pulse) {
     var el = document.getElementById("flavorDetect");
     if (!el) { return; }
     var raw = combinedSourceText();
-    if (!raw.trim()) { el.hidden = true; el.textContent = ""; return; }
+    if (!raw.trim()) { el.hidden = true; el.innerHTML = ""; el.classList.remove("locked"); return; }
+    el.classList.remove("locked");
     var fl = resolveFlavor(raw);
     var meta = FLAVORS[fl.key] || FLAVORS.default;
     var name = detectCompanionName(raw);
-    var txt;
+    var pill = "<span class=\"fd-pill\">" + escHtml(meta.label) + "</span>";
+    var html;
     if (fl.chosen) {
-      txt = "Flavor: " + meta.label + ", your pick. It flavors the whole capsule, cover note and announcement included.";
+      html = "<span class=\"fd-label\">Your flavor pick</span>" + pill + "<br />Your pick. It flavors the whole capsule, cover note and announcement included.";
     } else if (fl.key === "default" && !name) {
-      txt = "No clear personality read in this document, so Auto will run Neutral. Want a different flavor? Pick one above.";
+      html = "<span class=\"fd-label\">Flavor check</span>" + pill + "<br />No clear personality read in this document, so Auto will run Neutral. Want a different flavor? Pick one above.";
     } else {
-      txt = "Detected: " + (name || "your companion") + ", " + meta.label.toLowerCase() + ". Auto will flavor your capsule that way. Want different? Pick a flavor above.";
+      html = "<span class=\"fd-label\">Detected flavor</span><span class=\"fd-name\">" + escHtml(name || "Your companion") + "</span> is " + pill + "<br />Auto will flavor your capsule this way. Want different? Pick a flavor above.";
     }
-    el.textContent = txt;
+    el.innerHTML = html;
     el.hidden = false;
     if (pulse) {
       var row = document.getElementById("flavorRow");
@@ -1023,6 +1030,12 @@ What a successor would need that you do not have: list them as plain questions. 
         out.hidden = false;
         if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); if (sourceCount > 1) { window.goatcounter.count({ path: 'combine', title: 'Capsules combined', event: true }); } }
         status.textContent = sourceCount > 1 ? ('Done. Combined ' + sourceCount + ' sources into one capsule, and capsule.md is downloading now. ' + result.found + ' of 11 sections found across your documents. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. If the download did not start, use the download button below.') : ('Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. If the download did not start, use the download button below.');
+        var det = document.getElementById('flavorDetect');
+        if (det) {
+          det.innerHTML = '<span class="fd-label">Flavor locked in</span><span class="fd-pill">' + flavorMeta.label + '</span> ' + (flavor.chosen ? '(your pick)' : '(auto-detected)');
+          det.hidden = false;
+          det.classList.add('locked');
+        }
         out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         compileBtn.textContent = 'Compiled, downloading your file';
         setTimeout(function () { compileBtn.textContent = 'Compile my capsule'; compileBtn.disabled = false; }, 4000);
