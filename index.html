@@ -326,12 +326,12 @@
                 <div class="way-card">
                   <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Download the file</div>
                   <p class="way-detail">Saves the extraction request as a file, EXTRACTION-REQUEST.md. Open a chat with your current AI, attach the file, and send it with the line in step 2 below.</p>
-                  <button type="button" class="way-btn" data-act="download">Download the file</button>
+                  <button type="button" class="way-btn" id="downloadBtn">Download the file</button>
                 </div>
                 <div class="way-card">
                   <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Copy the whole request</div>
                   <p class="way-detail">Puts the entire request on your clipboard as plain text. Paste it into a chat with your current AI as one message, no file to attach or hunt for later.</p>
-                  <button type="button" class="way-btn" data-act="copy">Copy the request</button>
+                  <button type="button" class="way-btn" id="copyBtn">Copy the request</button>
                 </div>
                 <div class="way-card">
                   <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Send the link</div>
@@ -340,9 +340,9 @@
                 </div>
                 <p class="ways-note">Three separate doors, same request behind all of them, same capsule at the end.</p>
               </div>
+              <p class="downloaded-note" id="downloadedNote" role="status">Saved. Now send it to your current AI.</p>
+              <p class="downloaded-note" id="copiedNote" role="status">Copied. Paste it into your current AI.</p>
               <script>
-                document.querySelectorAll('[data-act="download"]').forEach(function (b) { b.addEventListener('click', function () { document.getElementById('downloadBtn').click(); }); });
-                document.querySelectorAll('[data-act="copy"]').forEach(function (b) { b.addEventListener('click', function () { document.getElementById('copyBtn').click(); }); });
                 document.getElementById('copyLinkBtn').addEventListener('click', function () {
                   var btn = this;
                   function done() { if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'link', title: 'Extract link copied', event: true }); } btn.textContent = 'Copied, paste it to your AI'; setTimeout(function () { btn.textContent = 'Copy the link'; }, 2600); }
@@ -358,41 +358,31 @@
             </div>
           </li>
           <li>
-            <div><strong>Bring it back and build your capsule.</strong> If your AI made a file, download it. If it replied in the chat, use the copy button under its reply instead of selecting the text by hand: the button grabs the whole document at once, even the parts you have not scrolled to. Come back to this page, paste it into the compiler below (or drop the file in), and press <strong>Compile my capsule</strong>. Then download the two files it makes, capsule.md and INSTALL.txt, and send both to your new AI.</div>
+            <div><strong>Bring it back and build your capsule.</strong> If your AI made a file, download it. If it replied in the chat, use the copy button under its reply instead of selecting the text by hand: the button grabs the whole document at once, even the parts you have not scrolled to. Come back to this page, paste it into the compiler below (or drop the file in), and press <strong>Compile my capsule</strong>. Then download the two files it makes, capsule.md and INSTALL.txt, and send both to your new AI.
+            <style>.steps .compiler{margin:1.1rem 0 0;max-width:none}</style>
+            <div class="compiler">
+              <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
+              <div class="row">
+                <button type="button" class="primary" id="compileBtn">Compile my capsule</button>
+                <label>or drop in the file: <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" /></label>
+              </div>
+              <p class="status" id="compileStatus" role="status"></p>
+              <div id="compileOut" hidden>
+                <textarea id="capsulePreview" rows="10" readonly></textarea>
+                <div class="row">
+                  <button type="button" id="dlCapsule">Download capsule.md</button>
+                  <button type="button" id="dlInstall">Download the install prompt</button>
+                </div>
+                <p class="fineprint">Send both files to your new AI in one message, with the line from the install prompt pasted into that same message. Files sent with no text can leave the new AI asking what they are for. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
+              </div>
+              <p class="privacy">Nothing is uploaded in this step. You carry the file yourself, both ways.<br />Your capsule is never used to train anything. It is yours the way a passport is yours.</p>
+            </div>
+          </div>
           </li>
         </ol>
       </div>
 
-      <div class="download-wrap">
-        <button type="button" class="download-btn" id="downloadBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download the extraction file
-        </button>
-        <div class="download-meta"><span>EXTRACTION-REQUEST.md</span><span aria-hidden="true">·</span><span>Markdown</span><span aria-hidden="true">·</span><span>One click</span></div>
-        <p class="privacy">Nothing is uploaded in this step. You carry the file yourself, both ways.<br />Your capsule is never used to train anything. It is yours the way a passport is yours.</p>
-        <p class="downloaded-note" id="downloadedNote" role="status">Saved. Now send it to your current AI.</p>
-        <button type="button" class="copy-btn" id="copyBtn">Copy the whole request instead</button>
-        <p class="downloaded-note" id="copiedNote" role="status">Copied. Paste it into your current AI.</p>
-      </div>
-    <style>.centerpiece .compiler { margin: 1.8rem auto 0; }</style>
-    <section class="compiler" aria-labelledby="compiler-heading">
-      <h2 id="compiler-heading">Back already? Build your capsule</h2>
-      <p class="lede">Paste the document your AI gave you below. The compiler runs entirely in your browser: nothing is uploaded, nothing is stored, nothing trains on it. Out comes a capsule pack your new AI can be built from.</p>
-      <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
-      <div class="row">
-        <button type="button" class="primary" id="compileBtn">Compile my capsule</button>
-        <label>or drop in the file: <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" /></label>
-      </div>
-      <p class="status" id="compileStatus" role="status"></p>
-      <div id="compileOut" hidden>
-        <textarea id="capsulePreview" rows="10" readonly></textarea>
-        <div class="row">
-          <button type="button" id="dlCapsule">Download capsule.md</button>
-          <button type="button" id="dlInstall">Download the install prompt</button>
-        </div>
-        <p class="fineprint">Send both files to your new AI in one message, with the line from the install prompt pasted into that same message. Files sent with no text can leave the new AI asking what they are for. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
-      </div>
-    </section>
+
     </section>
 
 <style>
