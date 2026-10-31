@@ -372,6 +372,10 @@
               </div>
               <div class="sourcelist" id="sourceList" hidden></div>
               <p class="status" id="compileStatus" role="status"></p>
+              <div class="compile-progress" id="compileProgress" hidden>
+                <div class="progress-track"><div class="progress-fill" id="compileProgressFill"></div></div>
+                <p class="progress-line" id="compileProgressLine" aria-live="polite"></p>
+              </div>
               <div id="compileOut" hidden>
                 <textarea id="capsulePreview" rows="10" readonly></textarea>
                 <div class="row">
@@ -386,6 +390,10 @@
   .dropzone.drag { border-color: #37c8e8; background: rgba(55,200,232,.08); box-shadow: 0 0 18px rgba(55,200,232,.25); }
   .sourcelist { margin-top: .6rem; font-size: .92rem; line-height: 1.55; opacity: .92; }
   .sourcelist button { margin-top: .3rem; }
+  .compile-progress { margin-top: .7rem; }
+  .progress-track { height: 8px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, #7b6cff, #37c8e8, #ff5ea8); transition: width 3s linear; }
+  .progress-line { margin-top: .45rem; font-size: .95rem; line-height: 1.5; opacity: .92; min-height: 1.4em; }
 </style>
 <script>
   (function () {
@@ -591,7 +599,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v1.5</span>
+    <span>clonemy.ai, working prototype &middot; v1.6</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -776,9 +784,112 @@ What a successor would need that you do not have: list them as plain questions. 
     return { text: out.join('\n') + '\n', found: found };
   }
 
+  function detectCompanionName(raw) {
+    var stop = { the: 1, a: 1, an: 1, your: 1, this: 1, that: 1, i: 1, you: 1, ai: 1, assistant: 1, companion: 1, user: 1, name: 1, none: 1, unknown: 1, if: 1, when: 1, my: 1, me: 1, it: 1, she: 1, he: 1, they: 1 };
+    function clean(c) {
+      if (!c) { return null; }
+      c = c.replace(/[*_`#>\[\]]/g, "").replace(/\s+/g, " ").replace(/[.,;:]+$/, "").trim();
+      if (!c || c.length < 2 || c.length > 32) { return null; }
+      if (!/^[A-Z]/.test(c)) { return null; }
+      if (stop[c.split(" ")[0].toLowerCase()]) { return null; }
+      return c;
+    }
+    var m = raw.match(/(?:^|\n)\s{0,3}#{0,4}\s*(?:AI\s+)?Name\s*[:\-]\s*([^\n]{2,40})/i);
+    var hit = clean(m && m[1]);
+    if (hit) { return hit; }
+    m = raw.match(/\bmy name is\s+([A-Z][A-Za-z0-9'.\-]*(?:\s+[A-Z][A-Za-z0-9'.\-]*)?)/);
+    hit = clean(m && m[1]);
+    if (hit) { return hit; }
+    m = raw.match(/\bI am\s+([A-Z][A-Za-z0-9'.\-]*)/);
+    hit = clean(m && m[1]);
+    if (hit) { return hit; }
+    m = raw.match(/\bYou are\s+([A-Z][A-Za-z0-9'.\-]*)/);
+    hit = clean(m && m[1]);
+    if (hit) { return hit; }
+    return null;
+  }
+
+  function detectTone(raw) {
+    var t = raw.toLowerCase();
+    var sets = {
+      playful: ["playful", "cheeky", "witty", "banter", "teasing", "humor", "funny", "jokes", "mischievous", "lighthearted"],
+      warm: ["warm", "caring", "empathetic", "supportive", "affectionate", "tender", "nurturing", "kindhearted"],
+      formal: ["formal", "professional", "precise", "structured", "courteous", "measured", "methodical"],
+      direct: ["direct", "blunt", "concise", "straightforward", "no-nonsense", "terse", "efficient", "pragmatic"],
+      gentle: ["gentle", "soft", "calm", "patient", "soothing", "quiet", "steady"]
+    };
+    var best = "gentle", bestScore = 0;
+    Object.keys(sets).forEach(function (k) {
+      var score = 0;
+      sets[k].forEach(function (w) { if (t.indexOf(w) !== -1) { score++; } });
+      if (score > bestScore) { bestScore = score; best = k; }
+    });
+    return best;
+  }
+
+  var PROGRESS_LINES = {
+    gentle: [
+      "Reading the self-report, one page at a time",
+      "Gathering what makes {N}, {N}",
+      "Stitching memories and rules together, then running the parity check",
+      "Putting {N} together for the road"
+    ],
+    warm: [
+      "Reading the self-report you brought back",
+      "Gathering what makes {N}, {N}",
+      "Folding memories and rules in, then running the parity check",
+      "Putting {N} together, ready when you are"
+    ],
+    playful: [
+      "Diving into the self-report",
+      "Gathering what makes {N}, {N}",
+      "Stitching memories and rules together, then the parity check, no shortcuts",
+      "Putting {N} together, all done"
+    ],
+    formal: [
+      "Reading the self-report in full",
+      "Recording what makes {N}, {N}",
+      "Assembling memories and rules in order, then running the parity check",
+      "Putting {N} together for transfer"
+    ],
+    direct: [
+      "Reading the self-report",
+      "Pulling what makes {N}, {N}",
+      "Merging memories and rules, then the parity check",
+      "Putting {N} together, ready to download"
+    ]
+  };
+
+  function runCompileProgress(raw, done) {
+    var name = detectCompanionName(raw) || "your companion";
+    var tone = detectTone(raw);
+    var lines = (PROGRESS_LINES[tone] || PROGRESS_LINES.gentle).map(function (l) { return l.split("{N}").join(name); });
+    if (!detectCompanionName(raw)) { lines = lines.map(function (l) { return l.replace("what makes your companion, your companion", "what makes your companion who they are"); }); }
+    var box = document.getElementById("compileProgress");
+    var fill = document.getElementById("compileProgressFill");
+    var lineEl = document.getElementById("compileProgressLine");
+    var status = document.getElementById("compileStatus");
+    if (!box || !fill || !lineEl) { done(); return; }
+    status.textContent = "";
+    box.hidden = false;
+    fill.style.transition = "none";
+    fill.style.width = "0%";
+    void fill.offsetWidth;
+    fill.style.transition = "width 3.4s linear";
+    fill.style.width = "100%";
+    var i = 0;
+    lineEl.textContent = lines[0];
+    var timer = setInterval(function () {
+      i++;
+      if (i < lines.length) { lineEl.textContent = lines[i]; }
+      else { clearInterval(timer); box.hidden = true; done(); }
+    }, 850);
+  }
+
   var compileBtn = document.getElementById('compileBtn');
   if (compileBtn) {
     compileBtn.addEventListener('click', function () {
+      if (compileBtn.disabled) { return; }
       var extraTexts = (window.__capsuleExtraTexts || []);
       var pasteText = document.getElementById('compileInput').value;
       var raw = [pasteText].concat(extraTexts).join('\n\n');
@@ -792,14 +903,18 @@ What a successor would need that you do not have: list them as plain questions. 
       lastInstall = '';
       document.getElementById('capsulePreview').value = lastCapsule;
       var out = document.getElementById('compileOut');
-      out.hidden = false;
-      if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); if (sourceCount > 1) { window.goatcounter.count({ path: 'combine', title: 'Capsules combined', event: true }); } }
-      status.textContent = sourceCount > 1 ? ('Done. Combined ' + sourceCount + ' sources into one capsule, and capsule.md is downloading now. ' + result.found + ' of 11 sections found across your documents. Missing sections are named in the capsule, never silently dropped. If the download did not start, use the download button below.') : ('Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. If the download did not start, use the download button below.');
-      out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      var btnLabel = compileBtn.textContent;
-      compileBtn.textContent = 'Compiled, downloading your file';
-      setTimeout(function () { compileBtn.textContent = btnLabel; }, 4000);
-      makeDownload('capsule.md', lastCapsule);
+      function finishCompile() {
+        out.hidden = false;
+        if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); if (sourceCount > 1) { window.goatcounter.count({ path: 'combine', title: 'Capsules combined', event: true }); } }
+        status.textContent = sourceCount > 1 ? ('Done. Combined ' + sourceCount + ' sources into one capsule, and capsule.md is downloading now. ' + result.found + ' of 11 sections found across your documents. Missing sections are named in the capsule, never silently dropped. If the download did not start, use the download button below.') : ('Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. If the download did not start, use the download button below.');
+        out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        compileBtn.textContent = 'Compiled, downloading your file';
+        setTimeout(function () { compileBtn.textContent = 'Compile my capsule'; compileBtn.disabled = false; }, 4000);
+        makeDownload('capsule.md', lastCapsule);
+      }
+      compileBtn.disabled = true;
+      compileBtn.textContent = 'Compiling...';
+      runCompileProgress(raw, finishCompile);
     });
     document.getElementById('dlCapsule').addEventListener('click', function () { if (lastCapsule) { makeDownload('capsule.md', lastCapsule); } });
   }
