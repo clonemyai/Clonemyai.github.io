@@ -382,6 +382,7 @@
                 <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" multiple hidden />
               </div>
               <div class="sourcelist" id="sourceList" hidden></div>
+              <p class="flavor-detect" id="flavorDetect" hidden></p>
               <p class="status" id="compileStatus" role="status"></p>
               <div class="compile-progress" id="compileProgress" hidden>
                 <div class="progress-track"><div class="progress-fill" id="compileProgressFill"></div></div>
@@ -410,6 +411,9 @@
   .flavor-chip { border: 1.5px solid rgba(140,150,255,.45); background: rgba(255,255,255,.03); border-radius: 999px; padding: .32rem .8rem; cursor: pointer; font: inherit; font-size: .92rem; }
   .flavor-chip[aria-pressed="true"] { border-color: #37c8e8; background: rgba(55,200,232,.12); box-shadow: 0 0 12px rgba(55,200,232,.25); }
   .flavor-note { margin-top: .45rem; font-size: .92rem; line-height: 1.5; opacity: .85; }
+  .flavor-detect { margin-top: .55rem; font-size: .95rem; line-height: 1.5; border-left: 3px solid #37c8e8; padding-left: .6rem; }
+  @keyframes flavorPulse { 0% { box-shadow: 0 0 0 rgba(55,200,232,0); } 30% { box-shadow: 0 0 22px rgba(55,200,232,.55); } 100% { box-shadow: 0 0 0 rgba(55,200,232,0); } }
+  .flavor-row.pulse { animation: flavorPulse 1.8s ease-in-out; border-radius: 12px; }
 </style>
 <script>
   (function () {
@@ -449,6 +453,7 @@
           renderList();
           status.textContent = 'Added ' + file.name + ' for merging. ' + ((target.value.trim() ? 1 : 0) + window.__capsuleExtraTexts.length) + ' sources ready. Press Compile my capsule.';
         }
+        if (window.__capsuleOnSourcesChanged) { window.__capsuleOnSourcesChanged(); }
       };
       reader.readAsText(file);
     }
@@ -615,7 +620,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v1.8</span>
+    <span>clonemy.ai, working prototype &middot; v1.8.1</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -920,9 +925,46 @@ What a successor would need that you do not have: list them as plain questions. 
       window.__capsuleFlavor = btn.getAttribute("data-flavor");
       try { window.localStorage.setItem("clonemyFlavor", window.__capsuleFlavor); } catch (e) {}
       paint();
+      if (window.__capsuleRefreshDetect) { window.__capsuleRefreshDetect(false); }
     });
     paint();
   })();
+
+  function combinedSourceText() {
+    var t = document.getElementById("compileInput");
+    var parts = [t ? t.value : ""].concat(window.__capsuleExtraTexts || []);
+    return parts.join("\n\n");
+  }
+  function updateFlavorDetect(pulse) {
+    var el = document.getElementById("flavorDetect");
+    if (!el) { return; }
+    var raw = combinedSourceText();
+    if (!raw.trim()) { el.hidden = true; el.textContent = ""; return; }
+    var fl = resolveFlavor(raw);
+    var meta = FLAVORS[fl.key] || FLAVORS.default;
+    var name = detectCompanionName(raw);
+    var txt;
+    if (fl.chosen) {
+      txt = "Flavor: " + meta.label + ", your pick. It flavors the whole capsule, cover note and announcement included.";
+    } else if (fl.key === "default" && !name) {
+      txt = "No clear personality read in this document, so Auto will run Neutral. Want a different flavor? Pick one above.";
+    } else {
+      txt = "Detected: " + (name || "your companion") + ", " + meta.label.toLowerCase() + ". Auto will flavor your capsule that way. Want different? Pick a flavor above.";
+    }
+    el.textContent = txt;
+    el.hidden = false;
+    if (pulse) {
+      var row = document.getElementById("flavorRow");
+      if (row) {
+        row.classList.remove("pulse");
+        void row.offsetWidth;
+        row.classList.add("pulse");
+        setTimeout(function () { row.classList.remove("pulse"); }, 1900);
+      }
+    }
+  }
+  window.__capsuleRefreshDetect = updateFlavorDetect;
+  window.__capsuleOnSourcesChanged = function () { updateFlavorDetect(true); };
 
   function runCompileProgress(raw, done) {
     var name = detectCompanionName(raw) || "your companion";
@@ -980,7 +1022,7 @@ What a successor would need that you do not have: list them as plain questions. 
       function finishCompile() {
         out.hidden = false;
         if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); if (sourceCount > 1) { window.goatcounter.count({ path: 'combine', title: 'Capsules combined', event: true }); } }
-        status.textContent = sourceCount > 1 ? ('Done. Combined ' + sourceCount + ' sources into one capsule, and capsule.md is downloading now. ' + result.found + ' of 11 sections found across your documents. Missing sections are named in the capsule, never silently dropped. If the download did not start, use the download button below.') : ('Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. If the download did not start, use the download button below.');
+        status.textContent = sourceCount > 1 ? ('Done. Combined ' + sourceCount + ' sources into one capsule, and capsule.md is downloading now. ' + result.found + ' of 11 sections found across your documents. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. If the download did not start, use the download button below.') : ('Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. If the download did not start, use the download button below.');
         out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         compileBtn.textContent = 'Compiled, downloading your file';
         setTimeout(function () { compileBtn.textContent = 'Compile my capsule'; compileBtn.disabled = false; }, 4000);
