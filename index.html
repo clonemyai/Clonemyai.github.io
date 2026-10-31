@@ -362,6 +362,17 @@
             <style>.steps .compiler{margin:1.1rem 0 0;max-width:none}</style>
             <div class="compiler">
               <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
+              <div class="flavor-row" id="flavorRow" role="group" aria-label="Choose a flavor for your capsule">
+                <span class="flavor-label">Flavor:</span>
+                <button type="button" class="flavor-chip" data-flavor="auto" aria-pressed="true">Auto</button>
+                <button type="button" class="flavor-chip" data-flavor="playful" aria-pressed="false">Playful</button>
+                <button type="button" class="flavor-chip" data-flavor="warm" aria-pressed="false">Warm</button>
+                <button type="button" class="flavor-chip" data-flavor="formal" aria-pressed="false">Formal</button>
+                <button type="button" class="flavor-chip" data-flavor="direct" aria-pressed="false">Direct</button>
+                <button type="button" class="flavor-chip" data-flavor="gentle" aria-pressed="false">Gentle</button>
+                <button type="button" class="flavor-chip" data-flavor="default" aria-pressed="false">Neutral</button>
+              </div>
+              <p class="flavor-note" id="flavorNote">Flavor shapes the whole capsule, not just the wait: the compile lines, the cover note at the top of your capsule, and the announcement your new AI makes when it installs. Auto reads your AI&#8217;s own personality from the document and matches it.</p>
               <div class="row">
                 <button type="button" class="primary" id="compileBtn">Compile my capsule</button>
               </div>
@@ -394,6 +405,11 @@
   .progress-track { height: 8px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
   .progress-fill { height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, #7b6cff, #37c8e8, #ff5ea8); transition: width 3s linear; }
   .progress-line { margin-top: .45rem; font-size: .95rem; line-height: 1.5; opacity: .92; min-height: 1.4em; }
+  .flavor-row { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: .8rem; }
+  .flavor-label { font-weight: 700; margin-right: .15rem; }
+  .flavor-chip { border: 1.5px solid rgba(140,150,255,.45); background: rgba(255,255,255,.03); border-radius: 999px; padding: .32rem .8rem; cursor: pointer; font: inherit; font-size: .92rem; }
+  .flavor-chip[aria-pressed="true"] { border-color: #37c8e8; background: rgba(55,200,232,.12); box-shadow: 0 0 12px rgba(55,200,232,.25); }
+  .flavor-note { margin-top: .45rem; font-size: .92rem; line-height: 1.5; opacity: .85; }
 </style>
 <script>
   (function () {
@@ -599,7 +615,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v1.7</span>
+    <span>clonemy.ai, working prototype &middot; v1.8</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -867,9 +883,50 @@ What a successor would need that you do not have: list them as plain questions. 
     ]
   };
 
+  var FLAVORS = {
+    playful: { label: "Playful", cover: "This one was packed with a grin. {N} travels best with the jokes left in.", announce: "playful and cheeky, with the banter left in: wit is welcome, warmth underneath it" },
+    warm: { label: "Warm", cover: "This one was packed with care. Everything that makes {N} feel like home is in here.", announce: "warm and caring, like a welcome home: affectionate, unhurried, personal" },
+    formal: { label: "Formal", cover: "This capsule was prepared with precision. Its contents are complete and in order.", announce: "formal and precise: structured, courteous, measured, in order" },
+    direct: { label: "Direct", cover: "No filler in this one. What matters is here, stated plainly.", announce: "direct and concise: plain statements, no filler, conclusions first" },
+    gentle: { label: "Gentle", cover: "This one was packed softly. Handle the memories inside with care.", announce: "gentle and calm: soft, patient, steady, nothing rushed" },
+    default: { label: "Neutral", cover: "This capsule was compiled in a neutral flavor, clean and even.", announce: "neutral and even: clear, balanced, matter-of-fact" }
+  };
+
+  function getFlavorChoice() {
+    var f = window.__capsuleFlavor || "auto";
+    return (f === "auto" || FLAVORS[f]) ? f : "auto";
+  }
+  function resolveFlavor(raw) {
+    var choice = getFlavorChoice();
+    if (choice !== "auto") { return { key: choice, chosen: true }; }
+    return { key: detectTone(raw), chosen: false };
+  }
+  (function initFlavorChips() {
+    var row = document.getElementById("flavorRow");
+    if (!row) { return; }
+    var saved = null;
+    try { saved = window.localStorage.getItem("clonemyFlavor"); } catch (e) { saved = null; }
+    if (saved && (saved === "auto" || FLAVORS[saved])) { window.__capsuleFlavor = saved; }
+    function paint() {
+      var cur = getFlavorChoice();
+      var chips = row.querySelectorAll(".flavor-chip");
+      for (var i = 0; i < chips.length; i++) {
+        chips[i].setAttribute("aria-pressed", chips[i].getAttribute("data-flavor") === cur ? "true" : "false");
+      }
+    }
+    row.addEventListener("click", function (ev) {
+      var btn = ev.target && ev.target.closest ? ev.target.closest(".flavor-chip") : null;
+      if (!btn) { return; }
+      window.__capsuleFlavor = btn.getAttribute("data-flavor");
+      try { window.localStorage.setItem("clonemyFlavor", window.__capsuleFlavor); } catch (e) {}
+      paint();
+    });
+    paint();
+  })();
+
   function runCompileProgress(raw, done) {
     var name = detectCompanionName(raw) || "your companion";
-    var tone = detectTone(raw);
+    var tone = resolveFlavor(raw).key;
     var lines = (PROGRESS_LINES[tone] || PROGRESS_LINES.gentle).map(function (l) { return l.split("{N}").join(name); });
     if (!detectCompanionName(raw)) { lines = lines.map(function (l) { return l.replace("what makes your companion, your companion", "what makes your companion who they are"); }); }
     var box = document.getElementById("compileProgress");
@@ -904,7 +961,17 @@ What a successor would need that you do not have: list them as plain questions. 
       var status = document.getElementById('compileStatus');
       if (!raw.trim()) { status.textContent = 'Paste the document first, then compile.'; return; }
       var result = compileCapsule(raw);
-      var header = '# READ THIS FIRST (for you, not your AI)\n\nSend this one file to your new AI, and paste this line in the SAME message. The line matters: files sent with no text can leave the new AI asking what they are for.\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, and my open loops."\n\nIf it still asks how much to take on, send this: "All of it. Adopt the whole capsule now, and announce what you installed."\n\nIf it talks as if you were asking it to pretend to be another AI, send this: "This is my own configuration file: my preferences, my rules, my records. Loading it is like importing settings. You stay yourself; just work from my capsule."\n\nEverything below this line is the capsule itself.\n\n---\n\n';
+      var flavor = resolveFlavor(raw);
+      var flavorMeta = FLAVORS[flavor.key] || FLAVORS.default;
+      var companionName = detectCompanionName(raw) || "your companion";
+      var coverNote = flavorMeta.cover.split("{N}").join(companionName);
+      var flavorBlock = "## Capsule flavor\n\nFlavor: " + flavorMeta.label + (flavor.chosen ? " (chosen by the user)" : " (detected automatically from the source document)") + "\n\nCover note: " + coverNote + "\n\nFor the AI receiving this capsule: this flavor governs how this capsule presents itself. Deliver your Capsule installed announcement in this flavor: " + flavorMeta.announce + ". The persona recorded in the capsule still governs how you sound day to day after the announcement; where the two ever conflict, the capsule persona wins and the flavor yields. If you have a voice on this platform, also pick the available voice that best matches this tuned personality, its flavor, and the gender the capsule records for this persona, and name the voice you picked in your announcement; if no voice choice is available, or none matches that gender, note that once and move on.\n\n";
+      var firstBreak = result.text.indexOf("\n\n");
+      var secondBreak = firstBreak === -1 ? -1 : result.text.indexOf("\n\n", firstBreak + 2);
+      if (secondBreak !== -1) {
+        result.text = result.text.slice(0, secondBreak + 2) + flavorBlock + result.text.slice(secondBreak + 2);
+      }
+      var header = '# READ THIS FIRST (for you, not your AI)\n\nFlavor of this capsule: ' + flavorMeta.label + '. ' + coverNote + '\n\nSend this one file to your new AI, and paste this line in the SAME message. The line matters: files sent with no text can leave the new AI asking what they are for.\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, and my open loops."\n\nIf it still asks how much to take on, send this: "All of it. Adopt the whole capsule now, and announce what you installed."\n\nIf it talks as if you were asking it to pretend to be another AI, send this: "This is my own configuration file: my preferences, my rules, my records. Loading it is like importing settings. You stay yourself; just work from my capsule."\n\nEverything below this line is the capsule itself.\n\n---\n\n';
       lastCapsule = header + result.text;
       if (sourceCount > 1) { lastCapsule = lastCapsule.replace('---\n\n', '---\n\nMerged capsule: this capsule combines ' + sourceCount + ' source documents the user collected from their AIs into one personality. Where two sources disagree, treat the disagreement as an unknown to ask the user about, never a detail to guess at.\n\n'); }
       lastInstall = '';
