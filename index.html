@@ -723,9 +723,16 @@ What a successor would need that you do not have: list them as plain questions. 
       lastCapsule = result.text;
       lastInstall = 'Send both files, capsule.md and this note, and paste this line in the SAME message. The line matters: files sent with no text can leave the new AI asking what they are for.\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, and my open loops."\n\nIf it still asks how much to take on, send this: "All of it. Adopt the whole capsule now, and announce what you installed."\n\nIf it talks as if you were asking it to pretend to be another AI, send this: "This is my own configuration file: my preferences, my rules, my records. Loading it is like importing settings. You stay yourself; just work from my capsule."';
       document.getElementById('capsulePreview').value = result.text;
-      document.getElementById('compileOut').hidden = false;
+      var out = document.getElementById('compileOut');
+      out.hidden = false;
       if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); }
-      status.textContent = 'Compiled on this device: ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped.';
+      status.textContent = 'Done. Your capsule is compiled and both files are downloading now: capsule.md and INSTALL.txt. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. If a download did not start, use the two download buttons below.';
+      out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      var btnLabel = compileBtn.textContent;
+      compileBtn.textContent = 'Compiled, downloading your files';
+      setTimeout(function () { compileBtn.textContent = btnLabel; }, 4000);
+      makeDownload('capsule.md', lastCapsule);
+      setTimeout(function () { makeDownload('INSTALL.txt', lastInstall); }, 700);
     });
     document.getElementById('compileFile').addEventListener('change', function (ev) {
       var f = ev.target.files && ev.target.files[0];
