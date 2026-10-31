@@ -364,7 +364,11 @@
               <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
               <div class="row">
                 <button type="button" class="primary" id="compileBtn">Compile my capsule</button>
-                <label>or drop in the file: <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" /></label>
+              </div>
+              <div class="dropzone" id="dropZone" role="button" tabindex="0" aria-label="Drop the document file here, or click to choose a file">
+                <strong>Drag and drop the file here</strong><br />
+                <span>the document your AI gave you, .md or .txt, or click to browse</span>
+                <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" hidden />
               </div>
               <p class="status" id="compileStatus" role="status"></p>
               <div id="compileOut" hidden>
@@ -374,6 +378,36 @@
                 </div>
                 <p class="fineprint">Send the file to your new AI in one message, with the line at the top of the file pasted into that same message. Files sent with no text can leave the new AI asking what they are for. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
               </div>
+
+<style>
+  .dropzone { margin-top: .8rem; border: 1.5px dashed rgba(140,150,255,.45); border-radius: 12px; padding: 1rem .9rem; text-align: center; background: rgba(255,255,255,.03); cursor: pointer; line-height: 1.5; }
+  .dropzone span { opacity: .8; font-size: .92rem; }
+  .dropzone.drag { border-color: #37c8e8; background: rgba(55,200,232,.08); box-shadow: 0 0 18px rgba(55,200,232,.25); }
+</style>
+<script>
+  (function () {
+    var zone = document.getElementById('dropZone');
+    var input = document.getElementById('compileFile');
+    var target = document.getElementById('compileInput');
+    var status = document.getElementById('compileStatus');
+    function loadFile(file) {
+      if (!file) { return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        target.value = String(reader.result || '');
+        status.textContent = 'File loaded: ' + file.name + '. Now press Compile my capsule.';
+      };
+      reader.readAsText(file);
+    }
+    zone.addEventListener('click', function () { input.click(); });
+    zone.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
+    input.addEventListener('change', function () { loadFile(input.files && input.files[0]); });
+    ['dragenter', 'dragover'].forEach(function (ev) { zone.addEventListener(ev, function (e) { e.preventDefault(); zone.classList.add('drag'); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { zone.addEventListener(ev, function (e) { e.preventDefault(); zone.classList.remove('drag'); }); });
+    zone.addEventListener('drop', function (e) { var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; loadFile(f); });
+    ['dragover', 'drop'].forEach(function (ev) { window.addEventListener(ev, function (e) { e.preventDefault(); }); });
+  })();
+</script>
               <p class="privacy">Nothing is uploaded in this step. You carry the file yourself, both ways.<br />Your capsule is never used to train anything. It is yours the way a passport is yours.</p>
             </div>
           </div>
@@ -527,7 +561,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v1.3.1</span>
+    <span>clonemy.ai, working prototype &middot; v1.4</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
