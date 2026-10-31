@@ -362,6 +362,14 @@
             <style>.steps .compiler{margin:1.1rem 0 0;max-width:none}</style>
             <div class="compiler">
               <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
+              <div class="dropzone" id="dropZone" role="button" tabindex="0" aria-label="Drop the document file here, or click to choose a file">
+                <strong>Drag and drop the file here</strong><br />
+                <span>the document your AI gave you, one file or several at once, .md or .txt, or click to browse</span>
+                <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" multiple hidden />
+              </div>
+              <div class="sourcelist" id="sourceList" hidden></div>
+              <p class="flavor-detect" id="flavorDetect" hidden></p>
+              <div class="auto-row" id="autoCompileRow" hidden><span id="autoCompileText"></span> <button type="button" id="autoCancelBtn">Cancel auto-compile</button></div>
               <div class="flavor-row" id="flavorRow" role="group" aria-label="Choose a flavor for your capsule">
                 <span class="flavor-label">Flavor:</span>
                 <button type="button" class="flavor-chip" data-flavor="auto" aria-pressed="true">Auto</button>
@@ -376,13 +384,6 @@
               <div class="row">
                 <button type="button" class="primary" id="compileBtn">Compile my capsule</button>
               </div>
-              <div class="dropzone" id="dropZone" role="button" tabindex="0" aria-label="Drop the document file here, or click to choose a file">
-                <strong>Drag and drop the file here</strong><br />
-                <span>the document your AI gave you, one file or several at once, .md or .txt, or click to browse</span>
-                <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" multiple hidden />
-              </div>
-              <div class="sourcelist" id="sourceList" hidden></div>
-              <p class="flavor-detect" id="flavorDetect" hidden></p>
               <p class="status" id="compileStatus" role="status"></p>
               <div class="compile-progress" id="compileProgress" hidden>
                 <div class="progress-track"><div class="progress-fill" id="compileProgressFill"></div></div>
@@ -416,6 +417,9 @@
   .flavor-detect .fd-name { font-weight: 800; color: #ffffff; font-size: 1.07rem; }
   .flavor-detect .fd-pill { display: inline-block; padding: .08rem .6rem; border-radius: 999px; background: linear-gradient(90deg, #7b6cff, #37c8e8, #ff5ea8); color: #ffffff; font-weight: 800; font-size: .95rem; }
   .flavor-detect.locked { border-color: rgba(255,94,168,.7); box-shadow: 0 0 24px rgba(255,94,168,.25); }
+  #compileBtn.ready { box-shadow: 0 0 26px rgba(55,200,232,.65), 0 0 60px rgba(123,108,255,.35); }
+  .auto-row { margin-top: .6rem; font-size: .95rem; line-height: 1.5; }
+  .auto-row #autoCompileText { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9rem; }
   @keyframes flavorPulse { 0% { box-shadow: 0 0 0 rgba(55,200,232,0); } 30% { box-shadow: 0 0 22px rgba(55,200,232,.55); } 100% { box-shadow: 0 0 0 rgba(55,200,232,0); } }
   .flavor-row.pulse { animation: flavorPulse 1.8s ease-in-out; border-radius: 12px; }
 </style>
@@ -441,6 +445,7 @@
         input.value = '';
         renderList();
         status.textContent = 'Added files removed. The pasted document stays.';
+        if (window.__capsuleOnSourcesChanged) { window.__capsuleOnSourcesChanged(); }
       });
     }
     function addFile(file) {
@@ -624,7 +629,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v1.8.2</span>
+    <span>clonemy.ai, working prototype &middot; v1.9</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -930,6 +935,7 @@ What a successor would need that you do not have: list them as plain questions. 
       try { window.localStorage.setItem("clonemyFlavor", window.__capsuleFlavor); } catch (e) {}
       paint();
       if (window.__capsuleRefreshDetect) { window.__capsuleRefreshDetect(false); }
+      if (window.__capsuleRearmAuto) { window.__capsuleRearmAuto(); }
     });
     paint();
   })();
@@ -971,7 +977,50 @@ What a successor would need that you do not have: list them as plain questions. 
     }
   }
   window.__capsuleRefreshDetect = updateFlavorDetect;
-  window.__capsuleOnSourcesChanged = function () { updateFlavorDetect(true); };
+  window.__capsuleOnSourcesChanged = function () { updateFlavorDetect(true); refreshCompileReady(); armAutoCompile(); };
+
+  function sourceCount() {
+    var t = document.getElementById("compileInput");
+    return ((t && t.value.trim()) ? 1 : 0) + (window.__capsuleExtraTexts || []).length;
+  }
+  function refreshCompileReady() {
+    var btn = document.getElementById("compileBtn");
+    if (!btn || btn.disabled) { return; }
+    var n = sourceCount();
+    btn.classList.toggle("ready", n > 0);
+    btn.textContent = n === 0 ? "Compile my capsule" : (n === 1 ? "Compile my capsule: 1 source ready" : "Compile my capsule: " + n + " sources ready");
+  }
+  var autoTimer = null, autoLeft = 0;
+  function isSingleSource() { return sourceCount() === 1 && (window.__capsuleExtraTexts || []).length === 0; }
+  function showAutoRow(txt) {
+    var r = document.getElementById("autoCompileRow");
+    var t = document.getElementById("autoCompileText");
+    if (r && t) { t.textContent = txt; r.hidden = false; }
+  }
+  function cancelAutoCompile() {
+    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+    var r = document.getElementById("autoCompileRow");
+    if (r) { r.hidden = true; }
+  }
+  window.__capsuleCancelAuto = cancelAutoCompile;
+  function autoMsg() { return "Single file in. Auto-compile starts in " + autoLeft + "s. Add another file to switch to multi-source, or press Compile to start now."; }
+  function armAutoCompile() {
+    cancelAutoCompile();
+    var btn = document.getElementById("compileBtn");
+    if (!btn || btn.disabled) { return; }
+    if (!isSingleSource()) { return; }
+    autoLeft = 3;
+    showAutoRow(autoMsg());
+    autoTimer = setInterval(function () {
+      autoLeft--;
+      if (autoLeft <= 0) {
+        cancelAutoCompile();
+        var b = document.getElementById("compileBtn");
+        if (b && !b.disabled) { b.click(); }
+      } else { showAutoRow(autoMsg()); }
+    }, 1000);
+  }
+  window.__capsuleRearmAuto = function () { if (autoTimer) { armAutoCompile(); } };
 
   function runCompileProgress(raw, done) {
     var name = detectCompanionName(raw) || "your companion";
@@ -1003,6 +1052,7 @@ What a successor would need that you do not have: list them as plain questions. 
   if (compileBtn) {
     compileBtn.addEventListener('click', function () {
       if (compileBtn.disabled) { return; }
+      if (window.__capsuleCancelAuto) { window.__capsuleCancelAuto(); }
       var extraTexts = (window.__capsuleExtraTexts || []);
       var pasteText = document.getElementById('compileInput').value;
       var raw = [pasteText].concat(extraTexts).join('\n\n');
@@ -1038,7 +1088,7 @@ What a successor would need that you do not have: list them as plain questions. 
         }
         out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         compileBtn.textContent = 'Compiled, downloading your file';
-        setTimeout(function () { compileBtn.textContent = 'Compile my capsule'; compileBtn.disabled = false; }, 4000);
+        setTimeout(function () { compileBtn.disabled = false; refreshCompileReady(); }, 4000);
         makeDownload('capsule.md', lastCapsule);
       }
       compileBtn.disabled = true;
@@ -1046,6 +1096,21 @@ What a successor would need that you do not have: list them as plain questions. 
       runCompileProgress(raw, finishCompile);
     });
     document.getElementById('dlCapsule').addEventListener('click', function () { if (lastCapsule) { makeDownload('capsule.md', lastCapsule); } });
+    var autoCancelBtn = document.getElementById('autoCancelBtn');
+    if (autoCancelBtn) {
+      autoCancelBtn.addEventListener('click', function () {
+        if (window.__capsuleCancelAuto) { window.__capsuleCancelAuto(); }
+        var st = document.getElementById('compileStatus');
+        if (st) { st.textContent = 'Auto-compile cancelled. Press Compile my capsule when you are ready.'; }
+      });
+    }
+    var ci = document.getElementById('compileInput');
+    if (ci) {
+      ci.addEventListener('input', function () {
+        if (window.__capsuleCancelAuto) { window.__capsuleCancelAuto(); }
+        refreshCompileReady();
+      });
+    }
   }
 </script>
 <style id="cyber-layer">
