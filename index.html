@@ -599,7 +599,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v1.6</span>
+    <span>clonemy.ai, working prototype &middot; v1.7</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -824,10 +824,17 @@ What a successor would need that you do not have: list them as plain questions. 
       sets[k].forEach(function (w) { if (t.indexOf(w) !== -1) { score++; } });
       if (score > bestScore) { bestScore = score; best = k; }
     });
+    if (bestScore === 0) { return "default"; }
     return best;
   }
 
   var PROGRESS_LINES = {
+    default: [
+      "Reading the self-report, start to finish",
+      "Gathering what makes {N} who they are",
+      "Bringing memories and rules together, then running the parity check",
+      "Putting {N} together, ready for you"
+    ],
     gentle: [
       "Reading the self-report, one page at a time",
       "Gathering what makes {N}, {N}",
