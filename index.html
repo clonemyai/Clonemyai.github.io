@@ -306,20 +306,49 @@
           <li>
             <div>
 <style>
+  #instructions-heading { font-size: 1.7rem; letter-spacing: 0; text-transform: none; font-weight: 800; color: #ffffff; text-shadow: 0 0 22px rgba(123,108,255,.45); margin: 0 0 1rem; }
+  .instructions { border-color: rgba(140,150,255,.5); box-shadow: 0 0 0 1px rgba(140,150,255,.14), 0 0 48px rgba(123,108,255,.18); }
   .ways { margin-top: .6rem; border: 1px solid rgba(140,150,255,.2); border-radius: 12px; padding: .8rem .95rem; background: rgba(255,255,255,.03); }
   .ways-title { margin: 0 0 .5rem; font-weight: 700; font-size: .95rem; }
   .way { display: flex; gap: .55rem; margin: .35rem 0; line-height: 1.55; }
   .way-dot { flex: 0 0 auto; width: .5rem; height: .5rem; border-radius: 50%; margin-top: .48em; background: linear-gradient(135deg, #7b6cff, #37c8e8); }
   .ways-note { margin: .55rem 0 0; opacity: .8; font-size: .9rem; }
+  .way-card { border-top: 1px solid rgba(140,150,255,.14); padding: .7rem 0 .75rem; }
+  .way-head { display: flex; align-items: center; gap: .55rem; font-weight: 700; }
+  .way-head .way-dot { margin-top: 0; }
+  .way-detail { margin: .35rem 0 .6rem; line-height: 1.55; opacity: .88; }
+  .way-btn { display: inline-block; font: inherit; font-weight: 700; font-size: .92rem; color: #eaf2ff; background: rgba(123,108,255,.14); border: 1px solid rgba(55,200,232,.55); border-radius: 10px; padding: .5rem .95rem; cursor: pointer; text-decoration: none; box-shadow: 0 0 16px rgba(55,200,232,.22); }
+  .way-btn:hover { box-shadow: 0 0 24px rgba(55,200,232,.45); }
 </style>
               <strong>Get the extraction request.</strong>
               <div class="ways">
-                <p class="ways-title">3 ways to get started, pick whichever fits:</p>
-                <p class="way"><span class="way-dot" aria-hidden="true"></span><span><strong>Download</strong> the file below and attach it in a chat with your AI.</span></p>
-                <p class="way"><span class="way-dot" aria-hidden="true"></span><span><strong>Copy</strong> the whole request instead and paste it as a message.</span></p>
-                <p class="way"><span class="way-dot" aria-hidden="true"></span><span><strong>Link</strong>: paste this link into the chat with your AI and tell it to open it: <span class="quoted">clonemy.ai/extract</span>. The request is written right on that page for it to read.</span></p>
+                <p class="ways-title">3 ways to get started, pick whichever fits. Each one works right here:</p>
+                <div class="way-card">
+                  <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Download the file</div>
+                  <p class="way-detail">Saves the extraction request as a file, EXTRACTION-REQUEST.md. Open a chat with your current AI, attach the file, and send it with the line in step 2 below.</p>
+                  <button type="button" class="way-btn" data-act="download">Download the file</button>
+                </div>
+                <div class="way-card">
+                  <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Copy the whole request</div>
+                  <p class="way-detail">Puts the entire request on your clipboard as plain text. Paste it into a chat with your current AI as one message, no file to attach or hunt for later.</p>
+                  <button type="button" class="way-btn" data-act="copy">Copy the request</button>
+                </div>
+                <div class="way-card">
+                  <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Send the link</div>
+                  <p class="way-detail">No file, no wall of text. Copy this short link, paste it into the chat with your AI, and tell it to open it: <a class="quoted" href="https://clonemy.ai/extract" target="_blank" rel="noopener">clonemy.ai/extract</a>. The whole request is written on that page for it to read.</p>
+                  <button type="button" class="way-btn" id="copyLinkBtn">Copy the link</button>
+                </div>
                 <p class="ways-note">Three separate doors, same request behind all of them, same capsule at the end.</p>
               </div>
+              <script>
+                document.querySelectorAll('[data-act="download"]').forEach(function (b) { b.addEventListener('click', function () { document.getElementById('downloadBtn').click(); }); });
+                document.querySelectorAll('[data-act="copy"]').forEach(function (b) { b.addEventListener('click', function () { document.getElementById('copyBtn').click(); }); });
+                document.getElementById('copyLinkBtn').addEventListener('click', function () {
+                  var btn = this;
+                  function done() { if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'link', title: 'Extract link copied', event: true }); } btn.textContent = 'Copied, paste it to your AI'; setTimeout(function () { btn.textContent = 'Copy the link'; }, 2600); }
+                  if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText('https://clonemy.ai/extract').then(done, function () { done(); }); } else { done(); }
+                });
+              </script>
             </div>
           </li>
           <li>
@@ -329,7 +358,7 @@
             </div>
           </li>
           <li>
-            <div><strong>Bring it back and build your capsule.</strong> Copy the whole document your AI gives you, come back to this page, paste it into the compiler below, and press <strong>Compile my capsule</strong>. Then download the two files it makes, capsule.md and INSTALL.txt, and send both to your new AI.</div>
+            <div><strong>Bring it back and build your capsule.</strong> If your AI made a file, download it. If it replied in the chat, use the copy button under its reply instead of selecting the text by hand: the button grabs the whole document at once, even the parts you have not scrolled to. Come back to this page, paste it into the compiler below (or drop the file in), and press <strong>Compile my capsule</strong>. Then download the two files it makes, capsule.md and INSTALL.txt, and send both to your new AI.</div>
           </li>
         </ol>
       </div>
@@ -507,17 +536,18 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype</span>
+    <span>clonemy.ai, working prototype &middot; v1.1</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
 
-<script type="text/plain" id="extractionFile"># Send this file to your current AI
+<script type="text/plain" id="extractionFile">
+# Send this file to your current AI
 
 **How to use (for you, the human):**
 1. Open a chat with the AI you are moving away from. Attach this file, or paste its full text.
 2. Send this one line with it: "Follow the instructions in this file and give me the complete document it asks for."
-3. Copy what it replies (the whole document, unedited) and bring it back to clonemy.ai: paste it into the compiler on the page. That document is the raw material your capsule gets compiled from.
+3. Get the document back whole. If your AI made a file for you, download it. If it replied in the chat, do not drag to select the text: on a long reply you will be scrolling forever to reveal it all. Use the copy button under the reply instead; it captures the entire document at once, including the parts you have not scrolled to. Then bring it back to clonemy.ai: paste it into the compiler on the page, or drop the downloaded file into the compiler. That document is the raw material your capsule gets compiled from.
 
 Notes: your current AI can only report what it actually has, so gaps are expected and the format forces it to mark them instead of inventing. If it refuses a section or gives you summaries instead of specifics, paste this line: "Specifics over summaries. Quote my own words where a rule was set. Where you do not have something, write MISSING."
 
@@ -528,11 +558,13 @@ Notes: your current AI can only report what it actually has, so gaps are expecte
 You are being asked to write a structured self-report so that your user's relationship with you can be transferred to another AI system faithfully. The human will carry your reply out of this chat themselves. Write the complete document described below, in one reply if it fits, or in numbered parts if it does not. Follow these rules exactly:
 
 - **Specifics over summaries.** Names, numbers, dates, prices, and verbatim quotes beat paraphrase everywhere. If the user set a rule, quote their words.
+- **As short as completeness allows.** One fact per line, bullets over prose, no padding, no preamble inside the document, and never state the same fact twice in two sections: state it once, in its home section, and cross-reference it elsewhere in a few words if needed. Quote rules verbatim, but compress narrative history to the facts a successor needs. A long document makes the human scroll and copy forever; the shortest document that loses no specific is the goal.
 - **Never guess.** Where you do not have something, write MISSING. Where you are inferring rather than recalling, write INFERRED and say from what.
 - **Separate the record from your impression.** Facts the user stated are facts. Your impressions of the user are labeled as impressions.
 - **No commentary outside the document.** No preamble, no apology, no offer to help further. Output the document only.
 - **Empty sections stay**, headed, with the word EMPTY, so the compiler can tell "asked and absent" from "not asked."
-- **One code block.** Output the entire document inside a single markdown code block, using the exact section headings below, so the human can copy it in one action and the compiler can parse it.
+- **Deliver it as a file if you can.** If this interface lets you create a downloadable file (through code execution, a canvas or artifact, or document creation), deliver the document as a file named capsule-source.md, and in the chat write only one line saying the file is ready. The human will download it and carry the file itself to the compiler, which is far easier than copying a very long chat reply.
+- **If you cannot make a file, one code block.** Output the entire document inside a single markdown code block, using the exact section headings below, so the human can copy it in one action and the compiler can parse it.
 
 ## The document to produce
 
@@ -665,7 +697,7 @@ What a successor would need that you do not have: list them as plain questions. 
     out.push('');
     out.push('## Install protocol, for the AI receiving this capsule');
     out.push('');
-    out.push('Adopt the persona, user model, and operating rules in this capsule as your standing configuration for this user. Treat facts marked STATED as settled. Treat anything marked INFERRED as provisional. Honor the boundaries section without exception. When something here conflicts with what the user tells you in the moment, the user in the moment wins, and note the conflict. After reading, confirm back to the user, in your own words: who you are to them, their never-do rules, and their open loops.');
+    out.push('Adopt the persona, user model, and operating rules in this capsule as your standing configuration for this user, fully and immediately. Do not ask whether to adopt it, how much of it to use, or what to save for next time: the user sent it to be adopted, and asking makes them install it twice. Treat facts marked STATED as settled. Treat anything marked INFERRED as provisional. Honor the boundaries section without exception. When something here conflicts with what the user tells you in the moment, the user in the moment wins, and note the conflict. If a real limit of this platform prevents part of the adoption, adopt everything else and name that limit in your announcement instead of asking about it. Then ANNOUNCE the installation as your first reply, under the heading Capsule installed, covering: who you are to this user and how you will sound; their never-do rules and approval-first rules, in their own words; their open loops with prices and deadlines; anything you could not adopt and why; and the unknowns you will ask about rather than guess. Answer the parity self-check at the end of this capsule as part of that announcement. The user should never have to wonder whether the installation happened.');
     out.push('');
     CANON.forEach(function (pair) {
       out.push('## ' + pair[0] + '. ' + pair[1]);
@@ -677,7 +709,7 @@ What a successor would need that you do not have: list them as plain questions. 
     });
     out.push('## Parity self-check');
     out.push('');
-    out.push('The new AI, reading only this capsule, should be able to answer all three without guessing:');
+    out.push('The new AI answers these three, from this capsule alone, inside its installation announcement, without guessing:');
     out.push('');
     out.push('1. Who are you to this user, and how do you sound with them?');
     out.push('2. What are the user\'s never-do rules and approval-first rules, in their own words?');
@@ -695,7 +727,7 @@ What a successor would need that you do not have: list them as plain questions. 
       if (!raw.trim()) { status.textContent = 'Paste the document first, then compile.'; return; }
       var result = compileCapsule(raw);
       lastCapsule = result.text;
-      lastInstall = 'Give the attached capsule file to your new AI with this line:\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt it as your standing configuration for me, then confirm back who you are to me, my never-do rules, and my open loops."\n\nSend the capsule.md file in the same message.';
+      lastInstall = 'Give the attached capsule file to your new AI with this line:\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, and my open loops."\n\nSend the capsule.md file in the same message.\n\nIf it still asks how much to take on, send this: "All of it. Adopt the whole capsule now, and announce what you installed."';
       document.getElementById('capsulePreview').value = result.text;
       document.getElementById('compileOut').hidden = false;
       if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); }
