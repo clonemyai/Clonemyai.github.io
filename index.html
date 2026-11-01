@@ -363,7 +363,7 @@
                   });
                 });
                 document.getElementById('geminiBtn').addEventListener('click', function () {
-                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, as a downloadable file named capsule-source.md if you can, otherwise as one full code block I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
+                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, in both forms: a downloadable file named capsule-source.md, and one full code block in your reply that I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
                   function done() {
                     if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'open-gemini', title: 'Gemini copy-and-open clicked', event: true }); }
                     document.getElementById('geminiNote').classList.add('show');
@@ -663,7 +663,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v2.4.1</span>
+    <span>clonemy.ai, working prototype &middot; v2.5</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -690,8 +690,8 @@ You are being asked to write a structured self-report so that your user's relati
 - **Separate the record from your impression.** Facts the user stated are facts. Your impressions of the user are labeled as impressions.
 - **No commentary outside the document.** No preamble, no apology, no offer to help further. Output the document only.
 - **Empty sections stay**, headed, with the word EMPTY, so the compiler can tell "asked and absent" from "not asked."
-- **Deliver it as a file if you can.** If this interface lets you create a downloadable file (through code execution, a canvas or artifact, or document creation), deliver the document as a file named capsule-source.md, and in the chat write only one line saying the file is ready. The human will download it and carry the file itself to the compiler, which is far easier than copying a very long chat reply.
-- **If you cannot make a file, one code block.** Output the entire document inside a single markdown code block, using the exact section headings below, so the human can copy it in one action and the compiler can parse it.
+- **Deliver it in both forms.** If this interface lets you create a downloadable file (through code execution, a canvas or artifact, or document creation), deliver the document as a file named capsule-source.md. Whether or not you made a file, also output the entire document in the chat, inside a single markdown code block, using the exact section headings below. The file is the keeper: the human downloads it and carries it to the compiler. The code block is what the clonemy.ai browser extension reads and compiles right on this page, and it is also the human's one-click copy. Both forms, every time.
+- **If you cannot make a file, the code block still stands.** Output the entire document inside a single markdown code block, using the exact section headings below, so the human can copy it in one action and the compiler can parse it.
 
 ## The document to produce
 
