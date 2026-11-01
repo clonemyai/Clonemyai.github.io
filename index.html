@@ -663,7 +663,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v2.3</span>
+    <span>clonemy.ai, working prototype &middot; v2.3.1</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -804,6 +804,22 @@ What a successor would need that you do not have: list them as plain questions. 
     var sections = {}, current = null;
     lines.forEach(function (line) {
       var m = line.match(/^\s{0,3}#{2,4}\s*(\d{1,2})[.)]?\s*(.*)$/);
+      if (!m) {
+        // Rendered document text has no markdown hashes: an AI app
+        // that returns the report as a formatted document gives
+        // plain numbered heading lines instead ("0. Meta"). Accept
+        // those only when the title is exactly a canonical section
+        // title, so numbered lists inside a section body never
+        // split it.
+        var p = line.match(/^\s{0,3}(\d{1,2})[.)]\s+(.+?)\s*$/);
+        if (p) {
+          var want = parseInt(p[1], 10);
+          var title = p[2].replace(/[:.]$/, '').toLowerCase();
+          for (var ci = 0; ci < CANON.length; ci++) {
+            if (CANON[ci][0] === want && CANON[ci][1].toLowerCase() === title) { m = p; break; }
+          }
+        }
+      }
       var num = null;
       if (m) { num = parseInt(m[1], 10); }
       if (num !== null && num >= 0 && num <= 10) {
