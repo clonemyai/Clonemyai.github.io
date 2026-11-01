@@ -663,7 +663,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v2.4</span>
+    <span>clonemy.ai, working prototype &middot; v2.4.1</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -803,30 +803,43 @@ What a successor would need that you do not have: list them as plain questions. 
   // so existing capsules and self-reports keep compiling.
   var LEGACY_TITLES = { 0: ['meta'] };
 
+
+  // Heading matcher, hardened by two live failures. Gemini's document
+  // pane gives plain numbered lines ("0. About this report"); ChatGPT
+  // writes single-hash headings ("# 0. About this report"). AIs vary
+  // the decoration, so normalize it away: strip leading hashes, bold
+  // markers, and an optional "Section" word, then require either a
+  // number plus the exact canonical title, or a line that is exactly
+  // a canonical title on its own. Numbered markdown headings keep the
+  // older, looser rule (the number alone is trusted) so slightly-off
+  // titles in hash form still file correctly.
+  function matchHeading(line) {
+    var trimmed = line.trim();
+    var s = trimmed.replace(/^#{1,6}\s*/, '').replace(/^\*\*|\*\*$/g, '').replace(/^Section\s+/i, '');
+    var m = s.match(/^(\d{1,2})[.)]?\s+(.+?)\s*$/);
+    if (m) {
+      var want = parseInt(m[1], 10);
+      var title = m[2].replace(/[:.]$/, '').toLowerCase();
+      for (var ci = 0; ci < CANON.length; ci++) {
+        if (CANON[ci][0] === want && (CANON[ci][1].toLowerCase() === title || (LEGACY_TITLES[want] || []).indexOf(title) !== -1)) { return want; }
+      }
+      if (/^#{1,6}\s/.test(trimmed) && want >= 0 && want <= 10) { return want; }
+      return null;
+    }
+    var bare = s.replace(/[:.]$/, '').toLowerCase();
+    for (var bi = 0; bi < CANON.length; bi++) {
+      if (CANON[bi][1].toLowerCase() === bare) { return CANON[bi][0]; }
+    }
+    if ((LEGACY_TITLES[0] || []).indexOf(bare) !== -1) { return 0; }
+    return null;
+  }
+
   function compileCapsule(raw) {
     var text = raw.replace(/```[a-z]*\n?/gi, '');
     var lines = text.split(/\r?\n/);
     var sections = {}, current = null;
     lines.forEach(function (line) {
-      var m = line.match(/^\s{0,3}#{2,4}\s*(\d{1,2})[.)]?\s*(.*)$/);
-      if (!m) {
-        // Rendered document text has no markdown hashes: an AI app
-        // that returns the report as a formatted document gives
-        // plain numbered heading lines instead ("0. About this report"). Accept
-        // those only when the title is exactly a canonical section
-        // title, so numbered lists inside a section body never
-        // split it.
-        var p = line.match(/^\s{0,3}(\d{1,2})[.)]\s+(.+?)\s*$/);
-        if (p) {
-          var want = parseInt(p[1], 10);
-          var title = p[2].replace(/[:.]$/, '').toLowerCase();
-          for (var ci = 0; ci < CANON.length; ci++) {
-            if (CANON[ci][0] === want && (CANON[ci][1].toLowerCase() === title || (LEGACY_TITLES[want] || []).indexOf(title) !== -1)) { m = p; break; }
-          }
-        }
-      }
-      var num = null;
-      if (m) { num = parseInt(m[1], 10); }
+      var num = matchHeading(line);
       if (num !== null && num >= 0 && num <= 10) {
         current = num;
         if (!sections[current]) { sections[current] = []; }
