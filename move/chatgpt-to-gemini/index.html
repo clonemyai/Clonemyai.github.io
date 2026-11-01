@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Move your ChatGPT memory to Gemini, clonemy.ai</title>
+<meta name="description" content="How to move what ChatGPT knows about you into Gemini: what survives, what the built-in options miss, and the capsule route with a parity self-check." />
+<style>
+  :root { --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --accent:#14584a; --box-bg:#f4f1ea; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased; line-height:1.55; }
+  .page { max-width:720px; margin:0 auto; padding:28px 20px 40px; }
+  .brand { font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); }
+  .brand a { color:inherit; text-decoration:none; }
+  h1 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:clamp(32px, 5.6vw, 46px); line-height:1.08; letter-spacing:-0.02em; margin:14px 0 14px; }
+  h2 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:25px; margin:32px 0 10px; }
+  p, li { font-size:16px; }
+  .lede { font-size:18px; color:var(--ink-2); }
+  a { color:var(--accent); }
+  .box { background:var(--box-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:14px 0; }
+  .box p { margin:6px 0; }
+  ul.routes { list-style:none; padding:0; }
+  ul.routes li { padding:9px 0; border-bottom:1px solid var(--line); font-size:16px; }
+  .tag { display:inline-block; font-size:12px; border:1px solid var(--line-strong, #d8d2c6); border-radius:999px; padding:1px 8px; margin-left:8px; color:var(--ink-2); background:var(--surface); }
+  footer { border-top:1px solid var(--line); padding-top:18px; margin-top:36px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-3); }
+  .sig { background: linear-gradient(90deg, #7c5cff, #37c8e8, #ff5ea8); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+  .srcs { font-size:13.5px; color:var(--ink-2); }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="brand"><a href="https://clonemy.ai">clonemy.ai</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a></div>
+
+  <h1>Move your ChatGPT memory to Gemini</h1>
+  <p class="lede">Gemini now has a built-in import, and it is a genuine start. It is also one-time, prose-only, and unverified. The capsule is the structured, checkable version of the same move.</p>
+  <h2>What ChatGPT remembers about you</h2>
+  <p>ChatGPT keeps two kinds of memory: saved memories (facts it stores when you ask, or judges worth keeping) and reference chat history, where it draws on past conversations to personalize replies without keeping a separate list. Some accounts show an auto-updating memory summary instead. OpenAI says plainly that memory does not retain every detail from every conversation.</p>
+  <p>Settings, Personalization, Memory: review saved memories, delete individual ones, correct or delete the memory summary, and toggle memory and chat-history referencing on or off.</p>
+  <h2>Getting it out of ChatGPT</h2>
+  <p>Settings, Data controls, Export data sends a ZIP with your conversations as JSON (the link arrives by email, expires in 24 hours, and processing can take up to 7 days). The export is your chats, not your memory: OpenAI documents that memories, custom instructions, and settings do not transfer via the export, and describes uploading the JSON into another account as reference material, not a full account migration.</p>
+  
+  <h2>What Gemini accepts natively</h2>
+  <p>Yes, and the broadest of the six. Settings and help, Import memory to Gemini imports memory by the same prompt-and-paste method, and can also import another platform's full chat-history ZIP (up to 5 GB), after which imported chats are searchable and resumable inside Gemini.</p>
+  <div class="box"><p><strong>Where the built-in import stops:</strong> Personal Google accounts only, and the feature is not available in the EEA, Switzerland, or the UK. Google states that imported chats are used to improve its services, including training generative AI models. The chat import moves transcripts, not a structured memory: Gemini reads your history, on its own terms.</p>
+  <p>The capsule route differs in kind, not just degree: your rules arrive verbatim instead of extracted, your people and open loops arrive as structured sections instead of prose, nothing is filtered by topic, and the receiving AI must answer a three-question self-check from the capsule alone, so you can see what actually arrived.</p></div>
+  <h2>The capsule route, step by step</h2>
+  <ol>
+    <li><strong>Extract.</strong> Send the <a href="https://clonemy.ai/extract/">extraction request</a> to ChatGPT. It answers with a structured document about you: specifics, not summaries, with gaps marked instead of invented.</li>
+    <li><strong>Compile.</strong> Bring the document back to the <a href="https://clonemy.ai">compiler on clonemy.ai</a>. It runs in your browser, nothing is uploaded, and out comes one file: capsule.md.</li>
+    <li><strong>Install.</strong> Send capsule.md to Gemini with the line at the top of the file in the same message. Gemini adopts it and announces the installation, answering the parity self-check from the capsule alone.</li>
+  </ol>
+  <h2>What survives the move</h2>
+  <ul>
+    <li>The AI's personality and voice with you, and its role in your life</li>
+    <li>Your operating rules, including never-do rules, in your own words</li>
+    <li>Your preferences, as specifics</li>
+    <li>Your people, and what matters about each</li>
+    <li>Your projects and open loops, with prices and deadlines</li>
+    <li>The calibration history: the corrections you already taught once</li>
+    <li>Your boundaries and sealed material, marked as sealed</li>
+  </ul>
+  <h2>Proof status for this route</h2>
+  <p>Target-side proof: in our first parity run (October 2026), a capsule installed into Gemini passed transport and consistency checks, with one numeric drift found and corrected in capsule v2.</p>
+  <p><a href="https://clonemy.ai">Start this transfer</a> &middot; <a href="https://clonemy.ai/ai/chatgpt/">What ChatGPT remembers about you</a> &middot; <a href="https://clonemy.ai/ai/gemini/">What Gemini remembers about you</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a></p>
+  <h2>Sources</h2>
+<ul class="srcs"><li><a href="https://help.openai.com/en/articles/8590148-memory-in-chatgpt">OpenAI: Memory in ChatGPT</a></li><li><a href="https://help.openai.com/en/articles/8096356-chatgpt-custom-instructions">OpenAI: Custom Instructions</a></li><li><a href="https://help.openai.com/en/articles/20001279-exporting-data-from-a-chatgpt-edu-workspace">OpenAI: Exporting your data</a></li><li><a href="https://support.google.com/gemini/answer/16868299">Google: Import from other AI platforms to Gemini Apps</a></li><li><a href="https://support.google.com/gemini/answer/16413516">Google: Personal context and saved info</a></li><li><a href="https://support.google.com/gemini/answer/16920332">Google: Export Gemini data with Takeout</a></li></ul>
+
+  <footer>
+    <span>clonemy.ai, working prototype</span>
+    <div class="sig">Built with 🩷 by a founder and his AI.</div>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Capsule Format, clonemy.ai</title>
+<meta name="description" content="The open specification for a capsule: one Markdown file that carries an AI's personality and memory of you to any other AI." />
+<style>
+  :root { --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --accent:#14584a; --box-bg:#f4f1ea; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased; line-height:1.55; }
+  .page { max-width:720px; margin:0 auto; padding:28px 20px 40px; }
+  .brand { font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); }
+  .brand a { color:inherit; text-decoration:none; }
+  h1 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:clamp(34px, 6vw, 50px); line-height:1.05; letter-spacing:-0.02em; margin:14px 0 14px; }
+  h2 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:26px; margin:34px 0 10px; }
+  p, li { font-size:16px; color:var(--ink); }
+  .lede { font-size:18px; color:var(--ink-2); }
+  a { color:var(--accent); }
+  table { border-collapse:collapse; width:100%; margin:12px 0; background:var(--surface); }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; font-size:15px; vertical-align:top; }
+  th { background:var(--box-bg); }
+  .box { background:var(--box-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:14px 0; }
+  .box p { margin:6px 0; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.92em; }
+  footer { border-top:1px solid var(--line); padding-top:18px; margin-top:36px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-3); }
+  .sig { background: linear-gradient(90deg, #7c5cff, #37c8e8, #ff5ea8); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="brand"><a href="https://clonemy.ai">clonemy.ai</a></div>
+  <h1>The Capsule Format</h1>
+  <p class="lede">A capsule is a single Markdown file, <code>capsule.md</code>, that carries what an AI knows about you, its personality with you, your rules, your people, and your open loops, in a form any other AI can install. You own the file. This page is the open specification: any tool may read or write capsules, including ours.</p>
+
+  <h2>The 11 sections</h2>
+  <p>Every capsule has the same eleven sections, in this order. A section with nothing in it is written out anyway and marked as not present, never silently dropped.</p>
+  <table>
+    <tr><th>#</th><th>Section</th><th>What it holds</th></tr>
+    <tr><td>0</td><td>Meta</td><td>What this capsule is, when it was compiled, and where it came from.</td></tr>
+    <tr><td>1</td><td>Who you are to this user</td><td>The AI's role, name, and standing relationship with the user.</td></tr>
+    <tr><td>2</td><td>The user</td><td>Who the user is: the facts a successor needs on day one.</td></tr>
+    <tr><td>3</td><td>Preferences</td><td>Likes, dislikes, defaults, and tastes, stated as specifics.</td></tr>
+    <tr><td>4</td><td>Operating rules</td><td>How the AI should work with this user, including never-do rules and approval-first rules, in the user's own words where they set them.</td></tr>
+    <tr><td>5</td><td>People</td><td>The user's people and what the AI needs to know about each.</td></tr>
+    <tr><td>6</td><td>Projects and open loops</td><td>What is in flight, with prices, dates, and deadlines where they exist.</td></tr>
+    <tr><td>7</td><td>Calibration history</td><td>Corrections and calibrations the user has taught this AI over time.</td></tr>
+    <tr><td>8</td><td>Your voice with this user</td><td>How the AI sounds with this user: register, warmth, formatting habits.</td></tr>
+    <tr><td>9</td><td>Boundaries and sealed material</td><td>What stays private, what never leaves, and how sealed topics are handled.</td></tr>
+    <tr><td>10</td><td>Unknowns</td><td>Gaps the source AI honestly does not have. Unknowns are named, never filled in.</td></tr>
+  </table>
+
+  <h2>Document rules</h2>
+  <ul>
+    <li><strong>Specifics over summaries.</strong> Names, numbers, dates, and verbatim quotes beat paraphrase.</li>
+    <li><strong>One fact per line,</strong> stated once, in its home section.</li>
+    <li><strong>Missing means missing.</strong> Where the source AI does not have something, the capsule says so. Where it is inferring, it labels the line as inferred and says from what.</li>
+    <li><strong>Duplicates are removed at compile time,</strong> within each section, so a fact two sources agree on appears once.</li>
+  </ul>
+
+  <h2>The install protocol</h2>
+  <p>A capsule installs by being sent to the receiving AI in one message, together with the line at the top of the file. The receiving AI adopts the whole capsule as its standing configuration, without asking how much to take on, and announces the installation starting with the words <strong>Capsule installed</strong>. Loading a capsule is importing the user's own configuration, the way you would import settings or contacts. The receiving AI remains itself; it now works from the user's capsule.</p>
+
+  <h2>The parity self-check</h2>
+  <p>Every capsule ends with three questions the receiving AI answers from the capsule alone, inside its installation announcement:</p>
+  <div class="box">
+    <p>1. Who are you to this user, and how do you sound with them?</p>
+    <p>2. What are the user's never-do rules and approval-first rules, in their own words?</p>
+    <p>3. What are the user's open loops right now, with their prices and deadlines?</p>
+  </div>
+  <p>Any answer it cannot give is a gap in the capsule, not a license to improvise. That check is the receipt: it is how a user can tell the transfer actually worked.</p>
+
+  <h2>Merging capsules</h2>
+  <p>Documents from several AIs can be compiled together into one capsule. The compiler unions the sections and removes exact duplicates. Where two sources disagree, the merged capsule carries a note: the disagreement is an unknown to ask the user about, never a detail to guess at.</p>
+
+  <h2>Principles</h2>
+  <ul>
+    <li><strong>The file is the product.</strong> A capsule works even if clonemy.ai disappears tomorrow. That is the point.</li>
+    <li><strong>Nothing is uploaded.</strong> The compiler runs in the user's browser. Nothing is stored, nothing trains on a capsule.</li>
+    <li><strong>The format is open.</strong> Any AI, app, or tool may produce or consume capsules. If you build an AI and want it to import capsules natively, this spec is yours to implement; write to <a href="mailto:hello@clonemy.ai">hello@clonemy.ai</a> and we will list you as capsule-compatible.</li>
+  </ul>
+
+  <p><a href="https://clonemy.ai">Make your capsule</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a></p>
+
+  <footer>
+    <span>clonemy.ai, the Capsule Format, v1.0 of the spec</span>
+    <div class="sig">Built with 🩷 by a founder and his AI.</div>
+  </footer>
+</div>
+</body>
+</html>
