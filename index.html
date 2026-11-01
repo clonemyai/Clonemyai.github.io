@@ -663,7 +663,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v2.3.1</span>
+    <span>clonemy.ai, working prototype &middot; v2.4</span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
@@ -773,7 +773,7 @@ What a successor would need that you do not have: list them as plain questions. 
   }
 
   var CANON = [
-    [0, 'Meta'], [1, 'Who you are to this user'], [2, 'The user'],
+    [0, 'About this report'], [1, 'Who you are to this user'], [2, 'The user'],
     [3, 'Preferences'], [4, 'Operating rules'], [5, 'People'],
     [6, 'Projects and open loops'], [7, 'Calibration history'],
     [8, 'Your voice with this user'], [9, 'Boundaries and sealed material'],
@@ -798,6 +798,11 @@ What a successor would need that you do not have: list them as plain questions. 
     return out;
   }
 
+  // Section 0 was titled "Meta" in format v1/v2. It is "About this
+  // report" from format v3 on; the old title stays accepted forever
+  // so existing capsules and self-reports keep compiling.
+  var LEGACY_TITLES = { 0: ['meta'] };
+
   function compileCapsule(raw) {
     var text = raw.replace(/```[a-z]*\n?/gi, '');
     var lines = text.split(/\r?\n/);
@@ -807,7 +812,7 @@ What a successor would need that you do not have: list them as plain questions. 
       if (!m) {
         // Rendered document text has no markdown hashes: an AI app
         // that returns the report as a formatted document gives
-        // plain numbered heading lines instead ("0. Meta"). Accept
+        // plain numbered heading lines instead ("0. About this report"). Accept
         // those only when the title is exactly a canonical section
         // title, so numbered lists inside a section body never
         // split it.
@@ -816,7 +821,7 @@ What a successor would need that you do not have: list them as plain questions. 
           var want = parseInt(p[1], 10);
           var title = p[2].replace(/[:.]$/, '').toLowerCase();
           for (var ci = 0; ci < CANON.length; ci++) {
-            if (CANON[ci][0] === want && CANON[ci][1].toLowerCase() === title) { m = p; break; }
+            if (CANON[ci][0] === want && (CANON[ci][1].toLowerCase() === title || (LEGACY_TITLES[want] || []).indexOf(title) !== -1)) { m = p; break; }
           }
         }
       }
