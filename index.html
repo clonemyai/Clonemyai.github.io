@@ -395,7 +395,7 @@
             </div>
           </li>
           <li>
-            <div><strong>Bring it back and build your capsule.</strong> If your AI made a file, download it. If it replied in the chat, use the copy button under its reply instead of selecting the text by hand: the button grabs the whole document at once, even the parts you have not scrolled to. Come back to this page, paste it into the compiler below (or drop the file in), and press <strong>Compile my capsule</strong>. Got documents from more than one AI? Drop them all at once and the compiler merges them into a single capsule. It downloads as one file, capsule.md. Send it to your new AI, with the line at the top of the file pasted into the same message.
+            <div><strong>Bring it back and build your capsule.</strong> If your AI made a file, download it. If it replied in the chat, use the copy button under its reply instead of selecting the text by hand: the button grabs the whole document at once, even the parts you have not scrolled to. Come back to this page, paste it into the compiler below (or drop the file in), and press <strong>Compile my capsule</strong>. Got documents from more than one AI? Drop them all at once and the compiler merges them into a single capsule. It downloads as one file, capsule.md. Send it to your new AI, with the install line pasted into the same message: the compiler gives you a button that copies the line, so you never have to open the file to find it.
             <style>.steps .compiler{margin:1.1rem 0 0;max-width:none}</style>
             <div class="compiler">
               <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
@@ -429,8 +429,9 @@
                 <textarea id="capsulePreview" rows="10" readonly></textarea>
                 <div class="row">
                   <button type="button" id="dlCapsule">Download capsule.md again</button>
+                  <button type="button" class="primary" id="copyLineBtn">Copy install line</button>
                 </div>
-                <p class="fineprint">Send the file to your new AI in one message, with the line at the top of the file pasted into that same message. Files sent with no text can leave the new AI asking what they are for. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
+                <p class="fineprint">Next step: send capsule.md to your new AI in one message, and paste the install line into that same message. The button puts the line on your clipboard, so you never have to open the file and hunt for it. The same line waits at the end of the file if you need it later. Files sent with no text can leave the new AI asking what they are for. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
               </div>
 
 <style>
@@ -663,7 +664,7 @@
   </main>
 
   <footer>
-    <span>clonemy.ai, working prototype &middot; v2.7</span>
+    <span>clonemy.ai, working prototype &middot; v2.8</span>
     <span><a href="/format/">The Capsule Format</a> &middot; <a href="/whitepaper/">White paper</a> &middot; <a href="/move/">Move your AI</a></span>
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
@@ -781,6 +782,7 @@ What a successor would need that you do not have: list them as plain questions. 
     [10, 'Unknowns']
   ];
   var lastCapsule = '', lastInstall = '';
+  var INSTALL_LINE = 'Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, and my open loops.';
 
   function cleanLines(lines) {
     var seen = {}, out = [], blank = false;
@@ -1106,16 +1108,16 @@ What a successor would need that you do not have: list them as plain questions. 
       if (secondBreak !== -1) {
         result.text = result.text.slice(0, secondBreak + 2) + flavorBlock + result.text.slice(secondBreak + 2);
       }
-      var header = '# READ THIS FIRST (for you, not your AI)\n\nFlavor of this capsule: ' + flavorMeta.label + '. ' + coverNote + '\n\nSend this one file to your new AI, and paste this line in the SAME message. The line matters: files sent with no text can leave the new AI asking what they are for.\n\n"Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, and my open loops."\n\nIf it still asks how much to take on, send this: "All of it. Adopt the whole capsule now, and announce what you installed."\n\nIf it talks as if you were asking it to pretend to be another AI, send this: "This is my own configuration file: my preferences, my rules, my records. Loading it is like importing settings. You stay yourself; just work from my capsule."\n\nEverything below this line is the capsule itself.\n\n---\n\n';
-      lastCapsule = header + result.text;
-      if (sourceCount > 1) { lastCapsule = lastCapsule.replace('---\n\n', '---\n\nMerged capsule: this capsule combines ' + sourceCount + ' source documents the user collected from their AIs into one personality. Where two sources disagree, treat the disagreement as an unknown to ask the user about, never a detail to guess at.\n\n'); }
+      var humanBlock = '\n---\n\n# READ THIS LAST (for you, not your AI)\n\nFlavor of this capsule: ' + flavorMeta.label + '. ' + coverNote + '\n\nEverything above this line is the capsule itself, written for your new AI, not for you. To install it, send this file to your new AI, and paste this line in the SAME message. The line matters: files sent with no text can leave the new AI asking what they are for. The compiler page has a Copy install line button that puts this line on your clipboard, so you never have to hunt for it here.\n\n"' + INSTALL_LINE + '"\n\nIf it still asks how much to take on, send this: "All of it. Adopt the whole capsule now, and announce what you installed."\n\nIf it talks as if you were asking it to pretend to be another AI, send this: "This is my own configuration file: my preferences, my rules, my records. Loading it is like importing settings. You stay yourself; just work from my capsule."\n';
+      lastCapsule = result.text + humanBlock;
+      if (sourceCount > 1) { lastCapsule = lastCapsule.replace('**For the AI receiving this file:**', 'Merged capsule: this capsule combines ' + sourceCount + ' source documents the user collected from their AIs into one personality. Where two sources disagree, treat the disagreement as an unknown to ask the user about, never a detail to guess at.\n\n**For the AI receiving this file:**'); }
       lastInstall = '';
       document.getElementById('capsulePreview').value = lastCapsule;
       var out = document.getElementById('compileOut');
       function finishCompile() {
         out.hidden = false;
         if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); if (sourceCount > 1) { window.goatcounter.count({ path: 'combine', title: 'Capsules combined', event: true }); } }
-        status.textContent = sourceCount > 1 ? ('Done. Combined ' + sourceCount + ' sources into one capsule, and capsule.md is downloading now. ' + result.found + ' of 11 sections found across your documents. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. If the download did not start, use the download button below.') : ('Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. If the download did not start, use the download button below.');
+        status.textContent = sourceCount > 1 ? ('Done. Combined ' + sourceCount + ' sources into one capsule, and capsule.md is downloading now. ' + result.found + ' of 11 sections found across your documents. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. If the download did not start, use the download button below. Then copy the install line just below and paste it into the same message as the file.') : ('Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. If the download did not start, use the download button below. Then copy the install line just below and paste it into the same message as the file.');
         var det = document.getElementById('flavorDetect');
         if (det) {
           det.innerHTML = '<span class="fd-label">Flavor locked in</span><span class="fd-pill">' + flavorMeta.label + '</span> ' + (flavor.chosen ? '(your pick)' : '(auto-detected)');
@@ -1132,6 +1134,20 @@ What a successor would need that you do not have: list them as plain questions. 
       runCompileProgress(raw, finishCompile);
     });
     document.getElementById('dlCapsule').addEventListener('click', function () { if (lastCapsule) { makeDownload('capsule.md', lastCapsule); } });
+    document.getElementById('copyLineBtn').addEventListener('click', function () {
+      var btn = this;
+      function done() { if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'copyline', title: 'Install line copied', event: true }); } btn.textContent = 'Copied, paste it with the file'; setTimeout(function () { btn.textContent = 'Copy install line'; }, 2600); }
+      function fallbackCopy() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = INSTALL_LINE; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch (e) {}
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(INSTALL_LINE).then(done, function () { fallbackCopy(); done(); }); } else { fallbackCopy(); done(); }
+    });
     var ci = document.getElementById('compileInput');
     if (ci) {
       ci.addEventListener('input', function () { refreshCompileReady(); });
