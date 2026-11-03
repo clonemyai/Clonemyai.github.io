@@ -52,6 +52,9 @@
   .tag { display:inline-block; font-size:12px; border:1px solid var(--line-strong, #d8d2c6); border-radius:999px; padding:1px 8px; margin-left:8px; color:var(--ink-2); background:var(--surface); }
   footer { border-top:1px solid var(--line); padding-top:18px; margin-top:36px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-3); }
   .sig { background: var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+  .sig-heart { width:1em; height:1em; vertical-align:-0.12em; fill:#ff5ea8; }
+  :root[data-theme="light"] .sig-heart { fill:#e03d86; }
+  @media (prefers-color-scheme: light){ :root:not([data-theme]) .sig-heart { fill:#e03d86; } }
   .srcs { font-size:13.5px; color:var(--ink-2); }
   form { margin:18px 0 6px; }
   label { display:block; font-size:14px; font-weight:650; color:var(--ink); margin:16px 0 6px; }
@@ -85,13 +88,33 @@
     <button class="send" type="submit">Send</button>
   </form>
   <p class="fine">Your message goes to the clonemy.ai inbox, and nothing else is collected by this site.</p>
-  <p>Prefer email? <a href="mailto:hello@clonemy.ai">hello@clonemy.ai</a></p>
+  <p>Prefer email? <a id="emailLink" href="mailto:hello@clonemy.ai">hello@clonemy.ai</a> <span id="emailCopied" class="fine" aria-live="polite"></span></p>
 
   <footer>
     <span>clonemy.ai, working prototype</span>
-    <div class="sig">Built with 🩷 by a founder and his AI, in California.</div>
+    <div class="sig">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, in California.</div>
   </footer>
 </div>
+<script>
+  // Clicking the email link also copies the address, for machines
+  // with no default mail app where the mailto click alone opens
+  // nothing. The mailto default is never blocked: both can happen,
+  // and if the clipboard is unavailable the link still does its job.
+  (function () {
+    var link = document.getElementById('emailLink');
+    var note = document.getElementById('emailCopied');
+    if (!link || !note) { return; }
+    var timer = null;
+    link.addEventListener('click', function () {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) { return; }
+      navigator.clipboard.writeText('hello@clonemy.ai').then(function () {
+        note.textContent = 'Copied';
+        if (timer) { clearTimeout(timer); }
+        timer = setTimeout(function () { note.textContent = ''; }, 2000);
+      }).catch(function () {});
+    });
+  })();
+</script>
 <script>
   // Theme toggle: flips the theme for this session only. The choice
   // lives in session storage, never leaves the browser, and is gone

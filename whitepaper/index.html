@@ -42,6 +42,9 @@
   th { background:var(--box-bg); }
   footer { border-top:1px solid var(--line); padding-top:18px; margin-top:36px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-3); }
   .sig { background: var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+  .sig-heart { width:1em; height:1em; vertical-align:-0.12em; fill:#ff5ea8; }
+  :root[data-theme="light"] .sig-heart { fill:#e03d86; }
+  @media (prefers-color-scheme: light){ :root:not([data-theme]) .sig-heart { fill:#e03d86; } }
 </style>
 </head>
 <body>
@@ -93,7 +96,7 @@
 <ol><li>OpenAI, Memory in ChatGPT; Custom Instructions; Exporting your data. help.openai.com, articles 8590148, 8096356, 20001279.</li><li>Anthropic, Import and export your memory from Claude. support.claude.com, article 12123587.</li><li>Google, Import from other AI platforms to Gemini Apps. support.google.com/gemini, answer 16868299.</li><li>Google, Personal context and saved info; Export Gemini data with Takeout. support.google.com/gemini, answers 16413516, 16920332.</li><li>Microsoft, Copilot privacy controls and memory. support.microsoft.com, Copilot privacy controls.</li><li>past.dev, Grok memory teardown, September 2026; TechCrunch, Grok gets memory, April 2025.</li><li>Kaspersky, DeepSeek privacy and data controls, 2026.</li><li>clonemy.ai, The Capsule Format, clonemy.ai/format. Move your AI, clonemy.ai/move.</li><li>clonemy.ai, Parity evidence (anonymized scorecards), available on request.</li></ol>
   <footer>
     <span>clonemy.ai white paper, v1.0, November 2026</span>
-    <div class="sig">Built with 🩷 by a founder and his AI, in California.</div>
+    <div class="sig">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, in California.</div>
   </footer>
 </div>
 <script>
