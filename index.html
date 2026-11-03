@@ -37,6 +37,10 @@
     --pink:#ff5ea8;
     --grad:linear-gradient(90deg,#7b6cff,#37c8e8 55%,#ff5ea8);
     --grad-text:var(--grad);
+    --on-grad:#0b0b14;
+    --btn-primary-shadow:0 0 18px rgba(55,200,232,.35),0 0 44px rgba(123,108,255,.22);
+    --btn-primary-shadow-hover:0 0 26px rgba(55,200,232,.5),0 0 58px rgba(255,94,168,.25);
+    --btn-ready-shadow:0 0 26px rgba(55,200,232,.45),0 0 52px rgba(123,108,255,.22);
     --accent-text:#37c8e8;
     --pink-text:#ff5ea8;
     --eyebrow:#9db4ff;
@@ -100,6 +104,11 @@
     --line:#e6e1d8;
     --line-strong:#d8d2c6;
     --grad-text:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86);
+    --grad:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86);
+    --on-grad:#ffffff;
+    --btn-primary-shadow:0 0 16px rgba(14,127,168,.25),0 0 38px rgba(90,72,224,.16);
+    --btn-primary-shadow-hover:0 0 22px rgba(14,127,168,.38),0 0 50px rgba(224,61,134,.20);
+    --btn-ready-shadow:0 0 24px rgba(14,127,168,.35),0 0 48px rgba(90,72,224,.20);
     --accent-text:#14584a;
     --pink-text:#cf2e7d;
     --eyebrow:#5046d6;
@@ -161,6 +170,11 @@
       --line:#e6e1d8;
       --line-strong:#d8d2c6;
       --grad-text:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86);
+    --grad:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86);
+    --on-grad:#ffffff;
+    --btn-primary-shadow:0 0 16px rgba(14,127,168,.25),0 0 38px rgba(90,72,224,.16);
+    --btn-primary-shadow-hover:0 0 22px rgba(14,127,168,.38),0 0 50px rgba(224,61,134,.20);
+    --btn-ready-shadow:0 0 24px rgba(14,127,168,.35),0 0 48px rgba(90,72,224,.20);
       --accent-text:#14584a;
       --pink-text:#cf2e7d;
       --eyebrow:#5046d6;
@@ -384,10 +398,21 @@
 
   /* ---------- product shot ---------- */
   section{padding:84px 0 10px}
+  /* Section eyebrows sit inside capsule pills: glass fill, hairline
+     border, and the label text in the brand gradient. */
   .kicker{
     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-    font-size:.76rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent-text);
-    text-align:center;margin:0 0 .6rem;
+    font-size:.76rem;letter-spacing:.15em;text-transform:uppercase;
+    width:fit-content;max-width:100%;margin:0 auto .7rem;padding:.36rem 1rem .4rem;
+    border:1px solid var(--pane-border);border-radius:999px;
+    background:var(--pane-bg);box-shadow:var(--pane-shadow);
+    backdrop-filter:blur(8px) saturate(1.05);-webkit-backdrop-filter:blur(8px) saturate(1.05);
+    text-align:center;
+  }
+  .kicker > span{
+    display:inline-block;
+    background:var(--grad-text);-webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
   }
   h2{font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:800;letter-spacing:-.02em;text-align:center;margin:0 auto 1rem;max-width:24ch}
   .section-sub{text-align:center;color:var(--ink-2);max-width:58ch;margin:0 auto;font-size:1.05rem}
@@ -602,11 +627,11 @@
   }
   .compiler button:hover{border-color:var(--accent-text)}
   .compiler button.primary{
-    background:var(--grad);color:#0b0b14;font-weight:800;border:0;box-shadow:var(--btn-shadow);
+    background:var(--grad);color:var(--on-grad);font-weight:800;border:0;box-shadow:var(--btn-primary-shadow);
   }
-  .compiler button.primary:hover{box-shadow:var(--btn-shadow-hover)}
+  .compiler button.primary:hover{box-shadow:var(--btn-primary-shadow-hover)}
   .compiler button:disabled{opacity:.62;cursor:wait}
-  #compileBtn.ready{box-shadow:0 0 26px rgba(55,200,232,.45),0 0 52px rgba(123,108,255,.22)}
+  #compileBtn.ready{box-shadow:var(--btn-ready-shadow)}
   .flavor-detect{
     margin-top:.75rem;font-size:.95rem;line-height:1.55;padding:.8rem .95rem;
     border:1.5px solid var(--btn-border);border-radius:12px;background:var(--install-bg);color:var(--ink-2);
@@ -618,7 +643,7 @@
   .flavor-detect .fd-name{font-weight:800;color:var(--ink);font-size:1.03rem}
   .flavor-detect .fd-pill{
     display:inline-block;padding:.08rem .6rem;border-radius:999px;background:var(--grad);
-    color:#0b0b14;font-weight:800;font-size:.92rem;
+    color:var(--on-grad);font-weight:800;font-size:.92rem;
   }
   .flavor-detect.locked{border-color:var(--pink);box-shadow:0 0 22px rgba(255,94,168,.18)}
   .flavor-row{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:.85rem}
@@ -704,6 +729,15 @@
     .compiler .dropzone{min-height:220px}
     .confirm ol{grid-template-columns:1fr;gap:14px}
     .confirm{margin-top:34px}
+    /* Mobile pass, stacked widths: the stacked presentation is the
+       mobile version of the site, so its controls get full-size tap
+       targets and its textareas sit at the size where phone and
+       tablet browsers stop zooming the page on focus. */
+    .compiler textarea{font-size:16px;line-height:1.5}
+    .way-btn{min-height:42px}
+    .flavor-chip{display:inline-flex;align-items:center;min-height:42px}
+    .theme-toggle{display:inline-flex;align-items:center;min-height:42px}
+    .desk-details summary{padding-block:.55rem}
   }
   @media (max-width: 700px){
     .ways{padding:.9rem}
@@ -711,9 +745,335 @@
     .comparison-v3{padding-top:58px}
     .closing-v3{padding:0 18px;margin-top:48px}
     .version-row{flex-direction:column}
+    /* Mobile pass, phone widths: the footer link row was wider than
+       a phone and scrolled the whole page sideways; the comparison
+       table and the demo film touched the screen edges while every
+       other section sits 18px in; the header and footer links were
+       shorter than a comfortable tap; and two flex rows could spill
+       out of their panes on the smallest phones. */
+    .foot-links{flex-wrap:wrap;row-gap:12px}
+    .foot-links a{padding-block:.55rem}
+    nav.topnav a{padding-block:.55rem}
+    .compare-wrap{padding:0 18px}
+    .demo{padding-left:18px;padding-right:18px}
+    .way-row{flex-wrap:wrap}
+    .way-head{min-width:0}
+    .capsule-bar{flex-wrap:wrap}
   }
 
 </style>
+<style id="shelf-port">
+  /* ============ v4.0: the shelf ============
+     The homepage is a horizontal shelf of six panels on desktop and
+     a vertical page on small screens. This block is additive: the
+     production rules above stay in force. What follows lays the
+     sections into panels, adds the shelf chrome (index, arrows, edge
+     chevrons, counter, progress), translates the shelf into the light
+     theme through the shared variables, and compacts at short window
+     heights so panels fit instead of scrolling. One gradient dialect
+     per theme: fills use --grad, text uses --grad-text, exactly as
+     the rest of the page. */
+
+  /* Header geometry is a fixed value per band, identical in both
+     themes: --head-h in shelf mode, --head-h-compact in the vertical
+     version. The shelf's top offset is computed from the same
+     variable, so the panel top lands at the same height in dark and
+     light, and the header can never wrap into the panel's space. */
+  :root{--head-h:64px;--head-h-compact:112px}
+
+  @media (min-width: 1441px){
+    body{overflow:hidden}
+  }
+
+  /* The production header becomes the shelf's fixed head. */
+  header.top{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    max-width:none;height:var(--head-h);box-sizing:border-box;flex-wrap:nowrap;
+    padding:12px clamp(18px,3vw,42px) 10px;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--bg) 88%, transparent), color-mix(in srgb, var(--bg) 52%, transparent) 72%, transparent);
+  }
+  .head-right .counter{
+    min-width:4.7rem;text-align:right;color:var(--ink-3);
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:.82rem;letter-spacing:.08em;
+  }
+  /* The toggle's box is fixed and theme-invariant, so the Light and
+     Dark labels occupy the identical pill and the header's geometry
+     cannot diverge between themes. */
+  .theme-toggle{
+    min-width:120px;min-height:42px;
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:.42rem .9rem;
+  }
+  /* In the light theme the counter takes the ink-2 used by the nav:
+     ink-3 (#8a8378) on the paper header is only about 3.6:1, while
+     ink-2 (#4f4a42) is about 8.4:1. Color only; the box is unchanged. */
+  :root[data-theme="light"] .head-right .counter{color:var(--ink-2)}
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]) .head-right .counter{color:var(--ink-2)}
+  }
+
+  /* ---------- shelf layout ---------- */
+  .shelf{
+    height:100vh;height:100dvh;
+    display:flex;align-items:stretch;
+    gap:clamp(16px,2vw,28px);
+    overflow-x:auto;overflow-y:hidden;
+    padding:calc(var(--head-h) + 22px) clamp(16px,3vw,44px) 94px;
+    scroll-snap-type:x proximity;
+    scroll-padding-left:clamp(16px,3vw,44px);
+    scrollbar-width:none;overscroll-behavior-x:contain;
+  }
+  .shelf::-webkit-scrollbar{display:none}
+  .shelf section{padding-top:0;padding-bottom:0}
+  .shelf .wrap{padding-left:12px;padding-right:12px}
+  .panel{
+    position:relative;flex:0 0 auto;height:100%;padding:0;
+    border:1px solid var(--line);border-radius:24px;
+    background:var(--panel-grad),var(--panel);
+    box-shadow:var(--panel-shadow);
+    scroll-snap-align:center;overflow:hidden;
+  }
+  .panel.p-desk{flex-basis:min(1460px,92vw);scroll-snap-align:start}
+  .panel.wide{flex-basis:min(1180px,86vw)}
+  .panel.demo-panel{flex-basis:min(1080px,82vw)}
+  .panel-inner{
+    height:100%;overflow-y:auto;overflow-x:hidden;
+    padding:28px 30px;
+    scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent;
+  }
+  .panel-inner::-webkit-scrollbar{width:6px}
+  .panel-inner::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:99px}
+
+  /* Panel 1: the production desk, tightened to panel life. Its stage
+     field is clipped by the panel, which reads as the panel's own
+     glow, so the field insets shrink to match. */
+  .shelf .desk{padding:4px 0 2px}
+  .shelf .desk-panel{margin-top:26px}
+  .shelf .desk-panel::before{inset:-30px -22px}
+
+  /* Panels 3 and 4 carry a shelf panel head built from the
+     production kicker pill. The confirmations title takes h2
+     metrics so the panel reads at the same scale as its siblings. */
+  .panel-head{max-width:920px;margin:0 auto 1.5rem;text-align:center}
+  .panel-head .kicker{margin-bottom:1rem}
+  .shelf .confirm-kicker{margin-bottom:1rem}
+  .shelf .confirm{margin-top:0}
+  .shelf .confirm .confirm-title{
+    font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:800;letter-spacing:-.02em;
+    line-height:1.15;max-width:24ch;margin:0 auto 1.6rem;
+  }
+  .shelf .planks{margin-top:8px}
+
+  /* Panel 5 and 6 widths inside their panels. */
+  .shelf .compare-wrap{max-width:920px}
+  .shelf .demo{margin:0 auto;max-width:920px}
+  .shelf .closing-v3{margin-top:34px}
+  .shelf footer{margin-top:36px;padding:24px 0 8px}
+
+  /* ---------- shelf chrome ---------- */
+  .shelf-ui{
+    position:fixed;inset:auto 0 20px 0;z-index:70;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 clamp(16px,3vw,42px);pointer-events:none;
+  }
+  .nav-btn{
+    pointer-events:auto;display:grid;width:48px;height:48px;place-items:center;
+    border:1px solid var(--line);border-radius:50%;
+    background:var(--panel);color:var(--ink);
+    box-shadow:var(--pane-shadow);cursor:pointer;
+    font-size:1.55rem;line-height:1;
+  }
+  .nav-btn:hover{border-color:var(--line-strong)}
+  .nav-btn:disabled{opacity:.34;cursor:default}
+  .progress-wrap{pointer-events:auto;width:min(780px,62vw);margin:0 auto;text-align:center}
+  .shelf-progress-track{height:3px;overflow:hidden;border-radius:99px;background:var(--line)}
+  .shelf-progress-fill{width:16.66%;height:100%;border-radius:99px;background:var(--grad);transition:width .25s ease}
+  .shelf-index{display:flex;flex-wrap:wrap;justify-content:center;gap:.42rem;margin-top:.62rem}
+  .index-stop{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:.38rem .72rem;
+    border:1px solid var(--pane-border);border-radius:999px;
+    background:var(--pane-bg);box-shadow:var(--pane-shadow);
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    white-space:nowrap;cursor:pointer;
+  }
+  .index-stop span{color:var(--ink-3)}
+  .index-stop:hover span{color:var(--ink-2)}
+  .index-stop.active{border-color:var(--btn-border);box-shadow:var(--btn-shadow)}
+  .index-stop.active span{
+    background:var(--grad-text);-webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+  }
+  .edge-nav{
+    position:fixed;top:50%;z-index:65;display:grid;
+    width:56px;height:96px;place-items:center;padding:0;border:0;
+    background:transparent;color:var(--ink-3);opacity:.55;
+    font-size:2rem;line-height:1;transform:translateY(-50%);
+    cursor:pointer;pointer-events:auto;
+    transition:color .18s ease,opacity .18s ease,text-shadow .18s ease;
+  }
+  .edge-nav-prev{left:2px}
+  .edge-nav-next{right:2px}
+  .edge-nav:hover:not(:disabled),.edge-nav:focus-visible{
+    color:var(--ink);opacity:1;text-shadow:0 0 18px var(--glow-2);outline:none;
+  }
+  .edge-nav:disabled{opacity:0;pointer-events:none;cursor:default}
+
+  /* ---------- height tiers ----------
+     The real desk is denser than the concept mock, so the shelf
+     compacts in three tiers. Tall windows keep the base design.
+     The type that drives panel height is sized in vh, because
+     height is the constraint. */
+  @media (max-height: 1200px){
+    .shelf{padding-top:calc(var(--head-h) + 16px);padding-bottom:86px}
+    .panel-inner{padding:26px 30px}
+    .shelf h1{font-size:clamp(2.55rem,6.9vh,4.15rem);margin-bottom:.8rem}
+    .shelf .sub{font-size:1.1rem}
+    .shelf .desk-panel{margin-top:24px;padding:21px 22px 17px}
+    .shelf .desk-grid{grid-template-columns:1fr auto 1.16fr auto 1fr}
+    .shelf .step{padding:16px 18px 14px}
+    .shelf .step p{line-height:1.52}
+    .shelf .dropzone{padding:20px 18px}
+    .shelf .compiler .status{margin-top:.5rem}
+    .shelf .desk-foot{margin-top:18px;padding-top:13px}
+  }
+  @media (max-height: 1000px){
+    .shelf{padding-top:calc(var(--head-h) + 10px);padding-bottom:78px}
+    .panel-inner{padding:22px 28px}
+    .shelf h1{font-size:clamp(2.45rem,6.2vh,3.95rem);margin-bottom:.65rem}
+    .shelf .sub{font-size:1.04rem}
+    .shelf .desk-panel{margin-top:18px;padding:17px 20px 13px}
+    .shelf .step{padding:14px 16px 11px}
+    .shelf .step p{line-height:1.5}
+    .shelf .dropzone{padding:14px 16px}
+    .shelf .desk-foot{margin-top:12px;padding-top:10px}
+    .shelf h2{font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:.8rem}
+    .shelf .capsule{margin-top:26px}
+    .shelf .capsule-body{padding:22px 26px 24px}
+    .shelf .section-list{grid-template-columns:repeat(3,1fr)}
+    .shelf .plank{padding:24px 24px}
+    .shelf table.compare th,.shelf table.compare td{padding:.62rem .8rem}
+    .shelf .demo-video{width:min(100%,746px)}
+    .shelf .demo .lede{margin-bottom:1rem}
+  }
+  @media (max-height: 850px){
+    .shelf{padding-top:calc(var(--head-h) + 2px);padding-bottom:68px}
+    .panel-inner{padding:14px 24px}
+    .shelf h1{font-size:clamp(2.3rem,5.7vh,3.7rem);margin-bottom:.5rem}
+    .shelf .eyebrow{font-size:1rem;margin-bottom:.25rem}
+    .shelf .sub{font-size:.99rem}
+    .shelf .desk-panel{margin-top:12px;padding:13px 16px 10px}
+    .shelf .step{padding:11px 13px 9px}
+    .shelf .step h3{margin-bottom:.35rem}
+    .shelf .step p{margin-bottom:.55rem;line-height:1.45}
+    .shelf .dropzone{padding:9px 14px}
+    .shelf .desk-foot{margin-top:8px;padding-top:8px}
+    .shelf .capsule-body{padding:16px 20px 18px}
+    .shelf .section-list li{padding:.14rem 0}
+    .shelf .plank{padding:18px 19px}
+    .shelf table.compare th,.shelf table.compare td{padding:.46rem .68rem;font-size:.92rem}
+    .shelf .demo-video{width:min(100%,590px)}
+    .shelf .closing-v3{margin-top:20px}
+    .shelf footer{margin-top:22px}
+  }
+
+  /* ---------- width steps (desktop shelf) ---------- */
+  @media (max-width: 980px){
+    .panel.p-desk{flex-basis:94vw}
+    .panel.wide,.panel.demo-panel{flex-basis:88vw}
+  }
+  @media (max-width: 700px){
+    .shelf{gap:14px;padding:72px 12px 86px;scroll-padding-left:12px}
+    .panel,.panel.p-desk,.panel.wide,.panel.demo-panel{
+      flex-basis:calc(100vw - 24px);border-radius:22px;
+    }
+    .panel-inner{padding:20px 17px 24px}
+    header.top{padding:10px 16px 8px}
+    .head-right .counter{font-size:.74rem}
+    .progress-wrap{flex:1 1 auto;width:auto;margin:0 .4rem}
+    .shelf-index{gap:.3rem;margin-top:.5rem}
+    .index-stop{padding:.28rem .48rem;font-size:.56rem;letter-spacing:.07em}
+    .nav-btn{width:42px;height:42px}
+    .edge-nav{width:44px;height:84px;font-size:1.7rem}
+  }
+
+  /* ---------- vertical version ----------
+     At and under 1440px the shelf unstacks into a native vertical
+     page: same panels, same order, page scroll, the header in a
+     compact two-row form, the index as the section jumper in a
+     fixed bottom bar, and the desktop-only furniture (edge
+     chevrons, corner arrows, the wheel pager) retired.
+     The breakpoint is derived from the desk, not picked. In shelf
+     mode the desk grid (1fr auto 1.16fr auto 1fr, gap 34px) needs
+     its outer steps at the 320px readable floor: columns
+     320 + 371 + 320 = 1011px, plus 136px of gaps and 50px of arrow
+     tracks, a 1197px grid. Between the panel edge and the grid sit
+     130px of chrome (panel border 2, panel-inner padding 60, wrap
+     padding 24, desk-panel padding 44, in the binding max-height
+     1200px tier), so the desk panel must be 1327px wide. The panel
+     is min(1460px, 92vw), so the viewport must reach 1327 / 0.92 =
+     1442px: the shelf runs from 1441px up, where the outer steps
+     compute to 319.5px, and the vertical version owns everything
+     below. (Tall windows trade the 1.16fr middle for equal thirds
+     and slightly more desk-panel padding; at 1441px each column
+     computes to about 334px, so the same breakpoint holds.) */
+  @media (max-width: 1440px){
+    html,body{height:auto}
+    body{overflow-x:hidden;overflow-y:visible}
+    .shelf{
+      height:auto;display:flex;flex-direction:column;align-items:stretch;
+      gap:18px;overflow:visible;
+      padding:calc(var(--head-h-compact) + 16px) 12px 150px;scroll-snap-type:none;
+    }
+    .panel,.panel.p-desk,.panel.wide,.panel.demo-panel{
+      flex:none;width:100%;height:auto;scroll-snap-align:none;
+    }
+    .panel-inner{height:auto;overflow:visible;padding:22px 18px 26px}
+    /* Compact header, two rows, exactly --head-h-compact tall in
+       both themes: the wordmark row carries the counter and the
+       toggle on the right (head-right dissolves so its children lay
+       out as header items), and the nav takes its own row with
+       full-size tap targets. Fixed height plus border-box means no
+       width in this band can push the header into the panel. */
+    header.top{
+      height:var(--head-h-compact);flex-wrap:wrap;align-content:center;
+      row-gap:8px;padding:10px 18px;
+    }
+    .head-right{display:contents}
+    header.top .wordmark{order:1}
+    .head-right .counter{order:2;margin-left:auto}
+    header.top .theme-toggle{order:3}
+    nav.topnav{order:4;flex:1 1 100%}
+    nav.topnav a{padding-block:.6rem}
+    /* The desk stacks in one column across the whole vertical band,
+       not only under the production 960px rule, whose single-class
+       selectors lose to the shelf height tiers at short heights. */
+    .shelf .desk-grid{grid-template-columns:1fr;gap:20px}
+    .shelf .arrow{
+      display:block;justify-self:center;align-self:center;
+      transform:rotate(90deg);font-size:1.15rem;opacity:.6;line-height:1;
+    }
+    .shelf .demo-video{width:100%}
+    .edge-nav{display:none}
+    .shelf-ui{
+      inset:auto 0 0 0;
+      padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+      background:linear-gradient(0deg, color-mix(in srgb, var(--bg) 94%, transparent) 55%, transparent);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    }
+    .shelf-ui .nav-btn{display:none}
+    .progress-wrap{flex:1 1 auto;width:auto;margin:0}
+  }
+  /* Phone widths inside the vertical band: the capsule's section
+     list stacks to one column even at short window heights, where
+     the shelf height tier would otherwise hold it at three. */
+  @media (max-width: 960px){
+    .shelf .section-list{grid-template-columns:1fr}
+  }
+</style>
+
 </head>
 <body>
 
@@ -725,11 +1085,14 @@
       <a href="/whitepaper">White paper</a>
       <a href="/extract">Extract</a>
     </nav>
+    <div class="counter" id="panelCounter" aria-live="polite">01 / 06</div>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">&#9728; Light</button>
   </div>
 </header>
 
-<main>
+<main class="shelf" id="shelf" aria-label="clonemy.ai shelf">
+  <section class="panel p-desk" data-panel aria-label="The transfer desk">
+    <div class="panel-inner">
   <div class="desk wrap">
     <p class="eyebrow">You spent time making your AI just for you.</p>
     <h1>Your AI knows you.<br /><span class="grad-text">Take that with you.</span></h1>
@@ -938,20 +1301,14 @@
     </div>
   </div>
 
+    </div>
+  </section>
+  <section class="panel wide" data-panel aria-label="The product">
+    <div class="panel-inner">
 <section class="wrap" aria-labelledby="shot-heading">
-    <p class="kicker">The product</p>
+    <p class="kicker"><span>The product</span></p>
     <h2 id="shot-heading">This is what travels</h2>
     <p class="section-sub">Not a summary and not a chat export. A capsule is a single structured file, written by your old AI and read by your new one. The report behind it is strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention. Here is one, opened up.</p>
-
-    <div class="confirm">
-      <p class="confirm-title">Your new AI confirms the transfer</p>
-      <ol>
-        <li><b>1</b>Who it is to you, and how it sounds with you.</li>
-        <li><b>2</b>Your never-do rules and approval-first rules, in your own words.</li>
-        <li><b>3</b>Your open loops right now, with prices and deadlines.</li>
-      </ol>
-      <p class="confirm-close"><strong>Built once, kept current.</strong> The day you switch, you are already packed.</p>
-    </div>
 
     <div class="capsule" role="img" aria-label="An example capsule file, showing its title, flavor line, install line, and eleven sections">
       <div class="capsule-bar">
@@ -986,8 +1343,30 @@
       </div>
     </div>
     <p class="capsule-caption">An example capsule with invented details, so you can see the shape. Yours holds your real ones, and it never passes through our hands.</p>
-  </section>
 
+</section>
+    </div>
+  </section>
+  <section class="panel wide" data-panel aria-label="The confirmations">
+    <div class="panel-inner">
+    <p class="kicker confirm-kicker"><span>After restore</span></p>
+    <div class="confirm">
+      <p class="confirm-title">Your new AI confirms the transfer</p>
+      <ol>
+        <li><b>1</b>Who it is to you, and how it sounds with you.</li>
+        <li><b>2</b>Your never-do rules and approval-first rules, in your own words.</li>
+        <li><b>3</b>Your open loops right now, with prices and deadlines.</li>
+      </ol>
+      <p class="confirm-close"><strong>Built once, kept current.</strong> The day you switch, you are already packed.</p>
+    </div>
+    </div>
+  </section>
+  <section class="panel wide" data-panel aria-label="Why clonemy works this way">
+    <div class="panel-inner">
+    <div class="panel-head">
+      <p class="kicker"><span>Why it works</span></p>
+      <h2>Why clonemy works this way</h2>
+    </div>
 <section class="wrap" aria-label="Why clonemy works this way">
     <div class="planks">
       <div class="plank">
@@ -1010,9 +1389,12 @@
       </div>
     </div>
   </section>
-
+    </div>
+  </section>
+  <section class="panel wide" data-panel aria-label="The difference">
+    <div class="panel-inner">
   <section class="wrap comparison-v3" aria-labelledby="comparison-heading">
-    <p class="kicker">The difference</p>
+    <p class="kicker"><span>The difference</span></p>
     <h2 id="comparison-heading">Not another import</h2>
     <p class="section-sub">Their basic import moves your chat history and leaves you to figure out the rest on your own. A summary is not a personality.</p>
   </section>
@@ -1040,7 +1422,7 @@
           <tr>
             <th scope="col"><span class="col-icon"></span></th>
             <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="6" y="20" width="36" height="20" rx="4" stroke="#8a8fa3" stroke-width="2.5"/><path d="M24 6v18m0 0l-6-6m6 6l6-6" stroke="#8a8fa3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Their import</th>
-            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="cmpGrad" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient></defs><rect x="13" y="13" width="26" height="26" rx="6" stroke="url(#cmpGrad)" stroke-width="2.5" opacity="0.55"/><rect x="8" y="8" width="26" height="26" rx="6" fill="rgba(123,108,255,0.12)" stroke="url(#cmpGrad)" stroke-width="2.5"/><path d="M15 27c3 3.5 7 5 10 5 4.5 0 9-3 12-8" stroke="url(#cmpGrad)" stroke-width="2.5" stroke-linecap="round"/><circle cx="17.5" cy="19" r="1.8" fill="url(#cmpGrad)"/><circle cx="25.5" cy="19" r="1.8" fill="url(#cmpGrad)"/></svg></span>Your capsule</th>
+            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="cmpGrad" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#7b6cff"/><stop offset="0.55" stop-color="#37c8e8"/><stop offset="1" stop-color="#ff5ea8"/></linearGradient></defs><rect x="13" y="13" width="26" height="26" rx="6" stroke="url(#cmpGrad)" stroke-width="2.5" opacity="0.55"/><rect x="8" y="8" width="26" height="26" rx="6" fill="rgba(123,108,255,0.12)" stroke="url(#cmpGrad)" stroke-width="2.5"/><path d="M15 27c3 3.5 7 5 10 5 4.5 0 9-3 12-8" stroke="url(#cmpGrad)" stroke-width="2.5" stroke-linecap="round"/><circle cx="17.5" cy="19" r="1.8" fill="url(#cmpGrad)"/><circle cx="25.5" cy="19" r="1.8" fill="url(#cmpGrad)"/></svg></span>Your capsule</th>
           </tr>
         </thead>
         <tbody>
@@ -1055,11 +1437,6 @@
           <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> Quoted back in your own words</td>
         </tr>
         <tr>
-          <th scope="row">Your upload</th>
-          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Trains their model by default</td>
-          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> Never used to train anything. The compile happens in your browser</td>
-        </tr>
-        <tr>
           <th scope="row">Proof the move worked</th>
           <td class="theirs"><span class="mark no" aria-label="No">✗</span> Silence. No score, no receipt</td>
           <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> A parity check: what carried, what did not, what the platform blocked</td>
@@ -1069,16 +1446,14 @@
           <td class="theirs"><span class="mark no" aria-label="No">✗</span> Locked inside the platform that made it</td>
           <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> A file you own. It works on any platform, including the next one</td>
         </tr>
-        <tr>
-          <th scope="row">Who shows up on day one</th>
-          <td class="theirs"><span class="mark no" aria-label="No">✗</span> A stranger who read your diary</td>
-          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> Yours, and it can prove it</td>
-        </tr>
         </tbody>
       </table>
       </div>
     </section>
-
+    </div>
+  </section>
+  <section class="panel demo-panel" data-panel aria-label="The film">
+    <div class="panel-inner">
     <section class="demo" aria-labelledby="demo-heading">
 <style>
   .demo { margin: 3.5rem auto; max-width: 860px; text-align: center; }
@@ -1096,7 +1471,6 @@
     </section>
 
   <p class="closing-v3">Built for the day you switch, and for every day after.</p>
-</main>
 
 <footer>
   <div class="wrap">
@@ -1110,11 +1484,26 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v3.0</span>
+      <span>clonemy.ai, working prototype · v4.0</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
 </footer>
+    </div>
+  </section>
+</main>
+
+<button class="edge-nav edge-nav-prev" id="prevEdge" type="button" aria-label="Previous panel">&#8249;</button>
+<button class="edge-nav edge-nav-next" id="nextEdge" type="button" aria-label="Next panel">&#8250;</button>
+
+<div class="shelf-ui" aria-label="Shelf controls">
+  <button class="nav-btn" id="prevBtn" type="button" aria-label="Previous panel">&#8249;</button>
+  <div class="progress-wrap">
+    <div class="shelf-progress-track"><div class="shelf-progress-fill" id="shelfProgressFill"></div></div>
+    <nav class="shelf-index" id="shelfIndex" aria-label="Shelf sections"></nav>
+  </div>
+  <button class="nav-btn" id="nextBtn" type="button" aria-label="Next panel">&#8250;</button>
+</div>
 
 <script type="text/plain" id="extractionFile">
 # Send this file to your current AI
@@ -1634,5 +2023,187 @@ What a successor would need that you do not have: list them as plain questions. 
   })();
 </script>
 <script data-goatcounter="https://clonemyai.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+  (function () {
+    var shelf = document.getElementById('shelf');
+    var panels = Array.prototype.slice.call(document.querySelectorAll('[data-panel]'));
+    var prev = document.getElementById('prevBtn');
+    var next = document.getElementById('nextBtn');
+    var prevEdge = document.getElementById('prevEdge');
+    var nextEdge = document.getElementById('nextEdge');
+    var fill = document.getElementById('shelfProgressFill');
+    var counter = document.getElementById('panelCounter');
+    var indexWrap = document.getElementById('shelfIndex');
+    var stopLabels = ['The desk', 'The product', 'The confirmations', 'Why it works', 'The difference', 'The film'];
+    var mobileQuery = window.matchMedia('(max-width: 1440px)');
+    var HEADER_OFFSET = 112; /* must equal --head-h-compact in the shelf CSS */
+    var current = 0;
+    var ticking = false;
+
+    stopLabels.forEach(function (label, i) {
+      var stop = document.createElement('button');
+      stop.type = 'button';
+      stop.className = 'index-stop' + (i === 0 ? ' active' : '');
+      var span = document.createElement('span');
+      span.textContent = label;
+      stop.appendChild(span);
+      stop.setAttribute('aria-label', 'Go to ' + label);
+      stop.addEventListener('click', function () { goTo(i); });
+      indexWrap.appendChild(stop);
+    });
+    var stops = Array.prototype.slice.call(indexWrap.children);
+
+    function panelLeft(panel) {
+      return panel.offsetLeft - parseFloat(getComputedStyle(shelf).paddingLeft || 0);
+    }
+    function panelTop(panel) {
+      return panel.getBoundingClientRect().top + (window.pageYOffset || 0);
+    }
+    function isMobile() {
+      return !!(mobileQuery && mobileQuery.matches);
+    }
+    function goTo(index) {
+      current = Math.max(0, Math.min(panels.length - 1, index));
+      if (isMobile()) {
+        window.scrollTo({ top: Math.max(0, panelTop(panels[current]) - HEADER_OFFSET), behavior: 'smooth' });
+      } else {
+        shelf.scrollTo({ left: panelLeft(panels[current]), behavior: 'smooth' });
+      }
+      render();
+    }
+    function nearestIndex() {
+      var best = 0;
+      var bestDistance = Infinity;
+      if (isMobile()) {
+        panels.forEach(function (panel, i) {
+          var d = Math.abs(panel.getBoundingClientRect().top - HEADER_OFFSET);
+          if (d < bestDistance) { bestDistance = d; best = i; }
+        });
+        return best;
+      }
+      var target = shelf.scrollLeft;
+      panels.forEach(function (panel, i) {
+        var d = Math.abs(panelLeft(panel) - target);
+        if (d < bestDistance) { bestDistance = d; best = i; }
+      });
+      return best;
+    }
+    function render() {
+      var ratio;
+      if (isMobile()) {
+        var doc = document.documentElement;
+        var maxY = doc.scrollHeight - window.innerHeight;
+        ratio = maxY > 0 ? (window.pageYOffset || 0) / maxY : 0;
+      } else {
+        var max = shelf.scrollWidth - shelf.clientWidth;
+        ratio = max > 0 ? shelf.scrollLeft / max : 0;
+      }
+      fill.style.width = (16.66 + ratio * 83.34) + '%';
+      counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(panels.length).padStart(2, '0');
+      prev.disabled = current === 0;
+      next.disabled = current === panels.length - 1;
+      prevEdge.disabled = current === 0;
+      nextEdge.disabled = current === panels.length - 1;
+      stops.forEach(function (stop, i) {
+        var on = i === current;
+        stop.classList.toggle('active', on);
+        if (on) { stop.setAttribute('aria-current', 'true'); }
+        else { stop.removeAttribute('aria-current'); }
+      });
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        current = nearestIndex();
+        render();
+        ticking = false;
+      });
+    }
+    prev.addEventListener('click', function () { goTo(current - 1); });
+    next.addEventListener('click', function () { goTo(current + 1); });
+    prevEdge.addEventListener('click', function () { goTo(current - 1); });
+    nextEdge.addEventListener('click', function () { goTo(current + 1); });
+    shelf.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* Discrete wheel paging: one gesture, one panel, from anywhere on
+       the page. Deltas from a single gesture accumulate over a short
+       burst window; crossing the threshold fires exactly one hop, then
+       a settle lock swallows the rest of the gesture, so a hard mouse
+       spin or a long trackpad swipe can never machine-gun through
+       panels. The listener sits on the document, so fixed chrome
+       (header, index bar, arrows, edge chevrons) drives the shelf
+       exactly like the panels do. */
+    var WHEEL_THRESHOLD = 40;   /* px of accumulated delta that makes a hop */
+    var WHEEL_BURST_GAP = 180;  /* ms of quiet that ends a burst */
+    var WHEEL_LOCK_MS = 650;    /* settle lock after a hop */
+    var wheelAccum = 0;
+    var wheelLastAt = 0;
+    var wheelLockUntil = 0;
+    document.addEventListener('wheel', function (e) {
+      if (isMobile()) return;
+      var dx = e.deltaX || 0;
+      var dy = e.deltaY || 0;
+      if (!dx && !dy) return;
+      var useX = Math.abs(dx) > Math.abs(dy);
+      var raw = useX ? dx : dy;
+      if (!useX) {
+        /* Fallback: an element inside the panel that can still scroll
+           vertically keeps the wheel while it can move, and the pager
+           captures only at its edge. That covers a panel-inner below
+           the fit heights, and it also covers the working desk's own
+           scrollable fields (the paste field and the capsule preview),
+           which the concept mock did not have. The walk stops at the
+           panel boundary; the panel itself is handled by the same
+           check when the walk reaches its inner wrapper. */
+        var node = e.target;
+        while (node && node !== document.body) {
+          if (node.hasAttribute && node.hasAttribute('data-panel')) break;
+          var can = false;
+          if (node.scrollHeight && node.clientHeight && node.scrollHeight > node.clientHeight + 1) {
+            var oy = '';
+            if (node.tagName === 'TEXTAREA') { oy = 'auto'; }
+            else { try { oy = getComputedStyle(node).overflowY; } catch (err) { oy = ''; } }
+            if (oy === 'auto' || oy === 'scroll') {
+              var maxTop = node.scrollHeight - node.clientHeight;
+              can = raw > 0 ? node.scrollTop < maxTop - 1 : node.scrollTop > 1;
+            }
+          }
+          if (can) return;
+          node = node.parentElement;
+        }
+      }
+      e.preventDefault();
+      var unit = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? shelf.clientWidth : 1);
+      var px = raw * unit;
+      var now = Date.now();
+      if (now < wheelLockUntil) { wheelAccum = 0; wheelLastAt = now; return; }
+      if (now - wheelLastAt > WHEEL_BURST_GAP) wheelAccum = 0;
+      if (wheelAccum !== 0 && (px > 0) !== (wheelAccum > 0)) wheelAccum = 0;
+      wheelLastAt = now;
+      wheelAccum += px;
+      if (Math.abs(wheelAccum) >= WHEEL_THRESHOLD) {
+        var dir = wheelAccum > 0 ? 1 : -1;
+        wheelAccum = 0;
+        wheelLockUntil = now + WHEEL_LOCK_MS;
+        goTo(current + dir);
+      }
+    }, { passive: false });
+    window.addEventListener('resize', render);
+    if (mobileQuery && mobileQuery.addEventListener) {
+      mobileQuery.addEventListener('change', function () { render(); });
+    }
+    document.addEventListener('keydown', function (e) {
+      var tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (isMobile()) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+    });
+    render();
+  })();
+</script>
+
 </body>
 </html>
