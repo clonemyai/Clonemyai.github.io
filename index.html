@@ -333,9 +333,7 @@
   }
   .step h3{font-size:1.22rem;font-weight:750;margin:0 0 .5rem;letter-spacing:-.01em}
   /* Descending emphasis: Step 1 is the entry, Step 3 the quietest. */
-  .desk-grid > .step:first-child h3{font-size:1.34rem;font-weight:800}
   .desk-grid > .step:first-child .step-big{font-size:1.8rem}
-  .desk-grid > .step:last-child h3{font-size:1.08rem;font-weight:700}
   .desk-grid > .step:last-child .step-num{color:var(--ink-3)}
   .desk-grid > .step:last-child .step-big{font-size:1.3rem;color:var(--ink-3)}
   .desk-grid > .step:last-child > p{font-size:.94rem}
@@ -534,8 +532,6 @@
     .desk-panel::before{inset:-28px -4px;border-radius:24px}
     .step{padding:18px 16px 16px}
     .step h3{font-size:1.14rem}
-    .desk-grid > .step:first-child h3{font-size:1.22rem}
-    .desk-grid > .step:last-child h3{font-size:1.05rem}
     .dropzone{min-height:250px;padding:34px 18px}
     .desk-foot{gap:8px 20px;font-size:.86rem}
     section{padding:58px 0 8px}
@@ -855,7 +851,14 @@
     box-shadow:var(--panel-shadow);
     scroll-snap-align:start;overflow:hidden;
   }
-  .panel.p-desk{flex-basis:min(1460px,98vw);scroll-snap-align:start}
+  /* Desk width ceiling: at 1460px the desk plus one gap consumed
+     the whole viewport at mainstream widths, so stop 1 showed no
+     peek of the next panel and read as a lone centered page. The
+     1380px cap leaves a real peek at wide windows; the 98vw term
+     still governs at and below about 1408px, where the 1080
+     breakpoint's step floor was derived, so the steps lose
+     nothing there. */
+  .panel.p-desk{flex-basis:min(1380px,98vw);scroll-snap-align:start}
   .panel.wide{flex-basis:min(1180px,86vw)}
   .panel.demo-panel{flex-basis:var(--demo-panel-w)}
   /* Trailing end space: the last panel's left-edge target must be
@@ -1637,7 +1640,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v4.4</span>
+      <span>clonemy.ai, working prototype · v4.5</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2194,6 +2197,20 @@ What a successor would need that you do not have: list them as plain questions. 
     var mobileQuery = window.matchMedia('(max-width: 1079px)');
     var HEADER_OFFSET = 112; /* must equal --head-h-compact in the shelf CSS */
     var current = 0;
+    var displayCurrent = 0;
+    /* Programmatic navigation state. The lit stop is a function
+       of the shelf's actual position, never of the gesture that
+       started the move: goTo records the destination in navTarget
+       (and in current, which the pager math reads), but the
+       highlight follows displayCurrent, which keeps naming the
+       panel the shelf is actually on until the scroll settles
+       within NAV_EPS of the target. Then it moves exactly once,
+       old to new, with no flip back through the panels the
+       animation is still passing. */
+    var navTarget = null;
+    var navTimer = null;
+    var NAV_EPS = 2;
+    var NAV_SETTLE_MS = 1600;
     var ticking = false;
 
     stopLabels.forEach(function (label, i) {
@@ -2346,14 +2363,45 @@ What a successor would need that you do not have: list them as plain questions. 
     function isMobile() {
       return !!(mobileQuery && mobileQuery.matches);
     }
+    function navDistance() {
+      if (navTarget === null) return Infinity;
+      if (isMobile()) {
+        return Math.abs(panels[navTarget].getBoundingClientRect().top - HEADER_OFFSET);
+      }
+      return Math.abs(panelLeft(panels[navTarget]) - shelf.scrollLeft);
+    }
+    function settleNav() {
+      if (navTarget === null) return;
+      navTarget = null;
+      if (navTimer) { clearTimeout(navTimer); navTimer = null; }
+      displayCurrent = current;
+      render();
+    }
+    function armNavSettle() {
+      if (navTimer) clearTimeout(navTimer);
+      navTimer = setTimeout(function () {
+        navTimer = null;
+        if (navTarget === null) return;
+        if (navDistance() <= NAV_EPS) { settleNav(); return; }
+        /* The scroll never arrived (interrupted mid-flight, or
+           the visitor took the shelf elsewhere): position wins.
+           Resync both indexes to where the shelf actually is. */
+        navTarget = null;
+        current = nearestIndex();
+        displayCurrent = current;
+        render();
+      }, NAV_SETTLE_MS);
+    }
     function goTo(index) {
       current = Math.max(0, Math.min(panels.length - 1, index));
+      navTarget = current;
       if (isMobile()) {
         window.scrollTo({ top: Math.max(0, panelTop(panels[current]) - HEADER_OFFSET), behavior: 'smooth' });
       } else {
         shelf.scrollTo({ left: panelLeft(panels[current]), behavior: 'smooth' });
       }
-      render();
+      if (navDistance() <= NAV_EPS) { settleNav(); }
+      else { armNavSettle(); render(); }
     }
     function nearestIndex() {
       var best = 0;
@@ -2387,13 +2435,13 @@ What a successor would need that you do not have: list them as plain questions. 
         var sratio = max > 0 ? shelf.scrollLeft / max : 0;
         fill.style.width = (16.66 + sratio * 83.34) + '%';
       }
-      counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(panels.length).padStart(2, '0');
-      prev.disabled = current === 0;
-      next.disabled = current === panels.length - 1;
-      prevEdge.disabled = current === 0;
-      nextEdge.disabled = current === panels.length - 1;
+      counter.textContent = String(displayCurrent + 1).padStart(2, '0') + ' / ' + String(panels.length).padStart(2, '0');
+      prev.disabled = displayCurrent === 0;
+      next.disabled = displayCurrent === panels.length - 1;
+      prevEdge.disabled = displayCurrent === 0;
+      nextEdge.disabled = displayCurrent === panels.length - 1;
       stops.forEach(function (stop, i) {
-        var on = i === current;
+        var on = i === displayCurrent;
         stop.classList.toggle('active', on);
         if (on) { stop.setAttribute('aria-current', 'true'); }
         else { stop.removeAttribute('aria-current'); }
@@ -2403,8 +2451,20 @@ What a successor would need that you do not have: list them as plain questions. 
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
-        current = nearestIndex();
-        render();
+        if (navTarget !== null) {
+          /* A programmatic move is in flight. The scroll position
+             still belongs to the panel being left, so the
+             highlight must not chase nearestIndex here: settle
+             exactly once when the shelf actually arrives, and
+             until then only the progress fill (which reads
+             scrollLeft directly) follows the motion. */
+          if (navDistance() <= NAV_EPS) { settleNav(); }
+          else { render(); }
+        } else {
+          current = nearestIndex();
+          displayCurrent = current;
+          render();
+        }
         ticking = false;
       });
     }
@@ -2497,14 +2557,18 @@ What a successor would need that you do not have: list them as plain questions. 
       var toMobile = isMobile();
       lastMobile = toMobile;
       requestAnimationFrame(function () {
+        if (navTimer) { clearTimeout(navTimer); navTimer = null; }
+        navTarget = null;
         if (toMobile) {
           window.scrollTo(0, Math.max(0, panelTop(panels[target]) - HEADER_OFFSET));
           current = target;
+          displayCurrent = target;
           fitPanels();
         } else {
           fitPanels();
           shelf.scrollTo({ left: panelLeft(panels[target]), behavior: 'auto' });
           current = target;
+          displayCurrent = target;
         }
         render();
       });
