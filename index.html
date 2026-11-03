@@ -1684,7 +1684,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v4.8</span>
+      <span>clonemy.ai, working prototype · v4.9</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2323,6 +2323,7 @@ What a successor would need that you do not have: list them as plain questions. 
        nothing: the padded need still returns 1. */
     var FIT_SAFETY_PAD = 0.05;
     var fitQueued = false;
+    var fitMeasures = [];
     function naturalHeight(inner) {
       var prev = inner.style.transform;
       inner.style.transform = 'none';
@@ -2360,21 +2361,26 @@ What a successor would need that you do not have: list them as plain questions. 
           inner.style.transform = '';
           inner.removeAttribute('data-fit-scale');
           inner.removeAttribute('data-fit-clipped');
+          inner.removeAttribute('data-fit-offset');
         });
         document.documentElement.removeAttribute('data-shelf-scale');
         document.documentElement.removeAttribute('data-fit-compact');
         return;
       }
       function measureNeeds() {
-        return panels.map(function (panel, i) {
+        fitMeasures = panels.map(function (panel, i) {
           var inner = inners[i];
-          if (!inner) return 1;
+          if (!inner) return { avail: 0, natural: 0 };
           var avail = visibleHeight(panel, inner);
           var natural = naturalHeight(inner);
-          if (!avail || !natural) return 1;
+          if (!avail || !natural) return { avail: avail || 0, natural: natural || 0 };
           natural = Math.ceil(natural * (1 + FIT_SAFETY_PAD));
-          if (natural <= avail) return 1;
-          return avail / natural;
+          return { avail: avail, natural: natural };
+        });
+        return fitMeasures.map(function (m) {
+          if (!m.avail || !m.natural) return 1;
+          if (m.natural <= m.avail) return 1;
+          return m.avail / m.natural;
         });
       }
       /* The compact decision is always made from the base state:
@@ -2407,9 +2413,29 @@ What a successor would need that you do not have: list them as plain questions. 
       panels.forEach(function (panel, i) {
         var inner = inners[i];
         if (!inner) return;
-        if (shared >= 1) { inner.style.transform = ''; }
+        /* Centering: the shared scale only ever shrinks, so most
+           panels end up shorter than their available height and
+           the slack used to pool at the bottom under a top
+           anchored inner. Each inner is now also translated down
+           by half of ITS slack (avail minus rendered height, from
+           the same base-state measurements above), splitting the
+           slack between top and bottom. The translation is in
+           unscaled px and is decided here, after measurement:
+           naturalHeight always measures with transforms cleared,
+           so the offset can never feed back into a later measure
+           and alternate between passes. A panel whose rendered
+           height still exceeds its avail (the clamped floor case)
+           gets offset 0 and stays top anchored. */
+        var m = fitMeasures[i] || { avail: 0, natural: 0 };
+        var slack = m.avail && m.natural ? m.avail - m.natural * shared : 0;
+        var offset = slack > 0 ? Math.round(slack / 2) : 0;
+        if (offset > 0) {
+          inner.style.transform = 'translateY(' + offset + 'px)' + (shared < 1 ? ' scale(' + shared + ')' : '');
+        }
+        else if (shared >= 1) { inner.style.transform = ''; }
         else { inner.style.transform = 'scale(' + shared + ')'; }
         inner.setAttribute('data-fit-scale', String(shared));
+        inner.setAttribute('data-fit-offset', String(offset));
         if (sharedClipped && needs[i] < shared) { inner.setAttribute('data-fit-clipped', 'true'); }
         else { inner.removeAttribute('data-fit-clipped'); }
       });
