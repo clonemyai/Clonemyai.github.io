@@ -86,6 +86,8 @@
     --dz-drag-shadow:0 0 0 1px rgba(55,200,232,.35), 0 0 26px rgba(55,200,232,.28);
     --capsule-shadow:0 30px 80px rgba(0,0,0,.5), 0 0 50px rgba(55,200,232,.07);
     --cdot:rgba(255,255,255,.14);
+    --dot-ring:rgba(234,242,255,.30);
+    --dot-glow:0 0 12px rgba(55,200,232,.45);
     --install-bg:rgba(55,200,232,.05);
     --li-line:rgba(140,150,255,.12);
     --link-underline:rgba(55,200,232,.5);
@@ -155,6 +157,8 @@
     --dz-drag-shadow:0 0 0 1px rgba(14,127,168,.30), 0 0 22px rgba(55,200,232,.22);
     --capsule-shadow:0 24px 60px rgba(74,62,40,.13), 0 0 40px rgba(55,200,232,.05);
     --cdot:#d8d2c6;
+    --dot-ring:rgba(28,26,23,.18);
+    --dot-glow:0 0 0 rgba(0,0,0,0);
     --install-bg:rgba(20,88,74,.05);
     --li-line:#ece7db;
     --link-underline:rgba(20,88,74,.45);
@@ -222,6 +226,8 @@
       --dz-drag-shadow:0 0 0 1px rgba(14,127,168,.30), 0 0 22px rgba(55,200,232,.22);
       --capsule-shadow:0 24px 60px rgba(74,62,40,.13), 0 0 40px rgba(55,200,232,.05);
       --cdot:#d8d2c6;
+    --dot-ring:rgba(28,26,23,.18);
+    --dot-glow:0 0 0 rgba(0,0,0,0);
       --install-bg:rgba(20,88,74,.05);
       --li-line:#ece7db;
       --link-underline:rgba(20,88,74,.45);
@@ -243,6 +249,22 @@
     :root:not([data-theme]) .demo-cap .film-ecr-2{color:#0e7fa8}
     :root:not([data-theme]) .demo-cap .film-ecr-3,
     :root:not([data-theme]) .closing-v3 .film-ecr-3{color:#e03d86}
+  }
+
+  /* Shared ECR gradient for the SVG icon family. The stops take
+     theme values: the canonical bright stops on dark, the
+     sanctioned deepened set on light, in the frozen order
+     (violet, cyan, pink) along the direction of travel. */
+  .ecr-stop-1{stop-color:#7b6cff}
+  .ecr-stop-2{stop-color:#37c8e8}
+  .ecr-stop-3{stop-color:#ff5ea8}
+  :root[data-theme="light"] .ecr-stop-1{stop-color:#5a48e0}
+  :root[data-theme="light"] .ecr-stop-2{stop-color:#0e7fa8}
+  :root[data-theme="light"] .ecr-stop-3{stop-color:#e03d86}
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]) .ecr-stop-1{stop-color:#5a48e0}
+    :root:not([data-theme]) .ecr-stop-2{stop-color:#0e7fa8}
+    :root:not([data-theme]) .ecr-stop-3{stop-color:#e03d86}
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -271,7 +293,16 @@
   .wordmark .dot{
     display:inline-block;width:.55em;height:.55em;border-radius:50%;
     background:var(--grad);margin-right:.45em;vertical-align:.08em;
+    box-shadow:0 0 0 1px var(--dot-ring),var(--dot-glow);
   }
+  /* Icon family sizing: the glyphs are inline SVG on a shared
+     24 grid (see the icon rules below); the boxes keep the sizes
+     they have always had, so layout and fit are untouched. */
+  .plank .p-icon svg{width:22px;height:22px;display:block}
+  .arrow svg{width:1em;height:1em;display:block}
+  .edge-nav svg{width:30px;height:30px;display:block}
+  .nav-btn svg{width:20px;height:20px;display:block}
+  .theme-toggle svg{width:15px;height:15px;display:block}
   nav.topnav{display:flex;gap:26px}
   nav.topnav a{color:var(--ink-2);text-decoration:none;font-size:.95rem;font-weight:600}
   nav.topnav a:hover{color:var(--ink)}
@@ -427,7 +458,7 @@
     text-align:center;
   }
   .kicker > span{
-    display:inline-block;
+    display:inline-block;font-weight:700;
     color:var(--on-grad);-webkit-text-fill-color:var(--on-grad);
   }
   h2{font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:800;letter-spacing:-.02em;text-align:center;margin:0 auto 1rem;max-width:24ch}
@@ -477,7 +508,7 @@
   }
   .plank .p-icon{
     width:44px;height:44px;border-radius:11px;background:var(--grad);
-    display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:#0b0b14;margin-bottom:1rem;
+    display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--on-grad);margin-bottom:1rem;
   }
   .plank h3{font-size:1.28rem;font-weight:750;margin:0 0 .55rem;letter-spacing:-.01em}
   .plank p{margin:0;color:var(--ink-2);font-size:.99rem}
@@ -1232,6 +1263,7 @@
 
 </head>
 <body>
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs><linearGradient id="ecrGrad" x1="0" y1="0" x2="1" y2="0"><stop class="ecr-stop-1" offset="0"/><stop class="ecr-stop-2" offset=".55"/><stop class="ecr-stop-3" offset="1"/></linearGradient></defs></svg>
 
 <header class="top wrap">
   <a class="wordmark" href="/"><span class="dot" aria-hidden="true"></span>clonemy.ai</a>
@@ -1242,7 +1274,7 @@
       <a href="/extract">Extract</a>
     </nav>
     <div class="counter" id="panelCounter" aria-live="polite">01 / 06</div>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">&#9728; Light</button>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.1 5.1l1.7 1.7M17.2 17.2l1.7 1.7M18.9 5.1l-1.7 1.7M6.8 17.2l-1.7 1.7"/></svg> Light</button>
   </div>
 </header>
 
@@ -1324,7 +1356,7 @@
           </div>
         </div>
 
-        <div class="arrow" aria-hidden="true">&#8594;</div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12h16M14.5 6l6 6-6 6"/></svg></div>
 
         <div class="step">
           <p class="step-num">Step <span class="step-big">2</span> · Compile</p>
@@ -1433,7 +1465,7 @@
           </details>
         </div>
 
-        <div class="arrow" aria-hidden="true">&#8594;</div>
+        <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12h16M14.5 6l6 6-6 6"/></svg></div>
 
         <div class="step">
           <p class="step-num">Step <span class="step-big">3</span> · Restore</p>
@@ -1526,19 +1558,19 @@
 <section class="wrap" aria-label="Why clonemy works this way">
     <div class="planks">
       <div class="plank">
-        <div class="p-icon" aria-hidden="true">&#128274;</div>
+        <div class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11V8a4 4 0 0 1 8 0v3"/><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M12 14.5v2"/></svg></div>
         <h3>Nothing leaves your browser</h3>
         <p>The compiler runs on this page, in your tab. Your report is never uploaded, stored, or seen by us.</p>
         <p>That is not a policy promise. There is no server for it to go to.</p>
       </div>
       <div class="plank">
-        <div class="p-icon" aria-hidden="true">&#10003;</div>
+        <div class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
         <h3>Proven by a parity check</h3>
         <p>Every capsule ends with a self-check: three questions the new AI answers from the capsule alone, in your own words.</p>
         <p>If it cannot answer them, the transfer is not done, and you find out before you rely on it.</p>
       </div>
       <div class="plank">
-        <div class="p-icon" aria-hidden="true">&#9783;</div>
+        <div class="p-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 7h9.5M10 12h9.5M10 17h9.5"/><circle cx="5.5" cy="7" r="1.15" fill="currentColor" stroke="none"/><circle cx="5.5" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="5.5" cy="17" r="1.15" fill="currentColor" stroke="none"/></svg></div>
         <h3>The format is open</h3>
         <p>The Capsule Format is published and versioned, free for anyone to read, write, or build on.</p>
         <p>Read the <a href="/format">format spec</a> or the <a href="/whitepaper">white paper</a>.</p>
@@ -1565,6 +1597,8 @@
   table.compare td.theirs { opacity: .72; }
   table.compare td.ours { }
   .mark { font-weight: 800; margin-right: .35rem; }
+  .mark svg { width: 1em; height: 1em; display: inline-block; vertical-align: -.12em; }
+  table.compare thead .col-icon .ci-theirs { color: var(--ink-3); }
   .mark.no { color: #ff6b6b; }
   .mark.yes { color: #3ddc84; }
   @media (max-width: 640px) {
@@ -1577,30 +1611,30 @@
         <thead>
           <tr>
             <th scope="col"><span class="col-icon"></span></th>
-            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="6" y="20" width="36" height="20" rx="4" stroke="#8a8fa3" stroke-width="2.5"/><path d="M24 6v18m0 0l-6-6m6 6l6-6" stroke="#8a8fa3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Their import</th>
-            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="cmpGrad" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#7b6cff"/><stop offset="0.55" stop-color="#37c8e8"/><stop offset="1" stop-color="#ff5ea8"/></linearGradient></defs><rect x="13" y="13" width="26" height="26" rx="6" stroke="url(#cmpGrad)" stroke-width="2.5" opacity="0.55"/><rect x="8" y="8" width="26" height="26" rx="6" fill="rgba(123,108,255,0.12)" stroke="url(#cmpGrad)" stroke-width="2.5"/><path d="M15 27c3 3.5 7 5 10 5 4.5 0 9-3 12-8" stroke="url(#cmpGrad)" stroke-width="2.5" stroke-linecap="round"/><circle cx="17.5" cy="19" r="1.8" fill="url(#cmpGrad)"/><circle cx="25.5" cy="19" r="1.8" fill="url(#cmpGrad)"/></svg></span>Your capsule</th>
+            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="ci-theirs" aria-hidden="true"><path d="M12 3.5V14"/><path d="M7.3 9.6L12 14.3l4.7-4.7"/><path d="M4 15.2v2A2.8 2.8 0 0 0 6.8 20h10.4A2.8 2.8 0 0 0 20 17.2v-2"/></svg></span>Their import</th>
+            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7.6" y="7.6" width="12.6" height="12.6" rx="3.2" stroke="url(#ecrGrad)" stroke-width="1.8" opacity="0.55"/><rect x="3.8" y="3.8" width="12.6" height="12.6" rx="3.2" fill="rgba(123,108,255,0.12)" stroke="url(#ecrGrad)" stroke-width="1.8"/><circle cx="8.6" cy="9.2" r="1.05" fill="url(#ecrGrad)"/><circle cx="12.6" cy="9.2" r="1.05" fill="url(#ecrGrad)"/><path d="M7.2 13.1c1.6 1.9 3.6 2.8 5.3 2.8 2.4 0 4.7-1.6 6.2-4.3" stroke="url(#ecrGrad)" stroke-width="1.8" stroke-linecap="round"/></svg></span>Your capsule</th>
           </tr>
         </thead>
         <tbody>
         <tr>
           <th scope="row">What actually moves</th>
-          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Chat logs and auto-summaries</td>
-          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> A compiled pattern: persona, rules, people, calibration history</td>
+          <td class="theirs"><span class="mark no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Chat logs and auto-summaries</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.8l4.8 4.8L19.5 7.2"/></svg></span> A compiled pattern: persona, rules, people, calibration history</td>
         </tr>
         <tr>
           <th scope="row">Your rules</th>
-          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Flattened into a preferences list</td>
-          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> Quoted back in your own words</td>
+          <td class="theirs"><span class="mark no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Flattened into a preferences list</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.8l4.8 4.8L19.5 7.2"/></svg></span> Quoted back in your own words</td>
         </tr>
         <tr>
           <th scope="row">Proof the move worked</th>
-          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Silence. No score, no receipt</td>
-          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> A parity check: what carried, what did not, what the platform blocked</td>
+          <td class="theirs"><span class="mark no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Silence. No score, no receipt</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.8l4.8 4.8L19.5 7.2"/></svg></span> A parity check: what carried, what did not, what the platform blocked</td>
         </tr>
         <tr>
           <th scope="row">Ownership</th>
-          <td class="theirs"><span class="mark no" aria-label="No">✗</span> Locked inside the platform that made it</td>
-          <td class="ours"><span class="mark yes" aria-label="Yes">✓</span> A file you own. It works on any platform, including the next one</td>
+          <td class="theirs"><span class="mark no" aria-label="No"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span> Locked inside the platform that made it</td>
+          <td class="ours"><span class="mark yes" aria-label="Yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.8l4.8 4.8L19.5 7.2"/></svg></span> A file you own. It works on any platform, including the next one</td>
         </tr>
         </tbody>
       </table>
@@ -1640,7 +1674,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v4.5</span>
+      <span>clonemy.ai, working prototype · v4.6</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -1649,16 +1683,16 @@
   </section>
 </main>
 
-<button class="edge-nav edge-nav-prev" id="prevEdge" type="button" aria-label="Previous panel">&#8249;</button>
-<button class="edge-nav edge-nav-next" id="nextEdge" type="button" aria-label="Next panel">&#8250;</button>
+<button class="edge-nav edge-nav-prev" id="prevEdge" type="button" aria-label="Previous panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.8 5.8L8.6 12l6.2 6.2"/></svg></button>
+<button class="edge-nav edge-nav-next" id="nextEdge" type="button" aria-label="Next panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.2 5.8l6.2 6.2-6.2 6.2"/></svg></button>
 
 <div class="shelf-ui" aria-label="Shelf controls">
-  <button class="nav-btn" id="prevBtn" type="button" aria-label="Previous panel">&#8249;</button>
+  <button class="nav-btn" id="prevBtn" type="button" aria-label="Previous panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.8 5.8L8.6 12l6.2 6.2"/></svg></button>
   <div class="progress-wrap">
     <div class="shelf-progress-track"><div class="shelf-progress-fill" id="shelfProgressFill"></div></div>
     <nav class="shelf-index" id="shelfIndex" aria-label="Shelf sections"></nav>
   </div>
-  <button class="nav-btn" id="nextBtn" type="button" aria-label="Next panel">&#8250;</button>
+  <button class="nav-btn" id="nextBtn" type="button" aria-label="Next panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.2 5.8l6.2 6.2-6.2 6.2"/></svg></button>
 </div>
 
 <div class="page-rail" id="pageRail" aria-hidden="true"><div class="page-rail-fill" id="pageRailFill"></div></div>
@@ -2162,12 +2196,14 @@ What a successor would need that you do not have: list them as plain questions. 
         return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
       } catch (e) { return 'dark'; }
     }
+    var SUN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.1 5.1l1.7 1.7M17.2 17.2l1.7 1.7M18.9 5.1l-1.7 1.7M6.8 17.2l-1.7 1.7"/></svg>';
+    var MOON_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.9 14.1A8.3 8.3 0 1 1 9.9 4.1a6.7 6.7 0 0 0 10 10z"/></svg>';
     function render() {
       if (current() === 'dark') {
-        btn.innerHTML = '&#9728; Light';
+        btn.innerHTML = SUN_ICON + ' Light';
         btn.setAttribute('aria-label', 'Switch to light theme');
       } else {
-        btn.innerHTML = '&#9790; Dark';
+        btn.innerHTML = MOON_ICON + ' Dark';
         btn.setAttribute('aria-label', 'Switch to dark theme');
       }
     }
