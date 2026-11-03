@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- clonemy.ai brand mark: the parted pill.
+       A capsule split along its axis, mid-transfer: the origin half
+       carries the Extract-to-Compile gradient (violet to cyan), the
+       destination half is Restore pink, and three dots cross the gap.
+       Gradient order follows the ECR direction of travel. -->
+  <defs>
+    <linearGradient id="cmOrigin" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7b6cff"/>
+      <stop offset="1" stop-color="#37c8e8"/>
+    </linearGradient>
+    <linearGradient id="cmDest" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff5ea8"/>
+      <stop offset="1" stop-color="#e03d86"/>
+    </linearGradient>
+  </defs>
+  <g transform="rotate(-45 50 50)">
+    <!-- origin half: round tail, flat at the parting -->
+    <path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#cmOrigin)"/>
+    <!-- destination half: flat at the parting, round nose -->
+    <path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#cmDest)"/>
+    <!-- what crosses the gap -->
+    <circle cx="48.2" cy="50" r="1.9" fill="#37c8e8"/>
+    <circle cx="50.9" cy="50" r="1.9" fill="#b45fd0"/>
+    <circle cx="53.6" cy="50" r="1.9" fill="#ff5ea8"/>
+  </g>
+</svg>
