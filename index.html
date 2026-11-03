@@ -1674,7 +1674,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v4.6</span>
+      <span>clonemy.ai, working prototype · v4.7</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2269,8 +2269,9 @@ What a successor would need that you do not have: list them as plain questions. 
        shared elements (kicker pills, headings, type) render at
        identical sizes on every panel instead of the tallest panel
        shrinking alone. Scale only ever shrinks. Before any
-       floor applies, a tight fit (tightest need under 0.92)
-       engages the compact desk tier and measures again. The
+       floor applies, a tight fit (tightest need under the
+       compact threshold) engages the compact desk tier and
+       measures again. The
        floor itself is 0.60: if the shared factor would still
        need to go lower, it holds at the floor and the neediest
        panels clip at the bottom rather than growing a
@@ -2295,7 +2296,22 @@ What a successor would need that you do not have: list them as plain questions. 
     var inners = panels.map(function (panel) { return panel.querySelector('.panel-inner'); });
     var shelfUi = document.querySelector('.shelf-ui');
     var FIT_MIN_SCALE = 0.60;
-    var FIT_COMPACT_THRESHOLD = 0.92;
+    var FIT_COMPACT_THRESHOLD = 0.95;
+    /* Safety pad on every measured natural height, applied in
+       measureNeeds. The fit otherwise trusts a one-shot live
+       measurement exactly, and a maximized 4K window proved that
+       trust misplaced: the desk foot (whose line sits above some
+       49px of panel and inner bottom padding that the measurement
+       does include) still rendered sliced at the panel border,
+       which means the live extent beat the measurement by roughly
+       5 percent of the stack. Five percent of pad covers that
+       band; its larger effect is indirect, because a padded need
+       crosses the compact threshold sooner, and the compact tier
+       sheds about a fifth of the tall stacks' height, which
+       absorbs a shortfall of the size the product panel showed.
+       Where a panel fits with room to spare the pad changes
+       nothing: the padded need still returns 1. */
+    var FIT_SAFETY_PAD = 0.05;
     var fitQueued = false;
     function naturalHeight(inner) {
       var prev = inner.style.transform;
@@ -2345,9 +2361,25 @@ What a successor would need that you do not have: list them as plain questions. 
           if (!inner) return 1;
           var avail = visibleHeight(panel, inner);
           var natural = naturalHeight(inner);
-          if (!avail || !natural || natural <= avail) return 1;
+          if (!avail || !natural) return 1;
+          natural = Math.ceil(natural * (1 + FIT_SAFETY_PAD));
+          if (natural <= avail) return 1;
           return avail / natural;
         });
+      }
+      /* The compact decision is always made from the base state:
+         if a previous pass left the tier engaged, disengage it
+         before the first measure. Measured in the compact state,
+         a borderline shelf reports needs of 1 (the compacted
+         stacks fit), the tier then disengages with no second
+         measure, and the pass ends uncompact and unscaled with
+         the base stacks overflowing: engaged and disengaged
+         passes alternate, and which one the visitor lands on is
+         a coin flip on refit timing. That is the leak a maximized
+         4K window showed: full-size type, scale 1, the desk foot
+         and the product list sliced at the panel border. */
+      if (document.documentElement.getAttribute('data-fit-compact') === 'true') {
+        document.documentElement.removeAttribute('data-fit-compact');
       }
       var needs = measureNeeds();
       /* Second pass: if the tightest panel needs less than the
@@ -2358,8 +2390,6 @@ What a successor would need that you do not have: list them as plain questions. 
       if (Math.min.apply(null, needs) < FIT_COMPACT_THRESHOLD) {
         document.documentElement.setAttribute('data-fit-compact', 'true');
         needs = measureNeeds();
-      } else {
-        document.documentElement.removeAttribute('data-fit-compact');
       }
       var shared = Math.min.apply(null, needs.concat([1]));
       var sharedClipped = false;
@@ -2389,6 +2419,13 @@ What a successor would need that you do not have: list them as plain questions. 
     if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
       document.fonts.ready.then(function () { fitPanels(); render(); });
     }
+    /* One more pass once every resource has settled. The film
+       panel's video poster is a data URI that decodes after the
+       init pass and grows that panel's natural height with no DOM
+       mutation for the observer above to catch, and any other
+       late layout shift lands the same way: the load event is the
+       first moment the measured page is the finished page. */
+    window.addEventListener('load', function () { fitPanels(); render(); });
 
     function panelLeft(panel) {
       return panel.offsetLeft - parseFloat(getComputedStyle(shelf).paddingLeft || 0);
