@@ -1249,6 +1249,19 @@
   html[data-fit-compact="true"] .shelf .desk-details{margin-top:.55rem}
   html[data-fit-compact="true"] .shelf .step-note{padding-top:.55rem}
   html[data-fit-compact="true"] .shelf .desk-foot{margin-top:8px;padding-top:8px}
+  /* v5.7: Step 2 sheds more, since it is the desk's tallest card.
+     The drop zone's two lines fold into one row (title and the
+     file-types line side by side), its min-height and vertical
+     padding go, the two disclosure rows inside the compiler sit
+     closer, and the compile row, status line, and privacy
+     paragraph give up their top air. No copy and no feature
+     moves: the zone, the paste and flavor disclosures, the
+     button, and the privacy statement all stay. */
+  html[data-fit-compact="true"] .shelf .compiler .dropzone{flex-direction:row;flex-wrap:wrap;column-gap:.45rem;min-height:0;padding-top:8px;padding-bottom:8px}
+  html[data-fit-compact="true"] .shelf .compiler .desk-details{margin-top:.45rem}
+  html[data-fit-compact="true"] .shelf .compiler .row{margin-top:.55rem}
+  html[data-fit-compact="true"] .shelf .compiler .status{margin-top:.4rem}
+  html[data-fit-compact="true"] .shelf .compiler .privacy{margin-top:.6rem;padding-top:.6rem}
 
   /* ---------- compact product tier (fit-driven) ----------
      The capsule card is the shelf's other tall stack: when
@@ -1270,6 +1283,14 @@
   html[data-fit-compact="true"] .shelf .section-list li{padding:.12rem 0}
   html[data-fit-compact="true"] .shelf .section-list .sample{font-size:.75rem}
   html[data-fit-compact="true"] .shelf .capsule-caption{margin-top:10px}
+  /* v5.7: the capsule window tightens further so the whole
+     window, bottom edge included, stays inside the panel at the
+     snapped sizes: slimmer bar and body insets, denser section
+     rows, labels closer to their blocks. */
+  html[data-fit-compact="true"] .shelf .capsule-bar{padding-top:.45rem;padding-bottom:.45rem}
+  html[data-fit-compact="true"] .shelf .capsule-body{padding-top:10px;padding-bottom:10px}
+  html[data-fit-compact="true"] .shelf .capsule-body .c-label{margin-top:.5rem}
+  html[data-fit-compact="true"] .shelf .section-list li{padding-top:.05rem;padding-bottom:.05rem}
 
   /* ---------- compact extension tier (fit-driven) ----------
      Panel Zero sheds height with the desk and product when the
@@ -1401,6 +1422,10 @@
     .shelf .section-list{grid-template-columns:1fr}
     .extension-stage{grid-template-columns:1fr}
     .extension-browser{min-height:360px}
+    /* v5.7: in the vertical band the one-column section list is
+       the capsule window's tallest form; denser rows keep the
+       whole window, bottom edge included, in easy reach. */
+    .shelf .section-list li{padding-top:.1rem;padding-bottom:.1rem}
   }
 </style>
 
@@ -1894,7 +1919,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v5.6</span>
+      <span>clonemy.ai, working prototype · v5.7</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2695,6 +2720,15 @@ What a successor would need that you do not have: list them as plain questions. 
       if (navTimer) { clearTimeout(navTimer); navTimer = null; }
       displayCurrent = current;
       render();
+      /* v5.7: a settle is a fit moment. The pass that ran at load
+         or resize measured the page in whatever state it was in
+         then; the panel the visitor has just landed on gets a
+         fresh fit and centering pass in its settled state, so
+         the centering holds at every stop, not only at the stop
+         the page happened to load on. queueFit only remeasures
+         and restyles the inners; it never scrolls, so it cannot
+         fight the settle lock it completes. */
+      queueFit();
     }
     function armNavSettle() {
       if (navTimer) clearTimeout(navTimer);
@@ -2709,6 +2743,7 @@ What a successor would need that you do not have: list them as plain questions. 
         current = nearestIndex();
         displayCurrent = current;
         render();
+        queueFit();
       }, NAV_SETTLE_MS);
     }
     function goTo(index) {
@@ -2766,6 +2801,15 @@ What a successor would need that you do not have: list them as plain questions. 
         else { stop.removeAttribute('aria-current'); }
       });
     }
+    /* Free scrolling (a horizontal trackpad drift or a drag of
+       the shelf, not a paged hop) settles wherever it stops, and
+       that stop deserves the same refit a paged settle gets.
+       Debounced past the end of the gesture so it fires once. */
+    var scrollFitTimer = null;
+    function queueScrollFit() {
+      if (scrollFitTimer) clearTimeout(scrollFitTimer);
+      scrollFitTimer = setTimeout(function () { scrollFitTimer = null; queueFit(); }, 200);
+    }
     function onScroll() {
       if (ticking) return;
       ticking = true;
@@ -2783,6 +2827,7 @@ What a successor would need that you do not have: list them as plain questions. 
           current = nearestIndex();
           displayCurrent = current;
           render();
+          queueScrollFit();
         }
         ticking = false;
       });
