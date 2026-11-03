@@ -1008,7 +1008,7 @@
     /* Short-window product compaction: the capsule card is the
        shelf's tallest stack, and at heights under 850px its
        natural height would push the shared fit factor under the
-       0.66 floor. Wider measure on the two centered prose blocks,
+       fit floor. Wider measure on the two centered prose blocks,
        tighter card margins, and slimmer install-line padding buy
        back the difference so the whole shelf fits by scaling. */
     .shelf .section-sub{max-width:70ch}
@@ -1072,6 +1072,31 @@
     .nav-btn{width:42px;height:42px}
     .edge-nav{width:44px;height:84px;font-size:1.7rem}
   }
+
+  /* ---------- compact desk tier (fit-driven) ----------
+     When the shared fit factor runs tight, fitPanels sets
+     data-fit-compact on the root and the desk, the shelf's
+     tallest stack, sheds height instead of letting the scale
+     fall to its floor: smaller hero type, tighter margins,
+     slimmer step panes, buttons, and foot. Colors, copy, and
+     layout structure are untouched, and the rules declare
+     sizes only, so they land identically in both themes. */
+  html[data-fit-compact="true"] .panel.p-desk .panel-inner{padding-top:12px;padding-bottom:12px}
+  html[data-fit-compact="true"] .shelf .desk{padding-top:0;padding-bottom:0}
+  html[data-fit-compact="true"] .shelf .eyebrow{font-size:.95rem;margin-bottom:.2rem}
+  html[data-fit-compact="true"] .shelf h1{font-size:clamp(2.05rem,5.5vh,3.5rem);margin-bottom:.45rem}
+  html[data-fit-compact="true"] .shelf .sub{font-size:.95rem;line-height:1.45}
+  html[data-fit-compact="true"] .shelf .desk-panel{margin-top:10px;padding-top:12px;padding-bottom:9px}
+  html[data-fit-compact="true"] .shelf .step{padding-top:10px;padding-bottom:8px}
+  html[data-fit-compact="true"] .shelf .step-num{margin-bottom:.35rem}
+  html[data-fit-compact="true"] .shelf .step h3{margin-bottom:.35rem}
+  html[data-fit-compact="true"] .shelf .step p{font-size:.88rem;line-height:1.45;margin-bottom:.55rem}
+  html[data-fit-compact="true"] .shelf .step .extract-heading{margin-bottom:.5rem}
+  html[data-fit-compact="true"] .shelf .way-btn{padding-top:.34rem;padding-bottom:.34rem}
+  html[data-fit-compact="true"] .shelf .ai-btns{gap:5px}
+  html[data-fit-compact="true"] .shelf .desk-details{margin-top:.55rem}
+  html[data-fit-compact="true"] .shelf .step-note{padding-top:.55rem}
+  html[data-fit-compact="true"] .shelf .desk-foot{margin-top:8px;padding-top:8px}
 
   /* ---------- vertical version ----------
      At and under 1079px the shelf unstacks into a native vertical
@@ -1591,7 +1616,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v4.2</span>
+      <span>clonemy.ai, working prototype · v4.3</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2169,12 +2194,14 @@ What a successor would need that you do not have: list them as plain questions. 
        the minimum is applied uniformly to all panel-inners, so
        shared elements (kicker pills, headings, type) render at
        identical sizes on every panel instead of the tallest panel
-       shrinking alone. Scale only ever shrinks. The floor is
-       0.66: if the shared factor would need to go lower (only at
-       viewport heights well under normal browser windows), it
-       holds at the floor and the neediest panels clip at the
-       bottom rather than growing a scrollbar. In the vertical
-       version the page scrolls and panels are never scaled.
+       shrinking alone. Scale only ever shrinks. Before any
+       floor applies, a tight fit (tightest need under 0.92)
+       engages the compact desk tier and measures again. The
+       floor itself is 0.60: if the shared factor would still
+       need to go lower, it holds at the floor and the neediest
+       panels clip at the bottom rather than growing a
+       scrollbar. In the vertical version the page scrolls and
+       panels are never scaled.
 
        Two measurement rules, learned from a live-browser failure
        where the first version of this code reported a fit while
@@ -2193,7 +2220,8 @@ What a successor would need that you do not have: list them as plain questions. 
        rows behind the dock. */
     var inners = panels.map(function (panel) { return panel.querySelector('.panel-inner'); });
     var shelfUi = document.querySelector('.shelf-ui');
-    var FIT_MIN_SCALE = 0.66;
+    var FIT_MIN_SCALE = 0.60;
+    var FIT_COMPACT_THRESHOLD = 0.92;
     var fitQueued = false;
     function naturalHeight(inner) {
       var prev = inner.style.transform;
@@ -2234,16 +2262,31 @@ What a successor would need that you do not have: list them as plain questions. 
           inner.removeAttribute('data-fit-clipped');
         });
         document.documentElement.removeAttribute('data-shelf-scale');
+        document.documentElement.removeAttribute('data-fit-compact');
         return;
       }
-      var needs = panels.map(function (panel, i) {
-        var inner = inners[i];
-        if (!inner) return 1;
-        var avail = visibleHeight(panel, inner);
-        var natural = naturalHeight(inner);
-        if (!avail || !natural || natural <= avail) return 1;
-        return avail / natural;
-      });
+      function measureNeeds() {
+        return panels.map(function (panel, i) {
+          var inner = inners[i];
+          if (!inner) return 1;
+          var avail = visibleHeight(panel, inner);
+          var natural = naturalHeight(inner);
+          if (!avail || !natural || natural <= avail) return 1;
+          return avail / natural;
+        });
+      }
+      var needs = measureNeeds();
+      /* Second pass: if the tightest panel needs less than the
+         compact threshold, engage the compact desk tier (the
+         stylesheet keys off data-fit-compact on the root) and
+         measure again with it applied, so the shared factor is
+         computed from the compacted heights, not the full ones. */
+      if (Math.min.apply(null, needs) < FIT_COMPACT_THRESHOLD) {
+        document.documentElement.setAttribute('data-fit-compact', 'true');
+        needs = measureNeeds();
+      } else {
+        document.documentElement.removeAttribute('data-fit-compact');
+      }
       var shared = Math.min.apply(null, needs.concat([1]));
       var sharedClipped = false;
       if (shared < FIT_MIN_SCALE) { shared = FIT_MIN_SCALE; sharedClipped = true; }
