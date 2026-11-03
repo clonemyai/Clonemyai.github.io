@@ -70,10 +70,12 @@
   <h1>Contact</h1>
   <p class="lede">Questions, feedback, and corrections are welcome, and every message is read.</p>
 
-  <form action="https://formsubmit.co/hello@clonemy.ai" method="POST">
-    <input type="hidden" name="_subject" value="clonemy.ai contact form" />
-    <input type="hidden" name="_next" value="https://clonemy.ai/contact/thanks/" />
-    <input type="text" name="_honey" style="display:none" />
+  <form action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="543e420f-d27e-4650-992a-01bdd4aecb06">
+    <input type="hidden" name="subject" value="clonemy.ai contact form">
+    <input type="hidden" name="from_name" value="clonemy.ai contact form">
+    <input type="hidden" name="redirect" value="https://clonemy.ai/contact/thanks/">
+    <input type="checkbox" name="botcheck" style="display:none">
     <label for="cname">Name <span class="opt">(optional)</span></label>
     <input id="cname" name="name" type="text" autocomplete="name" />
     <label for="cemail">Email</label>
