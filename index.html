@@ -55,6 +55,9 @@
     --dz-bg:rgba(255,255,255,.03);
     --dz-border:rgba(140,150,255,.5);
     --dz-icon-bg:rgba(55,200,232,.06);
+    --pane-bg:rgba(255,255,255,.045);
+    --pane-border:rgba(255,255,255,.07);
+    --pane-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 14px 34px rgba(0,0,0,.22);
     --dz-active:#37c8e8;
     --dz-drag-bg:rgba(55,200,232,.09);
     --dz-drag-shadow:0 0 0 1px rgba(55,200,232,.35), 0 0 26px rgba(55,200,232,.28);
@@ -97,6 +100,9 @@
     --dz-bg:#ffffff;
     --dz-border:rgba(84,68,180,.42);
     --dz-icon-bg:rgba(20,88,74,.07);
+    --pane-bg:rgba(255,255,255,.62);
+    --pane-border:rgba(60,50,30,.07);
+    --pane-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 14px 30px rgba(74,62,40,.07);
     --dz-active:#0e7fa8;
     --dz-drag-bg:rgba(55,200,232,.08);
     --dz-drag-shadow:0 0 0 1px rgba(14,127,168,.30), 0 0 22px rgba(55,200,232,.22);
@@ -137,6 +143,9 @@
       --dz-bg:#ffffff;
       --dz-border:rgba(84,68,180,.42);
       --dz-icon-bg:rgba(20,88,74,.07);
+    --pane-bg:rgba(255,255,255,.62);
+    --pane-border:rgba(60,50,30,.07);
+    --pane-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 14px 30px rgba(74,62,40,.07);
       --dz-active:#0e7fa8;
       --dz-drag-bg:rgba(55,200,232,.08);
       --dz-drag-shadow:0 0 0 1px rgba(14,127,168,.30), 0 0 22px rgba(55,200,232,.22);
@@ -187,7 +196,7 @@
   .theme-toggle:hover{color:var(--ink);border-color:var(--line-strong)}
 
   /* ---------- transfer desk ---------- */
-  .desk{padding:64px 0 30px;text-align:center}
+  .desk{padding:46px 0 26px;text-align:center}
   .eyebrow{font-size:1.08rem;font-weight:600;color:var(--eyebrow);margin:0 0 .4rem;letter-spacing:.01em}
   h1{
     font-size:clamp(2.6rem,5.4vw,4.3rem);line-height:1.06;font-weight:800;
@@ -199,19 +208,40 @@
   .sub strong{color:var(--ink);font-weight:650}
 
   .desk-panel{
-    margin:52px auto 0;text-align:left;
+    margin:36px auto 0;text-align:left;
     background:var(--panel-grad);
     border:1px solid var(--line-strong);border-radius:20px;
     box-shadow:var(--panel-shadow);
-    padding:34px 34px 28px;
+    padding:24px 26px 20px;
   }
-  .desk-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:26px;align-items:stretch}
-  .step{display:flex;flex-direction:column}
+  .desk-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:34px;align-items:stretch}
+  /* Each step sits on its own quiet glass pane: a frosted surface, not
+     a card. The pane is the step separator; everything inside the step
+     stays flat and borderless. */
+  .step{
+    display:flex;flex-direction:column;
+    background:var(--pane-bg);border:1px solid var(--pane-border);border-radius:16px;
+    box-shadow:var(--pane-shadow);
+    backdrop-filter:blur(8px) saturate(1.05);-webkit-backdrop-filter:blur(8px) saturate(1.05);
+    padding:18px 20px 16px;
+  }
   .step-num{
     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-    font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);margin:0 0 .45rem;
+    font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);margin:0 0 .5rem;
+    display:flex;align-items:baseline;gap:.45rem;
+  }
+  .step-num .step-big{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:1.55rem;font-weight:800;letter-spacing:0;line-height:1;color:var(--ink);
   }
   .step h3{font-size:1.22rem;font-weight:750;margin:0 0 .5rem;letter-spacing:-.01em}
+  /* Descending emphasis: Step 1 is the entry, Step 3 the quietest. */
+  .desk-grid > .step:first-child h3{font-size:1.34rem;font-weight:800}
+  .desk-grid > .step:first-child .step-big{font-size:1.8rem}
+  .desk-grid > .step:last-child h3{font-size:1.08rem;font-weight:700}
+  .desk-grid > .step:last-child .step-num{color:var(--ink-3)}
+  .desk-grid > .step:last-child .step-big{font-size:1.3rem;color:var(--ink-3)}
+  .desk-grid > .step:last-child > p{font-size:.94rem}
   .step p{margin:0 0 .9rem;color:var(--ink-2);font-size:.99rem}
   .chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:auto}
   .chip{
@@ -225,7 +255,7 @@
     border-radius:10px;padding:.55rem 1rem;box-shadow:var(--btn-shadow);
   }
   .quiet-btn:hover{box-shadow:var(--btn-shadow-hover)}
-  .arrow{align-self:center;justify-self:center;color:var(--ink-3);font-size:1.3rem;opacity:.8;line-height:1}
+  .arrow{align-self:center;justify-self:center;color:var(--ink-2);font-size:1.55rem;opacity:.85;line-height:1}
 
   /* the drop zone: the working surface of the desk */
   .dropzone{
@@ -250,12 +280,13 @@
 
   .filechip{
     display:flex;align-items:center;gap:.7rem;margin-top:auto;
-    border:1px solid var(--line);border-radius:12px;background:var(--surface-1);
+    border:1px solid var(--line);border-radius:12px;background:transparent;
     padding:.7rem .9rem;
   }
   .filechip .fc-icon{
-    flex:0 0 auto;width:38px;height:38px;border-radius:9px;background:var(--grad);
-    display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:#0b0b14;font-weight:800;
+    flex:0 0 auto;width:38px;height:38px;border-radius:9px;background:var(--surface-1);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:.95rem;color:var(--accent-text);font-weight:800;
   }
   .filechip .fc-name{font-weight:700;font-size:.98rem;line-height:1.3}
   .filechip .fc-meta{color:var(--ink-3);font-size:.83rem;line-height:1.35}
@@ -372,7 +403,10 @@
     .eyebrow{font-size:1rem}
     .sub{font-size:1.05rem}
     .desk-panel{padding:24px 20px 22px;border-radius:16px}
+    .step{padding:18px 16px 16px}
     .step h3{font-size:1.14rem}
+    .desk-grid > .step:first-child h3{font-size:1.22rem}
+    .desk-grid > .step:last-child h3{font-size:1.05rem}
     .dropzone{min-height:250px;padding:34px 18px}
     .desk-foot{gap:8px 20px;font-size:.86rem}
     section{padding:58px 0 8px}
@@ -395,18 +429,18 @@
      comparison table frame, and footer version row, all expressed in
      the v3 variable system so both themes stay in lockstep. */
   .step .extract-heading{display:block;font-size:1.02rem;margin-bottom:.75rem}
-  .extract-stack{display:grid;gap:.85rem}
-  .ways{margin:0;border:1px solid var(--line);border-radius:14px;padding:1rem;background:var(--surface-1)}
+  .extract-stack{display:grid;gap:.7rem}
+  .ways{margin:0}
   .ways-title{margin:0 0 .45rem;font-weight:750;color:var(--ink)}
   .way-detail{margin:0 0 .7rem;color:var(--ink-2);font-size:.92rem;line-height:1.55}
   .ai-btns{display:flex;flex-wrap:wrap;gap:.45rem}
   .way-btn{
     appearance:none;display:inline-flex;align-items:center;justify-content:center;
-    font:inherit;font-size:.88rem;font-weight:700;line-height:1.3;color:var(--ink);
-    background:var(--btn-bg);border:1px solid var(--btn-border);border-radius:999px;
-    padding:.52rem .82rem;cursor:pointer;text-decoration:none;box-shadow:var(--btn-shadow);
+    font:inherit;font-size:.88rem;font-weight:600;line-height:1.3;color:var(--ink);
+    background:transparent;border:1px solid var(--line-strong);border-radius:999px;
+    padding:.52rem .82rem;cursor:pointer;text-decoration:none;box-shadow:none;
   }
-  .way-btn:hover{box-shadow:var(--btn-shadow-hover)}
+  .way-btn:hover{box-shadow:none;border-color:var(--accent-text)}
   .way-card{border-top:1px solid var(--line);padding:.8rem 0 .1rem;margin-top:.8rem}
   .way-head{display:flex;align-items:center;gap:.55rem;font-weight:750;color:var(--ink)}
   .way-dot{flex:0 0 auto;width:.5rem;height:.5rem;border-radius:50%;background:var(--grad)}
@@ -430,6 +464,35 @@
   }
   .step-note strong{color:var(--ink)}
 
+  /* Signal pass: compact Step 1 rows, one-line send callout, and the
+     expandable explainer that now holds the relocated desk copy. */
+  .way-row{
+    display:flex;align-items:center;justify-content:space-between;gap:.8rem;
+    padding:.6rem 0 .1rem;margin-top:.6rem;
+  }
+  .way-row .way-head{display:flex;align-items:center;gap:.55rem;font-weight:750;color:var(--ink);font-size:.95rem}
+  .inline-link{color:var(--accent-text);font-weight:650;text-decoration:none}
+  .inline-link:hover{text-decoration:underline}
+  .send-line{
+    margin:0;color:var(--ink-2);font-size:.92rem;line-height:1.5;
+  }
+  .send-line strong{color:var(--ink)}
+  .send-line .quoted-inline{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.86rem;color:var(--ink);
+  }
+  .desk-details{
+    margin-top:.85rem;
+    font-size:.92rem;color:var(--ink-2);line-height:1.55;text-align:left;
+  }
+  .desk-details summary{cursor:pointer;font-weight:600;color:var(--ink-2);font-size:.95rem}
+  .desk-details summary:hover{color:var(--ink)}
+  .desk-details p{margin:.55rem 0 0;color:var(--ink-2);font-size:.92rem}
+  .desk-details strong{color:var(--ink)}
+  .more-ways > .way-btn{margin-top:.65rem}
+  .more-ways .send-line{margin-top:.7rem}
+  .paste-details textarea{margin-top:.6rem}
+  .flavor-details .flavor-row{margin-top:.6rem}
+
   .compiler{display:block;text-align:left;min-width:0}
   .compiler textarea{
     width:100%;margin:0;padding:.85rem;border-radius:12px;border:1px solid var(--line-strong);
@@ -438,7 +501,7 @@
   }
   .compiler textarea::placeholder{color:var(--ink-3)}
   .compiler .dropzone{
-    flex:none;min-height:185px;margin-top:.85rem;padding:1.35rem 1rem;line-height:1.5;
+    flex:none;min-height:104px;margin-top:0;padding:1rem;line-height:1.5;
   }
   .compiler .dropzone strong{color:var(--ink);font-size:1rem}
   .compiler .dropzone span{color:var(--ink-2);font-size:.92rem;opacity:1}
@@ -503,13 +566,18 @@
   }
   .flavor-row.pulse{animation:flavorPulse 1.8s ease-in-out;border-radius:12px}
 
-  .restore-box{
-    border:1px solid var(--line);border-radius:14px;background:var(--surface-1);
-    padding:1rem;margin:0 0 1rem;
+  /* The Step 3 confirmation list, relocated below the desk into the
+     product section as reading content (no box, no border). */
+  .confirm{max-width:780px;margin:42px auto 0;text-align:center}
+  .confirm .confirm-title{font-weight:750;font-size:1.12rem;color:var(--ink);margin:0 0 1.1rem}
+  .confirm ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;text-align:left}
+  .confirm li{color:var(--ink-2);font-size:.95rem;line-height:1.55}
+  .confirm li b{
+    display:block;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:.78rem;letter-spacing:.12em;color:var(--accent-text);margin-bottom:.3rem;
   }
-  .restore-box .box-title{font-weight:750;color:var(--ink);margin:0 0 .5rem}
-  .restore-box ol{margin:0;padding-left:1.25rem;color:var(--ink-2);font-size:.92rem;line-height:1.55}
-  .restore-box li + li{margin-top:.35rem}
+  .confirm .confirm-close{margin:1.3rem 0 0;color:var(--ink-2);font-size:1rem}
+  .confirm .confirm-close strong{color:var(--ink)}
 
   .comparison-v3{padding-top:84px}
   .contrast{padding-top:34px}
@@ -525,6 +593,8 @@
   }
   @media (max-width: 960px){
     .compiler .dropzone{min-height:220px}
+    .confirm ol{grid-template-columns:1fr;gap:14px}
+    .confirm{margin-top:34px}
   }
   @media (max-width: 700px){
     .ways{padding:.9rem}
@@ -560,14 +630,12 @@
       <div class="desk-grid">
 
         <div class="step">
-          <p class="step-num">Step 1 · Extract</p>
+          <p class="step-num">Step <span class="step-big">1</span> · Extract</p>
           <h3>Ask your AI for its self-report</h3>
-          <p>One request, pasted into the AI you use now. It writes the report itself: who it is to you, your rules, your people, your open loops.</p>
+          <p>One request. The AI you use now writes the report itself: your rules, your people, your open loops.</p>
           <div class="extract-stack">
-              <strong>Get the extraction request.</strong>
               <div class="ways">
-                <p class="ways-title">One click: your AI opens with it ready</p>
-                <p class="way-detail">These four accept a prepared prompt. The button opens a new chat with your AI with the extraction request already typed in, addressed to it. You press Enter once and it starts.</p>
+                <p class="ways-title">Pick your AI: it opens with the request ready</p>
                 <div class="ai-btns">
                   <a class="way-btn ai-btn" data-ai="chatgpt" href="https://chatgpt.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.&hints=search" target="_blank" rel="noopener">Open in ChatGPT</a>
                   <a class="way-btn ai-btn" data-ai="claude" href="https://claude.ai/new?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener">Open in Claude</a>
@@ -575,28 +643,24 @@
                   <a class="way-btn ai-btn" data-ai="perplexity" href="https://www.perplexity.ai/search?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener">Open in Perplexity</a>
                 </div>
               </div>
-              <div class="ways">
-                <p class="ways-title">By hand: works with any AI</p>
-                <p class="way-detail">For Gemini, and for any other AI without a button above. Gemini will not take a prepared prompt, so its button does the closest thing in a single click: it copies the request and opens Gemini together. Paste it in and press Enter.</p>
+              <details class="desk-details more-ways">
+                <summary>Other ways to get the request</summary>
                 <button type="button" class="way-btn" id="geminiBtn">Open in Gemini (copies the prompt)</button>
                 <p class="downloaded-note" id="geminiNote" role="status">Copied. If Gemini did not open on its own, open it and paste the request in, then press Enter. On a phone, long-press the message box and tap Paste.</p>
-                <div class="way-card">
-                  <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Download the file</div>
-                  <p class="way-detail">Saves the extraction request as a file, EXTRACTION-REQUEST.md. Open a chat with your current AI, attach the file, and send it with the line below.</p>
-                  <button type="button" class="way-btn" id="downloadBtn">Download the file</button>
+                <div class="way-row">
+                  <span class="way-head"><span class="way-dot" aria-hidden="true"></span>Download the file</span>
+                  <button type="button" class="way-btn" id="downloadBtn">Download</button>
                 </div>
-                <div class="way-card">
-                  <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Copy the whole request</div>
-                  <p class="way-detail">Puts the entire request on your clipboard as plain text. Paste it into a chat with your current AI as one message, no file to attach or hunt for later.</p>
-                  <button type="button" class="way-btn" id="copyBtn">Copy the request</button>
+                <div class="way-row">
+                  <span class="way-head"><span class="way-dot" aria-hidden="true"></span>Copy the whole request</span>
+                  <button type="button" class="way-btn" id="copyBtn">Copy</button>
                 </div>
-                <div class="way-card">
-                  <div class="way-head"><span class="way-dot" aria-hidden="true"></span>Send the link</div>
-                  <p class="way-detail">No file, no wall of text. Copy this short link, paste it into the chat with your AI, and tell it to open it: <a class="quoted" href="https://clonemy.ai/extract" target="_blank" rel="noopener">clonemy.ai/extract</a>. The whole request is written on that page for it to read.</p>
+                <div class="way-row">
+                  <span class="way-head"><span class="way-dot" aria-hidden="true"></span>Send the link: <a class="inline-link" href="https://clonemy.ai/extract" target="_blank" rel="noopener">clonemy.ai/extract</a></span>
                   <button type="button" class="way-btn" id="copyLinkBtn">Copy the link</button>
                 </div>
-                <p class="ways-note">Same request behind every door, same capsule at the end.</p>
-              </div>
+                <p class="send-line"><strong>Send it with this line:</strong> <span class="quoted-inline">“Follow the instructions in this file and give me the complete document it asks for.”</span></p>
+              </details>
               <p class="downloaded-note" id="downloadedNote" role="status">Saved. Now send it to your current AI.</p>
               <p class="downloaded-note" id="copiedNote" role="status">Copied. Paste it into your current AI.</p>
               <script>
@@ -629,29 +693,29 @@
                   if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText('https://clonemy.ai/extract').then(done, function () { done(); }); } else { done(); }
                 });
               </script>
-            <div class="send-callout">
-              <strong>Then send it, by whichever way you picked above, with one line:</strong>
-              <span class="quoted">“Follow the instructions in this file and give me the complete document it asks for.”</span>
-            </div>
-            <p class="step-note"><strong>Strict by design:</strong> specifics over summaries, your rules quoted in your own words, and gaps marked MISSING instead of filled with invention.</p>
           </div>
         </div>
 
         <div class="arrow" aria-hidden="true">&#8594;</div>
 
         <div class="step">
-          <p class="step-num">Step 2 · Compile</p>
+          <p class="step-num">Step <span class="step-big">2</span> · Compile</p>
           <h3>Drop the report here</h3>
-          <p>Paste the document your AI gave you, or drop its file into the working zone. Add documents from more than one AI and the compiler merges them into one capsule.</p>
+          <p>Paste it, or drop the file. Reports from more than one AI merge into one capsule.</p>
             <div class="compiler">
-              <textarea id="compileInput" rows="12" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
               <div class="dropzone" id="dropZone" role="button" tabindex="0" aria-label="Drop the document file here, or click to choose a file">
                 <strong>Drag and drop the file here</strong><br />
-                <span>the document your AI gave you, one file or several at once, .md or .txt, or click to browse</span>
+                <span>.md or .txt, one file or several, or click to browse</span>
                 <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" multiple hidden />
               </div>
               <div class="sourcelist" id="sourceList" hidden></div>
               <p class="flavor-detect" id="flavorDetect" hidden></p>
+              <details class="desk-details paste-details">
+                <summary>Or paste the report text instead</summary>
+                <textarea id="compileInput" rows="4" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
+              </details>
+              <details class="desk-details flavor-details">
+                <summary>Choose a flavor (Auto by default)</summary>
               <div class="flavor-row" id="flavorRow" role="group" aria-label="Choose a flavor for your capsule">
                 <span class="flavor-label">Flavor:</span>
                 <button type="button" class="flavor-chip" data-flavor="auto" aria-pressed="true">Auto</button>
@@ -662,7 +726,7 @@
                 <button type="button" class="flavor-chip" data-flavor="gentle" aria-pressed="false">Gentle</button>
                 <button type="button" class="flavor-chip" data-flavor="default" aria-pressed="false">Neutral</button>
               </div>
-              <p class="flavor-note" id="flavorNote">Flavor shapes the whole capsule, not just the wait: the compile lines, the cover note at the top of your capsule, and the announcement your new AI makes when it installs. Auto reads your AI&#8217;s own personality from the document and matches it.</p>
+              </details>
               <div class="row">
                 <button type="button" class="primary" id="compileBtn">Compile my capsule</button>
               </div>
@@ -672,12 +736,12 @@
                 <p class="progress-line" id="compileProgressLine" aria-live="polite"></p>
               </div>
               <div id="compileOut" hidden>
-                <textarea id="capsulePreview" rows="10" readonly></textarea>
+                <textarea id="capsulePreview" rows="6" readonly></textarea>
                 <div class="row">
                   <button type="button" id="dlCapsule">Download capsule.md again</button>
                   <button type="button" class="primary" id="copyLineBtn">Copy install line</button>
                 </div>
-                <p class="fineprint">Next step: send capsule.md to your new AI in one message, and paste the install line into that same message. The button puts the line on your clipboard, so you never have to open the file and hunt for it. The same line waits at the end of the file if you need it later. Files sent with no text can leave the new AI asking what they are for. The capsule ends with a parity self-check, three questions your new AI should be able to answer from the capsule alone.</p>
+                <p class="fineprint">Send capsule.md to your new AI in one message, with the install line pasted into the same message.</p>
               </div>
 <script>
   (function () {
@@ -732,26 +796,21 @@
     ['dragover', 'drop'].forEach(function (ev) { window.addEventListener(ev, function (e) { e.preventDefault(); }); });
   })();
 </script>
-              <p class="privacy">Nothing is uploaded in this step. You carry the file yourself, both ways.<br />Your capsule is never used to train anything. It is yours the way a passport is yours.</p>
+              <p class="privacy">Nothing is uploaded. Your capsule is never used to train anything. It is yours the way a passport is yours.</p>
             </div>
-          <p class="step-note"><strong>What the compiler does:</strong> it orders and deduplicates the report, adds an install protocol at the top, and ends the capsule with a parity self-check.</p>
+          <details class="desk-details">
+            <summary>What flavor does, and what the compiler does</summary>
+            <p><strong>Flavor</strong> sets the capsule's voice: the cover note at the top and the announcement your new AI makes when it installs. Auto reads your document and matches it.</p>
+            <p><strong>The compiler</strong> orders and deduplicates the report, adds an install protocol at the top, and ends the capsule with a parity self-check: three questions your new AI answers from the capsule alone.</p>
+          </details>
         </div>
 
         <div class="arrow" aria-hidden="true">&#8594;</div>
 
         <div class="step">
-          <p class="step-num">Step 3 · Restore</p>
+          <p class="step-num">Step <span class="step-big">3</span> · Restore</p>
           <h3>Take your capsule anywhere</h3>
           <p>Out comes one small file. Send it to any AI with the install line inside it, and that AI starts as yours: same rules, same people, same open loops.</p>
-          <div class="restore-box">
-            <p class="box-title">Your new AI confirms the transfer</p>
-            <ol>
-              <li>Who it is to you, and how it sounds with you.</li>
-              <li>Your never-do rules and approval-first rules, in your own words.</li>
-              <li>Your open loops right now, with prices and deadlines.</li>
-            </ol>
-          </div>
-          <p><strong>Built once, kept current.</strong> The day you switch, you are already packed.</p>
           <div class="filechip" aria-label="Your compiled capsule">
             <div class="fc-icon" aria-hidden="true">.md</div>
             <div>
@@ -773,7 +832,17 @@
 <section class="wrap" aria-labelledby="shot-heading">
     <p class="kicker">The product</p>
     <h2 id="shot-heading">This is what travels</h2>
-    <p class="section-sub">Not a summary and not a chat export. A capsule is a single structured file, written by your old AI and read by your new one. Here is one, opened up.</p>
+    <p class="section-sub">Not a summary and not a chat export. A capsule is a single structured file, written by your old AI and read by your new one. The report behind it is strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention. Here is one, opened up.</p>
+
+    <div class="confirm">
+      <p class="confirm-title">Your new AI confirms the transfer</p>
+      <ol>
+        <li><b>1</b>Who it is to you, and how it sounds with you.</li>
+        <li><b>2</b>Your never-do rules and approval-first rules, in your own words.</li>
+        <li><b>3</b>Your open loops right now, with prices and deadlines.</li>
+      </ol>
+      <p class="confirm-close"><strong>Built once, kept current.</strong> The day you switch, you are already packed.</p>
+    </div>
 
     <div class="capsule" role="img" aria-label="An example capsule file, showing its title, flavor line, install line, and eleven sections">
       <div class="capsule-bar">
