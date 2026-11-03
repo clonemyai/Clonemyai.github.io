@@ -3,15 +3,35 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+  // Theme starts before first paint: a choice made earlier in this
+  // session wins, otherwise the visitor's system preference decides.
+  (function () {
+    var t = null;
+    try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') {
+      t = 'dark';
+      try { if (window.matchMedia('(prefers-color-scheme: light)').matches) { t = 'light'; } } catch (e) {}
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 <title>Move your Grok memory to Gemini, clonemy.ai</title>
 <meta name="description" content="How to move what Grok knows about you into Gemini: what survives, what the built-in options miss, and the capsule route with a parity self-check." />
 <style>
-  :root { --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --accent:#14584a; --box-bg:#f4f1ea; }
+  :root { color-scheme:dark; --bg:#0b0b14; --surface:#141424; --ink:#eaf2ff; --ink-2:#aeb9dc; --ink-3:#7f89ad; --line:rgba(140,150,255,.22); --line-strong:rgba(140,150,255,.45); --accent:#37c8e8; --box-bg:#10101c; --grad:linear-gradient(90deg,#7b6cff,#37c8e8 55%,#ff5ea8); }
+  :root[data-theme="light"] { color-scheme:light; --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --line-strong:#d8d2c6; --accent:#14584a; --box-bg:#f4f1ea; --grad:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86); }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]) { color-scheme:light; --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --line-strong:#d8d2c6; --accent:#14584a; --box-bg:#f4f1ea; --grad:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86); }
+  }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased; line-height:1.55; }
   .page { max-width:720px; margin:0 auto; padding:28px 20px 40px; }
   .brand { font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); }
   .brand a { color:inherit; text-decoration:none; }
+  .brand { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .theme-toggle { font:inherit; font-size:.88rem; font-weight:650; letter-spacing:normal; text-transform:none; color:var(--ink-2); line-height:1.3; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:.42rem .85rem; cursor:pointer; white-space:nowrap; }
+  .theme-toggle:hover { color:var(--ink); border-color:var(--line-strong); }
   h1 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:clamp(32px, 5.6vw, 46px); line-height:1.08; letter-spacing:-0.02em; margin:14px 0 14px; }
   h2 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:25px; margin:32px 0 10px; }
   p, li { font-size:16px; }
@@ -23,13 +43,13 @@
   ul.routes li { padding:9px 0; border-bottom:1px solid var(--line); font-size:16px; }
   .tag { display:inline-block; font-size:12px; border:1px solid var(--line-strong, #d8d2c6); border-radius:999px; padding:1px 8px; margin-left:8px; color:var(--ink-2); background:var(--surface); }
   footer { border-top:1px solid var(--line); padding-top:18px; margin-top:36px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-3); }
-  .sig { background: linear-gradient(90deg, #7c5cff, #37c8e8, #ff5ea8); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+  .sig { background: var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
   .srcs { font-size:13.5px; color:var(--ink-2); }
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="brand"><a href="https://clonemy.ai">clonemy.ai</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a></div>
+  <div class="brand"><a href="https://clonemy.ai">clonemy.ai</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">&#9728; Light</button></div>
 
   <h1>Move your Grok memory to Gemini</h1>
   <p class="lede">Gemini now has a built-in import, and it is a genuine start. It is also one-time, prose-only, and unverified. The capsule is the structured, checkable version of the same move.</p>
@@ -70,5 +90,38 @@
     <div class="sig">Built with 🩷 by a founder and his AI.</div>
   </footer>
 </div>
+<script>
+  // Theme toggle: flips the theme for this session only. The choice
+  // lives in session storage, never leaves the browser, and is gone
+  // when the tab closes. The starting theme (set in the head) is the
+  // stored choice, or the visitor's system preference.
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    if (!btn) { return; }
+    function current() {
+      var t = document.documentElement.getAttribute('data-theme');
+      if (t === 'light' || t === 'dark') { return t; }
+      try {
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      } catch (e) { return 'dark'; }
+    }
+    function render() {
+      if (current() === 'dark') {
+        btn.innerHTML = '&#9728; Light';
+        btn.setAttribute('aria-label', 'Switch to light theme');
+      } else {
+        btn.innerHTML = '&#9790; Dark';
+        btn.setAttribute('aria-label', 'Switch to dark theme');
+      }
+    }
+    btn.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { sessionStorage.setItem('clonemy-theme', next); } catch (e) {}
+      render();
+    });
+    render();
+  })();
+</script>
 </body>
 </html>

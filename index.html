@@ -1003,8 +1003,20 @@
     .shelf .step p{margin-bottom:.55rem;line-height:1.45}
     .shelf .dropzone{padding:9px 14px}
     .shelf .desk-foot{margin-top:8px;padding-top:8px}
-    .shelf .capsule-body{padding:16px 20px 18px}
-    .shelf .section-list li{padding:.14rem 0}
+    .shelf .capsule-body{padding:16px 20px 18px;line-height:1.55}
+    .shelf .section-list li{padding:.08rem 0}
+    /* Short-window product compaction: the capsule card is the
+       shelf's tallest stack, and at heights under 850px its
+       natural height would push the shared fit factor under the
+       0.66 floor. Wider measure on the two centered prose blocks,
+       tighter card margins, and slimmer install-line padding buy
+       back the difference so the whole shelf fits by scaling. */
+    .shelf .section-sub{max-width:70ch}
+    .shelf .capsule{margin-top:18px}
+    .shelf .capsule-body .c-label{margin:.85rem 0 .3rem}
+    .shelf .capsule-body .c-flavor{margin-bottom:.8rem}
+    .shelf .install-line{padding:.65rem .85rem}
+    .shelf .capsule-caption{margin-top:12px;max-width:70ch}
     .shelf .plank{padding:18px 19px}
     .shelf table.compare th,.shelf table.compare td{padding:.46rem .68rem;font-size:.92rem}
     .shelf .demo-video{width:min(100%,590px)}
@@ -1579,7 +1591,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v4.1</span>
+      <span>clonemy.ai, working prototype · v4.2</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2152,46 +2164,99 @@ What a successor would need that you do not have: list them as plain questions. 
     var stops = Array.prototype.slice.call(indexWrap.children);
 
     /* Fit scaling (shelf mode): no panel ever scrolls internally.
-       Each panel-inner is measured against its panel; when its
-       natural height exceeds the available height it is scaled
-       down by the exact fitting factor (transform, origin top
-       center), so content resizes instead of scrolling. Scale
-       only ever shrinks. The floor is 0.66: if a panel would need
-       less (only at viewport heights well under normal browser
-       windows, roughly below 620px), the scale holds at the floor
-       and the panel clips at the bottom rather than growing a
-       scrollbar. In the vertical version the page scrolls and
-       panels are never scaled. */
+       Content resizes instead of scrolling, under ONE shelf-wide
+       scale factor: every panel's needed factor is computed and
+       the minimum is applied uniformly to all panel-inners, so
+       shared elements (kicker pills, headings, type) render at
+       identical sizes on every panel instead of the tallest panel
+       shrinking alone. Scale only ever shrinks. The floor is
+       0.66: if the shared factor would need to go lower (only at
+       viewport heights well under normal browser windows), it
+       holds at the floor and the neediest panels clip at the
+       bottom rather than growing a scrollbar. In the vertical
+       version the page scrolls and panels are never scaled.
+
+       Two measurement rules, learned from a live-browser failure
+       where the first version of this code reported a fit while
+       the founder's window showed full-size clipped content:
+       (1) The natural height is the union of the inner's
+       descendant boxes with any existing transform temporarily
+       removed, not scrollHeight alone: scrollHeight stops at the
+       inner's own box whenever a descendant carries its own
+       height or overflow constraint, so it can under-report the
+       true content extent and leave the scale at 1.
+       (2) The available height is the inner's height minus any
+       part of the panel that slides under the fixed bottom dock
+       (the shelf-ui): at widths where the index stops wrap to
+       two rows the dock grows past the shelf's bottom padding,
+       and content fitted to the full panel box loses its last
+       rows behind the dock. */
     var inners = panels.map(function (panel) { return panel.querySelector('.panel-inner'); });
+    var shelfUi = document.querySelector('.shelf-ui');
     var FIT_MIN_SCALE = 0.66;
     var fitQueued = false;
+    function naturalHeight(inner) {
+      var prev = inner.style.transform;
+      inner.style.transform = 'none';
+      var top = inner.getBoundingClientRect().top;
+      var extent = 0;
+      var nodes = inner.getElementsByTagName('*');
+      for (var i = 0; i < nodes.length; i++) {
+        var r = nodes[i].getBoundingClientRect();
+        if (r.width > 0 || r.height > 0) {
+          var b = r.bottom - top;
+          if (b > extent) extent = b;
+        }
+      }
+      inner.style.transform = prev;
+      var padBottom = 0;
+      try { padBottom = parseFloat(getComputedStyle(inner).paddingBottom) || 0; } catch (e) {}
+      return Math.max(inner.scrollHeight || 0, Math.ceil(extent + padBottom));
+    }
+    function visibleHeight(panel, inner) {
+      var avail = inner.clientHeight;
+      if (!avail || !shelfUi || !panel) return avail;
+      var pr = panel.getBoundingClientRect();
+      var ur = shelfUi.getBoundingClientRect();
+      if (ur.height > 0 && ur.top > 0 && pr.bottom > ur.top) {
+        avail -= Math.ceil(pr.bottom - ur.top);
+      }
+      return Math.max(0, avail);
+    }
     function fitPanels() {
       var mobile = isMobile();
-      panels.forEach(function (panel, i) {
-        var inner = inners[i];
-        if (!inner) return;
-        if (mobile) {
+      if (mobile) {
+        panels.forEach(function (panel, i) {
+          var inner = inners[i];
+          if (!inner) return;
           inner.style.transform = '';
           inner.removeAttribute('data-fit-scale');
           inner.removeAttribute('data-fit-clipped');
-          return;
-        }
-        var avail = inner.clientHeight;
-        var natural = inner.scrollHeight;
-        if (!avail || !natural || natural <= avail) {
-          inner.style.transform = '';
-          inner.setAttribute('data-fit-scale', '1');
-          inner.removeAttribute('data-fit-clipped');
-          return;
-        }
-        var s = avail / natural;
-        var clipped = false;
-        if (s < FIT_MIN_SCALE) { s = FIT_MIN_SCALE; clipped = true; }
-        inner.style.transform = 'scale(' + s + ')';
-        inner.setAttribute('data-fit-scale', String(s));
-        if (clipped) { inner.setAttribute('data-fit-clipped', 'true'); }
+        });
+        document.documentElement.removeAttribute('data-shelf-scale');
+        return;
+      }
+      var needs = panels.map(function (panel, i) {
+        var inner = inners[i];
+        if (!inner) return 1;
+        var avail = visibleHeight(panel, inner);
+        var natural = naturalHeight(inner);
+        if (!avail || !natural || natural <= avail) return 1;
+        return avail / natural;
+      });
+      var shared = Math.min.apply(null, needs.concat([1]));
+      var sharedClipped = false;
+      if (shared < FIT_MIN_SCALE) { shared = FIT_MIN_SCALE; sharedClipped = true; }
+      panels.forEach(function (panel, i) {
+        var inner = inners[i];
+        if (!inner) return;
+        if (shared >= 1) { inner.style.transform = ''; }
+        else { inner.style.transform = 'scale(' + shared + ')'; }
+        inner.setAttribute('data-fit-scale', String(shared));
+        if (sharedClipped && needs[i] < shared) { inner.setAttribute('data-fit-clipped', 'true'); }
         else { inner.removeAttribute('data-fit-clipped'); }
       });
+      document.documentElement.setAttribute('data-shelf-scale', String(shared));
     }
     function queueFit() {
       if (fitQueued) return;
@@ -2352,8 +2417,36 @@ What a successor would need that you do not have: list them as plain questions. 
       }
     }, { passive: false });
     window.addEventListener('resize', function () { render(); fitPanels(); });
+    /* Mode switch: keep your place. The active panel at the
+       moment of the flip is the destination in the other mode:
+       entering the vertical version scrolls the window so that
+       panel sits at the top under the compact header; entering
+       the shelf goes straight to the panel nearest the vertical
+       scroll position (which is what `current` tracks there).
+       The reposition is instant (no smooth scroll to fight the
+       resize) and is queued ahead of the fit pass, so the
+       resize-driven passes settle around the restored position
+       instead of resetting it. */
+    var lastMobile = isMobile();
+    function handleModeChange() {
+      var target = Math.max(0, Math.min(panels.length - 1, current));
+      var toMobile = isMobile();
+      lastMobile = toMobile;
+      requestAnimationFrame(function () {
+        if (toMobile) {
+          window.scrollTo(0, Math.max(0, panelTop(panels[target]) - HEADER_OFFSET));
+          current = target;
+          fitPanels();
+        } else {
+          fitPanels();
+          shelf.scrollTo({ left: panelLeft(panels[target]), behavior: 'auto' });
+          current = target;
+        }
+        render();
+      });
+    }
     if (mobileQuery && mobileQuery.addEventListener) {
-      mobileQuery.addEventListener('change', function () { render(); fitPanels(); });
+      mobileQuery.addEventListener('change', handleModeChange);
     }
     document.addEventListener('keydown', function (e) {
       var tag = (e.target && e.target.tagName) || '';
