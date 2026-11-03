@@ -1098,6 +1098,27 @@
   html[data-fit-compact="true"] .shelf .step-note{padding-top:.55rem}
   html[data-fit-compact="true"] .shelf .desk-foot{margin-top:8px;padding-top:8px}
 
+  /* ---------- compact product tier (fit-driven) ----------
+     The capsule card is the shelf's other tall stack: when
+     data-fit-compact is set it sheds height alongside the
+     desk, with a smaller panel heading and sub, slimmer card
+     padding and type, and a tighter section list. The header
+     rules scope to the product panel by its aria-label, so
+     the other panels' headings keep their size. Sizes only,
+     so both themes land identically. */
+  html[data-fit-compact="true"] .panel[aria-label="The product"] h2{font-size:clamp(1.65rem,2.8vw,2.2rem);margin-bottom:.55rem}
+  html[data-fit-compact="true"] .panel[aria-label="The product"] .section-sub{font-size:.97rem;line-height:1.45}
+  html[data-fit-compact="true"] .shelf .capsule{margin-top:14px}
+  html[data-fit-compact="true"] .shelf .capsule-body{padding:14px 20px 14px;font-size:.85rem;line-height:1.45}
+  html[data-fit-compact="true"] .shelf .capsule-body .c-title{font-size:1.12rem}
+  html[data-fit-compact="true"] .shelf .capsule-body .c-flavor{margin-bottom:.6rem}
+  html[data-fit-compact="true"] .shelf .capsule-body .c-label{margin:.7rem 0 .25rem}
+  html[data-fit-compact="true"] .shelf .install-line{padding:.6rem .8rem;font-size:.84rem}
+  html[data-fit-compact="true"] .shelf .section-list{gap:.05rem 2.4rem}
+  html[data-fit-compact="true"] .shelf .section-list li{padding:.12rem 0}
+  html[data-fit-compact="true"] .shelf .section-list .sample{font-size:.75rem}
+  html[data-fit-compact="true"] .shelf .capsule-caption{margin-top:10px}
+
   /* ---------- vertical version ----------
      At and under 1079px the shelf unstacks into a native vertical
      page: same panels, same order, page scroll, the header in a
@@ -1616,7 +1637,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v4.3</span>
+      <span>clonemy.ai, working prototype · v4.4</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
