@@ -819,7 +819,7 @@
 </style>
 <style id="shelf-port">
   /* ============ v4.0: the shelf ============
-     The homepage is a horizontal shelf of six panels on desktop and
+     The homepage is a horizontal shelf of seven panels on desktop and
      a vertical page on small screens. This block is additive: the
      production rules above stay in force. What follows lays the
      sections into panels, adds the shelf chrome (index, arrows, edge
@@ -900,6 +900,7 @@
      breakpoint's step floor was derived, so the steps lose
      nothing there. */
   .panel.p-desk{flex-basis:min(1380px,98vw);scroll-snap-align:start}
+  .panel.p-extension{flex-basis:min(1380px,98vw);scroll-snap-align:start}
   .panel.wide{flex-basis:min(1180px,86vw)}
   .panel.demo-panel{flex-basis:var(--demo-panel-w)}
   /* Trailing end space: the last panel's left-edge target must be
@@ -930,6 +931,108 @@
      metrics so the panel reads at the same scale as its siblings. */
   .panel-head{max-width:920px;margin:0 auto 1.5rem;text-align:center}
   .panel-head .kicker{margin-bottom:1rem}
+
+  /* Panel Zero: the extension's public debut. The story stays
+     deliberately lean so this panel never becomes the shelf's
+     binding stack: a three-point account beside a pure-markup
+     drawing of the real extension bar, then one store action. */
+  .extension-wrap{max-width:1180px;margin:0 auto;text-align:center}
+  .extension-head{max-width:920px;margin:0 auto 1.35rem;text-align:center}
+  .extension-head .kicker{margin-bottom:1rem}
+  .extension-head .section-sub{max-width:64ch}
+  .extension-stage{
+    display:grid;grid-template-columns:minmax(330px,.9fr) minmax(470px,1.1fr);
+    gap:26px;align-items:stretch;max-width:1180px;margin:0 auto;text-align:left;
+  }
+  .extension-copy{display:flex;flex-direction:column;gap:14px;min-width:0}
+  .extension-points{display:grid;gap:14px}
+  .extension-point{
+    display:flex;gap:15px;align-items:flex-start;
+    background:var(--pane-bg);border:1px solid var(--pane-border);border-radius:16px;
+    box-shadow:var(--pane-shadow);padding:15px 17px;
+    backdrop-filter:blur(8px) saturate(1.05);-webkit-backdrop-filter:blur(8px) saturate(1.05);
+  }
+  .extension-point-icon{
+    flex:0 0 auto;width:44px;height:44px;border-radius:11px;background:var(--grad);
+    display:flex;align-items:center;justify-content:center;color:var(--on-grad);
+  }
+  .extension-point-icon svg{width:22px;height:22px;display:block}
+  .extension-point h3{font-size:1.1rem;font-weight:750;letter-spacing:-.01em;margin:0 0 .28rem}
+  .extension-point p{font-size:.93rem;line-height:1.48;color:var(--ink-2);margin:0}
+  .extension-platforms{font-size:.93rem;line-height:1.5;color:var(--ink-2);margin:0}
+  .extension-platforms strong{color:var(--ink)}
+  .extension-depth{
+    border-top:1px solid var(--line);padding-top:.75rem;
+    font-size:.92rem;line-height:1.5;color:var(--ink-2);margin:0;
+  }
+  .extension-depth strong{color:var(--ink)}
+  .extension-browser{
+    min-height:392px;display:flex;flex-direction:column;overflow:hidden;
+    background:var(--surface-1);border:1px solid var(--line-strong);border-radius:18px;
+    box-shadow:var(--capsule-shadow);
+  }
+  .extension-browser-bar{
+    flex:0 0 43px;display:flex;align-items:center;gap:.55rem;padding:0 1rem;
+    border-bottom:1px solid var(--line);background:var(--panel-2);
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:.84rem;color:var(--ink-2);
+  }
+  .extension-browser-bar .cdot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;background:var(--cdot)}
+  .extension-browser-bar .cname{margin-left:.35rem;color:var(--ink);font-weight:700}
+  .extension-browser-bar .csize{margin-left:auto;color:var(--ink-3)}
+  .extension-browser-body{
+    position:relative;flex:1;padding:20px;background:var(--panel-2);
+  }
+  .mock-report{
+    width:min(62%,360px);border:1px solid var(--line);border-radius:12px;
+    background:var(--surface-1);padding:15px 16px;color:var(--ink-2);
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  .mock-report strong{display:block;color:var(--ink);font-size:.92rem;margin-bottom:.45rem}
+  .mock-line{height:7px;border-radius:99px;background:var(--line-strong);margin-top:9px}
+  .mock-line.short{width:58%}
+  .mock-line.mid{width:76%}
+  .mock-line.long{width:92%}
+  .mock-found{
+    display:inline-block;margin-top:13px;padding:.24rem .6rem;border-radius:999px;
+    background:var(--grad);color:var(--on-grad);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.78rem;font-weight:800;
+  }
+  .extension-bar{
+    position:absolute;right:16px;bottom:16px;width:min(330px,calc(100% - 32px));
+    background:#10101c;color:#eaf2ff;border:1px solid rgba(140,150,255,.45);
+    border-radius:12px;padding:11px 12px;box-shadow:0 8px 30px rgba(0,0,0,.45);
+    font-size:.86rem;line-height:1.45;
+  }
+  .extension-bar-head{
+    display:flex;align-items:center;gap:.5rem;margin-bottom:8px;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:.8rem;font-weight:700;color:#eaf2ff;
+  }
+  .extension-bar-dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:var(--grad)}
+  .extension-bar-step{
+    display:block;border-radius:8px;padding:7px 9px;font-weight:700;
+  }
+  .extension-bar-step.put{
+    border:1px solid rgba(55,200,232,.55);background:rgba(123,108,255,.16);color:#eaf2ff;
+  }
+  .extension-bar-step.compile{
+    margin-top:6px;background:var(--grad);color:var(--on-grad);
+    box-shadow:0 0 14px rgba(123,108,255,.45),0 0 22px rgba(55,200,232,.18);
+  }
+  .extension-bar-status{display:block;margin-top:7px;color:#cfe3ff;font-size:.78rem;line-height:1.4}
+  .extension-actions{
+    margin-top:24px;display:flex;align-items:center;justify-content:center;
+    gap:16px;flex-wrap:wrap;
+  }
+  .extension-cta{
+    display:inline-flex;align-items:center;justify-content:center;
+    background:var(--grad);color:var(--on-grad);border-radius:999px;
+    padding:.78rem 1.35rem;font-weight:800;text-decoration:none;
+    box-shadow:var(--btn-primary-shadow);
+  }
+  .extension-cta:hover{box-shadow:var(--btn-primary-shadow-hover)}
+  .extension-note{color:var(--ink-3);font-size:.9rem}
   .shelf .confirm-kicker{margin-bottom:1rem}
   .shelf .confirm{margin-top:0}
   .shelf .confirm .confirm-title{
@@ -959,9 +1062,9 @@
   }
   .nav-btn:hover{border-color:var(--line-strong)}
   .nav-btn:disabled{opacity:.34;cursor:default}
-  .progress-wrap{pointer-events:auto;width:min(780px,62vw);margin:0 auto;text-align:center}
+  .progress-wrap{pointer-events:auto;width:min(920px,68vw);margin:0 auto;text-align:center}
   .shelf-progress-track{height:3px;overflow:hidden;border-radius:99px;background:var(--line)}
-  .shelf-progress-fill{width:16.66%;height:100%;border-radius:99px;background:var(--grad);transition:width .25s ease}
+  .shelf-progress-fill{width:14.29%;height:100%;border-radius:99px;background:var(--grad);transition:width .25s ease}
   /* Vertical version only: a slim progress rail at the right edge,
      aligned to the page's own direction of travel. Hidden here;
      the vertical band below turns it on and retires the horizontal
@@ -1099,12 +1202,12 @@
 
   /* ---------- width steps (desktop shelf) ---------- */
   @media (max-width: 980px){
-    .panel.p-desk{flex-basis:94vw}
+    .panel.p-desk,.panel.p-extension{flex-basis:94vw}
     .panel.wide,.panel.demo-panel{flex-basis:88vw}
   }
   @media (max-width: 700px){
     .shelf{gap:14px;padding:72px 12px 86px;scroll-padding-left:12px}
-    .panel,.panel.p-desk,.panel.wide,.panel.demo-panel{
+    .panel,.panel.p-desk,.panel.p-extension,.panel.wide,.panel.demo-panel{
       flex-basis:calc(100vw - 24px);border-radius:22px;
     }
     .panel-inner{padding:20px 17px 24px}
@@ -1163,6 +1266,29 @@
   html[data-fit-compact="true"] .shelf .section-list .sample{font-size:.75rem}
   html[data-fit-compact="true"] .shelf .capsule-caption{margin-top:10px}
 
+  /* ---------- compact extension tier (fit-driven) ----------
+     Panel Zero sheds height with the desk and product when the
+     shared factor runs tight: tighter head spacing, point panes,
+     browser drawing, and action row. Sizes only, so both themes
+     land identically and the panel stays below the product. */
+  html[data-fit-compact="true"] .panel.p-extension .panel-inner{padding-top:12px;padding-bottom:12px}
+  html[data-fit-compact="true"] .extension-head{margin-bottom:.8rem}
+  html[data-fit-compact="true"] .extension-head h2{font-size:clamp(1.65rem,2.8vw,2.2rem);margin-bottom:.55rem}
+  html[data-fit-compact="true"] .extension-head .section-sub{font-size:.97rem;line-height:1.45}
+  html[data-fit-compact="true"] .extension-stage{gap:18px}
+  html[data-fit-compact="true"] .extension-copy{gap:10px}
+  html[data-fit-compact="true"] .extension-points{gap:10px}
+  html[data-fit-compact="true"] .extension-point{padding:12px 14px}
+  html[data-fit-compact="true"] .extension-point h3{font-size:1.03rem;margin-bottom:.2rem}
+  html[data-fit-compact="true"] .extension-point p{font-size:.88rem;line-height:1.42}
+  html[data-fit-compact="true"] .extension-platforms{font-size:.88rem;line-height:1.42}
+  html[data-fit-compact="true"] .extension-depth{font-size:.87rem;line-height:1.42;padding-top:.6rem}
+  html[data-fit-compact="true"] .extension-browser{min-height:326px}
+  html[data-fit-compact="true"] .extension-browser-body{padding:16px}
+  html[data-fit-compact="true"] .mock-report{padding:12px 14px}
+  html[data-fit-compact="true"] .extension-actions{margin-top:16px}
+  html[data-fit-compact="true"] .extension-cta{padding:.68rem 1.2rem}
+
   /* ---------- vertical version ----------
      At and under 1079px the shelf unstacks into a native vertical
      page: same panels, same order, page scroll, the header in a
@@ -1196,7 +1322,7 @@
       gap:18px;overflow:visible;
       padding:calc(var(--head-h-compact) + 16px) 12px 150px;scroll-snap-type:none;
     }
-    .panel,.panel.p-desk,.panel.wide,.panel.demo-panel{
+    .panel,.panel.p-desk,.panel.p-extension,.panel.wide,.panel.demo-panel{
       flex:none;width:100%;height:auto;scroll-snap-align:none;
     }
     .shelf::after{display:none}
@@ -1268,6 +1394,8 @@
      the shelf height tier would otherwise hold it at three. */
   @media (max-width: 960px){
     .shelf .section-list{grid-template-columns:1fr}
+    .extension-stage{grid-template-columns:1fr}
+    .extension-browser{min-height:360px}
   }
 </style>
 
@@ -1283,12 +1411,81 @@
       <a href="/whitepaper">White paper</a>
       <a href="/extract">Extract</a>
     </nav>
-    <div class="counter" id="panelCounter" aria-live="polite">01 / 06</div>
+    <div class="counter" id="panelCounter" aria-live="polite">01 / 07</div>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.1 5.1l1.7 1.7M17.2 17.2l1.7 1.7M18.9 5.1l-1.7 1.7M6.8 17.2l-1.7 1.7"/></svg> Light</button>
   </div>
 </header>
 
 <main class="shelf" id="shelf" aria-label="clonemy.ai shelf">
+  <section class="panel p-extension" data-panel aria-label="The extension">
+    <div class="panel-inner">
+      <div class="extension-wrap">
+        <div class="extension-head">
+          <p class="kicker"><span>Panel Zero · The extension</span></p>
+          <h2>Start where your AI already is</h2>
+          <p class="section-sub">The clonemy extension lives in your AI&rsquo;s chat tab and runs the desk from there: request in, self-report recognized, capsule compiled, all without your words going anywhere else.</p>
+        </div>
+
+        <div class="extension-stage">
+          <div class="extension-copy">
+            <div class="extension-points">
+              <div class="extension-point">
+                <div class="extension-point-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 20 3l-4.5 17-3.2-6.8L4 11.5z"/><path d="M12.3 13.2 20 3"/></svg></div>
+                <div>
+                  <h3>You press send</h3>
+                  <p>The extension puts the extraction request in the chat box. It never presses Send. You do.</p>
+                </div>
+              </div>
+              <div class="extension-point">
+                <div class="extension-point-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M8.7 11.2l1.7 1.7 3-3.2"/><path d="M16 16l4.5 4.5"/></svg></div>
+                <div>
+                  <h3>It spots the report</h3>
+                  <p>When your AI finishes, the bar recognizes the 11-section self-report and lights up Compile.</p>
+                </div>
+              </div>
+              <div class="extension-point">
+                <div class="extension-point-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11V8a4 4 0 0 1 8 0v3"/><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M12 14.5v2"/></svg></div>
+                <div>
+                  <h3>Compiled in the tab</h3>
+                  <p>One press downloads capsule.md, built locally. Zero network requests. Nothing leaves the browser.</p>
+                </div>
+              </div>
+            </div>
+            <p class="extension-platforms"><strong>Works with</strong> ChatGPT, Claude, Gemini, Grok, and Perplexity.</p>
+            <p class="extension-depth"><strong>What travels:</strong> a capsule can hold your rules, people, projects, and open loops, at Starter or Personal depth.</p>
+          </div>
+
+          <div class="extension-browser" role="img" aria-label="A drawing of the clonemy extension bar in an AI chat tab, showing the request step, the gradient Compile button, and a found self-report with 11 of 11 sections">
+            <div class="extension-browser-bar" aria-hidden="true">
+              <span class="cdot"></span><span class="cdot"></span><span class="cdot"></span>
+              <span class="cname">ChatGPT</span>
+              <span class="csize">your AI&rsquo;s tab</span>
+            </div>
+            <div class="extension-browser-body" aria-hidden="true">
+              <div class="mock-report">
+                <strong>capsule-source.md</strong>
+                <div class="mock-line long"></div>
+                <div class="mock-line mid"></div>
+                <div class="mock-line short"></div>
+                <span class="mock-found">11 of 11 sections</span>
+              </div>
+              <div class="extension-bar">
+                <div class="extension-bar-head"><span class="extension-bar-dot"></span><span>clonemy.ai on ChatGPT</span></div>
+                <span class="extension-bar-step put">1. Put the request in the chat</span>
+                <span class="extension-bar-step compile">2. Compile my capsule &darr;</span>
+                <span class="extension-bar-status">Self-report found, 11 of 11 sections. Press Compile.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="extension-actions">
+          <a class="extension-cta" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a>
+          <span class="extension-note">Your capsule is compiled locally, in the tab.</span>
+        </div>
+      </div>
+    </div>
+  </section>
   <section class="panel p-desk" data-panel aria-label="The transfer desk">
     <div class="panel-inner">
   <div class="desk wrap">
@@ -1684,7 +1881,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v4.9</span>
+      <span>clonemy.ai, working prototype · v5.0</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2239,7 +2436,7 @@ What a successor would need that you do not have: list them as plain questions. 
     var railFill = document.getElementById('pageRailFill');
     var counter = document.getElementById('panelCounter');
     var indexWrap = document.getElementById('shelfIndex');
-    var stopLabels = ['The desk', 'The product', 'The confirmations', 'Why it works', 'The difference', 'The film'];
+    var stopLabels = ['The extension', 'The desk', 'The product', 'The confirmations', 'Why it works', 'The difference', 'The film'];
     var mobileQuery = window.matchMedia('(max-width: 1079px)');
     var HEADER_OFFSET = 112; /* must equal --head-h-compact in the shelf CSS */
     var current = 0;
@@ -2542,7 +2739,7 @@ What a successor would need that you do not have: list them as plain questions. 
       } else {
         var max = shelf.scrollWidth - shelf.clientWidth;
         var sratio = max > 0 ? shelf.scrollLeft / max : 0;
-        fill.style.width = (16.66 + sratio * 83.34) + '%';
+        fill.style.width = (14.29 + sratio * 85.71) + '%';
       }
       counter.textContent = String(displayCurrent + 1).padStart(2, '0') + ' / ' + String(panels.length).padStart(2, '0');
       prev.disabled = displayCurrent === 0;
