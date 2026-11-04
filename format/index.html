@@ -49,6 +49,28 @@
   .sig-heart { width:1em; height:1em; vertical-align:-0.12em; fill:#ff5ea8; }
   :root[data-theme="light"] .sig-heart { fill:#e03d86; }
   @media (prefers-color-scheme: light){ :root:not([data-theme]) .sig-heart { fill:#e03d86; } }
+
+  /* v6.14 lab alignment: these pages join the homepage's clean-room lab language */
+  :root { --bg:#0a0a13; --surface:#12121e; --ink:#f0eefc; --ink-2:#bdb8dc; --ink-3:#8f8ab0; --line:rgba(150,140,255,.16); --line-strong:rgba(150,140,255,.38); --accent:#37c8e8; --box-bg:#0d0d18; }
+  :root[data-theme="light"] { --bg:#f5f5fa; --surface:#ffffff; --ink:#14142a; --ink-2:#4d4a68; --ink-3:#8a86a3; --line:#e4e2f1; --line-strong:#cfcbe8; --accent:#0e7fa8; --box-bg:#efeef7; }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]) { --bg:#f5f5fa; --surface:#ffffff; --ink:#14142a; --ink-2:#4d4a68; --ink-3:#8a86a3; --line:#e4e2f1; --line-strong:#cfcbe8; --accent:#0e7fa8; --box-bg:#efeef7; }
+  }
+  h1, h2 { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  h1 { font-weight:800; }
+  h2 { font-weight:750; }
+  h1::before { content:""; display:block; width:148px; height:3px; border-radius:2px; background:var(--grad); margin-bottom:16px; }
+  .brand { font-size:.95rem; letter-spacing:.02em; text-transform:none; color:var(--ink-2); }
+  .brand a { color:var(--ink-2); }
+  .brand a:first-child { color:var(--ink); font-weight:800; font-size:1.02rem; }
+  .brand a:first-child svg { width:19px; height:19px; }
+  .theme-toggle { height:34px; padding:.2rem .75rem; font-size:.8rem; display:inline-flex; align-items:center; }
+  .box { background:var(--surface); border-radius:16px; box-shadow:0 1px 2px rgba(20,20,50,.05), 0 10px 24px rgba(20,20,50,.05); padding:16px 18px; }
+  table { border-collapse:separate; border-spacing:0 6px; background:transparent; }
+  th, td { border:none; background:var(--surface); padding:11px 13px; }
+  th { background:var(--box-bg); }
+  td:first-child, th:first-child { border-radius:12px 0 0 12px; }
+  td:last-child, th:last-child { border-radius:0 12px 12px 0; }
 </style>
 </head>
 <body>

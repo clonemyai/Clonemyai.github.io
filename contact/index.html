@@ -65,6 +65,34 @@
   textarea { resize:vertical; }
   .send { margin-top:18px; font:inherit; font-size:16px; font-weight:700; color:var(--on-grad); background:var(--grad); border:none; border-radius:999px; padding:.65rem 1.7rem; cursor:pointer; }
   .fine { font-size:13.5px; color:var(--ink-2); }
+
+  /* v6.14 lab alignment: these pages join the homepage's clean-room lab language */
+  :root { --bg:#0a0a13; --surface:#12121e; --ink:#f0eefc; --ink-2:#bdb8dc; --ink-3:#8f8ab0; --line:rgba(150,140,255,.16); --line-strong:rgba(150,140,255,.38); --accent:#37c8e8; --box-bg:#0d0d18; }
+  :root[data-theme="light"] { --bg:#f5f5fa; --surface:#ffffff; --ink:#14142a; --ink-2:#4d4a68; --ink-3:#8a86a3; --line:#e4e2f1; --line-strong:#cfcbe8; --accent:#0e7fa8; --box-bg:#efeef7; }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]) { --bg:#f5f5fa; --surface:#ffffff; --ink:#14142a; --ink-2:#4d4a68; --ink-3:#8a86a3; --line:#e4e2f1; --line-strong:#cfcbe8; --accent:#0e7fa8; --box-bg:#efeef7; }
+  }
+  h1, h2 { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  h1 { font-weight:800; }
+  h2 { font-weight:750; }
+  h1::before { content:""; display:block; width:148px; height:3px; border-radius:2px; background:var(--grad); margin-bottom:16px; }
+  .brand { font-size:.95rem; letter-spacing:.02em; text-transform:none; color:var(--ink-2); }
+  .brand a { color:var(--ink-2); }
+  .brand a:first-child { color:var(--ink); font-weight:800; font-size:1.02rem; }
+  .brand a:first-child svg { width:19px; height:19px; }
+  .theme-toggle { height:34px; padding:.2rem .75rem; font-size:.8rem; display:inline-flex; align-items:center; }
+  .box { background:var(--surface); border-radius:16px; box-shadow:0 1px 2px rgba(20,20,50,.05), 0 10px 24px rgba(20,20,50,.05); padding:16px 18px; }
+  table { border-collapse:separate; border-spacing:0 6px; background:transparent; }
+  th, td { border:none; background:var(--surface); padding:11px 13px; }
+  th { background:var(--box-bg); }
+  td:first-child, th:first-child { border-radius:12px 0 0 12px; }
+  td:last-child, th:last-child { border-radius:0 12px 12px 0; }
+
+  .send { background:linear-gradient(90deg,#7b6cff,#37c8e8,#ff5ea8,#7b6cff); background-size:300% 100%; color:#0b0b14; border:none; border-radius:999px; padding:.7rem 1.6rem; font-weight:700; cursor:pointer; box-shadow:0 6px 18px rgba(123,108,255,.35), 0 6px 18px rgba(255,94,168,.22); animation:ecrFlow 6s ease-in-out infinite alternate; }
+  :root[data-theme="light"] .send { background:linear-gradient(90deg,#5a48e0,#0e7fa8,#e03d86,#5a48e0); background-size:300% 100%; color:#fff; }
+  @keyframes ecrFlow { from { background-position:0% 50%; } to { background-position:100% 50%; } }
+  @media (prefers-reduced-motion: reduce){ .send { animation:none; } }
+  input[type="text"], input[type="email"], textarea { border:1px solid var(--line); border-radius:12px; background:var(--surface); color:var(--ink); padding:.6rem .8rem; font:inherit; }
 </style>
 </head>
 <body>
