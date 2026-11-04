@@ -1495,7 +1495,7 @@
   .v6-slide .fine{color:var(--L-ink3);font-size:.9rem;line-height:1.5}
   .v6-visual{min-width:0;display:flex;min-height:0}
   .v6-visual>*{flex:1 1 auto;min-height:0}
-  .v6-slide-copy{align-self:center}
+  .v6-slide-copy{align-self:start;padding-top:clamp(44px,8vh,88px)}
   .v6-slide .capsule{border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);overflow:hidden;box-shadow:0 14px 34px rgba(20,20,50,.10);display:flex;flex-direction:column}
   .v6-slide .capsule-bar{display:flex;align-items:center;gap:7px;padding:.6rem .9rem;border-bottom:1px solid var(--L-line);background:var(--L-panel2)}
   .v6-slide .cdot{width:10px;height:10px;border-radius:50%;background:var(--L-line)}
@@ -1612,6 +1612,23 @@
   .v6-foot .sig-heart{color:var(--heart)}
 
 
+
+  /* v6.6: progress truth, compact toggle, flowing CTA, designed comparison */
+  .v6-segtab.done .fill{background:var(--L-ink3);opacity:.45}
+  #themeToggle{display:inline-flex !important;flex-direction:row !important;align-items:center;gap:.4rem;height:34px !important;min-height:0 !important;padding:.2rem .75rem !important;border-radius:999px;font-size:.85rem;line-height:1}
+  #themeToggle svg{width:16px;height:16px;flex:0 0 auto}
+  .v6-btn-primary, .v6-band .primary{background-image:linear-gradient(90deg,var(--ecr-1),var(--ecr-2),var(--ecr-3),var(--ecr-1));background-size:300% 100%;animation:ecrFlow 6s ease-in-out infinite alternate;box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 10px 28px rgba(123,108,255,.40),0 4px 18px rgba(255,94,168,.35),0 0 24px rgba(55,200,232,.35)}
+  @keyframes ecrFlow{from{background-position:0% 0}to{background-position:100% 0}}
+  @media (prefers-reduced-motion: reduce){.v6-btn-primary, .v6-band .primary{animation:none}}
+  .v6-slide table.compare{border:none;background:transparent;border-collapse:separate;border-spacing:0 8px;height:100%}
+  .v6-slide table.compare th, .v6-slide table.compare td{background:var(--L-panel);border-bottom:none;vertical-align:middle;padding:.85rem 1rem}
+  .v6-slide table.compare thead th{background:transparent;font-size:1.02rem}
+  .v6-slide table.compare thead th.ours{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .v6-slide table.compare td:first-child{border-radius:12px 0 0 12px}
+  .v6-slide table.compare td:last-child{border-radius:0 12px 12px 0}
+  .v6-slide table.compare td.ours{background:linear-gradient(var(--L-panel),var(--L-panel)) padding-box,linear-gradient(90deg,var(--ecr-1),var(--ecr-2),var(--ecr-3)) border-box;border:1.5px solid transparent;font-weight:600}
+  .v6-slide table.compare td.theirs{color:var(--L-ink3)}
+  .v6-slide .cmp-ico{display:inline-flex;vertical-align:-3px;margin-right:.45rem;color:var(--ecr-2)}
   @media (max-width:1700px) and (min-width:1080px){
     body{height:auto;overflow:auto}
     .v6-stage{grid-template-rows:none}
@@ -1620,6 +1637,7 @@
     .v6-ext{border-right:none;border-bottom:1px solid var(--L-line);overflow:visible;flex-direction:row;flex-wrap:wrap;align-items:center;gap:.5rem 1.2rem}
     .v6-ext h2{font-size:1.15rem}
     .v6-ext h2 br{display:none}
+    .v6-ext .v6-grad-text{margin-left:.26em}
     .v6-ext p{flex:1 1 240px}
     .v6-band .desk-grid{grid-template-columns:1fr;height:auto}
     .v6-band .step{overflow:visible;border-right:none;border-bottom:1px solid var(--L-line)}
@@ -1751,12 +1769,12 @@
       </div>
       <div class="v6-visual">
         <table class="compare">
-          <thead><tr><th></th><th>Their import</th><th>Your capsule</th></tr></thead>
+          <thead><tr><th></th><th>Their import</th><th class="ours">Your capsule</th></tr></thead>
           <tbody>
-            <tr><td>What moves</td><td>Chat logs and auto-summaries</td><td>A compiled pattern: persona, rules, people, calibration history</td></tr>
-            <tr><td>Your rules</td><td>Flattened into a preferences list</td><td>Quoted back in your own words</td></tr>
-            <tr><td>Proof it worked</td><td>Silence. No score, no receipt</td><td>A parity check: what carried, what did not, what the platform blocked</td></tr>
-            <tr><td>Ownership</td><td>Locked inside the platform</td><td>A file you own, working on any platform, including the next one</td></tr>
+            <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h13M13 3l4 4-4 4M20 17H7M11 13l-4 4 4 4"/></svg>What moves</td><td class="theirs">Chat logs and auto-summaries</td><td class="ours">A compiled pattern: persona, rules, people, calibration history</td></tr>
+            <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>Your rules</td><td class="theirs">Flattened into a preferences list</td><td class="ours">Quoted back in your own words</td></tr>
+            <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Proof it worked</td><td class="theirs">Silence. No score, no receipt</td><td class="ours">A parity check: what carried, what did not, what the platform blocked</td></tr>
+            <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="14" r="4.5"/><path d="M11.5 10.5L20 2M16 6l3 3M13.5 8.5l2.5 2.5"/></svg>Ownership</td><td class="theirs">Locked inside the platform</td><td class="ours">A file you own, working on any platform, including the next one</td></tr>
           </tbody>
         </table>
       </div>
@@ -2001,7 +2019,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.5</span>
+      <span>clonemy.ai, working prototype · v6.6</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2564,6 +2582,15 @@ What a successor would need that you do not have: list them as plain questions. 
     toggleBtn.innerHTML = on ? SVG_PAUSE : SVG_PLAY;
     toggleBtn.classList.toggle('live', on);
     toggleBtn.setAttribute('aria-label', on ? 'Stop rotation' : 'Start rotation');
+    paintProgress();
+  }
+  function paintProgress() {
+    if (typeof fills === 'undefined') return;
+    fills.forEach(function (f, j) {
+      if (j < idx) f.style.width = '100%';
+      else if (j > idx) f.style.width = '0%';
+      else if (!rotating()) f.style.width = '100%';
+    });
   }
   var fills = slides.map(function (s, i) {
     var tab = document.createElement('button'); tab.type = 'button'; tab.className = 'v6-segtab';
