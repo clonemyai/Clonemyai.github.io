@@ -1673,6 +1673,16 @@
   @media (max-width:1079px){
     .v6-ext{margin:12px}
   }
+
+  /* v6.8: the comparison scales to its box; hero column is tint + ribbon, not a seamed outline */
+  .v6-slide table.compare{border-spacing:0 6px}
+  .v6-slide table.compare th, .v6-slide table.compare td{padding:.55rem .9rem;font-size:.88rem}
+  .v6-slide table.compare thead th{font-size:.98rem;padding:.3rem .9rem}
+  .v6-slide table.compare td.ours{background:linear-gradient(90deg, rgba(123,108,255,.12), rgba(55,200,232,.09), rgba(255,94,168,.12));border:none;box-shadow:inset 4px 0 0 0 rgba(123,108,255,.55)}
+  @media (max-height:920px){
+    .v6-slide table.compare th, .v6-slide table.compare td{padding:.42rem .8rem;font-size:.84rem}
+    .v6-slide table.compare{border-spacing:0 5px}
+  }
 </style>
 
 <style id="v6-foot-fallback">
@@ -2033,7 +2043,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.7</span>
+      <span>clonemy.ai, working prototype · v6.8</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
