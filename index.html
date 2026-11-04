@@ -1772,6 +1772,32 @@
     .v6-slide .plank h3{font-size:.9rem}
     .v6-slide .plank p{font-size:.83rem;line-height:1.4}
   }
+
+  /* v6.19: the comparison is a div grid now, same copy and card look; the table element's height math caused four rounds of seam clips */
+  .v6-slide .compare{display:grid;grid-template-columns:minmax(150px,1.05fr) 1.2fr 2.6fr;gap:8px 12px;width:100%}
+  .v6-slide .cmp-cell{display:flex;align-items:center;border-radius:12px;background:var(--L-panel);padding:.48rem .85rem;font-size:.86rem;color:var(--L-ink2)}
+  .v6-slide .cmp-head-cell{background:transparent;padding:.3rem .85rem;font-size:.98rem}
+  .v6-slide .cmp-lab{color:var(--L-ink);font-weight:600}
+  .v6-slide .cmp-theirs{color:var(--L-ink3);opacity:.58}
+  .v6-slide .cmp-theirs-h{color:var(--L-ink3);opacity:.72;font-weight:400}
+  .v6-slide .cmp-ours{color:var(--L-ink);border:1.5px solid transparent;background:linear-gradient(90deg, rgba(123,108,255,.12), rgba(55,200,232,.09), rgba(255,94,168,.12)) padding-box, linear-gradient(var(--L-panel),var(--L-panel)) padding-box, linear-gradient(90deg,var(--ecr-1),var(--ecr-2),var(--ecr-3)) border-box}
+  .v6-slide .cmp-ours-h{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+  .v6-visual:has(> .compare){display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+  .v6-visual:has(> .compare) > .compare{flex:0 1 auto}
+  @media (min-height:1101px){
+    .v6-visual:has(> .compare) > .compare{flex:1 1 auto}
+    .v6-slide .compare{grid-template-rows:auto repeat(4,1fr)}
+  }
+  @media (max-height:1100px){
+    .v6-slide .compare{gap:6px 10px}
+    .v6-slide .cmp-cell{font-size:.82rem;padding:.45rem .8rem}
+    .v6-slide .cmp-head-cell{font-size:.92rem;padding:.25rem .8rem}
+  }
+  @media (max-height:860px){
+    .v6-slide .compare{gap:5px 10px}
+    .v6-slide .cmp-cell{font-size:.76rem;padding:.3rem .65rem}
+    .v6-slide .cmp-head-cell{font-size:.84rem;padding:.18rem .65rem}
+  }
 </style>
 
 <style id="v6-foot-fallback">
@@ -1881,15 +1907,23 @@
         <p class="lede">Their basic import moves your chat history and leaves you to figure out the rest on your own. A summary is not a personality.</p>
       </div>
       <div class="v6-visual">
-        <table class="compare">
-          <thead><tr><th></th><th>Their import</th><th class="ours"><svg class="cmp-mark" width="20" height="20" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="cmO2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmD2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M50 14 h-14 a10 10 0 0 0 -10 10 v52 a10 10 0 0 0 10 10 h14 z" fill="url(#cmO2)"/><path d="M50 14 h14 a10 10 0 0 1 10 10 v52 a10 10 0 0 1 -10 10 h-14 z" fill="url(#cmD2)" transform="translate(4 0)"/></g><circle cx="47" cy="50" r="3.4" fill="#37c8e8"/><circle cx="54" cy="50" r="3.4" fill="#ff5ea8"/></svg>Your capsule</th></tr></thead>
-          <tbody>
-            <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h13M13 3l4 4-4 4M20 17H7M11 13l-4 4 4 4"/></svg>What moves</td><td class="theirs">Chat logs and auto-summaries</td><td class="ours">A compiled pattern: persona, rules, people, calibration history</td></tr>
-            <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>Your rules</td><td class="theirs">Flattened into a preferences list</td><td class="ours">Quoted back in your own words</td></tr>
-            <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Proof it worked</td><td class="theirs">Silence. No score, no receipt</td><td class="ours">A parity check: what carried, what did not, what the platform blocked</td></tr>
-            <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="14" r="4.5"/><path d="M11.5 10.5L20 2M16 6l3 3M13.5 8.5l2.5 2.5"/></svg>Ownership &amp; Privacy</td><td class="theirs">Locked inside the platform</td><td class="ours">A file you own, working on any platform, including the next one</td></tr>
-          </tbody>
-        </table>
+        <div class="compare">
+          <span class="cmp-cell cmp-lab cmp-head-cell"></span>
+          <span class="cmp-cell cmp-theirs-h cmp-head-cell">Their import</span>
+          <span class="cmp-cell cmp-ours-h cmp-head-cell"><svg class="cmp-mark" width="20" height="20" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="cmO2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmD2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M50 14 h-14 a10 10 0 0 0 -10 10 v52 a10 10 0 0 0 10 10 h14 z" fill="url(#cmO2)"/><path d="M50 14 h14 a10 10 0 0 1 10 10 v52 a10 10 0 0 1 -10 10 h-14 z" fill="url(#cmD2)" transform="translate(4 0)"/></g><circle cx="47" cy="50" r="3.4" fill="#37c8e8"/><circle cx="54" cy="50" r="3.4" fill="#ff5ea8"/></svg>Your capsule</span>
+          <span class="cmp-cell cmp-lab"><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h13M13 3l4 4-4 4M20 17H7M11 13l-4 4 4 4"/></svg>What moves</span>
+          <span class="cmp-cell cmp-theirs">Chat logs and auto-summaries</span>
+          <span class="cmp-cell cmp-ours">A compiled pattern: persona, rules, people, calibration history</span>
+          <span class="cmp-cell cmp-lab"><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>Your rules</span>
+          <span class="cmp-cell cmp-theirs">Flattened into a preferences list</span>
+          <span class="cmp-cell cmp-ours">Quoted back in your own words</span>
+          <span class="cmp-cell cmp-lab"><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Proof it worked</span>
+          <span class="cmp-cell cmp-theirs">Silence. No score, no receipt</span>
+          <span class="cmp-cell cmp-ours">A parity check: what carried, what did not, what the platform blocked</span>
+          <span class="cmp-cell cmp-lab"><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="14" r="4.5"/><path d="M11.5 10.5L20 2M16 6l3 3M13.5 8.5l2.5 2.5"/></svg>Ownership &amp; Privacy</span>
+          <span class="cmp-cell cmp-theirs">Locked inside the platform</span>
+          <span class="cmp-cell cmp-ours">A file you own, working on any platform, including the next one</span>
+        </div>
       </div>
     </section>
 
@@ -2132,7 +2166,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.18</span>
+      <span>clonemy.ai, working prototype · v6.19</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
