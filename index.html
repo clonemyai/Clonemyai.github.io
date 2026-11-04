@@ -1683,6 +1683,23 @@
     .v6-slide table.compare th, .v6-slide table.compare td{padding:.42rem .8rem;font-size:.84rem}
     .v6-slide table.compare{border-spacing:0 5px}
   }
+
+  /* v6.9: skinny widths stop smooshing: the seam wraps to two rows, the footer stacks */
+  @media (max-width:1250px){
+    .v6-controls{flex-wrap:wrap;row-gap:6px;height:auto}
+    .v6-segs{order:1;flex:1 1 100%;min-width:0}
+    .v6-segtab{flex:1 1 0;min-width:0}
+    .v6-counter{order:2}
+    .v6-cluster{order:2;margin-left:auto}
+  }
+  @media (max-width:1079px){
+    .v6-foot{flex-direction:column;align-items:stretch;gap:8px}
+    .v6-foot .wrap{flex:none;width:100%}
+    .v6-foot .desk-foot{flex:none;width:100%;flex-wrap:wrap;gap:8px 18px;justify-content:flex-start}
+  }
+  @media (max-width:560px){
+    .v6-segtab .lab{font-size:.52rem;letter-spacing:.03em}
+  }
 </style>
 
 <style id="v6-foot-fallback">
@@ -2043,7 +2060,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.8</span>
+      <span>clonemy.ai, working prototype · v6.9</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
