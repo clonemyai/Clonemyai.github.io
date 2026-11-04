@@ -1757,13 +1757,15 @@
   .v6-slide .conf-row{padding:.6rem .85rem}
   .v6-slide .conf-rows{gap:8px}
   @media (min-height:1101px){
-    .v6-visual:has(> table.compare) > table.compare{flex:1 1 auto}
+    .v6-visual:has(> table.compare) > table.compare{flex:1 1 auto;max-height:calc(100% - 12px)}
     .v6-slide table.compare th, .v6-slide table.compare td{padding:.48rem .85rem;font-size:.86rem}
   }
   @media (max-height:1100px){
     .v6-slide .plank{padding:11px 14px}
     .v6-slide .plank p{font-size:.88rem;line-height:1.45}
   }
+  /* v6.18: hard guard, the table's visual clips at its own box so the table can never bleed into the seam */
+  .v6-visual:has(> table.compare){overflow:hidden}
   @media (max-height:860px){
     .v6-slide .planks{gap:9px}
     .v6-slide .plank{padding:9px 13px}
@@ -2130,7 +2132,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.17</span>
+      <span>clonemy.ai, working prototype · v6.18</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
