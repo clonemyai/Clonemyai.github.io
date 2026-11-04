@@ -1173,6 +1173,13 @@
     .shelf .capsule-body .c-flavor{margin-bottom:.8rem}
     .shelf .install-line{padding:.65rem .85rem}
     .shelf .capsule-caption{margin-top:12px;max-width:70ch}
+  .shelf .capsule-caption.out{
+    position:absolute;left:50%;transform:translateX(-50%);bottom:14px;
+    width:min(860px,92%);max-width:92%;margin:0;z-index:5;
+  }
+  @media (max-width: 1079px){
+    .shelf .capsule-caption.out{position:static;transform:none;width:auto;max-width:70ch;margin:14px auto 0}
+  }
     .shelf .plank{padding:18px 19px}
     .shelf table.compare th,.shelf table.compare td{padding:.46rem .68rem;font-size:.92rem}
     .shelf .demo-video{width:min(100%,590px)}
@@ -1772,10 +1779,9 @@
         </ul>
       </div>
     </div>
-    <p class="capsule-caption">An example capsule with invented details, so you can see the shape. Yours holds your real ones, and it never passes through our hands.</p>
-
 </section>
     </div>
+    <p class="capsule-caption out">An example capsule with invented details, so you can see the shape. Yours holds your real ones, and it never passes through our hands.</p>
   </section>
   <section class="panel wide" data-panel aria-label="The confirmations">
     <div class="panel-inner">
@@ -1925,7 +1931,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v5.16</span>
+      <span>clonemy.ai, working prototype · v5.17</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
