@@ -1700,6 +1700,10 @@
   @media (max-width:560px){
     .v6-segtab .lab{font-size:.52rem;letter-spacing:.03em}
   }
+
+  /* v6.10: Your capsule gets the full ECR treatment: gradient border over the tint, logo in the header */
+  .v6-slide table.compare td.ours{background:linear-gradient(90deg, rgba(123,108,255,.12), rgba(55,200,232,.09), rgba(255,94,168,.12)) padding-box, linear-gradient(var(--L-panel), var(--L-panel)) padding-box, linear-gradient(90deg, var(--ecr-1), var(--ecr-2), var(--ecr-3)) border-box;border:1.5px solid transparent;box-shadow:none}
+  .v6-slide table.compare th.ours .cmp-mark{vertical-align:-4px;margin-right:.45rem}
 </style>
 
 <style id="v6-foot-fallback">
@@ -1810,7 +1814,7 @@
       </div>
       <div class="v6-visual">
         <table class="compare">
-          <thead><tr><th></th><th>Their import</th><th class="ours">Your capsule</th></tr></thead>
+          <thead><tr><th></th><th>Their import</th><th class="ours"><svg class="cmp-mark" width="20" height="20" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="cmO2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmD2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M50 14 h-14 a10 10 0 0 0 -10 10 v52 a10 10 0 0 0 10 10 h14 z" fill="url(#cmO2)"/><path d="M50 14 h14 a10 10 0 0 1 10 10 v52 a10 10 0 0 1 -10 10 h-14 z" fill="url(#cmD2)" transform="translate(4 0)"/></g><circle cx="47" cy="50" r="3.4" fill="#37c8e8"/><circle cx="54" cy="50" r="3.4" fill="#ff5ea8"/></svg>Your capsule</th></tr></thead>
           <tbody>
             <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h13M13 3l4 4-4 4M20 17H7M11 13l-4 4 4 4"/></svg>What moves</td><td class="theirs">Chat logs and auto-summaries</td><td class="ours">A compiled pattern: persona, rules, people, calibration history</td></tr>
             <tr><td><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>Your rules</td><td class="theirs">Flattened into a preferences list</td><td class="ours">Quoted back in your own words</td></tr>
@@ -2060,7 +2064,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.9</span>
+      <span>clonemy.ai, working prototype · v6.10</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
