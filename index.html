@@ -1187,6 +1187,7 @@
   .shelf .capsule-caption.out{
     position:absolute;left:50%;transform:translateX(-50%);bottom:14px;
     width:min(860px,92%);max-width:92%;margin:0;z-index:5;
+    font-size:.98rem;color:var(--ink-2);
   }
   @media (max-width: 1079px){
     .shelf .capsule-caption.out{position:static;transform:none;width:auto;max-width:70ch;margin:14px auto 0}
@@ -1758,8 +1759,6 @@
 <section class="wrap" aria-labelledby="shot-heading">
     <p class="kicker"><span>The product</span></p>
     <h2 id="shot-heading">This is what travels</h2>
-    <p class="section-sub">Not a summary and not a chat export. A capsule is a single structured file, written by your old AI and read by your new one. The report behind it is strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention. Here is one, opened up.</p>
-
     <div class="capsule" role="img" aria-label="An example capsule file, showing its title, flavor line, install line, and eleven sections">
       <div class="capsule-bar">
         <span class="cdot"></span><span class="cdot"></span><span class="cdot"></span>
@@ -1792,6 +1791,7 @@
         </ul>
       </div>
     </div>
+    <p class="section-sub" style="margin-top:20px">Not a summary and not a chat export: one structured file, written by your old AI and read by your new one. Strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention.</p>
 </section>
     </div>
     <p class="capsule-caption out">An example capsule with invented details, so you can see the shape. Yours holds your real ones, and it never passes through our hands.</p>
@@ -1944,7 +1944,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v5.24</span>
+      <span>clonemy.ai, working prototype · v5.25</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
