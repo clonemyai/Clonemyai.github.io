@@ -79,7 +79,7 @@
     <li><strong>Specifics over summaries.</strong> Names, numbers, dates, and verbatim quotes beat paraphrase.</li>
     <li><strong>One fact per line,</strong> stated once, in its home section.</li>
     <li><strong>Missing means missing.</strong> Where the source AI does not have something, the capsule says so. Where it is inferring, it labels the line as inferred and says from what.</li>
-    <li><strong>Changes carry their trail.</strong> Provenance is scoped to changes, not to every fact. When a fact's value has changed since it was first recorded, the line states the current value and appends a short audit note in parentheses: (updated from the earlier value, based on the source and date). A newer source that explicitly confirms a value, with evidence, replaces the old one outright. A newer summary that merely asserts a value does not: that value is marked inferred and travels as provisional until something confirms it.</li>
+    <li><strong>Changes carry their trail.</strong> Provenance is scoped to changes, not to every fact. When a fact's value has changed since it was first recorded, the line states the current value and appends a short audit note in parentheses: (updated from the earlier value, based on the source and date). A newer source that explicitly confirms a value, with evidence, replaces the old one outright. A newer summary that merely asserts a value does not: that value is marked inferred and travels as provisional until something confirms it. When two sources disagree on a fact or a state value, the newest source's value stands as the current value, and the superseded value is not deleted: it folds into the audit note, quiet and out of the way, and resurfaces only if the user runs into the discrepancy. Operating rules and permissions are the exception: a disagreement there is never settled by recency; it is surfaced and the user is asked.</li>
     <li><strong>Duplicates are removed at compile time,</strong> within each section, so a fact two sources agree on appears once.</li>
   </ul>
 
@@ -96,7 +96,7 @@
   <p>Any answer it cannot give is a gap in the capsule, not a license to improvise. That check is the receipt: it is how a user can tell the transfer actually worked. The first question carries the answer format on purpose: a receiving AI's own length and formatting habits are where drift shows first, so the format is restated, and checked, on the first turn.</p>
 
   <h2>Merging capsules</h2>
-  <p>Documents from several AIs can be compiled together into one capsule. The compiler unions the sections and removes exact duplicates. Where two sources disagree, the merged capsule carries a note: the disagreement is an unknown to ask the user about, never a detail to guess at. Audit notes stay attached to the values they describe, from either source.</p>
+  <p>Documents from several AIs can be compiled together into one capsule. The compiler unions the sections and removes exact duplicates. Where two sources disagree on a fact or a state value, the merged capsule carries the newest source's value, with the superseded value folded into its audit note. Where they disagree on an operating rule or a permission, the merged capsule carries a note instead: the disagreement is an unknown to ask the user about, never a detail to guess at, and never a thing recency settles. Audit notes stay attached to the values they describe, from either source.</p>
 
   <h2>Principles</h2>
   <ul>
