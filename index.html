@@ -1726,6 +1726,17 @@
     .v6-slide table.compare thead th{font-size:.86rem;padding:.2rem .7rem}
     .v6-slide table.compare{border-spacing:10px 5px}
   }
+
+  /* v6.15: the homepage signature wears the gradient with the subpages' SVG heart; the comparison table sizes to its content and centers, so it can no longer outgrow its slide */
+  .v6-foot .signature{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
+  .v6-foot .signature .sig-heart{width:1em;height:1em;vertical-align:-0.12em;fill:#ff5ea8}
+  :root[data-theme="light"] .v6-foot .signature .sig-heart{fill:#e03d86}
+  .v6-visual:has(> table.compare){display:flex;flex-direction:column;justify-content:center}
+  .v6-slide table.compare{height:auto}
+  @media (max-height:860px){
+    .v6-slide table.compare th, .v6-slide table.compare td{font-size:.76rem;padding:.3rem .65rem}
+    .v6-slide table.compare thead th{font-size:.84rem;padding:.18rem .65rem}
+  }
 </style>
 
 <style id="v6-foot-fallback">
@@ -2076,7 +2087,7 @@
 <footer class="v6-foot">
   <div class="wrap">
     <div class="foot-row">
-      <p class="signature">Built with 🩷 by a founder and his AI, Vivian in California.</p>
+      <p class="signature">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California.</p>
       <div class="foot-links">
         <a href="/format/">The Capsule Format</a>
         <a href="/whitepaper/">White paper</a>
@@ -2086,7 +2097,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.14</span>
+      <span>clonemy.ai, working prototype · v6.15</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
