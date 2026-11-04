@@ -1581,9 +1581,30 @@
   .v6-foot p,.v6-foot div,.v6-foot nav,.v6-foot ul{margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0}
   .v6-foot .desk-foot{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
   .v6-foot .desk-foot b{color:var(--L-ink2)}
+  .v6-foot{margin-top:0;padding:8px 22px}
+  .v6-foot .wrap{max-width:none;margin:0;padding:0;flex:1 1 auto;min-width:0}
+  .v6-foot .desk-foot{flex:0 0 auto}
+  .v6-band .desk-grid{min-width:0}
+  .v6-band .step{min-width:0}
+  .v6-band .ai-btn{white-space:normal}
+  .v6-slide .conf-row .num{position:relative;width:30px;height:30px;border-radius:10px;background:linear-gradient(145deg, rgba(255,255,255,.22), rgba(255,255,255,.06) 42%, rgba(55,200,232,.10) 78%, rgba(0,0,0,.10));border:1px solid var(--L-line);box-shadow:inset 0 1px 1px rgba(255,255,255,.45), inset 0 -7px 12px rgba(10,10,40,.16), inset 1px 0 0 rgba(255,255,255,.18), 0 5px 12px rgba(10,10,40,.20);backdrop-filter:blur(6px) saturate(1.25);-webkit-backdrop-filter:blur(6px) saturate(1.25);color:var(--L-ink);font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.86rem;font-weight:800;text-shadow:0 1px 0 rgba(255,255,255,.35), 0 -1px 1px rgba(0,0,0,.28)}
   .v6-foot .sig-grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
   .v6-foot .sig-heart{color:var(--heart)}
 
+
+  @media (max-width:1700px) and (min-width:1080px){
+    body{height:auto;overflow:auto}
+    .v6-stage{grid-template-rows:none}
+    .v6-carousel{height:clamp(430px, 62vh, 620px);min-height:430px}
+    .v6-band{grid-template-columns:1fr}
+    .v6-ext{border-right:none;border-bottom:1px solid var(--L-line);overflow:visible;flex-direction:row;flex-wrap:wrap;align-items:center;gap:.5rem 1.2rem}
+    .v6-ext h2{font-size:1.15rem}
+    .v6-ext h2 br{display:none}
+    .v6-ext p{flex:1 1 240px}
+    .v6-band .desk-grid{grid-template-columns:1fr;height:auto}
+    .v6-band .step{overflow:visible;border-right:none;border-bottom:1px solid var(--L-line)}
+    .v6-foot{flex-wrap:wrap}
+  }
   @media (max-width:1079px){
     body{height:auto;overflow:auto}
     .v6-stage{grid-template-rows:none}
@@ -1960,7 +1981,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.2</span>
+      <span>clonemy.ai, working prototype · v6.3</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
