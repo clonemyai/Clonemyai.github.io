@@ -1801,6 +1801,15 @@
   }
   /* v6.20: the wordmark wears the gradient too */
   .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* v6.26: at 1080p-class heights the Confirmations copy column outgrew its slide (the 8vh top pad plus fixed margins pushed row 2 into the seam and row 3 past it). Short-height tier compacts the copy column and the conf rows, the same tier pattern as the compare grid and the planks. */
+  @media (max-height:1100px){
+    .v6-slide-copy{padding-top:clamp(16px,3vh,40px)}
+    .v6-slide h2{margin:.6rem 0 .5rem}
+    .v6-slide p.lede{margin-bottom:.7rem}
+    .v6-slide .conf-row{padding:.5rem .8rem}
+    .v6-slide .conf-rows{gap:7px}
+  }
 </style>
 
 <style id="v6-foot-fallback">
@@ -2207,7 +2216,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.21</span>
+      <span>clonemy.ai, working prototype · v6.26</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
