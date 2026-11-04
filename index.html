@@ -1661,7 +1661,7 @@
   }
 
   /* v6.7: steps read as cards; stretch discipline at in-between widths */
-  html, body{overflow-x:clip}
+  body{overflow-x:clip}
   .v6-band .desk-grid{gap:12px;padding:12px;background:var(--L-inset)}
   .v6-band .step{border:1px solid var(--L-line);border-radius:16px;background:var(--L-panel);box-shadow:0 1px 2px rgba(20,20,50,.05),0 10px 24px rgba(20,20,50,.05)}
   .v6-ext{border:1px solid var(--L-line);border-radius:16px;background:var(--L-panel);margin:12px 0 12px 12px;box-shadow:0 1px 2px rgba(20,20,50,.05),0 10px 24px rgba(20,20,50,.05)}
@@ -1736,6 +1736,19 @@
   @media (max-height:860px){
     .v6-slide table.compare th, .v6-slide table.compare td{font-size:.76rem;padding:.3rem .65rem}
     .v6-slide table.compare thead th{font-size:.84rem;padding:.18rem .65rem}
+  }
+
+  /* v6.16: visuals take their natural height and center (the stretch-to-fill is what kept clipping bottom edges), and true fullscreen loses its page scroll */
+  .v6-visual{align-items:center}
+  .v6-visual:has(> .capsule){align-items:stretch}
+  .v6-visual:has(> table.compare) > table.compare{flex:0 1 auto}
+  @media (min-width:1701px){
+    html{overflow:hidden}
+  }
+  @media (max-height:860px){
+    .v6-slide-copy{padding-top:clamp(26px,6vh,88px)}
+    .v6-slide .conf-row{padding:.55rem .8rem}
+    .v6-slide .conf-rows{gap:7px}
   }
 </style>
 
@@ -2097,7 +2110,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.15</span>
+      <span>clonemy.ai, working prototype · v6.16</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
