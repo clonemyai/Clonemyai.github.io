@@ -1798,6 +1798,8 @@
     .v6-slide .cmp-cell{font-size:.76rem;padding:.3rem .65rem}
     .v6-slide .cmp-head-cell{font-size:.84rem;padding:.18rem .65rem}
   }
+  /* v6.20: the wordmark wears the gradient too */
+  .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 </style>
 
 <style id="v6-foot-fallback">
@@ -1809,7 +1811,7 @@
 </head>
 <body>
 <header class="v6-head">
-  <a class="v6-brand" href="https://clonemy.ai/"><svg width="21" height="21" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="bmO" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="bmD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M50 14 h-14 a10 10 0 0 0 -10 10 v52 a10 10 0 0 0 10 10 h14 z" fill="url(#bmO)"/><path d="M50 14 h14 a10 10 0 0 1 10 10 v52 a10 10 0 0 1 -10 10 h-14 z" fill="url(#bmD)" transform="translate(4 0)"/></g><circle cx="47" cy="50" r="3.4" fill="#37c8e8"/><circle cx="54" cy="50" r="3.4" fill="#ff5ea8"/></svg>clonemy.ai</a>
+  <a class="v6-brand" href="https://clonemy.ai/"><svg width="21" height="21" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="bmO" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="bmD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M50 14 h-14 a10 10 0 0 0 -10 10 v52 a10 10 0 0 0 10 10 h14 z" fill="url(#bmO)"/><path d="M50 14 h14 a10 10 0 0 1 10 10 v52 a10 10 0 0 1 -10 10 h-14 z" fill="url(#bmD)" transform="translate(4 0)"/></g><circle cx="47" cy="50" r="3.4" fill="#37c8e8"/><circle cx="54" cy="50" r="3.4" fill="#ff5ea8"/></svg><span class="wm">clonemy.ai</span></a>
   <nav class="v6-nav">
     <a href="https://clonemy.ai/format/">The Capsule Format</a>
     <a href="https://clonemy.ai/whitepaper/">White paper</a>
@@ -2166,7 +2168,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.19</span>
+      <span>clonemy.ai, working prototype · v6.20</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
