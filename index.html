@@ -1713,6 +1713,19 @@
   @media (max-height:920px){
     .v6-slide table.compare{border-spacing:10px 6px}
   }
+
+  /* v6.13: the carousel is only about half the window tall in the wide tier, so the comparison compacts on viewport height and the last row stops clipping */
+  @media (max-height:1100px){
+    .v6-slide table.compare th, .v6-slide table.compare td{font-size:.82rem;padding:.45rem .8rem}
+    .v6-slide table.compare thead th{font-size:.92rem;padding:.25rem .8rem}
+    .v6-slide table.compare{border-spacing:12px 6px}
+  }
+  @media (max-height:860px){
+    .v6-slide{padding-top:14px;padding-bottom:14px}
+    .v6-slide table.compare th, .v6-slide table.compare td{font-size:.78rem;padding:.35rem .7rem;line-height:1.35}
+    .v6-slide table.compare thead th{font-size:.86rem;padding:.2rem .7rem}
+    .v6-slide table.compare{border-spacing:10px 5px}
+  }
 </style>
 
 <style id="v6-foot-fallback">
@@ -2073,7 +2086,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.12</span>
+      <span>clonemy.ai, working prototype · v6.13</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
