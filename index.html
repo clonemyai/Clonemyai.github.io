@@ -1659,6 +1659,20 @@
     .v6-counter{display:none}
     .v6-nav{display:none}
   }
+
+  /* v6.7: steps read as cards; stretch discipline at in-between widths */
+  html, body{overflow-x:clip}
+  .v6-band .desk-grid{gap:12px;padding:12px;background:var(--L-inset)}
+  .v6-band .step{border:1px solid var(--L-line);border-radius:16px;background:var(--L-panel);box-shadow:0 1px 2px rgba(20,20,50,.05),0 10px 24px rgba(20,20,50,.05)}
+  .v6-ext{border:1px solid var(--L-line);border-radius:16px;background:var(--L-panel);margin:12px 0 12px 12px;box-shadow:0 1px 2px rgba(20,20,50,.05),0 10px 24px rgba(20,20,50,.05)}
+  .v6-slide{padding-left:max(48px,calc((100% - 1560px)/2));padding-right:max(48px,calc((100% - 1560px)/2))}
+  @media (max-width:1700px) and (min-width:1080px){
+    .v6-band .desk-grid{max-width:1020px;margin:0 auto;width:100%}
+    .v6-ext{max-width:1020px;margin:12px auto 0;width:calc(100% - 24px)}
+  }
+  @media (max-width:1079px){
+    .v6-ext{margin:12px}
+  }
 </style>
 
 <style id="v6-foot-fallback">
@@ -2019,7 +2033,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.6</span>
+      <span>clonemy.ai, working prototype · v6.7</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
