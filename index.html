@@ -1482,7 +1482,7 @@
   #themeToggle{position:static !important;inset:auto !important;transform:none !important;width:auto !important;height:auto !important;box-shadow:none !important}
   .v6-theme-btn{border:1px solid var(--L-line);background:var(--L-panel2);color:var(--L-ink2);border-radius:999px;padding:.34rem .8rem;cursor:pointer;font:inherit;font-size:.85rem}
 
-  .v6-stage{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,11fr) auto minmax(0,10fr)}
+  .v6-stage{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,10fr) auto minmax(0,11fr)}
   .v6-carousel{position:relative;overflow:hidden;min-height:0;background:var(--L-bg)}
   .v6-slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(290px,5fr) 7fr;gap:36px;align-items:stretch;
     padding:22px 48px;opacity:0;pointer-events:none;transition:opacity .55s ease}
@@ -1563,6 +1563,26 @@
   .v6-band .step:last-child{border-right:none}
   .v6-band #compileOut{margin-top:12px}
   .v6-band #capsulePreview{width:100%}
+
+  /* v6.5 desk compression: the band fits, no scrolling inside the steps */
+  .v6-band .step{padding:12px 16px;scrollbar-width:thin}
+  .v6-band .step::-webkit-scrollbar{width:6px}
+  .v6-band .step::-webkit-scrollbar-thumb{background:var(--L-line);border-radius:3px}
+  .v6-band .step-num{margin-bottom:.3rem}
+  .v6-band .step h3{font-size:1.08rem;margin:.1rem 0 .35rem}
+  .v6-band .step p{font-size:.9rem;line-height:1.45;margin:.3rem 0}
+  .v6-band .compiler .dropzone, .v6-band .dropzone{min-height:88px;padding:.7rem}
+  .v6-band .compiler .dz-icon{width:34px;height:34px;font-size:1rem;margin-bottom:.35rem}
+  .v6-band #compileInput{height:84px;min-height:0}
+  .v6-band .ai-btns .ai-btn{min-height:40px}
+  .v6-band .way-row{padding:.45rem .6rem;margin:.3rem 0}
+  .v6-band .send-line{margin:.4rem 0;font-size:.88rem}
+  .v6-band .compiler .row{margin-top:.55rem}
+  .v6-band .compiler .status{margin-top:.5rem;min-height:1.1em}
+  .v6-band .privacy{font-size:.82rem;margin-top:.6rem;padding-top:.6rem}
+  .v6-band .desk-details{margin-top:.5rem;font-size:.88rem}
+  .v6-band .flavor-chip{padding:.28rem .6rem}
+  .v6-band .filechip{padding:.55rem .7rem}
   .v6-band #dlCapsule{background:var(--L-panel2);color:var(--L-ink);border:1px solid var(--L-line);border-radius:11px;padding:.6rem .95rem;font:inherit;font-weight:600;cursor:pointer}
 
   .v6-sheet{position:fixed;inset:0;z-index:90;background:var(--L-sheet);backdrop-filter:blur(3px);display:none;flex-direction:column;padding:18px clamp(14px,3.5vw,40px)}
@@ -1981,7 +2001,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.4</span>
+      <span>clonemy.ai, working prototype · v6.5</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
