@@ -1473,36 +1473,39 @@
   .v6-grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .ecr-1{color:var(--ecr-1)} .ecr-2{color:var(--ecr-2)} .ecr-3{color:var(--ecr-3)}
 
-  .v6-head{flex:0 0 auto;height:56px;display:flex;align-items:center;gap:26px;padding:0 22px;border-bottom:1px solid var(--L-line);background:var(--L-panel)}
+  .v6-head{flex:0 0 auto;height:50px;display:flex;align-items:center;gap:26px;padding:0 22px;border-bottom:1px solid var(--L-line);background:var(--L-panel)}
   .v6-brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:800;color:var(--L-ink)}
   .v6-nav{display:flex;gap:20px}
   .v6-nav a, .v6-util a{text-decoration:none;color:var(--L-ink2);font-size:.94rem}
   .v6-nav a:hover, .v6-util a:hover{color:var(--L-ink)}
   .v6-util{margin-left:auto;display:flex;align-items:center;gap:20px}
+  #themeToggle{position:static !important;inset:auto !important;transform:none !important;width:auto !important;height:auto !important;box-shadow:none !important}
   .v6-theme-btn{border:1px solid var(--L-line);background:var(--L-panel2);color:var(--L-ink2);border-radius:999px;padding:.34rem .8rem;cursor:pointer;font:inherit;font-size:.85rem}
 
-  .v6-stage{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,3fr) auto minmax(0,2fr) auto}
+  .v6-stage{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,11fr) auto minmax(0,10fr)}
   .v6-carousel{position:relative;overflow:hidden;min-height:0;background:var(--L-bg)}
-  .v6-slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(290px,5fr) 7fr;gap:36px;align-items:center;
-    padding:36px 56px;opacity:0;pointer-events:none;transition:opacity .55s ease}
+  .v6-slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(290px,5fr) 7fr;gap:36px;align-items:stretch;
+    padding:22px 48px;opacity:0;pointer-events:none;transition:opacity .55s ease}
   .v6-slide.active{opacity:1;pointer-events:auto}
   .v6-slide-copy{max-width:54ch}
   .v6-kicker{display:inline-block;padding:0 0 .45rem;border-bottom:2px solid transparent;border-image:var(--grad) 1;
     font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--L-ink3)}
-  .v6-slide h2{font-size:clamp(1.8rem,4vh,2.6rem);line-height:1.12;margin:.9rem 0 .7rem;font-weight:800;letter-spacing:-.01em;color:var(--L-ink)}
+  .v6-slide h2{font-size:clamp(1.7rem,3.6vh,2.3rem);line-height:1.12;margin:.9rem 0 .7rem;font-weight:800;letter-spacing:-.01em;color:var(--L-ink)}
   .v6-slide p.lede{color:var(--L-ink2);font-size:1.02rem;line-height:1.55;margin:0 0 1rem}
   .v6-slide .fine{color:var(--L-ink3);font-size:.9rem;line-height:1.5}
-  .v6-visual{min-width:0}
-  .v6-slide .capsule{border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);overflow:hidden;box-shadow:0 14px 34px rgba(20,20,50,.10)}
+  .v6-visual{min-width:0;display:flex;min-height:0}
+  .v6-visual>*{flex:1 1 auto;min-height:0}
+  .v6-slide-copy{align-self:center}
+  .v6-slide .capsule{border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);overflow:hidden;box-shadow:0 14px 34px rgba(20,20,50,.10);display:flex;flex-direction:column}
   .v6-slide .capsule-bar{display:flex;align-items:center;gap:7px;padding:.6rem .9rem;border-bottom:1px solid var(--L-line);background:var(--L-panel2)}
   .v6-slide .cdot{width:10px;height:10px;border-radius:50%;background:var(--L-line)}
   .v6-slide .cname{font-family:ui-monospace,Consolas,monospace;font-size:.85rem;margin-left:6px;color:var(--L-ink)}
   .v6-slide .csize{margin-left:auto;color:var(--L-ink3);font-size:.8rem}
-  .v6-slide .capsule-body{padding:16px 18px;font-size:.92rem;line-height:1.5;color:var(--L-ink)}
+  .v6-slide .capsule-body{padding:12px 16px;font-size:.88rem;line-height:1.45;color:var(--L-ink2);overflow-y:auto;min-height:0;scrollbar-width:thin}
   .v6-slide .c-title{font-family:ui-monospace,Consolas,monospace;font-weight:700;margin:0 0 .4rem}
-  .v6-slide .c-label{display:block;margin:1rem 0 .35rem;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--L-ink3)}
+  .v6-slide .c-label{display:block;margin:.55rem 0 .3rem;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--L-ink3)}
   .v6-slide .install-line{border:1px solid var(--L-line);border-radius:10px;background:var(--L-inset);padding:.6rem .8rem;font-size:.85rem;color:var(--L-ink2)}
-  .v6-slide .section-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.28rem .9rem;font-size:.88rem;color:var(--L-ink2)}
+  .v6-slide .section-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.16rem .9rem;font-size:.85rem;color:var(--L-ink2)}
   .v6-slide .section-list .n{color:var(--L-ink3);font-family:ui-monospace,Consolas,monospace;font-size:.8rem;margin-right:.3rem}
   .v6-slide .proof{border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);padding:18px 20px}
   .v6-slide .proof h3{margin:0 0 .8rem;font-size:.95rem;color:var(--L-ink)}
@@ -1515,7 +1518,7 @@
   .v6-slide .conf-row{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);padding:.75rem .9rem}
   .v6-slide .conf-row .num{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--grad);color:var(--L-btnink);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.85rem}
   .v6-slide .conf-row p{margin:0;color:var(--L-ink2);font-size:.93rem;line-height:1.45}
-  .v6-slide .planks{display:grid;gap:12px}
+  .v6-slide .planks{display:grid;gap:12px;grid-template-rows:repeat(3,1fr)}
   .v6-slide .plank{border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);padding:14px 16px}
   .v6-slide .plank h3{margin:0 0 .35rem;font-size:1rem;color:var(--L-ink)}
   .v6-slide .plank p{margin:0;color:var(--L-ink2);font-size:.92rem;line-height:1.5}
@@ -1526,7 +1529,7 @@
   .v6-slide table.compare td:last-child{color:var(--L-ink)}
   .v6-slide table.compare tr:last-child td{border-bottom:none}
 
-  .v6-controls{min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:6px 22px;border-top:1px solid var(--L-line);background:var(--L-bg)}
+  .v6-controls{min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:6px 22px;border-top:1px solid var(--L-line);background:var(--L-bg)}
   .v6-progress{display:flex;align-items:center;gap:14px;min-width:0}
   .v6-segs{display:flex;gap:10px}
   .v6-segtab{background:none;border:none;padding:4px 2px 2px;cursor:pointer;display:flex;flex-direction:column;gap:5px;min-width:92px;font:inherit}
@@ -1575,6 +1578,9 @@
   .v6-strip b{color:var(--L-ink2)}
   .v6-foot{flex:0 0 auto;min-height:28px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:3px 22px;
     border-top:1px solid var(--L-line);background:var(--L-panel);color:var(--L-ink3);font-size:.78rem}
+  .v6-foot p,.v6-foot div,.v6-foot nav,.v6-foot ul{margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0}
+  .v6-foot .desk-foot{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .v6-foot .desk-foot b{color:var(--L-ink2)}
   .v6-foot .sig-grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
   .v6-foot .sig-heart{color:var(--heart)}
 
@@ -1939,11 +1945,6 @@
     </div></div></div></div></section></div>
   </div>
 
-  <div class="v6-strip"><div class="desk-foot">
-        <span><b>No account</b> to make</span>
-        <span><b>Nothing uploaded</b>, ever</span>
-        <span><b>About two minutes</b>, start to finish</span>
-      </div></div>
 </div>
 
 <footer class="v6-foot">
@@ -1959,11 +1960,15 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.0</span>
+      <span>clonemy.ai, working prototype · v6.1</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
-</footer>
+<div class="desk-foot">
+        <span><b>No account</b> to make</span>
+        <span><b>Nothing uploaded</b>, ever</span>
+        <span><b>About two minutes</b>, start to finish</span>
+      </div></footer>
 
 <script type="text/plain" id="extractionFile">
 # Send this file to your current AI
