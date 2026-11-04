@@ -518,8 +518,9 @@
     padding:30px 28px;
   }
   .plank .p-icon{
-    width:44px;height:44px;border-radius:11px;background:var(--grad);
-    display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--on-grad);margin-bottom:1rem;
+    width:44px;height:44px;border-radius:11px;background:var(--panel-2);
+    border:1px solid var(--pane-border);
+    display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--ink-2);margin-bottom:1rem;
   }
   .plank h3{font-size:1.28rem;font-weight:750;margin:0 0 .55rem;letter-spacing:-.01em}
   .plank p{margin:0;color:var(--ink-2);font-size:.99rem}
@@ -958,8 +959,9 @@
     backdrop-filter:blur(8px) saturate(1.05);-webkit-backdrop-filter:blur(8px) saturate(1.05);
   }
   .extension-point-icon{
-    flex:0 0 auto;width:44px;height:44px;border-radius:11px;background:var(--grad);
-    display:flex;align-items:center;justify-content:center;color:var(--on-grad);
+    flex:0 0 auto;width:44px;height:44px;border-radius:11px;background:var(--panel-2);
+    border:1px solid var(--pane-border);
+    display:flex;align-items:center;justify-content:center;color:var(--ink-2);
   }
   .extension-point-icon svg{width:22px;height:22px;display:block}
   .extension-point h3{font-size:1.1rem;font-weight:750;letter-spacing:-.01em;margin:0 0 .28rem}
@@ -1838,7 +1840,8 @@
   table.compare { width: 100%; border-collapse: collapse; text-align: left; font-size: .98rem; }
   table.compare th, table.compare td { padding: .85rem .9rem; border-bottom: 1px solid rgba(140,150,255,.16); vertical-align: top; line-height: 1.45; }
   table.compare thead th { border-bottom: 2px solid rgba(140,150,255,.35); font-size: 1.08rem; }
-  table.compare thead .col-icon { display: block; margin-bottom: .45rem; }
+  table.compare thead .col-head { display: inline-flex; flex-direction: column; align-items: center; gap: .45rem; }
+  table.compare thead .col-icon { display: block; }
   table.compare tbody th { font-weight: 600; opacity: .85; white-space: nowrap; }
   table.compare td.theirs { opacity: .72; }
   table.compare td.ours { }
@@ -1857,8 +1860,8 @@
         <thead>
           <tr>
             <th scope="col"><span class="col-icon"></span></th>
-            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="ci-theirs" aria-hidden="true"><path d="M12 3.5V14"/><path d="M7.3 9.6L12 14.3l4.7-4.7"/><path d="M4 15.2v2A2.8 2.8 0 0 0 6.8 20h10.4A2.8 2.8 0 0 0 20 17.2v-2"/></svg></span>Their import</th>
-            <th scope="col"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 100 100" fill="none" aria-hidden="true"><defs><linearGradient id="cmOrigin2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmDest2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#cmOrigin2)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#cmDest2)"/><circle cx="48.2" cy="50" r="1.9" fill="#37c8e8"/><circle cx="50.9" cy="50" r="1.9" fill="#b45fd0"/><circle cx="53.6" cy="50" r="1.9" fill="#ff5ea8"/></g></svg></span>Your capsule</th>
+            <th scope="col"><span class="col-head"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="ci-theirs" aria-hidden="true"><path d="M12 3.5V14"/><path d="M7.3 9.6L12 14.3l4.7-4.7"/><path d="M4 15.2v2A2.8 2.8 0 0 0 6.8 20h10.4A2.8 2.8 0 0 0 20 17.2v-2"/></svg></span>Their import</span></th>
+            <th scope="col"><span class="col-head"><span class="col-icon"><svg width="44" height="44" viewBox="0 0 100 100" fill="none" aria-hidden="true"><defs><linearGradient id="cmOrigin2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmDest2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#cmOrigin2)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#cmDest2)"/><circle cx="48.2" cy="50" r="1.9" fill="#37c8e8"/><circle cx="50.9" cy="50" r="1.9" fill="#b45fd0"/><circle cx="53.6" cy="50" r="1.9" fill="#ff5ea8"/></g></svg></span>Your capsule</span></th>
           </tr>
         </thead>
         <tbody>
@@ -1921,7 +1924,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v5.9</span>
+      <span>clonemy.ai, working prototype · v5.11</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
