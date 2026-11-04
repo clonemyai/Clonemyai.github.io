@@ -722,6 +722,11 @@
   }
   .progress-line{margin-top:.45rem;font-size:.93rem;line-height:1.5;color:var(--ink-2);min-height:1.4em}
   #compileOut{margin-top:1rem}
+  .compile-warn{
+    margin:0 0 .9rem;padding:.75rem .95rem;text-align:left;
+    border:1px solid rgba(232,161,58,.45);border-left:3px solid #e8a13a;border-radius:10px;
+    background:rgba(232,161,58,.09);color:var(--ink-2);font-size:.93rem;line-height:1.55;
+  }
   .compiler .fineprint{font-size:.85rem;color:var(--ink-3);line-height:1.55;margin-top:.65rem}
   .compiler .privacy{
     text-align:left;font-size:.9rem;color:var(--ink-2);margin:1rem 0 0;max-width:none;line-height:1.55;
@@ -1648,6 +1653,7 @@
                 <p class="progress-line" id="compileProgressLine" aria-live="polite"></p>
               </div>
               <div id="compileOut" hidden>
+                <p class="compile-warn" id="compileWarn" role="note" hidden></p>
                 <textarea id="capsulePreview" rows="6" readonly></textarea>
                 <div class="row">
                   <button type="button" id="dlCapsule">Download capsule.md again</button>
@@ -1934,7 +1940,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v5.22</span>
+      <span>clonemy.ai, working prototype · v5.23</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2386,6 +2392,16 @@ What a successor would need that you do not have: list them as plain questions. 
       var status = document.getElementById('compileStatus');
       if (!raw.trim()) { status.textContent = 'Paste the document first, then compile.'; return; }
       var result = compileCapsule(raw);
+      var warnEl = document.getElementById('compileWarn');
+      if (warnEl) {
+        if (result.found <= 7) {
+          warnEl.textContent = 'A heads-up about this compile: only ' + result.found + ' of the 11 sections were found in your document, so some sections came back empty in the capsule below. That usually means your AI has changed the format of its report. Nothing is blocked: your capsule still downloads, and the missing sections are named inside it rather than silently dropped. If those sections matter, ask your AI to send its report again using the extraction wording from this page, then compile the new copy.';
+          warnEl.hidden = false;
+        } else {
+          warnEl.hidden = true;
+          warnEl.textContent = '';
+        }
+      }
       var flavor = resolveFlavor(raw);
       var flavorMeta = FLAVORS[flavor.key] || FLAVORS.default;
       var companionName = detectCompanionName(raw) || "your companion";
