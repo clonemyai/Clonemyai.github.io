@@ -58,7 +58,7 @@
   <div class="brand"><a href="https://clonemy.ai"><svg viewBox="0 0 100 100" width="15" height="15" style="vertical-align:-2px;margin-right:.3em" aria-hidden="true"><defs><linearGradient id="cmOrigin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmDest" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#cmOrigin)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#cmDest)"/><circle cx="48.2" cy="50" r="1.9" fill="#37c8e8"/><circle cx="50.9" cy="50" r="1.9" fill="#b45fd0"/><circle cx="53.6" cy="50" r="1.9" fill="#ff5ea8"/></g></svg><span class="wm">clonemy.ai</span></a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/contact/">Contact</a> <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">&#9728; Light</button></div>
 
   <h1>Move your Claude memory to Grok</h1>
-  <p class="lede">Grok offers no way to import what Claude knows about you. The capsule is the way in: one file, installed in one message, with a self-check that proves what arrived.</p>
+  <p class="lede">Grok offers no way to import what Claude knows about you. The capsule is the way in: one file you keep, its contents pasted in as your own messages, with a self-check that proves what arrived.</p>
   <h2>What Claude remembers about you</h2>
   <p>Claude stores memory as individual Topics: short entries it writes during your conversations about your work, your projects, your preferences, and how you like to work. By default it leaves sensitive categories out unless you opt in. Deleting a chat does not delete the Topics that chat produced.</p>
   <p>Settings, Memory: every Topic can be read, edited, or deleted on its own. Memory can be paused, and Reset deletes everything permanently.</p>
@@ -66,12 +66,12 @@
   <p>Two ways out: your memory as copyable verbatim text in memory settings (Anthropic's own framing: save it as a backup, or bring it to another AI service), and a full data export under Settings, Privacy. Anthropic states the full export cannot be imported into another personal Claude account.</p>
   
   <h2>What Grok accepts natively</h2>
-  <p>No import feature appears in xAI's consumer materials as of October 2026. There is no import button to find. A capsule is a file Grok can read in chat: you send it with its install line in one message, Grok adopts it as standing configuration, and announces the installation, including the three-question self-check you can verify.</p>
+  <p>No import feature appears in xAI's consumer materials as of October 2026. There is no import button to find. A capsule reaches Grok as messages, not as an attachment: you paste its contents into the chat in the compiler&#x27;s numbered parts, and Grok adopts it as standing configuration and announces the installation, including the three-question self-check you can verify. The capsule.md file stays on your side: it is the capsule&#x27;s container and storage, not the delivery vehicle.</p>
   <h2>The capsule route, step by step</h2>
   <ol>
     <li><strong>Extract.</strong> Send the <a href="https://clonemy.ai/extract/">extraction request</a> to Claude. It answers with a structured document about you: specifics, not summaries, with gaps marked instead of invented.</li>
     <li><strong>Compile.</strong> Bring the document back to the <a href="https://clonemy.ai">compiler on clonemy.ai</a>. It runs in your browser, nothing is uploaded, and out comes one file: capsule.md.</li>
-    <li><strong>Install.</strong> Send capsule.md to Grok with the install line in the same message, copied from the compiler (it also waits at the end of the file). Grok adopts it and announces the installation, answering the parity self-check from the capsule alone.</li>
+    <li><strong>Install.</strong> Paste the capsule into Grok as messages: use the compiler&#x27;s &ldquo;Send it as messages&rdquo; view and send each numbered part as its own message, in order. The capsule&#x27;s opening rides at the head of the first part, so the ceremony travels inside the paste, not on a file, and Grok adopts the capsule and announces the installation, answering the parity self-check from the capsule alone. The capsule.md you downloaded is the copy you keep: the capsule&#x27;s container and storage, never the delivery vehicle.</li>
   </ol>
   <h2>What survives the move</h2>
   <ul>
