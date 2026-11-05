@@ -2419,6 +2419,71 @@
   .v6-sheet video{flex:0 1 auto;width:min(100%,calc((100dvh - 200px)*16/9));height:auto;aspect-ratio:16/9;margin:0 auto}
   #filmUnmute{align-self:center;margin-top:12px}
 </style>
+<style id="v655-float">
+  /* v6.55: the floating journey button, and slides that rest in
+     the middle of their stage (Tony's field report, 2026-11-05
+     12:08 PT, five full-screen screenshots at 1080p, and his
+     delegation of the determination: "I will leave that to your
+     determination on which one is better for page load and
+     resources"). Two defects in his shots. (1) The Begin journey
+     button sat below the fold: at his viewport (about 910px of
+     usable height under the browser chrome) the landing's
+     honest height passes the screen, so the one action the page
+     exists for needed a scroll to reach, and the carousel's
+     control strip sits below the fold with it. (2) Slides 1 to
+     3 pooled their empty space at the bottom, because the stage
+     takes its height from the tallest slide (The Difference)
+     while the shorter slides anchor their content to the top.
+     The determination, on resources: pure CSS, no new assets,
+     no libraries, no scripts, no height-model heroics. An
+     exact one-screen fit was rejected as the guarantee, for
+     the reason v6.51 recorded: it breaks with every copy
+     change, while a floating button cannot be lost at any
+     size. (1) The existing cta-zone, the same Begin journey
+     button with the same fine line and the same click, leaves
+     the flow and pins to the bottom centre of the viewport as
+     one small cluster on a soft feathered backdrop, readable
+     over any slide. The landing reserves bottom padding
+     taller than the cluster plus its offset, so when the page
+     is scrolled to its foot the control strip and the sign-off
+     rest fully above the cluster, never underneath it. In the
+     tool state the landing, and the cluster inside it, hides
+     exactly as before; Back to the story restores it. The
+     button's own reduced-motion rules are untouched and still
+     govern it. (2) On the grid stage, every slide except The
+     Difference centres its content vertically: the slide's
+     row centres in the stage height, and each column centres
+     its own group, so the empty space splits above and below
+     instead of pooling at the bottom. The Difference keeps
+     the equal-height rhythm v6.51 gave it, untouched. Nothing
+     is height-capped or clipped anywhere by this block; slide
+     words and every script are unchanged. */
+
+  /* (1) The floating cluster: out of the flow, pinned,
+     feathered, clickable only where it is drawn */
+  body:not(.landing-cleared) .cta-zone{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:55;
+    display:flex;flex-direction:column;align-items:center;text-align:center;box-sizing:border-box;max-width:calc(100vw - 20px);
+    padding:14px 30px 11px;border-radius:26px;pointer-events:none;
+    background:linear-gradient(180deg,color-mix(in srgb, var(--L-bg) 55%, transparent),color-mix(in srgb, var(--L-bg) 82%, transparent));
+    -webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);
+    box-shadow:0 12px 38px rgba(26,22,64,.12),0 2px 8px rgba(26,22,64,.07)}
+  :root:not([data-theme="light"]) body:not(.landing-cleared) .cta-zone{box-shadow:0 12px 38px rgba(0,0,0,.36),0 2px 8px rgba(0,0,0,.24)}
+  body:not(.landing-cleared) .cta-zone .cta-main,body:not(.landing-cleared) .cta-zone .cta-fine{pointer-events:auto}
+  body:not(.landing-cleared) .cta-zone .cta-fine{margin-top:.6rem}
+
+  /* The reserve: a clear floor under the landing's content,
+     taller than the cluster plus its offset plus air, so the
+     control strip can always come to rest above the cluster */
+  body:not(.landing-cleared) .landing-inner{padding-bottom:clamp(150px,20vh,240px)}
+
+  /* (2) Shorter slides rest in the middle of the stage; The
+     Difference is deliberately not matched by these selectors */
+  @media (min-width:1080px){
+    .landing-inner .v6-slide:not([aria-label="The difference"]){align-content:center}
+    .landing-inner .v6-slide:not([aria-label="The difference"]) .v6-slide-copy,
+    .landing-inner .v6-slide:not([aria-label="The difference"]) .v6-visual{display:flex;flex-direction:column;justify-content:center}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -2590,7 +2655,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.54</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.55</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
@@ -2867,7 +2932,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.54</span>
+      <span>clonemy.ai, working prototype · v6.55</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
