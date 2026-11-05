@@ -2484,6 +2484,75 @@
     .landing-inner .v6-slide:not([aria-label="The difference"]) .v6-visual{display:flex;flex-direction:column;justify-content:center}
   }
 </style>
+<style id="v656-stage">
+  /* v6.56: the stage is exactly as tall as the panel being shown
+     (Tony's field report on v6.55, 2026-11-05 13:39 PT, four
+     full-screen screenshots with his marginalia: "the table
+     aspect ratio looks wrong, Empty spacing"). On real renders
+     the shared stage still pooled its dead space: the slides sat
+     in one grid cell, so the stage took the tallest slide's
+     height and every shorter panel drowned in the difference,
+     top-heavy on Why It Works, bottom-heavy on The
+     Confirmations, floating on The Product, and on The
+     Difference itself the borrowed height stretched the
+     comparison rows into tall pastel cells whose text occupied
+     only the top sliver. v6.55's centring moved the pool around;
+     it never drained it. This version changes the angle instead
+     of swinging at the shared height again. (1) At desktop
+     widths the slides leave the flow: each sits absolutely
+     positioned at its own natural height, and the carousel
+     script sets the stage height to the active slide's height
+     plus its vertical margins, with a 350ms ease transition on
+     the stage so the control strip glides to its new resting
+     place when the panel changes. The fitted tier's slide rule
+     is answered in its own context, so the same positioning
+     wins there too. Reduced motion stills the height transition
+     with everything else. Below desktop widths the slides are
+     already in flow and the stage sizes itself; the script
+     clears its inline height there. (2) The Difference
+     comparison takes its natural rhythm back: rows size to
+     their tallest cell, the comparison no longer flexes to fill
+     its column, the cells keep their even padding, and cell
+     content stays vertically centred inside its row through the
+     flex centring the cells already carry. The copy column
+     keeps the distribution v6.51 gave it. (3) The v6.55
+     centring rules are neutralised where they conflict: with
+     no shared stage height left to centre inside, the slide row
+     and its columns return to their natural alignment. The
+     floating Begin journey cluster and the landing's bottom
+     reserve are untouched and still govern the foot of the
+     page. Slide words and the compiler are unchanged; the
+     carousel script gains only the height fitting the new stage
+     needs, and every other script is byte-identical. */
+
+  /* (1) Per-slide stage height: slides out of flow at their
+     natural heights, the stage sized to the active one */
+  @media (min-width:1080px){
+    .landing-inner .v6-carousel{display:block;transition:height .35s ease}
+    .landing-inner .v6-slide{position:absolute;top:0;right:0;bottom:auto;left:0;height:auto}
+  }
+  @media (min-width:1280px) and (min-height:960px){
+    body:not(.landing-cleared) .landing-inner .v6-slide{position:absolute;top:0;right:0;bottom:auto;left:0}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .landing-inner .v6-carousel{transition:none}
+  }
+  body.rm .landing-inner .v6-carousel{transition:none}
+
+  /* (2) The Difference at natural rhythm: rows fit their text */
+  @media (min-width:1080px){
+    .landing-inner .v6-visual:has(> .compare) > .compare{flex:0 1 auto}
+    .landing-inner .v6-slide .compare{grid-template-rows:auto repeat(4,auto)}
+  }
+
+  /* (3) The v6.55 centring, neutralised: nothing left to pool,
+     so nothing needs centring inside the stage */
+  @media (min-width:1080px){
+    .landing-inner .v6-slide:not([aria-label="The difference"]){align-content:normal}
+    .landing-inner .v6-slide:not([aria-label="The difference"]) .v6-slide-copy{display:block}
+    .landing-inner .v6-slide:not([aria-label="The difference"]) .v6-visual{flex-direction:row;justify-content:normal}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -2655,7 +2724,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.55</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.56</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
@@ -2932,7 +3001,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.55</span>
+      <span>clonemy.ai, working prototype · v6.56</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -3857,6 +3926,7 @@ What a successor would need that you do not have: list them as plain questions. 
     elapsed = 0;
     counter.textContent = ('0' + (idx + 1)) + ' / 0' + slides.length;
     paintToggle();
+    fitStage();
   }
   function tick(ts) {
     if (lastTs === null) lastTs = ts;
@@ -3880,6 +3950,32 @@ What a successor would need that you do not have: list them as plain questions. 
   carousel.addEventListener('mouseleave', function () { hovering = false; paintToggle(); });
   carousel.addEventListener('focusin', function () { focused = true; paintToggle(); });
   carousel.addEventListener('focusout', function () { focused = false; paintToggle(); });
+  /* v6.56: the stage is exactly as tall as the panel being shown.
+     At desktop widths the slides sit out of flow at their natural
+     heights (the v6.56 style block), so the active slide's own
+     height, plus its vertical margins, is the stage height; the
+     stage's CSS transition animates the change. Below desktop
+     widths the slides are in flow and the stage sizes itself, so
+     any inline height is cleared. Refit on resize (debounced),
+     on load, and when the fonts land, since each can move a
+     natural height. */
+  function fitStage() {
+    if (!window.matchMedia || !window.matchMedia('(min-width: 1080px)').matches) {
+      carousel.style.height = '';
+      return;
+    }
+    var s = slides[idx];
+    if (s) carousel.style.height = (s.offsetHeight + 20) + 'px';
+  }
+  var fitTimer = null;
+  window.addEventListener('resize', function () {
+    if (fitTimer) clearTimeout(fitTimer);
+    fitTimer = setTimeout(fitStage, 120);
+  });
+  window.addEventListener('load', fitStage);
+  if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+    document.fonts.ready.then(fitStage);
+  }
   document.addEventListener('visibilitychange', paintToggle);
   document.getElementById('band6').addEventListener('pointerdown', function () { interacted = true; paintToggle(); });
   var wheelLock = 0;
