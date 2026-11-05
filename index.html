@@ -2004,6 +2004,20 @@
   .clip-read-note{margin:.6rem 0 0;font-size:.86rem;line-height:1.5;color:var(--ink-2);text-align:left}
   .clip-hint{margin:0 0 .95rem;padding:.75rem .95rem;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--install-bg);color:var(--ink-2);font-size:.93rem;line-height:1.55}
 </style>
+<style id="v645-parts">
+  /* v6.45: parts only when needed, unmistakable when they happen.
+     A multi-part capsule gets a first-class notice above the parts
+     list and a running copied count, so a partial delivery can never
+     be mistaken for the whole capsule. Single-part capsules show
+     neither: no notice, no progress line, no part numbering. */
+  .parts-notice{
+    margin:0 0 .6rem;padding:.85rem 1rem;text-align:left;
+    border:2px solid var(--accent-text);border-radius:12px;background:var(--install-bg);
+    color:var(--ink);font-size:1rem;line-height:1.55;
+  }
+  .parts-notice p{margin:0;font-weight:650}
+  .parts-progress{margin:0 0 .9rem;text-align:left;font-weight:750;color:var(--ink);font-size:.95rem}
+</style>
 
 </head>
 <body>
@@ -2280,6 +2294,8 @@
                 <p class="compile-warn" id="compileWarn" role="note" hidden></p>
                 <p class="clip-note" id="clipNote" role="status" hidden></p>
                 <p class="deliver-lead"><strong>Send it as messages.</strong> Copy your capsule below and paste it into your new AI, one part per message, in order. Pasting works everywhere, including on a phone and on platforms that refuse uploaded files: your new AI takes it from your hand, in your own words. The first part opens with a line that tells your new AI what the parts are, and the last part asks it to confirm what it saved.</p>
+                <div class="parts-notice" id="partsNotice" role="alert" hidden><p id="partsNoticeText"></p></div>
+                <p class="parts-progress" id="partsProgress" role="status" hidden></p>
                 <div class="paste-parts" id="pasteParts" aria-label="Your capsule, split into messages to paste"></div>
                 <div class="dest-openers">
                   <p class="dest-lead"><strong>Then open your destination and paste.</strong> Copy a part above, open your new AI, paste it in as a message. Work through the parts in order.</p>
@@ -2480,7 +2496,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.44</span>
+      <span>clonemy.ai, working prototype · v6.45</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2612,7 +2628,7 @@ What a successor would need that you do not have: list them as plain questions. 
      on part 1 and the confirmation line on the last part, reproduces
      the compiled capsule exactly. */
   function chunkCapsuleText(text, cap) {
-    cap = cap || 15000;
+    cap = cap || 40000;
     var rest = String(text);
     var blocks = [];
     while (rest.length) {
@@ -2684,9 +2700,68 @@ What a successor would need that you do not have: list them as plain questions. 
       wrap.classList.toggle('is-next', j === next);
       if (btn) { btn.classList.toggle('part-quiet', j !== next); }
     }
+    paintPartsProgress();
   }
   window.__paintPartStates = paintPartStates;
   window.__setAutoCopiedPart = function (i) { autoCopiedPart = i; paintPartStates(); };
+
+  /* v6.45: the multi-part warning and its running count. The notice
+     sits directly above the parts list and stays until every part
+     has been copied; the summary line counts copies as they happen
+     and states completion plainly. A part counts as copied when the
+     user copied it or when the compile-time hand-off put it on the
+     clipboard (its state label says "On your clipboard now"). For a
+     single-part capsule both elements stay hidden: no parts language
+     anywhere on the face. */
+  function paintPartsProgress() {
+    var notice = document.getElementById('partsNotice');
+    var noticeText = document.getElementById('partsNoticeText');
+    var prog = document.getElementById('partsProgress');
+    if (!notice || !prog) { return; }
+    var host = document.getElementById('pasteParts');
+    var n = host ? host.children.length : 0;
+    if (n < 2) { notice.hidden = true; prog.hidden = true; return; }
+    var done = 0;
+    for (var i = 0; i < n; i++) { if (copiedParts[i] || i === autoCopiedPart) { done++; } }
+    if (noticeText) {
+      noticeText.textContent = 'Your capsule travels in ' + n + ' parts. Paste all ' + n + ', in order, into your new AI. If only some parts arrive, your new AI gets an incomplete picture.';
+    }
+    notice.hidden = done >= n;
+    prog.textContent = done >= n ? ('All ' + n + ' parts copied') : (done + ' of ' + n + ' parts copied');
+    prog.hidden = false;
+  }
+
+  /* v6.45: the delivery copy around the parts speaks of one capsule
+     when the capsule travels whole. Originals are captured on first
+     render and restored whenever a compile splits into parts. */
+  var deliverCopyOrig = null;
+  function paintDeliverCopy(single) {
+    var lead = document.querySelector('.deliver-lead');
+    var dest = document.querySelector('.dest-lead');
+    var fine = document.querySelector('#compileOut .fineprint');
+    if (!deliverCopyOrig) {
+      deliverCopyOrig = {
+        lead: lead ? lead.innerHTML : null,
+        dest: dest ? dest.innerHTML : null,
+        fine: fine ? fine.innerHTML : null
+      };
+    }
+    if (lead && deliverCopyOrig.lead !== null) {
+      lead.innerHTML = single
+        ? '<strong>Send it as a message.</strong> Copy your capsule below and paste it into your new AI as one message. Pasting works everywhere, including on a phone and on platforms that refuse uploaded files: your new AI takes it from your hand, in your own words. The capsule opens with a line that tells your new AI what it is, and it ends by asking your new AI to confirm what it saved.'
+        : deliverCopyOrig.lead;
+    }
+    if (dest && deliverCopyOrig.dest !== null) {
+      dest.innerHTML = single
+        ? '<strong>Then open your destination and paste.</strong> Copy the capsule above, open your new AI, paste it in as a message.'
+        : deliverCopyOrig.dest;
+    }
+    if (fine && deliverCopyOrig.fine !== null) {
+      fine.innerHTML = single
+        ? deliverCopyOrig.fine.split('To install, paste the parts above.').join('To install, paste the capsule above.')
+        : deliverCopyOrig.fine;
+    }
+  }
 
   function renderPasteParts(text) {
     var host = document.getElementById('pasteParts');
@@ -2700,26 +2775,28 @@ What a successor would need that you do not have: list them as plain questions. 
       var wrap = document.createElement('div');
       wrap.className = 'paste-part';
       wrap.setAttribute('data-part', String(i + 1));
+      var single = parts.length === 1;
+      var btnBase = single ? 'Copy capsule' : 'Copy part ' + (i + 1);
       var head = document.createElement('div');
       head.className = 'paste-part-head';
       var label = document.createElement('span');
       label.className = 'paste-part-label';
-      label.textContent = 'Part ' + (i + 1) + ' of ' + parts.length;
+      label.textContent = single ? 'Your capsule' : 'Part ' + (i + 1) + ' of ' + parts.length;
       var state = document.createElement('span');
       state.className = 'paste-part-state';
       state.setAttribute('aria-live', 'polite');
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'primary paste-copy-btn';
-      btn.textContent = 'Copy part ' + (i + 1);
+      btn.textContent = btnBase;
       btn.addEventListener('click', function () {
         function done() {
           if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'copy-part', title: 'Capsule part copied', event: true }); }
           copiedParts[i] = true;
           if (autoCopiedPart === i) { autoCopiedPart = -1; }
           paintPartStates();
-          btn.textContent = 'Copied part ' + (i + 1) + ': paste it as a message';
-          setTimeout(function () { btn.textContent = 'Copy part ' + (i + 1); }, 2600);
+          btn.textContent = single ? 'Copied: paste it as a message' : 'Copied part ' + (i + 1) + ': paste it as a message';
+          setTimeout(function () { btn.textContent = btnBase; }, 2600);
         }
         function fallbackCopy() {
           try {
@@ -2739,11 +2816,12 @@ What a successor would need that you do not have: list them as plain questions. 
       ta.rows = 5;
       ta.readOnly = true;
       ta.value = partText;
-      ta.setAttribute('aria-label', 'Part ' + (i + 1) + ' of ' + parts.length + ' of your capsule');
+      ta.setAttribute('aria-label', single ? 'Your capsule' : 'Part ' + (i + 1) + ' of ' + parts.length + ' of your capsule');
       wrap.appendChild(head);
       wrap.appendChild(ta);
       host.appendChild(wrap);
     });
+    paintDeliverCopy(parts.length === 1);
     paintPartStates();
   }
   var INSTALL_LINE = 'Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, my open loops, and the answer format you will use with me.';
@@ -3256,7 +3334,7 @@ What a successor would need that you do not have: list them as plain questions. 
       if (!note) { return; }
       if (ok) {
         note.textContent = partCount > 1
-          ? ('Part 1 of ' + partCount + ' is on your clipboard now. Open your new AI below and paste it as your first message, then come back for each next part.')
+          ? ('Part 1 is on your clipboard now. Your capsule has ' + partCount + ' parts in total: paste all ' + partCount + ', in order. Open your new AI below and paste Part 1 as your first message, then come back for each next part.')
           : 'Your capsule is on your clipboard now. Open your new AI below and paste it as your first message.';
         note.hidden = false;
       } else {
