@@ -2745,6 +2745,38 @@
      letterboxing its own frame inside a wider black box. */
   .v6-sheet video{flex:0 0 auto}
 </style>
+<style id="v663-reader">
+  /* v6.63: the capsule sheet becomes the floating reader
+     Tony asked for ("float on top like when you open a pdf
+     file"). Root cause, measured in headless Chromium at
+     v6.62: the sheet is authored inside the carousel, whose
+     perspective:1600px makes it the containing block for
+     fixed descendants (the same trap v6.62 cured for the
+     film sheet), so the sheet's inset:0 resolved against
+     the carousel panel (the sheet box measured identical
+     to the carousel box at 1920x1080, 1920x947, 2560x1440,
+     and 390x844) and the capsule window stood panel-short,
+     the file's tail behind its own small scrollbar. The
+     carousel script now re-homes this sheet under <body>
+     at init as well; this block sizes the reading pane to
+     the viewport: about min(900px, 94vw) wide and 88dvh
+     tall, centred, nearer full-screen on small screens.
+     The capsule inside keeps its v6.58 flex, so the pinned
+     head stays put and the capsule body is the pane's one
+     scroll region. The rules are scoped to .cap-sheet
+     throughout: the film sheet and the in-slide teaser are
+     untouched. The last rule completes the v6.59 scroll
+     lock: this page's scrolling element is the html
+     element (measured: one wheel tick over the open film
+     sheet moved the document 124px while the body sat
+     locked), so the lock class is set on both elements
+     and released from both. */
+  .cap-sheet .cap-panel{max-width:min(900px,94vw);height:min(88vh,100%);height:min(88dvh,100%);flex:0 1 auto;margin:auto}
+  html.sheet-lock{overflow:hidden}
+  @media (max-width:640px){
+    .cap-sheet .cap-panel{height:min(94vh,100%);height:min(94dvh,100%)}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -2949,7 +2981,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.62</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.63</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
@@ -3226,7 +3258,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.62</span>
+      <span>clonemy.ai, working prototype · v6.63</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -4220,8 +4252,22 @@ What a successor would need that you do not have: list them as plain questions. 
   document.addEventListener('visibilitychange', paintToggle);
   document.getElementById('band6').addEventListener('pointerdown', function () { interacted = true; paintToggle(); });
   var wheelLock = 0;
+  /* v6.63: the gate names the capsule sheet as well. At
+     v6.62 it checked only the film sheet's flag, and the
+     capsule sheet still lived inside the carousel, so a
+     wheel over the open markdown bubbled up to this
+     listener, was preventDefaulted before it could scroll
+     the file, and paged the slides behind the sheet
+     instead (measured: the panel counter advanced two
+     slides while the file's scroll position never moved).
+     The capsule sheet is re-homed under <body> at init
+     now, so its wheel events no longer pass through the
+     carousel at all; this gate stays as the explicit rule
+     for any sheet state, and returning without
+     preventDefault lets the wheel land on the sheet's own
+     scroll region. */
   carousel.addEventListener('wheel', function (e) {
-    if (sheetOpen || videoPlaying) return;
+    if (sheetOpen || capSheetOpen || videoPlaying) return;
     if (window.matchMedia && !window.matchMedia('(min-width: 1080px)').matches) return;
     e.preventDefault();
     var now = Date.now();
@@ -4235,8 +4281,15 @@ What a successor would need that you do not have: list them as plain questions. 
      runs on either sheet's open; unlockScroll runs on every
      close path and only releases when neither sheet is open,
      so one sheet can never unlock the page behind the other. */
-  function lockScroll() { document.body.classList.add('sheet-lock'); }
-  function unlockScroll() { if (!sheetOpen && !capSheetOpen) document.body.classList.remove('sheet-lock'); }
+  /* v6.63: the lock is set on the document element as
+     well as the body. Measured at v6.62: this page's
+     scrolling element is the html element, so the
+     body-only lock left the document scrollable under a
+     body-level sheet (one wheel tick over the open film
+     sheet scrolled the page 124px). The release rule is
+     unchanged: only when neither sheet is open. */
+  function lockScroll() { document.body.classList.add('sheet-lock'); document.documentElement.classList.add('sheet-lock'); }
+  function unlockScroll() { if (!sheetOpen && !capSheetOpen) { document.body.classList.remove('sheet-lock'); document.documentElement.classList.remove('sheet-lock'); } }
   var filmSheet = document.getElementById('filmSheet');
   /* v6.62: the sheet is re-homed directly under <body>. It is
      authored inside the carousel, whose 3D perspective makes it
@@ -4305,7 +4358,18 @@ What a successor would need that you do not have: list them as plain questions. 
      click on the backdrop, and Escape. Closing restores the
      teaser's exact collapsed state; nothing in the layout
      ever moved. */
+  /* v6.63: the capsule sheet is re-homed directly under
+     <body>, the film sheet's v6.62 cure applied to the
+     second sheet. It was authored inside the carousel,
+     whose perspective trapped its fixed positioning
+     inside the panel; as a direct child of body its
+     inset:0 is the viewport, the backdrop covers and dims
+     the whole page, and the v663-reader block sizes its
+     pane. Every sheet style is class-based, so no styling
+     is lost in the move, and the handlers below resolve
+     the same element either way. */
   var capSheet = document.getElementById('capSheet');
+  if (capSheet && capSheet.parentNode !== document.body) document.body.appendChild(capSheet);
   var capTeaser = document.getElementById('capTeaser');
   var capCloseBtn = document.getElementById('capClose');
   function openCapSheet() {
