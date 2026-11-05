@@ -2734,6 +2734,17 @@
      script, and the compiler are untouched. */
   .landing-inner .v6-slide .planks{grid-template-rows:none;margin:0}
 </style>
+<style id="v662-film">
+  /* v6.62: the second lock on the film's ratio. The sheet fix
+     lives in the carousel script (the sheet re-homed under
+     <body>, out of the carousel's perspective containing
+     block). This declaration makes the squash itself
+     impossible: the player no longer flex-shrinks, so if
+     vertical room ever ran short the film would overflow
+     honestly at 16:9 instead of shrinking out of ratio and
+     letterboxing its own frame inside a wider black box. */
+  .v6-sheet video{flex:0 0 auto}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -2938,7 +2949,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.61</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.62</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
@@ -3215,7 +3226,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.61</span>
+      <span>clonemy.ai, working prototype · v6.62</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -4227,6 +4238,18 @@ What a successor would need that you do not have: list them as plain questions. 
   function lockScroll() { document.body.classList.add('sheet-lock'); }
   function unlockScroll() { if (!sheetOpen && !capSheetOpen) document.body.classList.remove('sheet-lock'); }
   var filmSheet = document.getElementById('filmSheet');
+  /* v6.62: the sheet is re-homed directly under <body>. It is
+     authored inside the carousel, whose 3D perspective makes it
+     the containing block for fixed descendants, so the sheet's
+     inset:0 resolved against the carousel panel instead of the
+     viewport; the shortened sheet then let the column flex
+     squash the film out of its ratio (measured in headless
+     Chromium: the sheet box identical to the carousel box at
+     every viewport, the player squeezed to 1024x206 at
+     1920x947 with 329px black bars a side). Every sheet style
+     is class-based, so the move costs no styling, and the
+     handlers below hold element references, not positions. */
+  if (filmSheet && filmSheet.parentNode !== document.body) document.body.appendChild(filmSheet);
   var film = document.getElementById('filmVideo');
   var filmUnmute = document.getElementById('filmUnmute');
   /* v6.51: the film starts the moment its sheet opens, with sound,
