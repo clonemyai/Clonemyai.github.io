@@ -1832,6 +1832,63 @@
   .v6-foot a{color:var(--L-ink3);text-decoration:none}
   .v6-foot a:hover{color:var(--L-ink2)}
 </style>
+<style id="v641-onebox">
+  /* v6.41: the one box (Tony's design). The desk's three step cards
+     become one surface with three faces and a slim progress rail.
+     Faces keep the .step pane styling; visibility is class-driven so
+     a face change loses nothing. The grid collapses to one column and
+     the visible face is the desk's working surface. */
+  .desk-grid{grid-template-columns:1fr;gap:0}
+  .onebox{display:block;min-width:0}
+  .ob-rail{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin:0 0 14px}
+  .ob-step{
+    appearance:none;cursor:pointer;display:inline-flex;align-items:baseline;gap:.45rem;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.78rem;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+    background:transparent;border:1px solid var(--line);border-radius:999px;padding:.42rem .85rem;
+  }
+  .ob-step .ob-num{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:1.05rem;font-weight:800;letter-spacing:0;line-height:1}
+  .ob-step.is-current{color:var(--ink);border-color:var(--accent-text)}
+  .ob-step.is-done{color:var(--ink-2)}
+  .ob-face{display:none}
+  .ob-face.ob-on{display:flex}
+  .phone-line{margin-top:.4rem}
+  .ob-navrow{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin-top:1rem}
+  .ob-advance{
+    appearance:none;cursor:pointer;font:inherit;font-size:.95rem;font-weight:800;
+    border:0;border-radius:999px;background:var(--grad);color:var(--on-grad);
+    padding:.62rem 1.15rem;box-shadow:var(--btn-primary-shadow);
+  }
+  .ob-advance:hover{box-shadow:var(--btn-primary-shadow-hover)}
+  .ob-back{
+    appearance:none;cursor:pointer;font:inherit;font-size:.92rem;
+    border-radius:999px;border:1px solid var(--line-strong);
+    background:var(--surface-1);color:var(--ink);padding:.55rem 1rem;
+  }
+  .ob-back:hover{border-color:var(--accent-text)}
+  .ai-btn.ai-chosen{border-color:var(--dz-active);box-shadow:var(--dz-drag-shadow)}
+  /* The merged intake: one pastable area that also takes dropped files. */
+  .intake{
+    border:1.5px dashed var(--dz-border);border-radius:14px;background:var(--dz-bg);
+    padding:.65rem;transition:border-color .15s ease,background .15s ease,box-shadow .15s ease;
+  }
+  .intake.drag{border-color:var(--dz-active);background:var(--dz-drag-bg);box-shadow:var(--dz-drag-shadow)}
+  .intake textarea{margin:0}
+  .intake-bar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;margin-top:.6rem}
+  .intake-hint{color:var(--ink-2);font-size:.88rem;line-height:1.45;flex:1 1 220px;text-align:left}
+  .clip-note{
+    margin:0 0 .9rem;padding:.8rem .95rem;text-align:left;
+    border:1.5px solid var(--btn-border);border-radius:12px;background:var(--install-bg);
+    color:var(--ink-2);font-size:.95rem;line-height:1.55;
+  }
+  .dest-openers{margin:0 0 1rem;text-align:left}
+  .dest-lead{margin:0 0 .6rem;color:var(--ink-2);font-size:.95rem;line-height:1.55}
+  .dest-lead strong{color:var(--ink)}
+  .dest-btns{display:flex;flex-wrap:wrap;gap:.45rem}
+  .paste-part-state{font-size:.82rem;font-weight:700;color:var(--accent-text);white-space:nowrap}
+  .paste-part.is-next{border-color:var(--dz-active);box-shadow:var(--dz-drag-shadow)}
+  .paste-copy-btn.part-quiet{background:var(--surface-1);background-image:none;color:var(--ink);border:1px solid var(--line-strong);box-shadow:none;font-weight:600}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -1990,8 +2047,13 @@
       <p class="fine">Works with ChatGPT, Claude, Gemini, Grok, and Perplexity.</p>
     </div>
     <div class="shelf desk-shell"><section class="panel p-desk"><div class="panel-inner"><div class="desk wrap"><div class="desk-panel"><div class="desk-grid">
-        <div class="step">
-          <p class="step-num">Step <span class="step-big">1</span> · Extract</p>
+        <div class="onebox" id="oneBox">
+          <div class="ob-rail" role="group" aria-label="Where you are in the transfer">
+            <button type="button" class="ob-step is-current" data-face="1" aria-current="step"><span class="ob-num">1</span> Extract</button>
+            <button type="button" class="ob-step" data-face="2"><span class="ob-num">2</span> Compile</button>
+            <button type="button" class="ob-step" data-face="3"><span class="ob-num">3</span> Restore</button>
+          </div>
+        <section class="step ob-face ob-on" id="faceExtract" aria-label="Step 1, Extract">
           <h3>Ask your AI for its self-report</h3>
           <p>One request. The AI you use now writes the report itself: your rules, your people, your open loops.</p>
           <div class="extract-stack">
@@ -2093,23 +2155,25 @@
                 });
               </script>
           </div>
-        </div>
-        <div class="step">
-          <p class="step-num">Step <span class="step-big">2</span> · Compile</p>
-          <h3>Drop the report here</h3>
+          <p class="phone-line">On a phone: send the prompt in your AI app. When the report comes back, tap the copy icon under the reply to copy the whole report, then come back here and paste.</p>
+          <div class="ob-navrow">
+            <button type="button" class="ob-advance" id="toCompileBtn">I have the report</button>
+          </div>
+        </section>
+        <section class="step ob-face" id="faceCompile" aria-label="Step 2, Compile">
+          <h3>Bring the report here</h3>
           <p>Paste it, or drop the file. Reports from more than one AI merge into one capsule.</p>
             <div class="compiler">
-              <div class="dropzone" id="dropZone" role="button" tabindex="0" aria-label="Drop the document file here, or click to choose a file">
-                <strong>Drag and drop the file here</strong><br />
-                <span>.md or .txt, one file or several, or click to browse</span>
-                <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" multiple hidden />
+              <div class="intake" id="intakeBox">
+                <textarea id="compileInput" rows="6" placeholder="Paste the report here, or drop the file on this box."></textarea>
+                <div class="intake-bar">
+                  <span class="intake-hint">Paste the report, or drop .md or .txt files on this box, one file or several. Files are read on this page only, never uploaded.</span>
+                  <button type="button" id="browseBtn">Browse for a file</button>
+                  <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" multiple hidden />
+                </div>
               </div>
               <div class="sourcelist" id="sourceList" hidden></div>
               <p class="flavor-detect" id="flavorDetect" hidden></p>
-              <details class="desk-details paste-details">
-                <summary>Or paste the report text instead</summary>
-                <textarea id="compileInput" rows="4" placeholder="Paste the full document your AI gave you here, code block and all."></textarea>
-              </details>
               <details class="desk-details flavor-details">
                 <summary>Choose a flavor (Auto by default)</summary>
               <div class="flavor-row" id="flavorRow" role="group" aria-label="Choose a flavor for your capsule">
@@ -2133,11 +2197,12 @@
               </div>
 <script>
   (function () {
-    var zone = document.getElementById('dropZone');
+    var box = document.getElementById('intakeBox');
     var input = document.getElementById('compileFile');
     var target = document.getElementById('compileInput');
     var status = document.getElementById('compileStatus');
     var listBox = document.getElementById('sourceList');
+    var browse = document.getElementById('browseBtn');
     window.__capsuleExtraTexts = [];
     window.__capsuleExtraNames = [];
     function renderList() {
@@ -2156,31 +2221,40 @@
         if (window.__capsuleOnSourcesChanged) { window.__capsuleOnSourcesChanged(); }
       });
     }
-    function addFile(file) {
-      if (!file) { return; }
-      var reader = new FileReader();
-      reader.onload = function () {
-        var text = String(reader.result || '');
-        if (!target.value.trim() && !window.__capsuleExtraTexts.length) {
-          target.value = text;
-          status.textContent = 'File loaded: ' + file.name + '. Drop more documents to merge them in, or press Compile my capsule.';
-        } else {
-          window.__capsuleExtraTexts.push(text);
-          window.__capsuleExtraNames.push(file.name + ' (' + text.length + ' characters)');
-          renderList();
-          status.textContent = 'Added ' + file.name + ' for merging. ' + ((target.value.trim() ? 1 : 0) + window.__capsuleExtraTexts.length) + ' sources ready. Press Compile my capsule.';
-        }
-        if (window.__capsuleOnSourcesChanged) { window.__capsuleOnSourcesChanged(); }
-      };
-      reader.readAsText(file);
+    function applyText(text, name) {
+      if (!target.value.trim() && !window.__capsuleExtraTexts.length) {
+        target.value = text;
+        status.textContent = 'File loaded: ' + name + '. Drop more documents to merge them in, or press Compile my capsule.';
+      } else {
+        window.__capsuleExtraTexts.push(text);
+        window.__capsuleExtraNames.push(name + ' (' + text.length + ' characters)');
+        renderList();
+        status.textContent = 'Added ' + name + ' for merging. ' + ((target.value.trim() ? 1 : 0) + window.__capsuleExtraTexts.length) + ' sources ready. Press Compile my capsule.';
+      }
+      if (window.__capsuleOnSourcesChanged) { window.__capsuleOnSourcesChanged(); }
     }
-    function addFiles(list) { Array.prototype.forEach.call(list || [], addFile); }
-    zone.addEventListener('click', function () { input.click(); });
-    zone.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
+    function addFiles(list) {
+      var files = Array.prototype.slice.call(list || []);
+      var chain = Promise.resolve();
+      files.forEach(function (file) {
+        if (!file) { return; }
+        chain = chain.then(function () {
+          return new Promise(function (resolve) {
+            var reader = new FileReader();
+            reader.onload = function () { applyText(String(reader.result || ''), file.name); resolve(); };
+            reader.onerror = function () { resolve(); };
+            reader.readAsText(file);
+          });
+        });
+      });
+      return chain;
+    }
+    window.__capsuleAddFiles = addFiles;
+    if (browse) { browse.addEventListener('click', function () { input.click(); }); }
     input.addEventListener('change', function () { addFiles(input.files); });
-    ['dragenter', 'dragover'].forEach(function (ev) { zone.addEventListener(ev, function (e) { e.preventDefault(); zone.classList.add('drag'); }); });
-    ['dragleave', 'drop'].forEach(function (ev) { zone.addEventListener(ev, function (e) { e.preventDefault(); zone.classList.remove('drag'); }); });
-    zone.addEventListener('drop', function (e) { if (e.dataTransfer) { addFiles(e.dataTransfer.files); } });
+    ['dragenter', 'dragover'].forEach(function (ev) { box.addEventListener(ev, function (e) { e.preventDefault(); box.classList.add('drag'); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { box.addEventListener(ev, function (e) { e.preventDefault(); box.classList.remove('drag'); }); });
+    box.addEventListener('drop', function (e) { if (e.dataTransfer) { addFiles(e.dataTransfer.files); } });
     ['dragover', 'drop'].forEach(function (ev) { window.addEventListener(ev, function (e) { e.preventDefault(); }); });
   })();
 </script>
@@ -2191,9 +2265,11 @@
             <p><strong>Flavor</strong> sets the capsule's voice: the cover note at the top and the announcement your new AI makes when it installs. Auto reads your document and matches it.</p>
             <p><strong>The compiler</strong> orders and deduplicates the report, adds an install protocol at the top, and ends the capsule with a parity self-check: three questions your new AI answers from the capsule alone.</p>
           </details>
-        </div>
-        <div class="step">
-          <p class="step-num">Step <span class="step-big">3</span> · Restore</p>
+          <div class="ob-navrow">
+            <button type="button" class="ob-back" id="backToExtractBtn">Back to Extract</button>
+          </div>
+        </section>
+        <section class="step ob-face" id="faceRestore" aria-label="Step 3, Restore">
           <h3>Take your capsule anywhere</h3>
           <p>Out comes your capsule. Paste it into any AI as messages, part by part, and that AI starts as yours: same rules, same people, same open loops. The file is yours to keep; the paste is how it travels.</p>
           <div class="filechip" aria-label="Your compiled capsule">
@@ -2205,8 +2281,20 @@
           </div>
                       <div id="compileOut" hidden>
                 <p class="compile-warn" id="compileWarn" role="note" hidden></p>
+                <p class="clip-note" id="clipNote" role="status" hidden></p>
                 <p class="deliver-lead"><strong>Send it as messages.</strong> Copy your capsule below and paste it into your new AI, one part per message, in order. Pasting works everywhere, including on a phone and on platforms that refuse uploaded files: your new AI takes it from your hand, in your own words. The first part opens with a line that tells your new AI what the parts are, and the last part asks it to confirm what it saved.</p>
                 <div class="paste-parts" id="pasteParts" aria-label="Your capsule, split into messages to paste"></div>
+                <div class="dest-openers">
+                  <p class="dest-lead"><strong>Then open your destination and paste.</strong> Copy a part above, open your new AI, paste it in as a message. Work through the parts in order.</p>
+                  <div class="dest-btns">
+                    <a class="way-btn" href="https://chatgpt.com/" target="_blank" rel="noopener">Open ChatGPT</a>
+                    <a class="way-btn" href="https://claude.ai/new" target="_blank" rel="noopener">Open Claude</a>
+                    <a class="way-btn" href="https://gemini.google.com/app" target="_blank" rel="noopener">Open Gemini</a>
+                    <a class="way-btn" href="https://muse.ai" target="_blank" rel="noopener">Open Muse</a>
+                    <a class="way-btn" href="https://copilot.microsoft.com/" target="_blank" rel="noopener">Open Copilot</a>
+                    <a class="way-btn" href="https://grok.com/" target="_blank" rel="noopener">Open Grok</a>
+                  </div>
+                </div>
                 <p class="keepsake-label">Your capsule.md, the copy you keep</p>
                 <textarea id="capsulePreview" rows="6" readonly></textarea>
                 <div class="row">
@@ -2215,6 +2303,10 @@
                 </div>
                 <p class="fineprint">The download is your keepsake: save it, back it up, recompile it later. To install, paste the parts above. If a platform happily takes the file instead, the install line still works: send the file with the install line pasted into the same message.</p>
               </div>
+          <div class="ob-navrow">
+            <button type="button" class="ob-back" id="backToCompileBtn">Back to Compile</button>
+          </div>
+        </section>
         </div>
     </div></div></div></div></section></div>
   </div>
@@ -2234,7 +2326,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.40</span>
+      <span>clonemy.ai, working prototype · v6.41</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2419,12 +2511,37 @@ What a successor would need that you do not have: list them as plain questions. 
   }
   /* PASTE-CHUNKER-END */
 
+  var copiedParts = {};
+  var autoCopiedPart = -1;
+  function paintPartStates() {
+    var host = document.getElementById('pasteParts');
+    if (!host) { return; }
+    var wraps = host.children;
+    var next = -1;
+    for (var i = 0; i < wraps.length; i++) {
+      if (!copiedParts[i] && i !== autoCopiedPart) { next = i; break; }
+    }
+    for (var j = 0; j < wraps.length; j++) {
+      var wrap = wraps[j];
+      var state = wrap.querySelector('.paste-part-state');
+      var btn = wrap.querySelector('.paste-copy-btn');
+      var isAuto = j === autoCopiedPart;
+      if (state) { state.textContent = isAuto ? 'On your clipboard now' : (copiedParts[j] ? 'Copied' : (j === next ? 'Next' : '')); }
+      wrap.classList.toggle('is-next', j === next);
+      if (btn) { btn.classList.toggle('part-quiet', j !== next); }
+    }
+  }
+  window.__paintPartStates = paintPartStates;
+  window.__setAutoCopiedPart = function (i) { autoCopiedPart = i; paintPartStates(); };
+
   function renderPasteParts(text) {
     var host = document.getElementById('pasteParts');
     if (!host) { return; }
     var parts;
     try { parts = buildPasteParts(text); } catch (e) { return; }
     host.innerHTML = '';
+    copiedParts = {};
+    autoCopiedPart = -1;
     parts.forEach(function (partText, i) {
       var wrap = document.createElement('div');
       wrap.className = 'paste-part';
@@ -2434,6 +2551,9 @@ What a successor would need that you do not have: list them as plain questions. 
       var label = document.createElement('span');
       label.className = 'paste-part-label';
       label.textContent = 'Part ' + (i + 1) + ' of ' + parts.length;
+      var state = document.createElement('span');
+      state.className = 'paste-part-state';
+      state.setAttribute('aria-live', 'polite');
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'primary paste-copy-btn';
@@ -2441,6 +2561,9 @@ What a successor would need that you do not have: list them as plain questions. 
       btn.addEventListener('click', function () {
         function done() {
           if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'copy-part', title: 'Capsule part copied', event: true }); }
+          copiedParts[i] = true;
+          if (autoCopiedPart === i) { autoCopiedPart = -1; }
+          paintPartStates();
           btn.textContent = 'Copied part ' + (i + 1) + ': paste it as a message';
           setTimeout(function () { btn.textContent = 'Copy part ' + (i + 1); }, 2600);
         }
@@ -2456,6 +2579,7 @@ What a successor would need that you do not have: list them as plain questions. 
         if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(partText).then(done, function () { fallbackCopy(); done(); }); } else { fallbackCopy(); done(); }
       });
       head.appendChild(label);
+      head.appendChild(state);
       head.appendChild(btn);
       var ta = document.createElement('textarea');
       ta.rows = 5;
@@ -2466,6 +2590,7 @@ What a successor would need that you do not have: list them as plain questions. 
       wrap.appendChild(ta);
       host.appendChild(wrap);
     });
+    paintPartStates();
   }
   var INSTALL_LINE = 'Read the capsule file I am sending with this message. Follow its install protocol: adopt all of it as your standing configuration for me. Do not ask me whether to adopt it or how much of it to use. Announce the installation, starting with the words Capsule installed, and confirm back who you are to me, my never-do rules in my own words, my open loops, and the answer format you will use with me.';
 
@@ -2809,9 +2934,29 @@ What a successor would need that you do not have: list them as plain questions. 
       lastInstall = '';
       document.getElementById('capsulePreview').value = lastCapsule;
       renderPasteParts(lastCapsule);
+      // v6.41: put the deliverable on the clipboard from inside this
+      // click, while the browser still counts it as the user's tap:
+      // the whole capsule when it renders as a single part, otherwise
+      // Part 1. If the write is unavailable the parts view below still
+      // offers manual copy, unchanged.
+      try {
+        var deliverParts = buildPasteParts(lastCapsule);
+        window.__capsuleParts = deliverParts;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(deliverParts[0]).then(function () {
+            if (window.__setAutoCopiedPart) { window.__setAutoCopiedPart(0); }
+            if (window.__oneboxClipDone) { window.__oneboxClipDone(true, deliverParts.length); }
+          }, function () {
+            if (window.__oneboxClipDone) { window.__oneboxClipDone(false, deliverParts.length); }
+          });
+        } else if (window.__oneboxClipDone) { window.__oneboxClipDone(false, deliverParts.length); }
+      } catch (e) {
+        if (window.__oneboxClipDone) { try { window.__oneboxClipDone(false, 0); } catch (e2) {} }
+      }
       var out = document.getElementById('compileOut');
       function finishCompile() {
         out.hidden = false;
+        if (window.__oneboxShowFace) { window.__oneboxShowFace(3); }
         if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'compile', title: 'Capsule compiled', event: true }); if (sourceCount > 1) { window.goatcounter.count({ path: 'combine', title: 'Capsules combined', event: true }); } }
         status.textContent = sourceCount > 1 ? ('Done. Combined ' + sourceCount + ' sources into one capsule, and capsule.md is downloading now. ' + result.found + ' of 11 sections found across your documents. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. Your capsule.md copy is downloading too, to keep; if it did not start, use the download button below. To install, copy the parts below and paste them into your new AI, one message each, in order.') : ('Done. Your capsule is compiled and capsule.md is downloading now. ' + result.found + ' of 11 sections found in your document. Missing sections are named in the capsule, never silently dropped. Flavor: ' + flavorMeta.label + (flavor.chosen ? ' (your pick)' : ' (auto-detected)') + '. Your capsule.md copy is downloading too, to keep; if it did not start, use the download button below. To install, copy the parts below and paste them into your new AI, one message each, in order.');
         var det = document.getElementById('flavorDetect');
@@ -2849,6 +2994,63 @@ What a successor would need that you do not have: list them as plain questions. 
       ci.addEventListener('input', function () { refreshCompileReady(); });
     }
   }
+</script>
+<script>
+  // v6.41: the one box controller. Three faces, one surface. A face
+  // change only toggles visibility, so nothing is ever lost by moving:
+  // chosen AI, pasted text, flavor, compiled capsule, and part position
+  // all stay exactly where they were. State lives in page memory only.
+  (function () {
+    var faces = { 1: document.getElementById('faceExtract'), 2: document.getElementById('faceCompile'), 3: document.getElementById('faceRestore') };
+    var railBtns = Array.prototype.slice.call(document.querySelectorAll('.ob-step'));
+    function showFace(n) {
+      if (!faces[n]) { return; }
+      [1, 2, 3].forEach(function (k) {
+        if (faces[k]) { faces[k].classList.toggle('ob-on', k === n); }
+      });
+      railBtns.forEach(function (b) {
+        var f = parseInt(b.getAttribute('data-face'), 10);
+        b.classList.toggle('is-current', f === n);
+        b.classList.toggle('is-done', f < n);
+        if (f === n) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      });
+    }
+    window.__oneboxShowFace = showFace;
+    railBtns.forEach(function (b) {
+      b.addEventListener('click', function () { showFace(parseInt(b.getAttribute('data-face'), 10)); });
+    });
+    var toCompile = document.getElementById('toCompileBtn');
+    if (toCompile) {
+      toCompile.addEventListener('click', function () {
+        showFace(2);
+        var t = document.getElementById('compileInput');
+        if (t) { try { t.focus({ preventScroll: true }); } catch (e) {} }
+      });
+    }
+    var back1 = document.getElementById('backToExtractBtn');
+    if (back1) { back1.addEventListener('click', function () { showFace(1); }); }
+    var back2 = document.getElementById('backToCompileBtn');
+    if (back2) { back2.addEventListener('click', function () { showFace(2); }); }
+    document.querySelectorAll('.ai-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('.ai-btn').forEach(function (x) { x.classList.toggle('ai-chosen', x === b); });
+      });
+    });
+    window.__oneboxClipDone = function (ok, partCount) {
+      var note = document.getElementById('clipNote');
+      if (!note) { return; }
+      if (ok) {
+        note.textContent = partCount > 1
+          ? ('Part 1 of ' + partCount + ' is on your clipboard now. Open your new AI below and paste it as your first message, then come back for each next part.')
+          : 'Your capsule is on your clipboard now. Open your new AI below and paste it as your first message.';
+        note.hidden = false;
+      } else {
+        note.hidden = true;
+        note.textContent = '';
+      }
+    };
+    showFace(1);
+  })();
 </script>
 <script>
   // Theme toggle: flips the theme for this session only. The choice
