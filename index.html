@@ -2129,8 +2129,10 @@
      and a press travels down by that thickness and springs back.
      It is the page's one pressable hero, so the living gradient
      stays within the frozen gradient rule. (3) On desktop-class
-     viewports (min-width 900px, min-height 700px) the landing is a
-     fitted composition: it fills the viewport exactly with no
+     viewports (min-width 1280px, min-height 960px since v6.50,
+     which raised the thresholds so the fitted composition only
+     claims viewports that can hold every slide whole) the landing
+     is a fitted composition: it fills the viewport exactly with no
      scrolling, the carousel stage flexing to take the share, and
      type and panel sizes scale with clamp() so 4K grows the
      elements inside the capped column instead of stretching the
@@ -2158,7 +2160,7 @@
   .cta-main:active,.cta-main.is-pressing{transform:translateY(5px);box-shadow:var(--btn-primary-shadow),0 1px 0 var(--cta-edge),0 12px 28px rgba(90,70,200,.34),0 0 22px rgba(123,108,255,.36),0 0 54px rgba(255,94,168,.20)}
 
   /* (3) The fitted landing: one screen, scaling with the viewport */
-  @media (min-width:900px) and (min-height:700px){
+  @media (min-width:1280px) and (min-height:960px){
     body:not(.landing-cleared){height:100dvh;overflow:hidden}
     body:not(.landing-cleared) .v6-stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
     body:not(.landing-cleared) .stage2{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
@@ -2190,6 +2192,116 @@
   body.rm .cta-main:active,body.rm .cta-main.is-pressing{transform:none}
   body.rm .tool-pocket.rise{animation:none}
 </style>
+<style id="v650-contain">
+  /* v6.50: the panel is a card (Tony's screenshot rounds, 2026-11-05
+     00:53-00:59 PT). Four defects, one family: the fitted stage let
+     slide content escape its card. (1) The Product slide's lede and
+     capsule window spilled past the panel onto the controls row and
+     the CTA. (2) The Confirmations slide's third row was sliced at
+     the panel's bottom edge. (3) The carousel tab labels collided
+     inside their own row. (4) At a short window a little less than
+     half of a 4K screen, the slide's two columns overlapped. The
+     fixes are structural, not tuned: the stage clips like glass,
+     every slide is a bounded card with overflow hidden, visuals
+     are capped at their column, the copy column is capped at the
+     slide, and the tab row can only shrink and truncate, never
+     collide. The fitted composition also stops claiming viewports
+     that cannot hold it: its thresholds rise to min-width 1280px
+     and min-height 960px (edited in the v6.49 block above), and
+     below them the page returns to natural flow with a tall stage
+     floor, so every slide stays whole and the page simply scrolls.
+     Height is a first-class responsive axis on this page: the
+     untested middle sizes degrade to flow, never to overlap, spill,
+     or a sliced row. The hero gets its polish in the same pass:
+     the headline break is structural (after "memories,"), the hero
+     shares the stage's measure, and its vertical rhythm evens out
+     inside the fitted budget. Slide words, the carousel script,
+     the compiler, the chunker, and the extraction text are
+     untouched. */
+
+  /* The stage is glass: nothing inside it paints outside it, and
+     every slide is exactly the card it renders on */
+  .landing-inner .v6-carousel{overflow:hidden}
+  .landing-inner .v6-slide{overflow:hidden}
+  .landing-inner .v6-slide-copy{min-width:0;max-height:100%;overflow:hidden}
+  .landing-inner .v6-visual{min-width:0;max-height:100%}
+  .landing-inner .v6-visual>*{max-height:100%}
+
+  /* The capsule window yields, never the card: the window is
+     capped at its column and its body clips behind a soft fade,
+     the one sanctioned fade, because the window is a decorative
+     example and its top sections are the point */
+  .landing-inner .v6-slide .capsule{max-height:100%}
+  .landing-inner .v6-slide .capsule-body{overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 42px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 42px),transparent)}
+  .landing-inner .v6-slide .proof{overflow:hidden}
+  .landing-inner .v6-slide .planks{max-height:100%;overflow:hidden}
+  .landing-inner .v6-slide .plank{min-height:0;overflow:hidden}
+
+  /* Natural flow on desktop: a tall stage floor keeps every slide
+     whole; slides take the stage box minus their floating inset */
+  @media (min-width:1080px){
+    .landing-inner .v6-carousel{height:clamp(500px,62vh,660px)}
+    .landing-inner .v6-slide{height:calc(100% - 20px)}
+  }
+  /* Phones: the example window is height-capped too */
+  @media (max-width:1079px){
+    .landing-inner .v6-slide .capsule{max-height:min(600px,80vh)}
+  }
+
+  /* The tab row is collision-proof: the tabs share the row and can
+     shrink to nothing, labels truncate with an ellipsis instead of
+     spilling into the next tab, and the counter keeps its own
+     reserved space */
+  .landing-inner .v6-progress{flex:1 1 auto;min-width:0}
+  .landing-inner .v6-segs{flex:1 1 auto;min-width:0}
+  .landing-inner .v6-segtab{flex:1 1 0;min-width:0}
+  .landing-inner .v6-segtab .lab{display:block;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .landing-inner .v6-counter{flex:0 0 auto}
+  @media (max-width:1250px){
+    .landing-inner .v6-segtab .lab{font-size:.6rem}
+  }
+
+  /* The hero: one measure with the stage (the slides sit 6px in
+     from the column, so does the hero), a structural headline
+     break, and the same words in the same gradient */
+  .hero{padding-left:6px;padding-right:6px}
+  .hero-tag{max-width:100%}
+  .hero-tag .ht-line{display:block}
+
+  /* Fitted-only rhythm and type, under the same media the v6.49
+     block now declares (min-width 1280px, min-height 960px). The
+     hero gives back a few vh-sized slivers of spacing so the stage
+     share grows, and slide type stops outgrowing its measure at
+     wide sizes: the column is capped at 1204px, so past about
+     2000px an uncapped vw scale only buys more wrapped lines */
+  @media (min-width:1280px) and (min-height:960px){
+    body:not(.landing-cleared) .hero{padding-top:clamp(8px,1.6vh,30px)}
+    body:not(.landing-cleared) .hero-tag{font-size:clamp(2.35rem,2.55vw,5.6rem);margin-bottom:clamp(.4rem,1vh,.85rem)}
+    body:not(.landing-cleared) .hero-sub{margin-bottom:clamp(.5rem,1.1vh,1.15rem)}
+    body:not(.landing-cleared) .landing-inner .col-story{margin-top:clamp(8px,1.4vh,30px)}
+    body:not(.landing-cleared) .cta-zone{padding-top:clamp(10px,1.8vh,32px)}
+    body:not(.landing-cleared) .landing-signoff{padding-top:12px}
+    .landing-inner .v6-tagline{font-size:clamp(1.85rem,1.55vw,3.1rem)}
+    .landing-inner .lede{font-size:clamp(1.02rem,.72vw,1.45rem)}
+  }
+
+  /* The sheen (Tony, 2026-11-05 01:02 PT: "love the gradients,
+     can you add a bit more shimmer"): light catching glass on the
+     one hero button. A low-opacity white band sweeps diagonally
+     across the face on a relaxed cycle, about a second of travel
+     and several seconds of rest, easing in and out; polish, not
+     disco. The band is a background layer on a button-shaped
+     pseudo-element, so the rounded corners contain it without
+     touching the halo behind the button, and the label rides
+     above it. Reduced motion keeps the static gradient only. */
+  .cta-main .cta-label{position:relative;z-index:1}
+  .cta-main::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(105deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.26) 50%,rgba(255,255,255,0) 58%);background-size:280% 100%;background-repeat:no-repeat;background-position:130% 0;animation:ctaSheen 7.5s ease-in-out infinite;pointer-events:none}
+  @keyframes ctaSheen{0%{background-position:130% 0}16%{background-position:-30% 0}100%{background-position:-30% 0}}
+  @media (prefers-reduced-motion: reduce){
+    .cta-main::after{animation:none}
+  }
+  body.rm .cta-main::after{animation:none}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -2212,7 +2324,7 @@
   <div class="stage2">
     <div id="landingWrap"><div class="landing-inner">
 <section class="hero" aria-label="What clonemy.ai is">
-  <h1 class="hero-tag">Your AI, your memories, <span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep</span>.</h1>
+  <h1 class="hero-tag"><span class="ht-line">Your AI, your memories,</span> <span class="ht-line"><span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep</span>.</span></h1>
   <p class="hero-sub">Clonemy moves what your AI knows about you into any other AI, compiled into one structured file that you own and keep.</p>
   <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a></p>
   <div class="hero-ext-note" id="extNote" hidden>
@@ -2357,10 +2469,10 @@
 
       </div>
 <section class="cta-zone" aria-label="Start the transfer">
-  <button type="button" class="cta-main" id="beginBtn">Begin journey</button>
+  <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.49</span></p>
+  <p class="landing-signoff" id="landingSignoff">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.50</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
@@ -2624,7 +2736,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.49</span>
+      <span>clonemy.ai, working prototype · v6.50</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
