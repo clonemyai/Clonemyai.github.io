@@ -2049,6 +2049,17 @@
   .hero-ext{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 16px;margin:0 auto;font-size:.97rem;line-height:1.5;color:var(--L-ink2)}
   .hero-ext strong{color:var(--L-ink);font-weight:800}
 
+  /* v6.48: the mobile extension note. On a phone the store page is a
+     dead end, so the button trades the trip for the link itself:
+     copy it or email it, and open it later on a desktop. The note
+     sits directly under the slim extension line, hidden until the
+     button reveals it. This slot becomes the app's when it ships. */
+  .hero-ext-note{margin:14px auto 0;max-width:56ch;text-align:center}
+  .hero-ext-note-text{margin:0;font-size:.95rem;line-height:1.5;color:var(--L-ink2)}
+  .hero-ext-note-actions{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;margin:.7rem 0 0}
+  .hero-ext-note-status{margin:.65rem 0 0;font-size:.92rem;color:var(--L-ink)}
+  .hero-ext-note-url{margin:.65rem 0 0;font-size:.85rem;line-height:1.5;color:var(--L-ink2);word-break:break-all;user-select:all;-webkit-user-select:all}
+
   /* The one big call to action */
   .cta-zone{text-align:center;padding:32px 0 10px}
   .cta-main{appearance:none;border:0;cursor:pointer;font:inherit;font-size:1.28rem;font-weight:800;letter-spacing:.01em;color:var(--on-grad);background:var(--grad);border-radius:999px;padding:1.02rem 2.7rem;box-shadow:var(--btn-primary-shadow),0 20px 44px rgba(90,70,200,.30);transition:transform .25s ease,box-shadow .25s ease}
@@ -2126,7 +2137,13 @@
 <section class="hero" aria-label="What clonemy.ai is">
   <h1 class="hero-tag">Your AI, your memories, <span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep</span>.</h1>
   <p class="hero-sub">Clonemy moves what your AI knows about you into any other AI, compiled into one structured file that you own and keep.</p>
-  <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a></p>
+  <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a></p>
+  <div class="hero-ext-note" id="extNote" hidden>
+    <p class="hero-ext-note-text">The extension runs in desktop Chrome. Take its link with you:</p>
+    <p class="hero-ext-note-actions"><button type="button" class="v6-btn v6-btn-glass" id="extCopyBtn">Copy link</button> <a class="v6-btn v6-btn-glass" id="extMailBtn" href="mailto:?subject=clonemy.ai%20extension&amp;body=Open%20this%20on%20your%20desktop%20to%20install%20the%20clonemy.ai%20extension.%0A%0Ahttps%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fclonemyai-clone-your-ai%2Fejoibikgcgekmoejipegnpabjpndofdo">Email it to me</a></p>
+    <p class="hero-ext-note-status" id="extStatus" role="status" hidden></p>
+    <p class="hero-ext-note-url" id="extUrl" hidden>https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo</p>
+  </div>
 </section>
 <div class="col-story">
 <div class="v6-carousel" id="carousel6" aria-roledescription="carousel" aria-label="About clonemy.ai">
@@ -2532,7 +2549,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.47</span>
+      <span>clonemy.ai, working prototype · v6.48</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -3604,6 +3621,64 @@ What a successor would need that you do not have: list them as plain questions. 
       panel.addEventListener('pointerleave', function () {
         panel.style.setProperty('--rx', '0deg');
         panel.style.setProperty('--ry', '0deg');
+      });
+    }
+  })();
+</script>
+<script id="v648-ext-mobile">
+  /* v6.48: the extension button's mobile gap measure (Tony's field
+     report, 2026-11-04 23:31 PT: on a phone the button led to the
+     Chrome Web Store's desktop download page, a dead end). Desktop
+     keeps the plain store link, byte for byte. On a touch-first
+     device the button becomes "Get the extension link": it reveals
+     a small note under the extension line offering the store URL to
+     copy, or a prefilled email carrying it, and it never navigates
+     away from the page. With no JS the button stays the store link.
+     The detection mirrors the v6.47 tilt signal style: coarse is
+     the primary pointer, or there is no fine pointer on a small
+     viewport. */
+  (function () {
+    var btn = document.getElementById('extBtn');
+    var note = document.getElementById('extNote');
+    if (!btn || !note) return;
+    var mq = window.matchMedia;
+    var coarse = !!(mq && mq('(pointer: coarse)').matches);
+    var fine = !!(mq && mq('(pointer: fine)').matches);
+    var small = (window.innerWidth || 0) > 0 && window.innerWidth < 900;
+    var mobile = coarse || (small && !fine);
+    if (!mobile) return;
+    var storeUrl = btn.getAttribute('href');
+    var copyBtn = document.getElementById('extCopyBtn');
+    var status = document.getElementById('extStatus');
+    var urlLine = document.getElementById('extUrl');
+    btn.textContent = 'Get the extension link';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        function showUrl() {
+          if (status) { status.hidden = true; }
+          if (urlLine) { urlLine.hidden = false; }
+        }
+        function copied() {
+          if (urlLine) { urlLine.hidden = true; }
+          if (status) {
+            status.textContent = 'Copied. Open it on your desktop.';
+            status.hidden = false;
+          }
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          try {
+            var p = navigator.clipboard.writeText(storeUrl);
+            if (p && typeof p.then === 'function') { p.then(copied, showUrl); }
+            else { copied(); }
+          } catch (err) { showUrl(); }
+        } else { showUrl(); }
       });
     }
   })();
