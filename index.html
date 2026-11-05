@@ -2113,6 +2113,83 @@
   body.rm .tool-zone .desk-panel{transition:none;transform:none}
 </style>
 
+<style id="v649-pocket">
+  /* v6.49: the pocket, the sign-off, the living button, and the
+     fitted landing (Tony's direction, 2026-11-05 00:44-00:46 PT,
+     from his annotated screenshot of v6.48: the tool and footer
+     sitting at the bottom made the landing feel "messy" and
+     endless). Three moves. (1) The tool and the full footer now
+     live inside #toolPocket, hidden until Begin journey opens it;
+     the landing ends at the CTA and one quiet sign-off line. The
+     footer's contents are unchanged; inside the pocket its
+     viewport-relative side padding is zeroed because the stage
+     column now provides the identical inset. (2) Begin journey is
+     a physical button: the ECR gradient flows through its face, a
+     halo glows behind it, a solid bottom edge gives it thickness,
+     and a press travels down by that thickness and springs back.
+     It is the page's one pressable hero, so the living gradient
+     stays within the frozen gradient rule. (3) On desktop-class
+     viewports (min-width 900px, min-height 700px) the landing is a
+     fitted composition: it fills the viewport exactly with no
+     scrolling, the carousel stage flexing to take the share, and
+     type and panel sizes scale with clamp() so 4K grows the
+     elements inside the capped column instead of stretching the
+     column. Phones keep natural flow. Presentation only: slide
+     content, the compiler, and the one box are untouched. */
+
+  /* (1) The pocket */
+  .tool-pocket[hidden]{display:none}
+  .tool-pocket .v6-foot{padding-left:0;padding-right:0}
+  @keyframes pocketRise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+  .tool-pocket.rise{animation:pocketRise .55s cubic-bezier(.22,.8,.28,1) both}
+
+  /* The sign-off: the only thing after the CTA in landing state */
+  .landing-signoff{margin:0;padding:16px 0 10px;text-align:center;font-size:.92rem;color:var(--L-ink3)}
+  .landing-signoff .sig-heart{width:1em;height:1em;vertical-align:-0.12em;fill:#ff5ea8}
+  :root[data-theme="light"] .landing-signoff .sig-heart{fill:#e03d86}
+  .landing-signoff .signoff-ver{white-space:nowrap}
+
+  /* (2) Begin journey: flowing gradient, glow, thickness, press */
+  .cta-main{--cta-edge:#4738b8;position:relative;isolation:isolate;background-size:210% 100%;animation:ctaFlow 6.5s ease-in-out infinite alternate;box-shadow:var(--btn-primary-shadow),0 6px 0 var(--cta-edge),0 24px 54px rgba(90,70,200,.38),0 0 34px rgba(123,108,255,.40),0 0 78px rgba(255,94,168,.22);transition:transform .15s cubic-bezier(.34,1.4,.64,1),box-shadow .15s cubic-bezier(.34,1.4,.64,1)}
+  :root[data-theme="light"] .cta-main{--cta-edge:#382a96}
+  @keyframes ctaFlow{from{background-position:0% 50%}to{background-position:100% 50%}}
+  .cta-main::before{content:"";position:absolute;inset:-4px;border-radius:inherit;background:var(--grad);background-size:210% 100%;animation:ctaFlow 6.5s ease-in-out infinite alternate;filter:blur(24px);opacity:.5;z-index:-1;pointer-events:none}
+  .cta-main:hover{transform:translateY(-2px);box-shadow:var(--btn-primary-shadow-hover),0 8px 0 var(--cta-edge),0 28px 58px rgba(90,70,200,.40),0 0 42px rgba(123,108,255,.48),0 0 90px rgba(255,94,168,.26)}
+  .cta-main:active,.cta-main.is-pressing{transform:translateY(5px);box-shadow:var(--btn-primary-shadow),0 1px 0 var(--cta-edge),0 12px 28px rgba(90,70,200,.34),0 0 22px rgba(123,108,255,.36),0 0 54px rgba(255,94,168,.20)}
+
+  /* (3) The fitted landing: one screen, scaling with the viewport */
+  @media (min-width:900px) and (min-height:700px){
+    body:not(.landing-cleared){height:100dvh;overflow:hidden}
+    body:not(.landing-cleared) .v6-stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+    body:not(.landing-cleared) .stage2{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+    body:not(.landing-cleared) #landingWrap{flex:1 1 auto;min-height:0}
+    body:not(.landing-cleared) .landing-inner{display:flex;flex-direction:column;height:100%;min-height:0}
+    body:not(.landing-cleared) .hero{flex:0 0 auto;padding-top:clamp(10px,2vh,30px)}
+    body:not(.landing-cleared) .landing-inner .col-story{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;margin-top:clamp(10px,1.8vh,30px)}
+    body:not(.landing-cleared) .landing-inner .v6-carousel{flex:1 1 auto;min-height:0;height:auto}
+    body:not(.landing-cleared) .landing-inner .v6-slide{position:absolute;inset:10px 6px}
+    body:not(.landing-cleared) .v6-controls{flex:0 0 auto}
+    body:not(.landing-cleared) .cta-zone{flex:0 0 auto;padding-top:clamp(14px,2.2vh,32px)}
+    body:not(.landing-cleared) .landing-signoff{flex:0 0 auto}
+    .hero-tag{font-size:clamp(2.35rem,2.9vw,6.6rem)}
+    .hero-sub{font-size:clamp(1.08rem,1.02vw,2.15rem)}
+    .cta-main{font-size:clamp(1.28rem,1.12vw,2.55rem);padding:.8em 2.1em}
+    .landing-inner .v6-tagline{font-size:clamp(1.85rem,2vw,4.2rem)}
+    .landing-inner .lede{font-size:clamp(1.02rem,0.95vw,1.95rem)}
+  }
+
+  /* Reduced motion: no flow, no rise, the press is shadow only */
+  @media (prefers-reduced-motion: reduce){
+    .cta-main,.cta-main::before{animation:none}
+    .cta-main{transition:none}
+    .cta-main:active,.cta-main.is-pressing{transform:none;box-shadow:var(--btn-primary-shadow),0 1px 0 var(--cta-edge),0 10px 22px rgba(90,70,200,.30)}
+    .tool-pocket.rise{animation:none}
+  }
+  body.rm .cta-main,body.rm .cta-main::before{animation:none}
+  body.rm .cta-main{transition:none}
+  body.rm .cta-main:active,body.rm .cta-main.is-pressing{transform:none}
+  body.rm .tool-pocket.rise{animation:none}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -2283,7 +2360,9 @@
   <button type="button" class="cta-main" id="beginBtn">Begin journey</button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
+  <p class="landing-signoff" id="landingSignoff">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.49</span></p>
 </div></div>
+    <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
 <p class="back-line"><button type="button" class="back-link" id="backToStory">Back to the story</button></p>
     <div class="col-tool">
@@ -2532,10 +2611,6 @@
       </div>
     </div>
     </div>
-  </div>
-  
-</div>
-
 <footer class="v6-foot">
   <div class="wrap">
     <div class="foot-row">
@@ -2549,7 +2624,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.48</span>
+      <span>clonemy.ai, working prototype · v6.49</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -2569,6 +2644,10 @@
         <span><b>Nothing uploaded</b>, ever</span>
         <span><b>About two minutes</b>, start to finish</span>
       </div></footer>
+</div>
+    </div>
+  </div>
+</div>
 
 <script type="text/plain" id="extractionFile">
 # Send this file to your current AI
@@ -3684,5 +3763,46 @@ What a successor would need that you do not have: list them as plain questions. 
   })();
 </script>
 
+<script id="v649-pocket">
+  /* v6.49: the pocket and the press. Begin journey also opens the
+     pocket (the tool and the full footer live inside it now, hidden
+     in landing state) with a rise, and the button wears its press:
+     the .is-pressing class is applied on click so the depression
+     completes even as the landing starts clearing. Back to the
+     story closes the pocket again. A #tool load starts open, with
+     no rise. The v6.47 script still owns clearing and restoring
+     the landing; this script only mirrors the pocket's state and
+     never touches the tool's internals. */
+  (function () {
+    var pocket = document.getElementById('toolPocket');
+    var begin = document.getElementById('beginBtn');
+    var back = document.getElementById('backToStory');
+    if (!pocket || !begin) return;
+    var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var pressTimer = null;
+    function openPocket(animate) {
+      pocket.hidden = false;
+      if (animate && !reduced) {
+        pocket.classList.remove('rise');
+        void pocket.offsetWidth;
+        pocket.classList.add('rise');
+      }
+    }
+    function closePocket() {
+      pocket.classList.remove('rise');
+      pocket.hidden = true;
+    }
+    if (window.location && window.location.hash === '#tool') { openPocket(false); }
+    begin.addEventListener('click', function () {
+      begin.classList.add('is-pressing');
+      if (pressTimer) { clearTimeout(pressTimer); }
+      pressTimer = setTimeout(function () { begin.classList.remove('is-pressing'); }, 240);
+      openPocket(true);
+    });
+    if (back) {
+      back.addEventListener('click', function () { closePocket(); });
+    }
+  })();
+</script>
 </body>
 </html>
