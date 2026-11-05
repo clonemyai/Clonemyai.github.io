@@ -8,15 +8,15 @@
 <title>Move your AI to any AI, clonemy.ai</title>
 <link rel="icon" type="image/svg+xml" href="/clonemy-mark.svg">
 <meta name="google-site-verification" content="d5e4NixWT2GG4kGYEt3TgL6ZQUXSuXxg7yERP2g7b5g" />
-<meta name="description" content="Your AI knows you. Take that with you. clonemy.ai compiles your AI's own self-report into a capsule file you own, so its personality, rules, and memory move with you to any AI." />
+<meta name="description" content="Your AI, your memories, yours to keep. clonemy.ai compiles your AI's own self-report into a capsule file you own, so its personality, rules, and memory move with you to any AI." />
 <link rel="canonical" href="https://clonemy.ai/" />
-<meta property="og:title" content="clonemy.ai · Your AI knows you. Take that with you." />
-<meta property="og:description" content="Your AI knows you. Take that with you. clonemy.ai compiles your AI's own self-report into a capsule file you own, so its personality, rules, and memory move with you to any AI." />
+<meta property="og:title" content="clonemy.ai · Your AI, your memories, yours to keep." />
+<meta property="og:description" content="Your AI, your memories, yours to keep. clonemy.ai compiles your AI's own self-report into a capsule file you own, so its personality, rules, and memory move with you to any AI." />
 <meta property="og:url" content="https://clonemy.ai/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="clonemy.ai · Your AI knows you. Take that with you." />
-<meta name="twitter:description" content="Your AI knows you. Take that with you. clonemy.ai compiles your AI's own self-report into a capsule file you own, so its personality, rules, and memory move with you to any AI." />
+<meta name="twitter:title" content="clonemy.ai · Your AI, your memories, yours to keep." />
+<meta name="twitter:description" content="Your AI, your memories, yours to keep. clonemy.ai compiles your AI's own self-report into a capsule file you own, so its personality, rules, and memory move with you to any AI." />
 
 <script>
   // Theme starts before first paint: a choice made earlier in this
@@ -1811,6 +1811,8 @@
     .v6-slide .conf-row{padding:.42rem .8rem}
     .v6-slide .conf-rows{gap:6px}
   }
+  /* v6.29: the ownership tagline under the first slide's headline */
+  .v6-tagline{margin:.05rem 0 .6rem;font-size:1.15rem;font-weight:700;letter-spacing:.01em;color:var(--L-ink)}
 </style>
 
 <style id="v6-foot-fallback">
@@ -1842,6 +1844,7 @@
       <div class="v6-slide-copy">
         <p class="v6-kicker">The product</p>
         <h2>This is what travels</h2>
+        <p class="v6-tagline">Your AI, your memories, yours to keep.</p>
         <p class="lede">Not a summary and not a chat export: one structured file, written by your old AI and read by your new one. Strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention.</p>
         <p class="fine">An example capsule with invented details, so you can see the shape. Yours holds your real ones, and it never passes through our hands.</p>
       </div>
@@ -1902,13 +1905,13 @@
       <div class="v6-slide-copy">
         <p class="v6-kicker">Why it works</p>
         <h2>Why clonemy works this way</h2>
-        <p class="lede">Three commitments hold the whole design up: privacy by architecture, proof instead of promises, and a format nobody owns.</p>
+        <p class="lede">Three commitments hold the whole design up: ownership first, proof instead of promises, and privacy by architecture.</p>
       </div>
       <div class="v6-visual">
         <div class="planks">
-          <div class="plank"><h3>Nothing leaves your browser</h3><p>The compiler runs on this page, in your tab. Your report is never uploaded, stored, or seen by us. That is not a policy promise. There is no server for it to go to.</p></div>
+          <div class="plank"><h3>Nothing leaves your browser</h3><p>The compiler runs on this page, in your tab. Your report is never uploaded, stored, or seen by us. That is not a policy promise. There is no server for it to go to: what you make stays in a file you hold.</p></div>
           <div class="plank"><h3>Proven by a parity check</h3><p>Every capsule ends with a self-check: three questions the new AI answers from the capsule alone, in your own words. If it cannot answer them, the transfer is not done, and you find out before you rely on it.</p></div>
-          <div class="plank"><h3>The format is open</h3><p>The Capsule Format is published and versioned, free for anyone to read, write, or build on.</p></div>
+          <div class="plank"><h3>The format is open</h3><p>The Capsule Format is published and versioned, free for anyone to read, write, or build on. The tool was borrowed; what you made with it is yours.</p></div>
         </div>
       </div>
     </section>
@@ -1935,7 +1938,7 @@
           <span class="cmp-cell cmp-ours">A parity check: what carried, what did not, what the platform blocked</span>
           <span class="cmp-cell cmp-lab"><svg class="cmp-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="14" r="4.5"/><path d="M11.5 10.5L20 2M16 6l3 3M13.5 8.5l2.5 2.5"/></svg>Ownership &amp; Privacy</span>
           <span class="cmp-cell cmp-theirs">Locked inside the platform</span>
-          <span class="cmp-cell cmp-ours">A file you own, working on any platform, including the next one</span>
+          <span class="cmp-cell cmp-ours">A file you own, yours to keep, working on any platform, including the next one</span>
         </div>
       </div>
     </section>
@@ -2217,7 +2220,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.28</span>
+      <span>clonemy.ai, working prototype · v6.29</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
