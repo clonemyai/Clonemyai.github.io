@@ -11,8 +11,8 @@
     var t = null;
     try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
     if (t !== 'light' && t !== 'dark') {
-      t = 'dark';
-      try { if (window.matchMedia('(prefers-color-scheme: light)').matches) { t = 'light'; } } catch (e) {}
+      t = 'light';
+      try { if (window.matchMedia('(prefers-color-scheme: dark)').matches) { t = 'dark'; } } catch (e) {}
     }
     document.documentElement.setAttribute('data-theme', t);
   })();

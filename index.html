@@ -25,8 +25,8 @@
     var t = null;
     try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
     if (t !== 'light' && t !== 'dark') {
-      t = 'dark';
-      try { if (window.matchMedia('(prefers-color-scheme: light)').matches) { t = 'light'; } } catch (e) {}
+      t = 'light';
+      try { if (window.matchMedia('(prefers-color-scheme: dark)').matches) { t = 'dark'; } } catch (e) {}
     }
     document.documentElement.setAttribute('data-theme', t);
   })();
@@ -2234,7 +2234,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.38</span>
+      <span>clonemy.ai, working prototype · v6.39</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
