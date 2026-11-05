@@ -1813,6 +1813,9 @@
   }
   /* v6.29: the ownership tagline under the first slide's headline */
   .v6-tagline{margin:.05rem 0 .6rem;font-size:1.15rem;font-weight:700;letter-spacing:.01em;color:var(--L-ink)}
+  /* v6.30: Tony's styling call, same voice call: the closing phrase wears the ECR gradient (a deliberate exception to gradient-means-pressable, his direction), and "yours" is underlined */
+  .v6-tag-grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .v6-tagline .v6-yours{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
 </style>
 
 <style id="v6-foot-fallback">
@@ -1844,7 +1847,7 @@
       <div class="v6-slide-copy">
         <p class="v6-kicker">The product</p>
         <h2>This is what travels</h2>
-        <p class="v6-tagline">Your AI, your memories, yours to keep.</p>
+        <p class="v6-tagline">Your AI, your memories, <span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep</span>.</p>
         <p class="lede">Not a summary and not a chat export: one structured file, written by your old AI and read by your new one. Strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention.</p>
         <p class="fine">An example capsule with invented details, so you can see the shape. Yours holds your real ones, and it never passes through our hands.</p>
       </div>
@@ -2220,7 +2223,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.29</span>
+      <span>clonemy.ai, working prototype · v6.30</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
