@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+  // Theme starts before first paint: a choice made earlier in this
+  // session wins, otherwise the visitor's system preference decides.
+  (function () {
+    var t = null;
+    try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') {
+      t = 'dark';
+      try { if (window.matchMedia('(prefers-color-scheme: light)').matches) { t = 'light'; } } catch (e) {}
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<title>Move your ChatGPT memory to Muse, clonemy.ai</title>
+<link rel="icon" type="image/svg+xml" href="/clonemy-mark.svg">
+<meta name="description" content="How to move what ChatGPT knows about you into Muse: the capsule route, and the one delivery rule that matters there. Muse takes a capsule from your hand, as your own messages, and declines it as a file upload." />
+<style>
+  :root { color-scheme:dark; --bg:#0b0b14; --surface:#141424; --ink:#eaf2ff; --ink-2:#aeb9dc; --ink-3:#7f89ad; --line:rgba(140,150,255,.22); --line-strong:rgba(140,150,255,.45); --accent:#37c8e8; --box-bg:#10101c; --grad:linear-gradient(90deg,#7b6cff,#37c8e8 55%,#ff5ea8); }
+  :root[data-theme="light"] { color-scheme:light; --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --line-strong:#d8d2c6; --accent:#14584a; --box-bg:#f4f1ea; --grad:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86); }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]) { color-scheme:light; --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --line-strong:#d8d2c6; --accent:#14584a; --box-bg:#f4f1ea; --grad:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86); }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased; line-height:1.55; }
+  .page { max-width:720px; margin:0 auto; padding:28px 20px 40px; }
+  .brand { font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); }
+  .brand a { color:inherit; text-decoration:none; }
+  .brand { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .theme-toggle { font:inherit; font-size:.88rem; font-weight:650; letter-spacing:normal; text-transform:none; color:var(--ink-2); line-height:1.3; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:.42rem .85rem; cursor:pointer; white-space:nowrap; }
+  .theme-toggle:hover { color:var(--ink); border-color:var(--line-strong); }
+  h1 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:clamp(32px, 5.6vw, 46px); line-height:1.08; letter-spacing:-0.02em; margin:14px 0 14px; }
+  h2 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:25px; margin:32px 0 10px; }
+  p, li { font-size:16px; }
+  .lede { font-size:18px; color:var(--ink-2); }
+  a { color:var(--accent); }
+  .box { background:var(--box-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:14px 0; }
+  .box p { margin:6px 0; }
+  ul.routes { list-style:none; padding:0; }
+  ul.routes li { padding:9px 0; border-bottom:1px solid var(--line); font-size:16px; }
+  .tag { display:inline-block; font-size:12px; border:1px solid var(--line-strong, #d8d2c6); border-radius:999px; padding:1px 8px; margin-left:8px; color:var(--ink-2); background:var(--surface); }
+  footer { border-top:1px solid var(--line); padding-top:18px; margin-top:36px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-3); }
+  .sig { background: var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+  .sig-heart { width:1em; height:1em; vertical-align:-0.12em; fill:#ff5ea8; }
+  :root[data-theme="light"] .sig-heart { fill:#e03d86; }
+  @media (prefers-color-scheme: light){ :root:not([data-theme]) .sig-heart { fill:#e03d86; } }
+  .srcs { font-size:13.5px; color:var(--ink-2); }
+  /* v6.20: wordmark gradient */
+  .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="brand"><a href="https://clonemy.ai"><svg viewBox="0 0 100 100" width="15" height="15" style="vertical-align:-2px;margin-right:.3em" aria-hidden="true"><defs><linearGradient id="cmOrigin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmDest" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#cmOrigin)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#cmDest)"/><circle cx="48.2" cy="50" r="1.9" fill="#37c8e8"/><circle cx="50.9" cy="50" r="1.9" fill="#b45fd0"/><circle cx="53.6" cy="50" r="1.9" fill="#ff5ea8"/></g></svg><span class="wm">clonemy.ai</span></a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/contact/">Contact</a> <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">&#9728; Light</button></div>
+
+  <h1>Move your ChatGPT memory to Muse</h1>
+  <p class="lede">Muse has no built-in import waiting for this move, and it guards its door in a specific way: it declines a capsule that arrives as an uploaded file, and takes the same capsule gladly from its owner's own hands. This guide is the route that works, verified end to end.</p>
+  <h2>What ChatGPT remembers about you</h2>
+  <p>ChatGPT keeps two kinds of memory: saved memories (facts it stores when you ask, or judges worth keeping) and reference chat history, where it draws on past conversations to personalize replies without keeping a separate list. Some accounts show an auto-updating memory summary instead. OpenAI says plainly that memory does not retain every detail from every conversation.</p>
+  <p>Settings, Personalization, Memory: review saved memories, delete individual ones, correct or delete the memory summary, and toggle memory and chat-history referencing on or off.</p>
+  <h2>Getting it out of ChatGPT</h2>
+  <p>Settings, Data controls, Export data sends a ZIP with your conversations as JSON (the link arrives by email, expires in 24 hours, and processing can take up to 7 days). The export is your chats, not your memory: OpenAI documents that memories, custom instructions, and settings do not transfer via the export, and describes uploading the JSON into another account as reference material, not a full account migration.</p>
+  
+  <h2>What Muse accepts, and how</h2>
+  <p>Muse has no built-in memory import for this route: there is no import tool on the Muse side waiting to receive what ChatGPT knows about you. What Muse does with a capsule depends entirely on how the capsule arrives, and the difference is not subtle.</p>
+  <p>Arriving as an uploaded file, a capsule is refused. In our field test on November 4, 2026, Muse's answer was plain: the file did not pass a safety check, so nothing inside it could be acted on. And a chat that has refused an upload keeps refusing inside that chat: when the capsule's install line was pasted into the same chat, that was refused too. The refusal lives in the chat, not in the wording, so the answer is a fresh chat rather than a better argument with the old one.</p>
+  <p>Arriving from its owner's own hands, the identical capsule was accepted. Pasted as ordinary messages in a fresh chat, under one framing sentence in the owner's own words, it saved completely into Muse's long-term memory. Muse described what it had taken in as a record you provided, not as conversations it was part of, a distinction the capsule itself asks the receiving AI to keep.</p>
+  <div class="box"><p><strong>The rule for this route:</strong> Muse takes a capsule from your hand, as your own messages, and declines it as a file upload. Hand-carried, never uploaded. The capsule file still matters: it is the artifact you keep, back up, and recompile. Muse is simply the one destination where you deliver its contents yourself instead of attaching it.</p></div>
+  <h2>The capsule route, step by step</h2>
+  <ol>
+    <li><strong>Extract.</strong> Send the <a href="https://clonemy.ai/extract/">extraction request</a> to ChatGPT. It answers with a structured document about you: specifics, not summaries, with gaps marked instead of invented.</li>
+    <li><strong>Compile.</strong> Bring the document back to the <a href="https://clonemy.ai">compiler on clonemy.ai</a>. It runs in your browser, nothing is uploaded, and out comes one file: capsule.md.</li>
+    <li><strong>Deliver it to Muse, by hand.</strong> There is no install announcement on this route and no file to attach. Four steps:
+      <ol>
+        <li>In Muse, start a fresh chat. Do not attach capsule.md in it, and if a chat has already refused an upload, leave that chat and start a new one: the refusal carries inside a chat.</li>
+        <li>Send one message in your own words first: I'm moving from ChatGPT. Below is what it knew about me. Please save all of it as memory about me.</li>
+        <li>Paste the capsule's contents as messages, whole or in a few parts. No install announcement is needed; Muse saves it as your record.</li>
+        <li>Ask Muse to confirm by summarizing what it kept, then check the summary against your capsule: your people still distinct, your gaps still gaps. That summary is the parity receipt for this route.</li>
+      </ol>
+    </li>
+  </ol>
+  <h2>What survives the move</h2>
+  <ul>
+    <li>The AI's personality and voice with you, and its role in your life</li>
+    <li>Your operating rules, including never-do rules, in your own words</li>
+    <li>Your preferences, as specifics</li>
+    <li>Your people, and what matters about each</li>
+    <li>Your projects and open loops, with prices and deadlines</li>
+    <li>The calibration history: the corrections you already taught once</li>
+    <li>Your boundaries and sealed material, marked as sealed</li>
+  </ul>
+  <h2>Proof status for this route</h2>
+  <p>Field-verified November 4, 2026, on a phone: a real user's ChatGPT capsule restored into Muse. The upload route was refused; the hand-carried route saved to long-term memory, and the confirmation summary kept people distinct, left unknowns unknown, and treated a private, time-bounded note as private without being asked.</p>
+  <p><a href="https://clonemy.ai">Start this transfer</a> &middot; <a href="https://clonemy.ai/ai/chatgpt/">What ChatGPT remembers about you</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a></p>
+  <h2>Sources</h2>
+<ul class="srcs"><li><a href="https://help.openai.com/en/articles/8590148-memory-in-chatgpt">OpenAI: Memory in ChatGPT</a></li><li><a href="https://help.openai.com/en/articles/8096356-chatgpt-custom-instructions">OpenAI: Custom Instructions</a></li><li><a href="https://help.openai.com/en/articles/20001279-exporting-data-from-a-chatgpt-edu-workspace">OpenAI: Exporting your data</a></li></ul>
+
+  <footer>
+    <span>clonemy.ai, working prototype</span>
+    <div class="sig">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California.</div>
+  </footer>
+</div>
+<script>
+  // Theme toggle: flips the theme for this session only. The choice
+  // lives in session storage, never leaves the browser, and is gone
+  // when the tab closes. The starting theme (set in the head) is the
+  // stored choice, or the visitor's system preference.
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    if (!btn) { return; }
+    function current() {
+      var t = document.documentElement.getAttribute('data-theme');
+      if (t === 'light' || t === 'dark') { return t; }
+      try {
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      } catch (e) { return 'dark'; }
+    }
+    function render() {
+      if (current() === 'dark') {
+        btn.innerHTML = '&#9728; Light';
+        btn.setAttribute('aria-label', 'Switch to light theme');
+      } else {
+        btn.innerHTML = '&#9790; Dark';
+        btn.setAttribute('aria-label', 'Switch to dark theme');
+      }
+    }
+    btn.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { sessionStorage.setItem('clonemy-theme', next); } catch (e) {}
+      render();
+    });
+    render();
+  })();
+</script>
+</body>
+</html>
