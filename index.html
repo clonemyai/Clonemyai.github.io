@@ -2553,6 +2553,66 @@
     .landing-inner .v6-slide:not([aria-label="The difference"]) .v6-visual{flex-direction:row;justify-content:normal}
   }
 </style>
+<style id="v657-wrap">
+  /* v6.57: the panel shrink-wraps the stage; the spare room
+     moves outside the card (Tony's field report on v6.56,
+     2026-11-05, one full-screen 1080p screenshot: "All other
+     panels were perfect except this one"). v6.56 sized the
+     stage to the active slide, and The Product, The
+     Confirmations, and The Difference landed exactly as
+     designed. Why It Works, the shortest slide, exposed the
+     wrapper: the stage shrank to fit it, but the white landing
+     panel around the stage went on presenting the old fitted
+     height, so the dead space moved out of the stage and
+     pooled inside the panel, a large empty white region below
+     the Why cards, inside the card, above the floating CTA
+     cluster. The slides and the stage mechanism are right;
+     the wrapper is what overstates. Two moves, wrapper only.
+     (1) Shrink-wrap: at desktop widths the story column and
+     the stage take flex:0 0 auto at fitted specificity, so no
+     flex-grow or min-height anywhere in the chain can stretch
+     the panel past the fitted stage height plus the slide's
+     own padding, and the fitted slide rule is answered once
+     more in this block (height auto, bottom auto, specificity
+     above every earlier answer) so no legacy height, bottom,
+     or inset rule can stretch a slide inside its stage either.
+     The per-slide stage script is untouched and still sets the
+     only stage height; the panel follows it, and the stage
+     height transition carries the panel with it. (2) The
+     leftover goes outside: at the fitted tier the stage column
+     takes a min-height of the viewport minus the 50px brand
+     bar, and the landing stack centres within it, so when the
+     honest stack is shorter than the screen the spare space
+     splits above the hero and below the sign-off as plain page
+     background instead of pooling inside the white card. The
+     min-height only ever lets the column grow: when the stack
+     is taller than the screen the page scrolls exactly as
+     v6.56 does, nothing clipped, nothing centred away. Below
+     the fitted tier and on phones nothing changes: natural
+     flow, in-flow slides, the stage sizing itself. The
+     floating Begin journey cluster, its reserve, the tabs and
+     counter, Watch The Why, the film sheet, the tool and
+     pocket flow, the reduced-motion rules, and every script
+     are untouched. */
+
+  /* (1) Shrink-wrap: the chain cannot stretch the panel */
+  @media (min-width:1080px){
+    .landing-inner .v6-carousel{flex:0 0 auto}
+  }
+  @media (min-width:1280px) and (min-height:960px){
+    body:not(.landing-cleared) .landing-inner .col-story{flex:0 0 auto;min-height:0}
+    body:not(.landing-cleared) .landing-inner .v6-carousel{flex:0 0 auto;min-height:0}
+    body:not(.landing-cleared) .landing-inner .v6-slide{height:auto;bottom:auto}
+  }
+
+  /* (2) The leftover lives outside the panel: the fitted
+     column is at least a viewport tall and the landing stack
+     centres in it, splitting the spare as background */
+  @media (min-width:1280px) and (min-height:960px){
+    body:not(.landing-cleared) .v6-stage{min-height:calc(100dvh - 50px)}
+    body:not(.landing-cleared) .landing-inner{justify-content:center}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -2724,7 +2784,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.56</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.57</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
@@ -3001,7 +3061,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.56</span>
+      <span>clonemy.ai, working prototype · v6.57</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
