@@ -1996,7 +1996,14 @@
     .onebox .ai-btns{grid-template-columns:1fr 1fr}
   }
 </style>
-
+<style id="v644-clip">
+  /* v6.44: clipboard-aware advance. The fine line under the "I have
+     the report" button states the read before it can happen; the
+     hint lives on the Compile face and is shown only on the paste
+     fallback path. */
+  .clip-read-note{margin:.6rem 0 0;font-size:.86rem;line-height:1.5;color:var(--ink-2);text-align:left}
+  .clip-hint{margin:0 0 .95rem;padding:.75rem .95rem;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--install-bg);color:var(--ink-2);font-size:.93rem;line-height:1.55}
+</style>
 
 </head>
 <body>
@@ -2147,10 +2154,12 @@
           <div class="ob-navrow">
             <button type="button" class="ob-advance" id="toCompileBtn">I have the report</button>
           </div>
+          <p class="clip-read-note">If the report is on your clipboard, this finds it and compiles it on the spot. Your clipboard is read only when you click.</p>
         </section>
         <section class="step ob-face" id="faceCompile" aria-label="Step 2, Compile">
           <h3>Bring the report here</h3>
           <p>Paste it, or drop the file. Reports from more than one AI merge into one capsule.</p>
+          <p class="clip-hint" id="clipHint" role="status" hidden>Paste the report here. If it did not copy, the copy icon under your AI&rsquo;s reply grabs the whole report.</p>
             <div class="compiler">
               <div class="intake" id="intakeBox">
                 <textarea id="compileInput" rows="6" placeholder="Paste the report here, or drop the file on this box."></textarea>
@@ -2471,7 +2480,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.43</span>
+      <span>clonemy.ai, working prototype · v6.44</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
@@ -3166,10 +3175,71 @@ What a successor would need that you do not have: list them as plain questions. 
     });
     var toCompile = document.getElementById('toCompileBtn');
     if (toCompile) {
-      toCompile.addEventListener('click', function () {
+      var clipReadBusy = false;
+      function compileFallback() {
         showFace(2);
+        var hint = document.getElementById('clipHint');
+        if (hint) { hint.hidden = false; }
         var t = document.getElementById('compileInput');
         if (t) { try { t.focus({ preventScroll: true }); } catch (e) {} }
+      }
+      // v6.44: "I have the report" first looks on the clipboard, but
+      // only because the user clicked: the click is both the gesture
+      // the browser requires and the consent the fine line under the
+      // button describes. This handler is the only clipboard read on
+      // the page. Detection reuses the compiler's own parse:
+      // compileCapsule counts the sections it recognizes in a text,
+      // and a text with at least 7 of the 11 counts as the report.
+      // On a hit, the text is loaded into the intake and the real
+      // Compile button is clicked, so flavor choice, the parts, and
+      // the compile-time clipboard hand-off of Part 1 all run exactly
+      // as a manual compile. Anything else (no Clipboard API, a
+      // denial, a read that never settles, an unrelated clipboard)
+      // lands on the Compile face with the paste hint, as before.
+      toCompile.addEventListener('click', function () {
+        if (clipReadBusy) { return; }
+        if (!navigator.clipboard || typeof navigator.clipboard.readText !== 'function' || typeof compileCapsule !== 'function') {
+          compileFallback();
+          return;
+        }
+        clipReadBusy = true;
+        var settled = false;
+        function finish(fn) {
+          if (settled) { return; }
+          settled = true;
+          clipReadBusy = false;
+          fn();
+        }
+        var timer = setTimeout(function () { finish(compileFallback); }, 4000);
+        function onText(text) {
+          clearTimeout(timer);
+          finish(function () {
+            var found = 0;
+            try { found = compileCapsule(text || '').found; } catch (e) { found = 0; }
+            if (found >= 7) {
+              var hint = document.getElementById('clipHint');
+              if (hint) { hint.hidden = true; }
+              var t = document.getElementById('compileInput');
+              if (t) {
+                t.value = text;
+                try { t.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
+              }
+              if (window.__capsuleRefreshDetect) { try { window.__capsuleRefreshDetect(false); } catch (e) {} }
+              var cb = document.getElementById('compileBtn');
+              if (cb && !cb.disabled) { cb.click(); return; }
+            }
+            compileFallback();
+          });
+        }
+        function onFail() {
+          clearTimeout(timer);
+          finish(compileFallback);
+        }
+        try {
+          var p = navigator.clipboard.readText();
+          if (p && typeof p.then === 'function') { p.then(onText, onFail); }
+          else { onFail(); }
+        } catch (e) { onFail(); }
       });
     }
     var back1 = document.getElementById('backToExtractBtn');
