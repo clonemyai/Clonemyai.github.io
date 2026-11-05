@@ -2027,7 +2027,7 @@
                   });
                 });
                 document.getElementById('geminiBtn').addEventListener('click', function () {
-                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, in both forms: a downloadable file named capsule-source.md, and one full code block in your reply that I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
+                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, in both forms: one full code block in your reply that I can copy in a single click, first, and a downloadable file named capsule-source.md after it. If you cannot open the link, say so plainly and I will paste the file instead.';
                   function done() {
                     if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'open-gemini', title: 'Gemini copy-and-open clicked', event: true }); }
                     document.getElementById('geminiNote').classList.add('show');
@@ -2045,7 +2045,7 @@
                   if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(); done(); }); } else { fallbackCopy(); done(); }
                 });
                 document.getElementById('museBtn').addEventListener('click', function () {
-                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, in both forms: a downloadable file named capsule-source.md, and one full code block in your reply that I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
+                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, in both forms: one full code block in your reply that I can copy in a single click, first, and a downloadable file named capsule-source.md after it. If you cannot open the link, say so plainly and I will paste the file instead.';
                   function done() {
                     document.getElementById('museNote').classList.add('show');
                     window.open('https://muse.ai', '_blank', 'noopener');
@@ -2062,7 +2062,7 @@
                   if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(); done(); }); } else { fallbackCopy(); done(); }
                 });
                 document.getElementById('metaBtn').addEventListener('click', function () {
-                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, in both forms: a downloadable file named capsule-source.md, and one full code block in your reply that I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
+                  var text = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, in both forms: one full code block in your reply that I can copy in a single click, first, and a downloadable file named capsule-source.md after it. If you cannot open the link, say so plainly and I will paste the file instead.';
                   function done() {
                     document.getElementById('metaNote').classList.add('show');
                     window.open('https://www.meta.ai/', '_blank', 'noopener');
@@ -2223,7 +2223,7 @@
       </div>
     </div>
     <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.33</span>
+      <span>clonemy.ai, working prototype · v6.34</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
   </div>
