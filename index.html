@@ -2777,6 +2777,86 @@
     .cap-sheet .cap-panel{height:min(94vh,100%);height:min(94dvh,100%)}
   }
 </style>
+<style id="v665-uniform">
+  /* v6.65: one panel shape (Tony's direction, 2026-11-05,
+     two screenshots, image-313 and image-314: "make this
+     panel shape fit like the other ones and move the
+     elements within the panel so that it can display it all
+     in the same width/length as other panels"). v6.56 and
+     v6.57 gave every slide its own height, so flipping the
+     carousel visibly re-shaped the panel (measured at
+     1920x1080 before this change: The Product 510px, The
+     Confirmations 437px, Why It Works 674px, The Difference
+     464px; the widths already matched). The carousel script
+     now fits the stage to the tallest slide's natural
+     height and gives every slide that height, so the panel
+     box is identical whichever slide is showing and never
+     breathes on a flip. Uniformity wins over compactness:
+     no type shrinks. This block rearranges the insides so
+     the shared box reads as filled on purpose, slide by
+     slide, in the site's own grammar. The copy columns
+     stretch and turn flex: on The Product and Why It Works
+     the fine print anchors to the panel foot like a
+     footnote; on The Confirmations the three confirmation
+     rows anchor to the foot under the headline group; on
+     The Difference the headline stack centres against its
+     table, the v6.58 placement (lede directly under the
+     headline) untouched. The Product's capsule window
+     fills its column: the 46px top offset it wore was the
+     tool capsule's margin, leaked through the shared
+     .capsule class; the landing's own design (v6.51,
+     inset:0) fills, and its body flexes so more of the
+     example file shows before the one sanctioned fade.
+     The Confirmations proof card fills its column and
+     lands its bold verdict line at the card's foot. The
+     Why planks centre their text inside each tall card.
+     The Difference comparison fills its column with its
+     rows spread evenly, cell text centred as the div
+     cells already centre it (the v6.17 tall-window answer,
+     now at every desktop height). Below desktop widths
+     the slides are in flow: the visual row takes the
+     shared height's remainder and the same fills apply.
+     The measuring class is fitStage's: below desktop
+     widths the hidden slides are display:none, so the
+     class lays them out for the one synchronous
+     measurement pass; no paint can see it. Slide words,
+     the compiler, and both overlay sheets are unchanged. */
+
+  /* fitStage's measuring pass: hidden slides lay out for
+     one synchronous measurement, visibility held */
+  .landing-inner .v6-carousel.v665-measuring .v6-slide{display:grid;visibility:hidden}
+
+  @media (min-width:1080px){
+    /* Copy columns stretch and turn flex; foot groups anchor */
+    .landing-inner .v6-slide .v6-slide-copy{align-self:stretch}
+    .landing-inner .v6-slide[aria-label="The product"] .v6-slide-copy,
+    .landing-inner .v6-slide[aria-label="The confirmations"] .v6-slide-copy,
+    .landing-inner .v6-slide[aria-label="Why it works"] .v6-slide-copy{display:flex;flex-direction:column}
+    .landing-inner .v6-slide[aria-label="The product"] .v6-slide-copy .fine,
+    .landing-inner .v6-slide[aria-label="Why it works"] .v6-slide-copy .fine{margin-top:auto}
+    .landing-inner .v6-slide[aria-label="The confirmations"] .v6-slide-copy .conf-rows{margin-top:auto}
+    .landing-inner .v6-slide[aria-label="The difference"] .v6-slide-copy{justify-content:center}
+    /* The Product's window fills its column (leaked margin off) */
+    .landing-inner .v6-slide .capsule{margin-top:0}
+    /* The proof card fills its column, verdict at its foot */
+    .landing-inner .v6-slide .proof{align-self:stretch;display:flex;flex-direction:column}
+    .landing-inner .v6-slide .proof p:last-child{margin-top:auto}
+    /* The Why cards centre their text */
+    .landing-inner .v6-slide .plank{display:flex;flex-direction:column;justify-content:center}
+    /* The comparison fills its column, rows spread evenly */
+    .landing-inner .v6-visual:has(> .compare) > .compare{flex:1 1 auto}
+    .landing-inner .v6-slide .compare{grid-template-rows:auto repeat(4,1fr)}
+  }
+  @media (max-width:1079px){
+    /* In-flow slides: the visual row takes the remainder */
+    .landing-inner .v6-slide{grid-template-rows:auto 1fr}
+    .landing-inner .v6-slide .proof{align-self:stretch;display:flex;flex-direction:column}
+    .landing-inner .v6-slide .proof p:last-child{margin-top:auto}
+    .landing-inner .v6-slide .plank{display:flex;flex-direction:column;justify-content:center}
+    .landing-inner .v6-visual:has(> .compare) > .compare{flex:1 1 auto}
+    .landing-inner .v6-slide .compare{grid-template-rows:auto repeat(4,1fr)}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -2981,7 +3061,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.64</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.65</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
@@ -3258,7 +3338,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.64</span>
+      <span>clonemy.ai, working prototype · v6.65</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -4231,14 +4311,29 @@ What a successor would need that you do not have: list them as plain questions. 
      widths the slides are in flow and the stage sizes itself, so
      any inline height is cleared. Refit on resize (debounced),
      on load, and when the fonts land, since each can move a
-     natural height. */
+     natural height.
+     v6.65: one panel shape. The measurement is now the tallest
+     slide's natural height, and every slide is given that
+     height, so the panel box is identical whichever slide is
+     showing; the stage still takes the shared height plus the
+     slide's 20px of vertical margin at desktop widths, and
+     below them the in-flow stage sizes itself around the
+     active slide's inline height. Naturals are read with the
+     inline heights cleared; below desktop widths the hidden
+     slides are display:none, so a measuring class lays them
+     out for the one synchronous pass (no paint can see it).
+     A zero reading means the landing is not laid out at all
+     (cleared or hidden); the heights are left alone then. */
   function fitStage() {
-    if (!window.matchMedia || !window.matchMedia('(min-width: 1080px)').matches) {
-      carousel.style.height = '';
-      return;
-    }
-    var s = slides[idx];
-    if (s) carousel.style.height = (s.offsetHeight + 20) + 'px';
+    var desktop = !!(window.matchMedia && window.matchMedia('(min-width: 1080px)').matches);
+    slides.forEach(function (s) { s.style.height = ''; });
+    if (!desktop) carousel.classList.add('v665-measuring');
+    var H = 0;
+    slides.forEach(function (s) { if (s.offsetHeight > H) H = s.offsetHeight; });
+    if (!desktop) carousel.classList.remove('v665-measuring');
+    if (!H) { if (!desktop) carousel.style.height = ''; return; }
+    slides.forEach(function (s) { s.style.height = H + 'px'; });
+    carousel.style.height = desktop ? (H + 20) + 'px' : '';
   }
   var fitTimer = null;
   window.addEventListener('resize', function () {
