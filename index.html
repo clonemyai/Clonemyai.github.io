@@ -2981,7 +2981,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.63</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.64</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket" hidden>
     <div class="tool-zone" id="tool">
@@ -3258,7 +3258,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.63</span>
+      <span>clonemy.ai, working prototype · v6.64</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -4348,6 +4348,36 @@ What a successor would need that you do not have: list them as plain questions. 
     if (film && film.pause) film.pause();
     filmSheet.classList.remove('open'); filmSheet.setAttribute('aria-hidden', 'true'); sheetOpen = false; unlockScroll(); paintToggle();
   });
+  /* v6.64: the film sheet takes the capsule sheet's backdrop
+     contract (Tony's field report, screenshot image-312: the
+     dim regions beside the centred film, circled, did
+     nothing). At v6.63 the sheet had no backdrop handler at
+     all: clicks in the dim area land on the sheet itself or
+     on .film-wrap (measured in headless Chromium,
+     elementFromPoint at left, right, above and below the
+     player, three viewports) and went nowhere; the Close
+     button was the sheet's only pointer close path, and the
+     sheet had no Escape path either (the capsule sheet's
+     Escape handler is gated on its own flag). A click on the
+     sheet's backdrop chrome now runs the Close button's own
+     steps, and so does Escape while the sheet is open. The
+     player keeps its native click behaviour, and the sheet's
+     buttons (Close, Tap for sound) run their own handlers,
+     never this one. */
+  function closeFilmSheet() {
+    if (film && film.pause) film.pause();
+    filmSheet.classList.remove('open'); filmSheet.setAttribute('aria-hidden', 'true'); sheetOpen = false; unlockScroll(); paintToggle();
+  }
+  if (filmSheet) {
+    filmSheet.addEventListener('click', function (e) {
+      if (film && (e.target === film || film.contains(e.target))) return;
+      if (e.target.closest && e.target.closest('button')) return;
+      closeFilmSheet();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (sheetOpen && (e.key === 'Escape' || e.key === 'Esc')) closeFilmSheet();
+    });
+  }
   /* v6.58: the capsule exhibit sheet. The Product slide's
      capsule window is a capped teaser; activating it lifts
      the whole example file into a floating sheet in the film
