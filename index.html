@@ -2943,6 +2943,62 @@
   .onebox{display:flex;flex-direction:column;gap:22px}
   .onebox .ob-rail{margin:0}
   .onebox .ob-face{display:flex}
+<style id="v670-density">
+  /* v6.70: left to right, one card, less air (Tony's
+     directions, 2026-11-06: the process a left to right
+     movement; way too much empty space with the icons,
+     make them smaller and fit on one table and one card;
+     reduce all space and simplify, simplicity at the
+     forefront). One block, answering in cascade order
+     after v669-flow.
+     THE ROW. On a wide screen the box becomes a grid: the
+     rail spans the top, its numbered steps reading 1, 2, 3
+     left to right, and the three stages stand under it in
+     one row of equal columns, tops aligned, each pane only
+     as tall as its own content. The eye and the work
+     travel across the board instead of down it. Under
+     1021px the v6.69 stack stands as it was, same order.
+     ONE CARD PER LIST. Each platform list is a single card
+     now: the group itself carries the one border and the
+     surface, and the platforms are plain rows inside it,
+     no boxes inside the box. The grid is the simplest one
+     that fits: two columns of four inside a stage column,
+     four of two when the stages stack and the card runs
+     wide, two again on a small phone. Icons drop to 15px,
+     rows keep a 40px floor so thumbs still land, and the
+     picked row answers with a tint and an inset ring
+     instead of another border. The board's own three
+     zones fold to one column: source card, the COMPILE
+     button, destination card, in the order the narration
+     already walks them.
+     LESS AIR. The flow gap, the pane padding, the board's
+     gaps and the panels' padding all close a visible
+     step. Nothing else moves: no words, no markup, no
+     scripts, the dock untouched. */
+  .onebox{gap:14px}
+  .onebox .step{padding:12px 14px}
+  .board{grid-template-columns:minmax(0,1fr);gap:.6rem;margin:.2rem 0 .7rem}
+  .board-col-head{margin:0 0 .35rem}
+  .board-icons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem;border:1px solid var(--line);border-radius:12px;background:var(--surface-1);padding:.45rem}
+  .board-icon{width:auto;border:0;background:transparent;border-radius:8px;padding:.42rem .5rem;min-height:40px;gap:.45rem;font-size:.88rem}
+  .board-icon svg{width:15px;height:15px}
+  .board-icon .chip-ico{width:15px;height:15px}
+  .board-icon[aria-pressed="true"]{background:var(--dz-drag-bg);box-shadow:inset 0 0 0 1.5px var(--dz-active)}
+  .board-prompt{padding:.65rem .75rem;margin:0 0 .7rem}
+  .clip-note{padding:.6rem .75rem;margin:0 0 .7rem}
+  .intake{padding:.55rem}
+  .ob-navrow{margin-top:.7rem}
+  @media (min-width:1021px){
+    .onebox{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+    .onebox .ob-rail{grid-column:1/-1}
+    .onebox .ai-btns{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:1020px){
+    .board-icons{grid-template-columns:repeat(4,minmax(0,1fr))}
+  }
+  @media (max-width:640px){
+    .board-icons{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
 </style>
 </head>
 <body>
@@ -3437,7 +3493,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.69</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.70</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket">
 
@@ -3468,7 +3524,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.69</span>
+      <span>clonemy.ai, working prototype · v6.70</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
