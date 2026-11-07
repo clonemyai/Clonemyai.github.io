@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+  // Theme starts before first paint: a choice made earlier in this
+  // session wins, otherwise the visitor's system preference decides.
+  (function () {
+    var t = null;
+    try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') {
+      t = 'light';
+      try { if (window.matchMedia('(prefers-color-scheme: dark)').matches) { t = 'dark'; } } catch (e) {}
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<title>Shuttle, clonemy.ai</title>
+<link rel="icon" type="image/svg+xml" href="/clonemy-mark.svg">
+<meta name="description" content="The clonemy shuttle: move a capsule file directly from one screen to another with a six character code. Nothing is uploaded, nothing is stored on a server, and nothing moves until the receiving screen accepts." />
+<style>
+  :root { color-scheme:dark; --bg:#0b0b14; --surface:#141424; --ink:#eaf2ff; --ink-2:#aeb9dc; --ink-3:#7f89ad; --line:rgba(140,150,255,.22); --line-strong:rgba(140,150,255,.45); --accent:#37c8e8; --box-bg:#10101c; --grad:linear-gradient(90deg,#7b6cff,#37c8e8 55%,#ff5ea8); }
+  :root[data-theme="light"] { color-scheme:light; --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --line-strong:#d8d2c6; --accent:#14584a; --box-bg:#f4f1ea; --grad:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86); }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]) { color-scheme:light; --bg:#fbfaf7; --surface:#ffffff; --ink:#1c1a17; --ink-2:#57534b; --ink-3:#8a857c; --line:#e6e1d8; --line-strong:#d8d2c6; --accent:#14584a; --box-bg:#f4f1ea; --grad:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86); }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased; line-height:1.55; }
+  .page { max-width:720px; margin:0 auto; padding:28px 20px 40px; }
+  .brand { font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); }
+  .brand a { color:inherit; text-decoration:none; }
+  .brand { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .theme-toggle { font:inherit; font-size:.88rem; font-weight:650; letter-spacing:normal; text-transform:none; color:var(--ink-2); line-height:1.3; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:.42rem .85rem; cursor:pointer; white-space:nowrap; }
+  .theme-toggle:hover { color:var(--ink); border-color:var(--line-strong); }
+  h1 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:clamp(32px, 5.6vw, 46px); line-height:1.08; letter-spacing:-0.02em; margin:14px 0 10px; }
+  h2 { font-family: Iowan Old Style, Palatino, Palatino Linotype, Georgia, serif; font-weight:500; font-size:24px; margin:32px 0 10px; }
+  h3 { font-size:18px; margin:26px 0 8px; }
+  p, li { font-size:16px; }
+  a { color:var(--accent); }
+  footer { border-top:1px solid var(--line); padding-top:18px; margin-top:36px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-3); }
+  .sig { background: var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+  .sig-heart { width:1em; height:1em; vertical-align:-0.12em; fill:#ff5ea8; }
+  :root[data-theme="light"] .sig-heart { fill:#e03d86; }
+  @media (prefers-color-scheme: light){ :root:not([data-theme]) .sig-heart { fill:#e03d86; } }
+
+  /* v6.14 lab alignment: these pages join the homepage's clean-room lab language */
+  :root { --bg:#0a0a13; --surface:#12121e; --ink:#f0eefc; --ink-2:#bdb8dc; --ink-3:#8f8ab0; --line:rgba(150,140,255,.16); --line-strong:rgba(150,140,255,.38); --accent:#37c8e8; --box-bg:#0d0d18; }
+  :root[data-theme="light"] { --bg:#f5f5fa; --surface:#ffffff; --ink:#14142a; --ink-2:#4d4a68; --ink-3:#8a86a3; --line:#e4e2f1; --line-strong:#cfcbe8; --accent:#0e7fa8; --box-bg:#efeef7; }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]) { --bg:#f5f5fa; --surface:#ffffff; --ink:#14142a; --ink-2:#4d4a68; --ink-3:#8a86a3; --line:#e4e2f1; --line-strong:#cfcbe8; --accent:#0e7fa8; --box-bg:#efeef7; }
+  }
+  h1, h2 { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  h1 { font-weight:800; }
+  h2 { font-weight:750; }
+  h1::before { content:""; display:block; width:148px; height:3px; border-radius:2px; background:var(--grad); margin-bottom:16px; }
+  .brand { font-size:.95rem; letter-spacing:.02em; text-transform:none; color:var(--ink-2); }
+  .brand a { color:var(--ink-2); }
+  .brand a:first-child { color:var(--ink); font-weight:800; font-size:1.02rem; }
+  .brand a:first-child svg { width:19px; height:19px; }
+  .theme-toggle { height:34px; padding:.2rem .75rem; font-size:.8rem; display:inline-flex; align-items:center; }
+  .box { background:var(--surface); border-radius:16px; box-shadow:0 1px 2px rgba(20,20,50,.05), 0 10px 24px rgba(20,20,50,.05); padding:16px 18px; }
+  /* v6.20: wordmark gradient */
+  .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* v672-shuttle: the rendezvous panels. Everything here serves the
+     two panels and nothing else on the page. */
+  .panel { margin:18px 0; }
+  .panel h3 { margin-top:4px; }
+  .panel label { display:block; font-size:.92rem; font-weight:650; color:var(--ink-2); margin:14px 0 6px; }
+  .field { width:100%; background:var(--box-bg); color:var(--ink); border:1px solid var(--line); border-radius:12px; padding:.6rem .8rem; font:inherit; }
+  .field:focus { outline:none; border-color:var(--accent); }
+  textarea.field { min-height:96px; resize:vertical; }
+  .codefield { text-transform:uppercase; letter-spacing:.22em; font-weight:700; font-size:1.15rem; }
+  .btn { font:inherit; font-weight:650; color:var(--ink); background:var(--surface); border:1px solid var(--line-strong); border-radius:999px; padding:.55rem 1.15rem; cursor:pointer; }
+  .btn:hover { border-color:var(--accent); color:var(--accent); }
+  .btn[disabled] { opacity:.45; cursor:default; }
+  .btn[disabled]:hover { border-color:var(--line-strong); color:var(--ink); }
+  .btnrow { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .bigcode { font-size:clamp(42px, 10vw, 68px); font-weight:800; letter-spacing:.16em; line-height:1.1; margin:6px 0 2px; font-variant-numeric:tabular-nums; }
+  .timer { color:var(--ink-3); font-size:.92rem; }
+  .status { margin-top:12px; color:var(--ink-2); font-size:.98rem; min-height:1.5em; }
+  .status.err { color:#ff7a9c; }
+  :root[data-theme="light"] .status.err { color:#c2244e; }
+  .bar { height:8px; background:var(--box-bg); border-radius:99px; overflow:hidden; margin-top:12px; }
+  .bar > i { display:block; height:100%; width:0; background:var(--grad); transition:width .18s ease; }
+  .offer { border:1px solid var(--line-strong); border-radius:12px; padding:12px 14px; margin-top:14px; background:var(--box-bg); }
+  .offer p { margin:2px 0 6px; }
+  .fineprint { color:var(--ink-3); font-size:.9rem; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="brand"><a href="https://clonemy.ai"><svg viewBox="0 0 100 100" width="15" height="15" style="vertical-align:-2px;margin-right:.3em" aria-hidden="true"><defs><linearGradient id="cmOrigin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmDest" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#cmOrigin)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#cmDest)"/><circle cx="48.2" cy="50" r="1.9" fill="#37c8e8"/><circle cx="50.9" cy="50" r="1.9" fill="#b45fd0"/><circle cx="53.6" cy="50" r="1.9" fill="#ff5ea8"/></g></svg><span class="wm">clonemy.ai</span></a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/whitepaper/">White Paper</a> &middot; <a href="https://clonemy.ai/contact/">Contact</a> <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">&#9728; Light</button></div>
+<h1>Your AI, your memories, yours to keep.</h1>
+<h2>The shuttle</h2>
+<p>The shuttle moves a capsule file from one screen to another, directly. Open this page on both screens. The sending screen shows a six character code; type it on the receiving screen; the receiving screen accepts; the file crosses between the two browsers. No account, no upload, nothing stored on a server.</p>
+<p>It is a Capsule Bridge transport: the same file the homepage makes, carried screen to screen instead of pasted by hand. The shuttle never opens the file. It cannot read it, parse it, or keep it.</p>
+
+<section class="box panel" id="sendPanel" aria-label="Send a capsule from this screen">
+  <h3>Send from this screen</h3>
+  <label for="sendFile">Choose the capsule file (.md or .txt)</label>
+  <input class="field" type="file" id="sendFile" accept=".md,.txt,text/markdown,text/plain" />
+  <label for="sendText">Or paste the capsule text instead</label>
+  <textarea class="field" id="sendText" placeholder="Paste the capsule here, then use the button below. It is sent as capsule.md."></textarea>
+  <div class="btnrow"><button class="btn" id="useText" type="button">Use this text</button></div>
+  <p class="status" id="payloadNote" role="status"></p>
+  <label>Your code</label>
+  <div class="bigcode" id="sendCode">······</div>
+  <div class="timer" id="sendTimer">Registering the code…</div>
+  <div class="btnrow"><button class="btn" id="copyCode" type="button">Copy the code</button></div>
+  <p class="fineprint">Read it to the person at the other screen, or let them read it off this one. The code works once, and it dies ten minutes from now.</p>
+  <div class="bar" id="sendBarWrap" hidden><i id="sendBar"></i></div>
+  <p class="status" id="sendStatus" role="status">Starting…</p>
+  <div class="btnrow"><button class="btn" id="sendAgain" type="button" hidden>Start over with a fresh code</button></div>
+</section>
+
+<section class="box panel" id="recvPanel" aria-label="Receive a capsule on this screen">
+  <h3>Receive on this screen</h3>
+  <label for="recvCode">Enter the code from the other screen</label>
+  <input class="field codefield" id="recvCode" maxlength="7" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="AB1234" />
+  <div class="btnrow"><button class="btn" id="recvConnect" type="button">Connect</button></div>
+  <p class="status" id="recvStatus" role="status">Nothing arrives before you accept it. The other screen names its file first, and you decide.</p>
+  <div class="offer" id="offerBox" hidden>
+    <p id="offerText"></p>
+    <div class="btnrow">
+      <button class="btn" id="acceptBtn" type="button">Accept</button>
+      <button class="btn" id="declineBtn" type="button">Decline</button>
+    </div>
+  </div>
+  <div class="bar" id="recvBarWrap" hidden><i id="recvBar"></i></div>
+  <p class="btnrow"><a class="btn" id="saveLink" download hidden>Save the file</a></p>
+</section>
+
+<h2>What crosses where</h2>
+<p>Your file travels straight between the two browsers, encrypted in transit by WebRTC (DTLS), and it is never stored on any server. The introduction is borrowed for now: a public rendezvous service, the PeerJS broker, matches the code to the two browsers, and it can see the code, both IP addresses, and the time. It cannot see the file, and neither can we. A later version of the shuttle will run on clonemy's own rendezvous service; until then, that is the honest shape of it.</p>
+<p>The code is a name, not a lock. What protects the file is that the receiving screen must accept a named offer before anything moves, and that the crossing itself is encrypted. Share a code only with the screen you mean to send to.</p>
+  <p><a href="https://clonemy.ai">Start this transfer</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/whitepaper/">White Paper</a></p>
+  <footer>
+    <span>clonemy.ai, working prototype</span>
+    <div class="sig">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California.</div>
+  </footer>
+</div>
+<script>
+  // Theme toggle: flips the theme for this session only. The choice
+  // lives in session storage, never leaves the browser, and is gone
+  // when the tab closes. The starting theme (set in the head) is the
+  // stored choice, or the visitor's system preference.
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    if (!btn) { return; }
+    function current() {
+      var t = document.documentElement.getAttribute('data-theme');
+      if (t === 'light' || t === 'dark') { return t; }
+      try {
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      } catch (e) { return 'dark'; }
+    }
+    function render() {
+      if (current() === 'dark') {
+        btn.innerHTML = '&#9728; Light';
+        btn.setAttribute('aria-label', 'Switch to light theme');
+      } else {
+        btn.innerHTML = '&#9790; Dark';
+        btn.setAttribute('aria-label', 'Switch to dark theme');
+      }
+    }
+    btn.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { sessionStorage.setItem('clonemy-theme', next); } catch (e) {}
+      render();
+    });
+    render();
+  })();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script>
+  // The shuttle (v6.72): two browsers introduce themselves with a
+  // short code and a capsule file crosses directly between them.
+  // The protocol, in order: the receiver connects and knocks; the
+  // sender names its file in an offer; the receiver accepts or
+  // declines on its own screen; only an accept opens the road for
+  // chunks. A code serves exactly one transfer, then it is spent.
+  (function () {
+    'use strict';
+    var LETTERS = 'ABCDEFGHIJKLMNPQRSTUVWXYZ'; // 25 letters, no O: a code is read aloud and typed by hand
+    var CODE_MS = 10 * 60 * 1000;              // a code lives ten minutes
+    var CHUNK = 16384;                         // 16 KB pieces
+    var WINDOW = 16;                           // pieces in flight before an ack is owed
+    var MAX_BYTES = 25 * 1024 * 1024;          // a capsule is small; 25 MB is a generous ceiling
+
+    function $(id) { return document.getElementById(id); }
+    function fmtBytes(n) {
+      if (n < 1024) { return n + ' B'; }
+      if (n < 1024 * 1024) { return (n / 1024).toFixed(1) + ' KB'; }
+      return (n / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+    function mintCode() {
+      var c = '';
+      for (var i = 0; i < 2; i++) { c += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length)); }
+      for (var j = 0; j < 4; j++) { c += String(Math.floor(Math.random() * 10)); }
+      return c;
+    }
+    function setStatus(el, text, isErr) {
+      el.textContent = text;
+      el.classList.toggle('err', !!isErr);
+    }
+
+    /* ---------------- the sending screen ---------------- */
+    var sendCodeEl = $('sendCode'), sendTimerEl = $('sendTimer'),
+        sendStatusEl = $('sendStatus'), payloadNoteEl = $('payloadNote'),
+        sendBarWrap = $('sendBarWrap'), sendBar = $('sendBar'),
+        sendAgainBtn = $('sendAgain');
+
+    var payload = null;        // { name, bytes: Uint8Array }
+    var sendPeer = null, sendConn = null, sendCode = '';
+    var sendState = 'minting'; // minting, live, connected, offered, sending, done, declined, expired, error
+    var spent = false;         // one shot: once true, this code never serves again
+    var mintedAt = 0, timerInt = null, mintRetries = 0;
+    var ackWaiter = null;      // resolves when the receiver's count catches up
+
+    function setPayload(name, bytes) {
+      if (bytes.length > MAX_BYTES) {
+        setStatus(payloadNoteEl, 'That file is ' + fmtBytes(bytes.length) + '. The shuttle carries up to ' + fmtBytes(MAX_BYTES) + '.', true);
+        return;
+      }
+      payload = { name: name, bytes: bytes };
+      setStatus(payloadNoteEl, 'Ready to send: ' + name + ' (' + fmtBytes(bytes.length) + ').');
+      if (sendState === 'connected') { sendOffer(); }
+    }
+
+    $('sendFile').addEventListener('change', function () {
+      var f = this.files && this.files[0];
+      if (!f) { return; }
+      f.arrayBuffer().then(function (buf) {
+        setPayload(f.name, new Uint8Array(buf));
+      }).catch(function () {
+        setStatus(payloadNoteEl, 'That file could not be read here.', true);
+      });
+    });
+    $('useText').addEventListener('click', function () {
+      var t = $('sendText').value;
+      if (!t) { setStatus(payloadNoteEl, 'Paste the capsule text first.', true); return; }
+      setPayload('capsule.md', new TextEncoder().encode(t));
+    });
+    $('copyCode').addEventListener('click', function () {
+      if (!sendCode) { return; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(sendCode).catch(function () {});
+      }
+    });
+    sendAgainBtn.addEventListener('click', function () { window.location.reload(); });
+
+    function startSender() {
+      sendCode = mintCode();
+      sendCodeEl.textContent = sendCode;
+      mintedAt = Date.now();
+      sendState = 'minting';
+      setStatus(sendStatusEl, 'Registering the code…');
+      sendPeer = new Peer(sendCode);
+      sendPeer.on('open', function () {
+        sendState = 'live';
+        setStatus(sendStatusEl, 'Live. This screen is sending as ' + sendCode + '. Waiting for the other screen to connect.');
+        tickTimer();
+        timerInt = setInterval(tickTimer, 250);
+      });
+      sendPeer.on('connection', onIncoming);
+      sendPeer.on('error', function (err) {
+        if (err && err.type === 'unavailable-id' && mintRetries < 5 && !spent) {
+          mintRetries++;
+          try { sendPeer.destroy(); } catch (e) {}
+          startSender();
+          return;
+        }
+        if (sendState === 'done' || sendState === 'declined') { return; }
+        if (err && err.type === 'browser-incompatible') {
+          sendState = 'error';
+          setStatus(sendStatusEl, 'This browser cannot make direct transfers. Try a current Chrome, Edge, Firefox, or Safari.', true);
+          return;
+        }
+        sendState = 'error';
+        setStatus(sendStatusEl, 'The rendezvous could not be reached. Check the connection and reload.', true);
+      });
+      sendPeer.on('disconnected', function () {
+        if (!spent && sendPeer && !sendPeer.destroyed) { try { sendPeer.reconnect(); } catch (e) {} }
+      });
+    }
+
+    function tickTimer() {
+      var left = CODE_MS - (Date.now() - mintedAt);
+      if (left <= 0) { expireCode(); return; }
+      var s = Math.ceil(left / 1000);
+      sendTimerEl.textContent = 'Dies in ' + Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2);
+    }
+    function expireCode() {
+      if (spent) { return; }
+      spent = true;
+      sendState = 'expired';
+      clearInterval(timerInt);
+      sendTimerEl.textContent = 'Expired.';
+      setStatus(sendStatusEl, 'That code has expired. Nothing was sent under it.', true);
+      sendAgainBtn.hidden = false;
+      if (sendPeer) { try { sendPeer.destroy(); } catch (e) {} }
+    }
+
+    function onIncoming(conn) {
+      // One shot is literal: a second knock is refused, and a spent
+      // code serves nobody.
+      if (spent || sendConn) {
+        conn.on('open', function () { try { conn.close(); } catch (e) {} });
+        return;
+      }
+      sendConn = conn;
+      conn.on('data', onSenderData);
+      conn.on('close', function () {
+        if (!spent && sendState !== 'done') {
+          setStatus(sendStatusEl, 'The other screen closed the connection before the transfer finished.', true);
+        }
+      });
+      conn.on('open', function () {
+        sendState = 'connected';
+        setStatus(sendStatusEl, 'Partner found. If the file is ready, its name is on its way; the other screen decides next.');
+        if (payload) { sendOffer(); }
+      });
+    }
+
+    function sendOffer() {
+      if (!sendConn || !payload) { return; }
+      sendState = 'offered';
+      sendConn.send({ t: 'offer', name: payload.name, size: payload.bytes.length, chunks: Math.ceil(payload.bytes.length / CHUNK) });
+      setStatus(sendStatusEl, 'Offered ' + payload.name + ' (' + fmtBytes(payload.bytes.length) + '). Waiting for the other screen to accept.');
+    }
+
+    function onSenderData(msg) {
+      if (!msg || typeof msg !== 'object') { return; }
+      if (msg.t === 'knock') {
+        if (sendState === 'live') {
+          sendState = 'connected';
+          if (payload) { sendOffer(); }
+        }
+        return;
+      }
+      if (msg.t === 'accept') {
+        // The gate: this branch is the only road to sendChunks.
+        if (sendState === 'offered' && payload && sendConn) { sendChunks(); }
+        return;
+      }
+      if (msg.t === 'ack') {
+        if (ackWaiter && typeof msg.n === 'number' && msg.n >= ackWaiter.target) {
+          var w = ackWaiter; ackWaiter = null; w.resolve();
+        }
+        return;
+      }
+      if (msg.t === 'decline') { endSend('declined'); return; }
+      if (msg.t === 'received') { endSend('done'); return; }
+    }
+
+    // The one road in: chunks leave this screen only from the accept
+    // branch above. Nothing else in this file calls this function.
+    function sendChunks() {
+      sendState = 'sending';
+      sendBarWrap.hidden = false;
+      var total = Math.ceil(payload.bytes.length / CHUNK);
+      var sent = 0;
+      setStatus(sendStatusEl, 'Accepted. Sending ' + payload.name + '…');
+      function windowAck(target) {
+        return new Promise(function (resolve) { ackWaiter = { target: target, resolve: resolve }; });
+      }
+      function step() {
+        if (sent >= total) {
+          sendConn.send({ t: 'done' });
+          setStatus(sendStatusEl, 'Sent whole. Waiting for the other screen to confirm it arrived.');
+          return;
+        }
+        var upto = Math.min(sent + WINDOW, total);
+        for (var i = sent; i < upto; i++) {
+          var start = i * CHUNK, end = Math.min(start + CHUNK, payload.bytes.length);
+          sendConn.send({ t: 'chunk', i: i, data: payload.bytes.buffer.slice(start, end) });
+        }
+        sent = upto;
+        sendBar.style.width = Math.round((sent / total) * 100) + '%';
+        windowAck(sent).then(step);
+      }
+      step();
+    }
+    function endSend(kind) {
+      if (spent) { return; }
+      spent = true;
+      sendState = kind;
+      clearInterval(timerInt);
+      sendTimerEl.textContent = 'This code is spent.';
+      if (kind === 'done') {
+        sendBar.style.width = '100%';
+        setStatus(sendStatusEl, 'Across. The file arrived whole on the other screen.');
+      } else {
+        setStatus(sendStatusEl, 'The other screen declined. Nothing was sent. This code is spent; mint a fresh one to try again.', true);
+      }
+      sendAgainBtn.hidden = false;
+      var p = sendPeer;
+      setTimeout(function () { if (p) { try { p.destroy(); } catch (e) {} } }, 600);
+    }
+
+    /* ---------------- the receiving screen ---------------- */
+    var recvStatusEl = $('recvStatus'), offerBox = $('offerBox'),
+        offerTextEl = $('offerText'), recvBarWrap = $('recvBarWrap'),
+        recvBar = $('recvBar'), saveLink = $('saveLink');
+    var recvPeer = null, recvConn = null, recvState = 'idle'; // idle, connecting, offered, accepted, done, declined, error
+    var offerMeta = null, got = [], gotCount = 0, saveUrl = null;
+
+    function endRecvNote(text, isErr) { setStatus(recvStatusEl, text, isErr); }
+
+    $('recvConnect').addEventListener('click', function () {
+      var code = $('recvCode').value.replace(/[\s-]/g, '').toUpperCase();
+      if (!/^[A-NP-Z]{2}[0-9]{4}$/.test(code)) {
+        endRecvNote('That is not a shuttle code. A code is two letters and four digits, like AB1234.', true);
+        return;
+      }
+      if (recvPeer) { try { recvPeer.destroy(); } catch (e) {} recvPeer = null; recvConn = null; }
+      recvState = 'connecting'; got = []; gotCount = 0; offerMeta = null;
+      offerBox.hidden = true; saveLink.hidden = true; recvBarWrap.hidden = true; recvBar.style.width = '0';
+      endRecvNote('Looking for ' + code + '…');
+      recvPeer = new Peer();
+      recvPeer.on('open', function () {
+        recvConn = recvPeer.connect(code, { reliable: true });
+        recvConn.on('open', function () {
+          recvConn.send({ t: 'knock' });
+          endRecvNote('Connected to ' + code + '. When it offers a file, the offer appears here first. Nothing arrives before you accept it.');
+        });
+        recvConn.on('data', onRecvData);
+        recvConn.on('close', function () {
+          if (recvState !== 'done' && recvState !== 'declined') {
+            endRecvNote('The other screen closed the connection.', true);
+          }
+        });
+      });
+      recvPeer.on('error', function (err) {
+        if (err && err.type === 'peer-unavailable') {
+          recvState = 'error';
+          endRecvNote('No live screen has that code. Check the six characters and try again.', true);
+          return;
+        }
+        if (err && err.type === 'browser-incompatible') {
+          recvState = 'error';
+          endRecvNote('This browser cannot make direct transfers. Try a current Chrome, Edge, Firefox, or Safari.', true);
+          return;
+        }
+        recvState = 'error';
+        endRecvNote('The rendezvous could not be reached. Check the connection and try again.', true);
+      });
+    });
+
+    function onRecvData(msg) {
+      if (!msg || typeof msg !== 'object') { return; }
+      if (msg.t === 'offer') {
+        offerMeta = { name: String(msg.name || 'capsule.md'), size: Number(msg.size) || 0, chunks: Number(msg.chunks) || 0, from: $('recvCode').value.replace(/[\s-]/g, '').toUpperCase() };
+        recvState = 'offered';
+        offerTextEl.textContent = offerMeta.from + ' wants to send ' + offerMeta.name + ' (' + fmtBytes(offerMeta.size) + '). Nothing has been received yet.';
+        offerBox.hidden = false;
+        endRecvNote('An offer is waiting on your decision.');
+        return;
+      }
+      if (msg.t === 'chunk') {
+        // The gate on this side too: pieces are only ever assembled
+        // after this screen accepted the named offer.
+        if (recvState !== 'accepted' || !offerMeta) { return; }
+        if (typeof msg.i === 'number' && msg.data) {
+          got[msg.i] = msg.data;
+          gotCount++;
+          recvBar.style.width = Math.round((gotCount / offerMeta.chunks) * 100) + '%';
+          recvConn.send({ t: 'ack', n: gotCount });
+        }
+        return;
+      }
+      if (msg.t === 'done') {
+        if (recvState !== 'accepted' || !offerMeta) { return; }
+        if (gotCount !== offerMeta.chunks) {
+          endRecvNote('The transfer ended early: ' + gotCount + ' of ' + offerMeta.chunks + ' pieces arrived. Ask for a fresh code and try again.', true);
+          recvState = 'error';
+          return;
+        }
+        finishRecv();
+        return;
+      }
+    }
+
+    $('acceptBtn').addEventListener('click', function () {
+      if (recvState !== 'offered' || !recvConn) { return; }
+      recvState = 'accepted';
+      offerBox.hidden = true;
+      recvBarWrap.hidden = false;
+      endRecvNote('Accepted. Receiving ' + offerMeta.name + '…');
+      recvConn.send({ t: 'accept' });
+    });
+    $('declineBtn').addEventListener('click', function () {
+      if (recvState !== 'offered' || !recvConn) { return; }
+      recvState = 'declined';
+      offerBox.hidden = true;
+      try { recvConn.send({ t: 'decline' }); } catch (e) {}
+      endRecvNote('Declined. Nothing was received, and the code is spent on the other screen too.');
+      var p = recvPeer;
+      setTimeout(function () { if (p) { try { p.destroy(); } catch (e) {} } }, 300);
+    });
+
+    function finishRecv() {
+      var blob = new Blob(got, { type: 'text/plain' });
+      if (saveUrl) { URL.revokeObjectURL(saveUrl); }
+      saveUrl = URL.createObjectURL(blob);
+      saveLink.href = saveUrl;
+      saveLink.setAttribute('download', offerMeta.name);
+      saveLink.textContent = 'Save ' + offerMeta.name + ' (' + fmtBytes(offerMeta.size) + ')';
+      saveLink.hidden = false;
+      recvState = 'done';
+      recvBar.style.width = '100%';
+      endRecvNote('Received whole: ' + offerMeta.name + '. Your browser should offer the file now; if it does not, the save button above has it.');
+      try { saveLink.click(); } catch (e) {}
+      try { recvConn.send({ t: 'received' }); } catch (e) {}
+      var p = recvPeer;
+      setTimeout(function () { if (p) { try { p.destroy(); } catch (e) {} } }, 600);
+    }
+
+    /* ---------------- start ---------------- */
+    window.addEventListener('beforeunload', function () {
+      if (sendPeer) { try { sendPeer.destroy(); } catch (e) {} }
+      if (recvPeer) { try { recvPeer.destroy(); } catch (e) {} }
+    });
+    if (typeof Peer === 'undefined') {
+      setStatus(sendStatusEl, 'The shuttle library did not load. Check the connection and reload.', true);
+      endRecvNote('The shuttle library did not load. Check the connection and reload.', true);
+      sendCodeEl.textContent = mintCode();
+    } else {
+      startSender();
+    }
+    // A small handle for the headless checks: the mint, and the two
+    // state reads. It moves no data and opens nothing.
+    window.SHUTTLE = { mintCode: mintCode, sendState: function () { return sendState; }, recvState: function () { return recvState; } };
+  })();
+</script>
+</body>
+</html>
