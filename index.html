@@ -2031,7 +2031,7 @@
      cluttered, messy, too much information"). The landing is now only
      what a first visitor needs: the tagline, one plain sentence, one
      slim extension line, the story told by floating 3D carousel
-     panels, and one big Begin journey button. The button clears the
+     panels, and one big button. The button clears the
      landing away and leaves strictly the tool, itself now a floating
      panel. The static card band is cut (the carousel is the only
      storyteller), the brand chips move to a quiet footer row, and
@@ -2059,12 +2059,6 @@
   .hero-ext-note-actions{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;margin:.7rem 0 0}
   .hero-ext-note-status{margin:.65rem 0 0;font-size:.92rem;color:var(--L-ink)}
   .hero-ext-note-url{margin:.65rem 0 0;font-size:.85rem;line-height:1.5;color:var(--L-ink2);word-break:break-all;user-select:all;-webkit-user-select:all}
-
-  /* The one big call to action */
-  .cta-zone{text-align:center;padding:32px 0 10px}
-  .cta-main{appearance:none;border:0;cursor:pointer;font:inherit;font-size:1.28rem;font-weight:800;letter-spacing:.01em;color:var(--on-grad);background:var(--grad);border-radius:999px;padding:1.02rem 2.7rem;box-shadow:var(--btn-primary-shadow),0 20px 44px rgba(90,70,200,.30);transition:transform .25s ease,box-shadow .25s ease}
-  .cta-main:hover{transform:translateY(-2px);box-shadow:var(--btn-primary-shadow-hover),0 26px 52px rgba(90,70,200,.34)}
-  .cta-fine{margin:.85rem 0 0;font-size:.92rem;color:var(--L-ink3)}
 
   /* Clearing the landing: the wrap collapses, the tool remains */
   #landingWrap{display:grid;grid-template-rows:1fr;transition:grid-template-rows .6s ease,opacity .5s ease,visibility 0s 0s}
@@ -2104,7 +2098,6 @@
     #landingWrap{transition:none}
     .landing-inner .v6-slide{transition:opacity .2s ease}
     .landing-inner .v6-slide:not(.active),.landing-inner .v6-slide.was-active{transform:none}
-    .cta-main{transition:none}
     .tool-zone .desk-panel{transition:none;transform:none}
   }
   body.rm #landingWrap{transition:none}
@@ -2119,11 +2112,11 @@
      from his annotated screenshot of v6.48: the tool and footer
      sitting at the bottom made the landing feel "messy" and
      endless). Three moves. (1) The tool and the full footer now
-     live inside #toolPocket, hidden until Begin journey opens it;
+     live inside #toolPocket, hidden until the button opens it;
      the landing ends at the CTA and one quiet sign-off line. The
      footer's contents are unchanged; inside the pocket its
      viewport-relative side padding is zeroed because the stage
-     column now provides the identical inset. (2) Begin journey is
+     column now provides the identical inset. (2) The button is
      a physical button: the ECR gradient flows through its face, a
      halo glows behind it, a solid bottom edge gives it thickness,
      and a press travels down by that thickness and springs back.
@@ -2152,14 +2145,6 @@
   .landing-signoff .signoff-ver{white-space:nowrap}
   .landing-signoff .signoff-outro{display:block;padding-bottom:8px;font-size:1rem;line-height:1.35;color:var(--L-ink2)}
 
-  /* (2) Begin journey: flowing gradient, glow, thickness, press */
-  .cta-main{--cta-edge:#4738b8;position:relative;isolation:isolate;background-size:210% 100%;animation:ctaFlow 6.5s ease-in-out infinite alternate;box-shadow:var(--btn-primary-shadow),0 6px 0 var(--cta-edge),0 24px 54px rgba(90,70,200,.38),0 0 34px rgba(123,108,255,.40),0 0 78px rgba(255,94,168,.22);transition:transform .15s cubic-bezier(.34,1.4,.64,1),box-shadow .15s cubic-bezier(.34,1.4,.64,1)}
-  :root[data-theme="light"] .cta-main{--cta-edge:#382a96}
-  @keyframes ctaFlow{from{background-position:0% 50%}to{background-position:100% 50%}}
-  .cta-main::before{content:"";position:absolute;inset:-4px;border-radius:inherit;background:var(--grad);background-size:210% 100%;animation:ctaFlow 6.5s ease-in-out infinite alternate;filter:blur(24px);opacity:.5;z-index:-1;pointer-events:none}
-  .cta-main:hover{transform:translateY(-2px);box-shadow:var(--btn-primary-shadow-hover),0 8px 0 var(--cta-edge),0 28px 58px rgba(90,70,200,.40),0 0 42px rgba(123,108,255,.48),0 0 90px rgba(255,94,168,.26)}
-  .cta-main:active,.cta-main.is-pressing{transform:translateY(5px);box-shadow:var(--btn-primary-shadow),0 1px 0 var(--cta-edge),0 12px 28px rgba(90,70,200,.34),0 0 22px rgba(123,108,255,.36),0 0 54px rgba(255,94,168,.20)}
-
   /* (3) The fitted landing: one screen, scaling with the viewport */
   @media (min-width:1280px) and (min-height:960px){
     body:not(.landing-cleared){height:100dvh;overflow:hidden}
@@ -2172,25 +2157,17 @@
     body:not(.landing-cleared) .landing-inner .v6-carousel{flex:1 1 auto;min-height:0;height:auto}
     body:not(.landing-cleared) .landing-inner .v6-slide{position:absolute;inset:10px 6px}
     body:not(.landing-cleared) .v6-controls{flex:0 0 auto}
-    body:not(.landing-cleared) .cta-zone{flex:0 0 auto;padding-top:clamp(14px,2.2vh,32px)}
     body:not(.landing-cleared) .landing-signoff{flex:0 0 auto}
     .hero-tag{font-size:clamp(2.35rem,2.9vw,6.6rem)}
     .hero-sub{font-size:clamp(1.08rem,1.02vw,2.15rem)}
-    .cta-main{font-size:clamp(1.28rem,1.12vw,2.55rem);padding:.8em 2.1em}
     .landing-inner .v6-tagline{font-size:clamp(1.85rem,2vw,4.2rem)}
     .landing-inner .lede{font-size:clamp(1.02rem,0.95vw,1.95rem)}
   }
 
   /* Reduced motion: no flow, no rise, the press is shadow only */
   @media (prefers-reduced-motion: reduce){
-    .cta-main,.cta-main::before{animation:none}
-    .cta-main{transition:none}
-    .cta-main:active,.cta-main.is-pressing{transform:none;box-shadow:var(--btn-primary-shadow),0 1px 0 var(--cta-edge),0 10px 22px rgba(90,70,200,.30)}
     .tool-pocket.rise{animation:none}
   }
-  body.rm .cta-main,body.rm .cta-main::before{animation:none}
-  body.rm .cta-main{transition:none}
-  body.rm .cta-main:active,body.rm .cta-main.is-pressing{transform:none}
   body.rm .tool-pocket.rise{animation:none}
 </style>
 <style id="v650-contain">
@@ -2280,28 +2257,11 @@
     body:not(.landing-cleared) .hero-tag{font-size:clamp(2.35rem,2.55vw,5.6rem);margin-bottom:clamp(.4rem,1vh,.85rem)}
     body:not(.landing-cleared) .hero-sub{margin-bottom:clamp(.5rem,1.1vh,1.15rem)}
     body:not(.landing-cleared) .landing-inner .col-story{margin-top:clamp(8px,1.4vh,30px)}
-    body:not(.landing-cleared) .cta-zone{padding-top:clamp(10px,1.8vh,32px)}
     body:not(.landing-cleared) .landing-signoff{padding-top:12px}
     .landing-inner .v6-tagline{font-size:clamp(1.85rem,1.55vw,3.1rem)}
     .landing-inner .lede{font-size:clamp(1.02rem,.72vw,1.45rem)}
   }
 
-  /* The sheen (Tony, 2026-11-05 01:02 PT: "love the gradients,
-     can you add a bit more shimmer"): light catching glass on the
-     one hero button. A low-opacity white band sweeps diagonally
-     across the face on a relaxed cycle, about a second of travel
-     and several seconds of rest, easing in and out; polish, not
-     disco. The band is a background layer on a button-shaped
-     pseudo-element, so the rounded corners contain it without
-     touching the halo behind the button, and the label rides
-     above it. Reduced motion keeps the static gradient only. */
-  .cta-main .cta-label{position:relative;z-index:1}
-  .cta-main::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(105deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.26) 50%,rgba(255,255,255,0) 58%);background-size:280% 100%;background-repeat:no-repeat;background-position:130% 0;animation:ctaSheen 7.5s ease-in-out infinite;pointer-events:none}
-  @keyframes ctaSheen{0%{background-position:130% 0}16%{background-position:-30% 0}100%{background-position:-30% 0}}
-  @media (prefers-reduced-motion: reduce){
-    .cta-main::after{animation:none}
-  }
-  body.rm .cta-main::after{animation:none}
 </style>
 <style id="v651-stage">
   /* v6.51: the stage takes its height from its content (Tony's
@@ -2335,7 +2295,7 @@
      shadow is built from large-blur layers with no spread, so
      the grey feathers outward until it is indistinguishable from
      the background; the tool's panel gets the same feather.
-     (5) The Begin journey caption floats over the glow: its
+     (5) The caption floats over the glow: its
      stacking sits above the button's halo and shadow stack in
      every state, so legibility comes from layer order and the
      glow stays exactly as generous as it was. (6) The Why film
@@ -2407,12 +2367,6 @@
   :root:not([data-theme="light"]) .tool-zone .desk-panel{
     box-shadow:0 1px 3px rgba(0,0,0,.16),0 10px 26px rgba(0,0,0,.18),0 30px 70px rgba(0,0,0,.20),0 60px 140px rgba(0,0,0,.18),0 100px 220px rgba(88,70,220,.10)}
 
-  /* (5) The caption floats over the glow: stacking, not trimming.
-     The button keeps its full halo and shadow stack; the caption
-     layer sits above all of it, in every state. */
-  .cta-main{z-index:1}
-  .cta-fine{position:relative;z-index:2;margin-top:1.05rem}
-
   /* (6) The film in its own ratio (1280x720, probed), letterboxed
      by the sheet, always inside the viewport */
   .v6-sheet .film-wrap{justify-content:center;align-items:center}
@@ -2425,8 +2379,7 @@
      12:08 PT, five full-screen screenshots at 1080p, and his
      delegation of the determination: "I will leave that to your
      determination on which one is better for page load and
-     resources"). Two defects in his shots. (1) The Begin journey
-     button sat below the fold: at his viewport (about 910px of
+     resources"). Two defects in his shots. (1) The button sat below the fold: at his viewport (about 910px of
      usable height under the browser chrome) the landing's
      honest height passes the screen, so the one action the page
      exists for needed a scroll to reach, and the carousel's
@@ -2439,8 +2392,8 @@
      exact one-screen fit was rejected as the guarantee, for
      the reason v6.51 recorded: it breaks with every copy
      change, while a floating button cannot be lost at any
-     size. (1) The existing cta-zone, the same Begin journey
-     button with the same fine line and the same click, leaves
+     size. (1) The existing cluster, the same button with
+     the same fine line and the same click, leaves
      the flow and pins to the bottom centre of the viewport as
      one small cluster on a soft feathered backdrop, readable
      over any slide. The landing reserves bottom padding
@@ -2458,23 +2411,6 @@
      the equal-height rhythm v6.51 gave it, untouched. Nothing
      is height-capped or clipped anywhere by this block; slide
      words and every script are unchanged. */
-
-  /* (1) The floating cluster: out of the flow, pinned,
-     feathered, clickable only where it is drawn */
-  body:not(.landing-cleared) .cta-zone{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:55;
-    display:flex;flex-direction:column;align-items:center;text-align:center;box-sizing:border-box;max-width:calc(100vw - 20px);
-    padding:14px 30px 11px;border-radius:26px;pointer-events:none;
-    background:linear-gradient(180deg,color-mix(in srgb, var(--L-bg) 55%, transparent),color-mix(in srgb, var(--L-bg) 82%, transparent));
-    -webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);
-    box-shadow:0 12px 38px rgba(26,22,64,.12),0 2px 8px rgba(26,22,64,.07)}
-  :root:not([data-theme="light"]) body:not(.landing-cleared) .cta-zone{box-shadow:0 12px 38px rgba(0,0,0,.36),0 2px 8px rgba(0,0,0,.24)}
-  body:not(.landing-cleared) .cta-zone .cta-main,body:not(.landing-cleared) .cta-zone .cta-fine{pointer-events:auto}
-  body:not(.landing-cleared) .cta-zone .cta-fine{margin-top:.6rem}
-
-  /* The reserve: a clear floor under the landing's content,
-     taller than the cluster plus its offset plus air, so the
-     control strip can always come to rest above the cluster */
-  body:not(.landing-cleared) .landing-inner{padding-bottom:clamp(150px,20vh,240px)}
 
   /* (2) Shorter slides rest in the middle of the stage; The
      Difference is deliberately not matched by these selectors */
@@ -2519,7 +2455,7 @@
      centring rules are neutralised where they conflict: with
      no shared stage height left to centre inside, the slide row
      and its columns return to their natural alignment. The
-     floating Begin journey cluster and the landing's bottom
+     floating cluster and the landing's bottom
      reserve are untouched and still govern the foot of the
      page. Slide words and the compiler are unchanged; the
      carousel script gains only the height fitting the new stage
@@ -2590,7 +2526,7 @@
      v6.56 does, nothing clipped, nothing centred away. Below
      the fitted tier and on phones nothing changes: natural
      flow, in-flow slides, the stage sizing itself. The
-     floating Begin journey cluster, its reserve, the tabs and
+     floating cluster, its reserve, the tabs and
      counter, Watch The Why, the film sheet, the tool and
      pocket flow, the reduced-motion rules, and every script
      are untouched. */
@@ -3489,11 +3425,7 @@
   </div>
 
       </div>
-<section class="cta-zone" aria-label="Start the transfer">
-  <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
-  <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
-</section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.70</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.71</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket">
 
@@ -3524,7 +3456,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.70</span>
+      <span>clonemy.ai, working prototype · v6.71</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -4884,24 +4816,24 @@ What a successor would need that you do not have: list them as plain questions. 
   /* v6.47: landing behavior only. v6.68 retires the clearing:
      the tool stands in the landing now, front and center
      (Tony's direction, 2026-11-06), so there is nothing to
-     clear away and nothing to restore. Begin journey scrolls
-     to the tool; Back to the story scrolls to the top; a
-     #tool load scrolls to the tool. The tool's own state is
-     never touched: this script only scrolls, marks reduced
-     motion on the body, and runs the swoop and tilt below.
+     clear away and nothing to restore. v6.71 retires the
+     button itself (Tony: visitors start at the main screen
+     now), so this script wires no button. Back to the
+     story scrolls to the top; a #tool load scrolls to the
+     tool. The tool's own state is never touched: this
+     script only scrolls, marks reduced motion on the
+     body, and runs the swoop and tilt below.
      The swoop and tilt sections are carried verbatim. */
   (function () {
-    var begin = document.getElementById('beginBtn');
     var back = document.getElementById('backToStory');
     var tool = document.getElementById('tool');
-    if (!begin || !tool) return;
+    if (!tool) return;
     var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     if (reduced) document.body.classList.add('rm');
     function scrollToTool() {
       if (tool.scrollIntoView) tool.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
     }
     if (window.location && window.location.hash === '#tool') { scrollToTool(); }
-    begin.addEventListener('click', scrollToTool);
     if (back) {
       back.addEventListener('click', function () {
         try { window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }); } catch (e) {}
@@ -5005,25 +4937,6 @@ What a successor would need that you do not have: list them as plain questions. 
         } else { showUrl(); }
       });
     }
-  })();
-</script>
-
-<script id="v649-pocket">
-  /* v6.49: the pocket and the press. v6.68 retires the pocket's
-     opening and closing with the pocket itself: the tool stands
-     in the landing now and the footer is always in flow, so
-     this script keeps only the button's press, the .is-pressing
-     class applied on click so the depression completes. It
-     never touches the tool's internals. */
-  (function () {
-    var begin = document.getElementById('beginBtn');
-    if (!begin) return;
-    var pressTimer = null;
-    begin.addEventListener('click', function () {
-      begin.classList.add('is-pressing');
-      if (pressTimer) { clearTimeout(pressTimer); }
-      pressTimer = setTimeout(function () { begin.classList.remove('is-pressing'); }, 240);
-    });
   })();
 </script>
 </body>
