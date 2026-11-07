@@ -2926,6 +2926,23 @@
   .tool-pocket{display:block;min-height:0}
   body:not(.landing-cleared) .landing-inner{display:block;height:auto;min-height:0}
   .landing-inner #tool{margin-top:clamp(16px,2.5vh,30px)}
+<style id="v669-flow">
+  /* v6.69: the transfer flow (Tony's direction, 2026-11-06:
+     the three steps on one page, simplified). The one box
+     stops dealing its faces one at a time: the box becomes
+     a vertical stack and every face stands open in sequence,
+     Extract, Compile, Restore, each on its own pane (the
+     .step pane styling it already wears) with the stack's
+     gap between them. Nothing is hidden and nothing can be
+     lost by moving; the rail across the top is the progress
+     read, its numbered steps lighting current and done as
+     the flow advances, and each stage carries its own call
+     to action inside itself, so no button ever floats over
+     another stage's content. On a phone the stack is simply
+     the page: one column, scroll and tap. */
+  .onebox{display:flex;flex-direction:column;gap:22px}
+  .onebox .ob-rail{margin:0}
+  .onebox .ob-face{display:flex}
 </style>
 </head>
 <body>
@@ -3420,7 +3437,7 @@
   <button type="button" class="cta-main" id="beginBtn"><span class="cta-label">Begin journey</span></button>
   <p class="cta-fine">Free, about two minutes, and nothing is uploaded.</p>
 </section>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.68</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI knows you. Take that with you.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.69</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket">
 
@@ -3451,7 +3468,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.68</span>
+      <span>clonemy.ai, working prototype · v6.69</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -4339,13 +4356,23 @@ What a successor would need that you do not have: list them as plain questions. 
   // change only toggles visibility, so nothing is ever lost by moving:
   // chosen AI, pasted text, flavor, compiled capsule, and part position
   // all stay exactly where they were. State lives in page memory only.
+  // v6.69: the faces stand open in one flow (see showFace below and
+  // the v669-flow style block); nothing is hidden, ever.
   (function () {
     var faces = { 1: document.getElementById('faceExtract'), 2: document.getElementById('faceCompile'), 3: document.getElementById('faceRestore') };
     var railBtns = Array.prototype.slice.call(document.querySelectorAll('.ob-step'));
-    function showFace(n) {
+    /* v6.69: the flow contract. The three faces stand open in
+       sequence on one page, so showFace hides nothing: it keeps
+       every face open and moves the rail's current and done
+       marks. When the move is the visitor's own (nav is set by
+       the rail steps and the nav buttons), it also scrolls the
+       stage into view; programmatic advances keep the old
+       no-scroll contract, so a finished compile is landed by
+       the compile's own scroll to its output, as before. */
+    function showFace(n, nav) {
       if (!faces[n]) { return; }
       [1, 2, 3].forEach(function (k) {
-        if (faces[k]) { faces[k].classList.toggle('ob-on', k === n); }
+        if (faces[k]) { faces[k].classList.add('ob-on'); }
       });
       railBtns.forEach(function (b) {
         var f = parseInt(b.getAttribute('data-face'), 10);
@@ -4353,16 +4380,20 @@ What a successor would need that you do not have: list them as plain questions. 
         b.classList.toggle('is-done', f < n);
         if (f === n) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
       });
+      if (nav && faces[n].scrollIntoView) {
+        var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        faces[n].scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      }
     }
     window.__oneboxShowFace = showFace;
     railBtns.forEach(function (b) {
-      b.addEventListener('click', function () { showFace(parseInt(b.getAttribute('data-face'), 10)); });
+      b.addEventListener('click', function () { showFace(parseInt(b.getAttribute('data-face'), 10), true); });
     });
     var toCompile = document.getElementById('toCompileBtn');
     if (toCompile) {
       var clipReadBusy = false;
       function compileFallback() {
-        showFace(2);
+        showFace(2, true);
         var hint = document.getElementById('clipHint');
         if (hint) { hint.hidden = false; }
         var t = document.getElementById('compileInput');
@@ -4428,9 +4459,9 @@ What a successor would need that you do not have: list them as plain questions. 
       });
     }
     var back1 = document.getElementById('backToExtractBtn');
-    if (back1) { back1.addEventListener('click', function () { showFace(1); }); }
+    if (back1) { back1.addEventListener('click', function () { showFace(1, true); }); }
     var back2 = document.getElementById('backToCompileBtn');
-    if (back2) { back2.addEventListener('click', function () { showFace(2); }); }
+    if (back2) { back2.addEventListener('click', function () { showFace(2, true); }); }
     document.querySelectorAll('.ai-btn').forEach(function (b) {
       b.addEventListener('click', function () {
         document.querySelectorAll('.ai-btn').forEach(function (x) { x.classList.toggle('ai-chosen', x === b); });
@@ -4449,7 +4480,7 @@ What a successor would need that you do not have: list them as plain questions. 
         note.textContent = '';
       }
     };
-    showFace(2);
+    showFace(1);
   })();
 </script>
 <script>
