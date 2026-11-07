@@ -532,6 +532,23 @@
     } else {
       startSender();
     }
+    /* ---- a code that arrived with the page (v6.73) ----
+       The extension's pairing page shows a QR encoding
+       https://clonemy.ai/shuttle.html#c=CODE; the hash is
+       never sent to the server. A valid code is filled into
+       the receive field and named in the status line, and
+       the visitor knocks with the ordinary Connect tap.
+       Nothing connects by itself, and a malformed hash is
+       ignored silently. */
+    (function () {
+      var m = /#c=([A-Za-z0-9]+)/.exec(window.location.hash || '');
+      if (!m) { return; }
+      var code = m[1].toUpperCase();
+      if (!/^[A-NP-Z]{2}[0-9]{4}$/.test(code)) { return; }
+      $('recvCode').value = code;
+      endRecvNote('The code ' + code + ' came in with this page. It is filled in above; tap Connect to knock. Nothing arrives before the other screen offers its file and you accept it.');
+    })();
+
     // A small handle for the headless checks: the mint, and the two
     // state reads. It moves no data and opens nothing.
     window.SHUTTLE = { mintCode: mintCode, sendState: function () { return sendState; }, recvState: function () { return recvState; } };
