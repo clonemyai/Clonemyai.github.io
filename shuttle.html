@@ -134,7 +134,7 @@
 </section>
 
 <h2>What crosses where</h2>
-<p>Your file travels straight between the two browsers, encrypted in transit by WebRTC (DTLS), and it is never stored on any server. The introduction is borrowed for now: a public rendezvous service, the PeerJS broker, matches the code to the two browsers, and it can see the code, both IP addresses, and the time. It cannot see the file, and neither can we. A later version of the shuttle will run on clonemy's own rendezvous service; until then, that is the honest shape of it.</p>
+<p>Your file travels straight between the two browsers, encrypted in transit by WebRTC (DTLS), and it is never stored on any server. The introduction is borrowed for now: a public rendezvous service, the PeerJS broker, matches the code to the two browsers, and it can see the code, both IP addresses, and the time. It cannot see the file, and neither can we. If the two browsers cannot reach each other directly, a borrowed public relay carries the same encrypted crossing; it sees the addresses and the time, and it cannot see the file either. A later version of the shuttle will run on clonemy's own rendezvous service; until then, that is the honest shape of it.</p>
 <p>The code is a name, not a lock. What protects the file is that the receiving screen must accept a named offer before anything moves, and that the crossing itself is encrypted. Share a code only with the screen you mean to send to.</p>
   <p><a href="https://clonemy.ai">Start this transfer</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/whitepaper/">White Paper</a></p>
   <footer>
@@ -208,6 +208,19 @@
       el.classList.toggle('err', !!isErr);
     }
 
+    /* Connection paths (v6.86): a STUN lookup plus a borrowed public
+       TURN relay. Some networks, iPhones on local Wi-Fi among them,
+       withhold the direct paths WebRTC prefers; the relay is the
+       fallback road. Relayed traffic stays DTLS encrypted end to
+       end; the relay sees addresses and timing, never the file. */
+    var SHUTTLE_CONFIG = { config: { iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
+      { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
+      { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' },
+      { urls: 'turns:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' }
+    ] } };
+
     /* ---------------- the sending screen ---------------- */
     var sendCodeEl = $('sendCode'), sendTimerEl = $('sendTimer'),
         sendStatusEl = $('sendStatus'), payloadNoteEl = $('payloadNote'),
@@ -259,7 +272,7 @@
       mintedAt = Date.now();
       sendState = 'minting';
       setStatus(sendStatusEl, 'Registering the code…');
-      sendPeer = new Peer(sendCode);
+      sendPeer = new Peer(sendCode, SHUTTLE_CONFIG);
       sendPeer.on('open', function () {
         sendState = 'live';
         setStatus(sendStatusEl, 'Live. This screen is sending as ' + sendCode + '. Waiting for the other screen to connect.');
@@ -421,7 +434,7 @@
       recvState = 'connecting'; got = []; gotCount = 0; offerMeta = null;
       offerBox.hidden = true; saveLink.hidden = true; recvBarWrap.hidden = true; recvBar.style.width = '0';
       endRecvNote('Looking for ' + code + '…');
-      recvPeer = new Peer();
+      recvPeer = new Peer(undefined, SHUTTLE_CONFIG);
       recvPeer.on('open', function () {
         recvConn = recvPeer.connect(code, { reliable: true });
         recvConn.on('open', function () {
