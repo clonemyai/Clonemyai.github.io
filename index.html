@@ -3430,6 +3430,17 @@
   .landing-inner .v6-slide[aria-label="The difference"] .cmp-theirs{color:var(--L-ink2);opacity:.85}
   .landing-inner .v6-slide[aria-label="The difference"] .cmp-theirs-h{color:var(--L-ink2);opacity:.95}
 </style>
+<style id="v702-apps">
+/* v7.02 the app download doors. When a store listing goes live, its
+   coming-soon span becomes a real anchor in the same seat, same pill:
+   <a class="hero-ios app-dl" id="iosDownload" href="APP STORE URL" target="_blank" rel="noopener"> for iOS, and
+   <a class="hero-ios app-dl" id="androidDownload" href="GOOGLE PLAY URL" target="_blank" rel="noopener"> for Android.
+   The rules below are that live state's face: a solid rim and the
+   download word in the page ink. Nothing here touches the
+   coming-soon spans, which keep the v6.92 dashed .hero-ios face. */
+.hero-ios.app-dl{border-style:solid;text-decoration:none;cursor:pointer}
+.hero-ios.app-dl:hover{border-color:var(--L-ink)}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3467,7 +3478,7 @@
 <section class="hero" aria-label="What clonemy.ai is">
   <h1 class="hero-tag"><span class="ht-line">Your Capsule. A(i) personality, in a file,</span> <span class="ht-line"><span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep. Forever</span>.</span></h1>
   <p class="hero-sub">Clonemy gives you the power to move the relationship you&rsquo;ve built with your current AI and clone it to a file that stays in your hands, from start, to finish.</p>
-  <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a> <span class="hero-ios" id="iosSoon" role="note" aria-label="The iOS app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="iosO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="iosD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#iosO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#iosD)"/></g></svg><span><b>iOS app</b> &middot; Coming soon</span></span></p>
+  <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a> <span class="hero-ios" id="iosSoon" role="note" aria-label="The iOS app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="iosO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="iosD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#iosO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#iosD)"/></g></svg><span><b>iOS app</b> &middot; Coming soon</span></span> <span class="hero-ios" id="androidSoon" role="note" aria-label="The Android app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="andO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#37c8e8"/><stop offset="1" stop-color="#7b6cff"/></linearGradient><linearGradient id="andD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e03d86"/><stop offset="1" stop-color="#ff5ea8"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#andO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#andD)"/></g></svg><span><b>Android app</b> &middot; Coming soon</span></span></p>
   <div class="hero-ext-note" id="extNote" hidden>
     <p class="hero-ext-note-text">The extension runs in desktop Chrome. Take its link with you:</p>
     <p class="hero-ext-note-actions"><button type="button" class="v6-btn v6-btn-glass" id="extCopyBtn">Copy link</button> <a class="v6-btn v6-btn-glass" id="extMailBtn" href="mailto:?subject=clonemy.ai%20extension&amp;body=Open%20this%20on%20your%20desktop%20to%20install%20the%20clonemy.ai%20extension.%0A%0Ahttps%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fclonemyai-clone-your-ai%2Fejoibikgcgekmoejipegnpabjpndofdo">Email it to me</a></p>
