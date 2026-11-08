@@ -3521,6 +3521,35 @@ html,body{overflow-x:clip}
 }
 .hero-apps{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 16px;margin:14px auto 0}
 </style>
+<style id="v705-capwrap">
+  /* v7.05: the capsule sheet wraps at the bottom (Tony,
+     2026-11-08, from his screenshot of the open sheet: the
+     example's content ended a quarter of the way down a
+     window standing at the v6.63 reader height, dead white
+     space filling the rest). The v663-reader block pinned
+     the pane to 88dvh because the file's tail once hid
+     behind a scrollbar; that height stands here as a cap
+     instead of a pin. Short content now sizes the pane to
+     itself, and long content still caps at the reader
+     height with the capsule body as the pane's one scroll
+     region, so the tail can never hide again. The
+     capsule's flex drops from 1 to 0 so the window stops
+     stretching past its content inside the panel, and the
+     body keeps flex 1 so it absorbs the shrink when the
+     cap engages. Small screens keep their 94dvh cap. The
+     Product slide's headline also changes in this build:
+     it is a headline, not a tagline succession, and the
+     canonical tagline stands untouched everywhere else.
+     Scoped to .cap-sheet throughout: the film sheet and
+     the in-slide teaser are untouched, and no other copy
+     moves. */
+  .cap-sheet .cap-panel{height:auto;max-height:min(88vh,100%);max-height:min(88dvh,100%)}
+  .cap-sheet .capsule{flex:0 1 auto}
+  .cap-sheet .capsule-body{flex:1 1 auto}
+  @media (max-width:640px){
+    .cap-sheet .cap-panel{height:auto;max-height:min(94vh,100%);max-height:min(94dvh,100%)}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3859,7 +3888,7 @@ html,body{overflow-x:clip}
     <section class="v6-slide active" aria-label="The product">
       <div class="v6-slide-copy">
         <p class="v6-kicker">The product</p>
-        <p class="v6-tagline">Your Capsule. A(i) personality, in a file, <span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep. Forever</span>.</p>
+        <p class="v6-tagline">Your Capsule is something you should have <u class="v6-yours">ownership</u> of. <span class="v6-tag-grad">Forever</span>.</p>
         <p class="lede">Not a summary and not a chat export: one structured file, written by your old AI and read by your new one. Strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention.</p>
         <p class="fine">An example capsule with invented details, so you can see the shape. Yours holds your real ones, and it never passes through our hands.</p>
       </div>
