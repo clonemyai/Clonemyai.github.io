@@ -3312,6 +3312,39 @@
     #manualOpen{bottom:86px;right:14px;padding:.7rem 1.15rem;font-size:.9rem}
   }
 </style>
+<style id="v695-foot">
+  /* v6.95: the closing block, incorporated (Tony, 2026-11-08,
+     with his screenshots of the page foot: the landing sign-off
+     and the pocket footer stood as two separate blocks, the
+     Built with line twice, and a huge empty spot between them).
+     Three moves. (1) One closing block: the sign-off's tagline
+     line moves into the footer as its first line and the
+     standalone sign-off paragraph is gone; the Built with line
+     stands once, as the footer's signature; the version stamps
+     come off both homes (Tony: not concerned about version
+     numbers). (2) The empty spot dies: the pocket's v6.51
+     full-height column was never actually answered, because
+     the v6.68 block that answers it lost its first rule to a
+     missing close on the v6.65 style block (everything from
+     v668-board to v681-family is raw text inside v665-uniform,
+     and each swallowed open tag eats the one rule after it).
+     The repair of that close is deliberately NOT in this build:
+     reviving five dead rules is its own visual change. Here
+     the pocket simply stops being a screen, in the last block,
+     where the cascade cannot lose it. (3) Same screenshots,
+     Tony's second note: the Difference label cells get panels
+     you can actually see (their --L-panel wash was invisible
+     in the light theme), and the slide cards' hard grey edge
+     feathers in at double width: every blur in the v6.51
+     feather doubles and the border line recedes to 18%. */
+  .tool-pocket{display:block;min-height:0}
+  .tool-pocket .v6-foot{margin-top:0}
+  .v6-foot .foot-outro{margin:0;text-align:center;font-size:1rem;line-height:1.35;color:var(--L-ink2)}
+  .v6-foot .signature{text-align:center}
+  .landing-inner .v6-slide[aria-label="The difference"] .cmp-lab{background:color-mix(in srgb, var(--L-ink) 6%, var(--L-panel));border:1px solid color-mix(in srgb, var(--L-ink) 13%, transparent)}
+  .landing-inner .v6-slide{border-color:color-mix(in srgb, var(--L-line) 18%, transparent);box-shadow:0 1px 6px rgba(26,22,64,.04),0 8px 44px rgba(26,22,64,.045),0 26px 120px rgba(26,22,64,.05),0 54px 240px rgba(70,56,180,.05),0 96px 420px rgba(70,56,180,.04)}
+  :root:not([data-theme="light"]) .landing-inner .v6-slide{box-shadow:0 1px 6px rgba(0,0,0,.16),0 10px 52px rgba(0,0,0,.18),0 30px 140px rgba(0,0,0,.20),0 60px 280px rgba(0,0,0,.18),0 100px 440px rgba(88,70,220,.10)}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3800,11 +3833,11 @@
   </div>
 
       </div>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your Capsule. A(i) personality, in a file, yours to keep. Forever.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.85</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket">
 
 <footer class="v6-foot">
+  <p class="foot-outro" id="landingSignoff">Your Capsule. A(i) personality, in a file, yours to keep. Forever.</p>
   <p class="signature">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California.</p>
   <div class="foot-links">
         <a href="/move/">Move your AI</a>
@@ -3832,7 +3865,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.85</span>
+      <span>clonemy.ai, working prototype</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
