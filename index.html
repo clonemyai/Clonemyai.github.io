@@ -2030,12 +2030,30 @@
      padded and the two share one bottom edge. No
      copy moves; the button and footer stand as they
      were. Local commit only, under Tony's hold on
-     pushes; the live site stays at v6.79. */
+     pushes; the live site stays at v6.79.
+     v6.82 (Tony, 2026-11-07: the subtitle moves to
+     right above the first step): the line leaves the
+     header block and leads the steps column, seated
+     as its first child immediately above step 1 in
+     both forms, so it stands with the thing it
+     introduces. Copy byte-identical, moved never
+     retyped; nothing else moves.
+     v6.83 (Tony, 2026-11-07: the Get started button
+     sits at the bottom of the screen, wherever that
+     may be): the card becomes a full-height flex
+     column, and the button and footer line travel
+     together in one actions block, last in the card.
+     An auto top margin seats the block at the bottom
+     of any viewport, and a sticky bottom edge keeps
+     it visible while the veil scrolls on short
+     screens. No copy changes; the button's style is
+     untouched. */
   .welcome-veil{position:fixed;inset:0;z-index:120;overflow-y:auto;
     background:var(--bg);color:var(--ink)}
   .welcome-veil[hidden]{display:none}
   html.welcome-open{overflow:hidden}
-  .welcome-card{max-width:720px;margin:0 auto;padding:52px 20px 28px;text-align:left}
+  .welcome-card{max-width:720px;margin:0 auto;padding:52px 20px 28px;text-align:left;
+    display:flex;flex-direction:column;min-height:100%}
   .welcome-head{display:flex;align-items:center;gap:10px}
   .welcome-logo{flex:none;width:auto;height:42px}
   .welcome-name{font-size:2rem;font-weight:800;line-height:1.1;color:var(--ink)}
@@ -2045,6 +2063,7 @@
   :root[data-theme="light"] .wt-b{color:#0e7fa8}
   :root[data-theme="light"] .wt-c{color:#e03d86}
   .welcome-sub{margin:.45rem 0 0;color:var(--ink-2);font-size:.95rem;line-height:1.5}
+  .welcome-steps .welcome-sub{margin:0}
   .welcome-cols{display:grid;gap:26px;margin-top:20px}
   .welcome-steps{display:flex;flex-direction:column;justify-content:center}
   .welcome-step{display:flex;gap:10px;align-items:flex-start;margin-top:14px}
@@ -2076,6 +2095,8 @@
     pointer-events:none}
   .welcome-start:active{transform:scale(.98)}
   .welcome-foot{margin:14px 0 0;color:var(--ink-3);font-size:.82rem;line-height:1.5}
+  .welcome-actions{margin-top:auto;position:sticky;bottom:0;background:var(--bg);padding-top:26px}
+  .welcome-actions .welcome-start{margin-top:0}
   @media (min-width:900px){
     .welcome-card{max-width:1060px}
     .welcome-cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:stretch}
@@ -3031,6 +3052,91 @@
   @media (max-width:640px){
     .board-icons{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
+
+<style id="v681-family">
+/* clonemy.ai v6.81, one family (2026-11-07, Tony's
+   direction over his screenshot of the live section:
+   simple like the iOS app, cohesive, the app, the
+   website, and the extension feeling like one family).
+   The v6.70 three-column row is answered: the work box
+   is one guided column, capped at the app's
+   720pt-class measure and centered, at every width.
+   The steps take the app's titles and its button
+   grammar: one primary action per step, bordered
+   buttons for the rest, OR dividers between routes.
+   The Compile button keeps its capsule-flow gradient
+   only when the gate is fully armed (.go-live); before
+   that it reads as a plain bordered status line that
+   narrates the gate's order on its face. First rule
+   restated at the end against the marker quirk. */
+.onebox{display:flex;flex-direction:column;gap:18px;max-width:760px;margin-inline:auto}
+.onebox .ob-step{font-family:inherit;text-transform:none;letter-spacing:0;font-size:.92rem;font-weight:600;padding:.5rem .95rem}
+.onebox .ob-step .ob-num{font-size:1rem}
+.onebox .step>h3{font-size:1.35rem;margin:0 0 .45rem}
+.onebox .fam-head{font-weight:700;font-size:1.02rem;margin:0 0 .3rem;color:var(--ink)}
+.onebox .fam-sub{margin:0 0 .8rem;color:var(--ink-2);font-size:.93rem;line-height:1.5}
+.onebox .fam-note{margin:.6rem 0 0;color:var(--ink-2);font-size:.88rem;line-height:1.5}
+.onebox .ai-btns{display:flex;flex-direction:column;gap:10px}
+.onebox .ai-btn{display:flex;align-items:center;gap:.55rem;width:100%;box-sizing:border-box;background:var(--surface-1);border:1px solid var(--line);border-radius:12px;padding:12px;font-family:inherit;font-size:1rem;font-weight:600;color:var(--ink);text-decoration:none;cursor:pointer}
+.onebox .ai-btn svg{width:18px;height:18px;flex:0 0 auto}
+.onebox .ai-btn[aria-pressed="true"]{border-color:var(--dz-active);background:var(--dz-drag-bg)}
+.onebox .board-prompt pre{max-height:280px}
+.onebox .fam-primary{display:block;width:100%;box-sizing:border-box;margin-top:.7rem;background:var(--grad);color:var(--on-grad);border:0;border-radius:12px;padding:12px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:var(--btn-primary-shadow)}
+.onebox .fam-btn{display:block;width:100%;box-sizing:border-box;background:var(--surface-1);border:1px solid var(--line);border-radius:12px;padding:12px;font-family:inherit;font-size:1rem;font-weight:600;color:var(--ink);cursor:pointer;text-align:center}
+.onebox .fam-or{display:flex;align-items:center;gap:.8rem;margin:.7rem 0;color:var(--ink-3);font-size:.75rem;font-weight:700;letter-spacing:.14em}
+.onebox .fam-or::before,.onebox .fam-or::after{content:"";flex:1;border-top:1px solid var(--line)}
+.onebox .intake .intake-hint{display:block;margin:.55rem 0 0}
+#compileBtn{border-radius:12px;width:100%}
+#compileBtn:not(.go-live){background:var(--surface-1);background-image:none;color:var(--ink-3);border:1px solid var(--line);box-shadow:none;cursor:not-allowed}
+#compileBtn.go-live{background-image:linear-gradient(90deg,var(--ecr-1),var(--ecr-2),var(--ecr-3),var(--ecr-1));background-size:300% 100%;animation:ecrFlow 6s ease-in-out infinite alternate;color:#fff;border:0;box-shadow:var(--btn-primary-shadow);cursor:pointer}
+.onebox .dst-picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.onebox .dst-pick{display:flex;align-items:center;gap:.55rem;background:var(--surface-1);border:1px solid var(--line);border-radius:12px;padding:12px;font-family:inherit;font-size:1rem;font-weight:600;color:var(--ink);cursor:pointer;text-align:left}
+.onebox .dst-pick svg{width:18px;height:18px;flex:0 0 auto}
+.onebox .dst-pick[aria-pressed="true"]{border-color:var(--dz-active);background:var(--dz-drag-bg)}
+.onebox .parity-close{margin-top:1.1rem;border-top:1px solid var(--line);padding-top:1rem}
+.onebox .parity-rounds{margin:.4rem 0 0;padding-left:1.25rem;color:var(--ink-2);font-size:.95rem;line-height:1.55}
+.onebox .parity-rounds li{margin:.3rem 0}
+.onebox .parity-rounds strong{color:var(--ink)}
+.onebox .dest-btns .way-btn{border:1px solid var(--line);background:var(--surface-1);border-radius:12px;padding:.6rem .9rem;font-weight:600;color:var(--ink);text-decoration:none}
+.onebox .ob-advance{flex:1 1 100%;border-radius:12px}
+.onebox .ob-back{flex:1 1 100%;border-radius:12px}
+@media (min-width:1021px){
+.onebox{display:flex;flex-direction:column;gap:18px;max-width:760px;margin-inline:auto}
+.onebox .ai-btns{display:flex;flex-direction:column}
+}
+</style>
+<style id="v684-why">
+  /* v6.84: Why It Works, horizontal (Tony, 2026-11-07:
+     "These 3 panels look odd with their vertical
+     positions, simplify the explanations and then lay
+     the panels horizontally instead"). The slide's
+     planks stood in tall rows with their content
+     centered, so each heading started at a different
+     height, and the parity plank carried a far longer
+     explanation than its neighbors. The slide now
+     stands as one column: the intro is a band across
+     the top, and below it the three commitments are
+     wide, low bands stacked in one column, each with
+     its heading in a left column and its explanation
+     beside it, tops aligned. The copy is simplified
+     to match; the parity triad survives verbatim. On
+     narrow screens each band collapses to heading
+     over text. Scoped to this slide only; every
+     earlier rule stands as history. */
+  .landing-inner .v6-slide[aria-label="Why it works"]{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;gap:24px}
+  .landing-inner .v6-slide[aria-label="Why it works"] .v6-slide-copy{max-width:none}
+  .landing-inner .v6-slide[aria-label="Why it works"] .v6-slide-copy .fine{margin-top:.55rem}
+  .landing-inner .v6-slide[aria-label="Why it works"] .v6-visual{display:block}
+  .landing-inner .v6-slide[aria-label="Why it works"] .planks{display:grid;grid-template-columns:1fr;grid-template-rows:none;gap:12px;margin:0;max-height:none;overflow:visible}
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank{display:grid;grid-template-columns:minmax(170px,240px) minmax(0,1fr);column-gap:28px;align-items:start;min-height:0;overflow:visible}
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank h3{margin:0}
+  @media (max-height:860px){
+    .landing-inner .v6-slide[aria-label="Why it works"] .planks{gap:9px}
+  }
+  @media (max-width:700px){
+    .landing-inner .v6-slide[aria-label="Why it works"] .plank{grid-template-columns:1fr}
+    .landing-inner .v6-slide[aria-label="Why it works"] .plank h3{margin:0 0 .35rem}
+  }
 </style>
 </head>
 <body>
@@ -3072,25 +3178,39 @@
         <div class="onebox" id="oneBox">
           <div class="ob-rail" role="group" aria-label="Where you are in the transfer">
             <button type="button" class="ob-step is-current" data-face="1" aria-current="step"><span class="ob-num">1</span> Extract</button>
-            <button type="button" class="ob-step" data-face="2"><span class="ob-num">2</span> Compile</button>
-            <button type="button" class="ob-step" data-face="3"><span class="ob-num">3</span> Restore</button>
+            <button type="button" class="ob-step" data-face="2"><span class="ob-num">2</span> Create a capsule</button>
+            <button type="button" class="ob-step" data-face="3"><span class="ob-num">3</span> Install your capsule to your new AI</button>
           </div>
         <section class="step ob-face ob-on" id="faceExtract" aria-label="Step 1, Extract">
-          <h3>Ask your AI for its self-report</h3>
+          <h3>Extract</h3>
           <p>One request. The AI you use now writes the report itself: your rules, your people, your open loops.</p>
           <div class="extract-stack">
               <div class="ways">
-                <p class="ways-title">Pick your AI: it opens with the request ready</p>
+                <p class="fam-head">Open in your AI</p>
+                <p class="fam-sub">Straight into the AI you already use. Some take the wording prefilled; for the rest it is copied first, so just paste it into the chat.</p>
                 <div class="ai-btns">
-                  <a class="way-btn ai-btn" data-ai="chatgpt" href="https://chatgpt.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.&hints=search" target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><g><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(0 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(60 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(120 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(180 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(240 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(300 12 12)"/></g></svg><span>Open in ChatGPT</span></a>
-                  <a class="way-btn ai-btn" data-ai="claude" href="https://claude.ai/new?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" fill="none" stroke="#d97757" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.1" fill="#d97757" stroke="none"/><line x1="16.6" y1="12.0" x2="20.4" y2="12.0"/><line x1="16.0" y1="14.3" x2="18.1" y2="15.5"/><line x1="14.3" y1="16.0" x2="16.2" y2="19.3"/><line x1="12.0" y1="16.6" x2="12.0" y2="19.0"/><line x1="9.7" y1="16.0" x2="7.8" y2="19.3"/><line x1="8.0" y1="14.3" x2="5.9" y2="15.5"/><line x1="7.4" y1="12.0" x2="3.6" y2="12.0"/><line x1="8.0" y1="9.7" x2="5.9" y2="8.5"/><line x1="9.7" y1="8.0" x2="7.8" y2="4.7"/><line x1="12.0" y1="7.4" x2="12.0" y2="5.0"/><line x1="14.3" y1="8.0" x2="16.2" y2="4.7"/><line x1="16.0" y1="9.7" x2="18.1" y2="8.5"/></svg><span>Open in Claude</span></a>
-                  <a class="way-btn ai-btn" data-ai="grok" href="https://grok.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="currentColor"/><rect x="3.2" y="10.7" width="17.6" height="2.6" rx="1.3" transform="rotate(-45 12 12)" style="fill:var(--panel-2)"/></svg><span>Open in Grok</span></a>
-                  <a class="way-btn ai-btn" data-ai="perplexity" href="https://www.perplexity.ai/search?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" fill="none" stroke="#20808d" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5v-13L12 3l7 3.5v13l-7-3.4z"/><path d="M12 3v13.1"/><path d="M5.2 10l6.8 3.2 6.8-3.2"/></svg><span>Open in Perplexity</span></a>
-                  <button type="button" class="way-btn ai-btn" data-ai="muse" id="museBtn"><svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="museGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0082fb"/><stop offset=".55" stop-color="#a033ff"/><stop offset="1" stop-color="#ff5280"/></linearGradient></defs><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="url(#museGrad)"/></svg><span>Open in Muse</span></button>
-                  <button type="button" class="way-btn ai-btn" data-ai="metaai" id="metaBtn"><svg class="ai-ico" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><defs><linearGradient id="metaGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0082fb"/><stop offset=".55" stop-color="#a033ff"/><stop offset="1" stop-color="#ff5280"/></linearGradient></defs><path d="M12 12c-3-5.4-8.5-5.1-8.5 0s5.5 5.4 8.5 0c3-5.4 8.5-5.1 8.5 0s-5.5 5.4-8.5 0z" stroke="url(#metaGrad)"/></svg><span>Open in Meta AI</span></button>
+                  <a class="way-btn ai-btn" data-ai="chatgpt" aria-pressed="false" href="https://chatgpt.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.&hints=search" target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><g><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(0 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(60 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(120 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(180 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(240 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(300 12 12)"/></g></svg><span>Open in ChatGPT</span></a>
+                  <a class="way-btn ai-btn" data-ai="claude" aria-pressed="false" href="https://claude.ai/new?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" fill="none" stroke="#d97757" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.1" fill="#d97757" stroke="none"/><line x1="16.6" y1="12.0" x2="20.4" y2="12.0"/><line x1="16.0" y1="14.3" x2="18.1" y2="15.5"/><line x1="14.3" y1="16.0" x2="16.2" y2="19.3"/><line x1="12.0" y1="16.6" x2="12.0" y2="19.0"/><line x1="9.7" y1="16.0" x2="7.8" y2="19.3"/><line x1="8.0" y1="14.3" x2="5.9" y2="15.5"/><line x1="7.4" y1="12.0" x2="3.6" y2="12.0"/><line x1="8.0" y1="9.7" x2="5.9" y2="8.5"/><line x1="9.7" y1="8.0" x2="7.8" y2="4.7"/><line x1="12.0" y1="7.4" x2="12.0" y2="5.0"/><line x1="14.3" y1="8.0" x2="16.2" y2="4.7"/><line x1="16.0" y1="9.7" x2="18.1" y2="8.5"/></svg><span>Open in Claude</span></a>
+                  <a class="way-btn ai-btn" data-ai="grok" aria-pressed="false" href="https://grok.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="currentColor"/><rect x="3.2" y="10.7" width="17.6" height="2.6" rx="1.3" transform="rotate(-45 12 12)" style="fill:var(--panel-2)"/></svg><span>Open in Grok</span></a>
+                  <a class="way-btn ai-btn" data-ai="perplexity" aria-pressed="false" href="https://www.perplexity.ai/search?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" fill="none" stroke="#20808d" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5v-13L12 3l7 3.5v13l-7-3.4z"/><path d="M12 3v13.1"/><path d="M5.2 10l6.8 3.2 6.8-3.2"/></svg><span>Open in Perplexity</span></a>
+                  <button type="button" class="way-btn ai-btn" data-ai="muse" id="museBtn" aria-pressed="false"><svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="museGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0082fb"/><stop offset=".55" stop-color="#a033ff"/><stop offset="1" stop-color="#ff5280"/></linearGradient></defs><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="url(#museGrad)"/></svg><span>Open in Muse</span></button>
+                  <button type="button" class="way-btn ai-btn" data-ai="metaai" id="metaBtn" aria-pressed="false"><svg class="ai-ico" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><defs><linearGradient id="metaGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0082fb"/><stop offset=".55" stop-color="#a033ff"/><stop offset="1" stop-color="#ff5280"/></linearGradient></defs><path d="M12 12c-3-5.4-8.5-5.1-8.5 0s5.5 5.4 8.5 0c3-5.4 8.5-5.1 8.5 0s-5.5 5.4-8.5 0z" stroke="url(#metaGrad)"/></svg><span>Open in Meta AI</span></button>
                 </div>
                 <p class="downloaded-note" id="museNote" role="status">Copied. Muse is open in a new tab: paste the request in and press Enter. On a phone, long-press the message box and tap Paste.</p>
                 <p class="downloaded-note" id="metaNote" role="status">Copied. Meta AI is open in a new tab: paste the request in and press Enter. On a phone, long-press the message box and tap Paste.</p>
+              </div>
+              <div class="board-prompt wording-panel" id="boardPrompt" hidden>
+                <div class="bp-head">
+                  <span class="bp-title" id="boardPromptTitle">The extraction request</span>
+                  <span class="bp-actions">
+                    <a class="inline-link" id="boardOpenLink" href="#" target="_blank" rel="noopener" hidden>Open your AI with the request ready</a>
+                  </span>
+                </div>
+                <pre id="boardPromptText"></pre>
+                <button type="button" class="fam-primary" id="boardCopyBtn">Copy the wording</button>
+                <div class="fam-or" aria-hidden="true"><span>OR</span></div>
+                <button type="button" class="fam-btn" id="dlWordingBtn">Download the wording as a file</button>
+                <p class="fam-note">The file works anywhere: attach it in your AI&rsquo;s chat, or send it to your phone and open it there.</p>
               </div>
               <details class="desk-details more-ways">
                 <summary>Other ways to get the request</summary>
@@ -3157,60 +3277,18 @@
           </div>
           <p class="clip-read-note">If the report is on your clipboard, this finds it and compiles it on the spot. Your clipboard is read only when you click.</p>
         </section>
-        <section class="step ob-face" id="faceCompile" aria-label="Step 2, Compile">
-          <div class="board" id="transferBoard">
-            <div class="board-col board-col-src">
-              <p class="board-col-head" id="boardSrcHead">Extract from</p>
-              <div class="board-icons" role="group" aria-labelledby="boardSrcHead">
-                <button type="button" class="board-icon board-src" data-board-ai="chatgpt" aria-pressed="false"><svg viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><g><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(60 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(120 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(180 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(240 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(300 12 12)"/></g></svg><span>ChatGPT</span></button>
-                <button type="button" class="board-icon board-src" data-board-ai="claude" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#d97757" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.1" fill="#d97757" stroke="none"/><line x1="16.6" y1="12.0" x2="20.4" y2="12.0"/><line x1="16.0" y1="14.3" x2="18.1" y2="15.5"/><line x1="14.3" y1="16.0" x2="16.2" y2="19.3"/><line x1="12.0" y1="16.6" x2="12.0" y2="19.0"/><line x1="9.7" y1="16.0" x2="7.8" y2="19.3"/><line x1="8.0" y1="14.3" x2="5.9" y2="15.5"/><line x1="7.4" y1="12.0" x2="3.6" y2="12.0"/><line x1="8.0" y1="9.7" x2="5.9" y2="8.5"/><line x1="9.7" y1="8.0" x2="7.8" y2="4.7"/><line x1="12.0" y1="7.4" x2="12.0" y2="5.0"/><line x1="14.3" y1="8.0" x2="16.2" y2="4.7"/><line x1="16.0" y1="9.7" x2="18.1" y2="8.5"/></svg><span>Claude</span></button>
-                <button type="button" class="board-icon board-src" data-board-ai="gemini" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="#4796e3"/></svg><span>Gemini</span></button>
-                <button type="button" class="board-icon board-src" data-board-ai="copilot" aria-pressed="false"><span class="chip-ico" aria-hidden="true"></span><span>Copilot</span></button>
-                <button type="button" class="board-icon board-src" data-board-ai="grok" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="currentColor"/><rect x="3.2" y="10.7" width="17.6" height="2.6" rx="1.3" transform="rotate(-45 12 12)" style="fill:var(--panel-2)"/></svg><span>Grok</span></button>
-                <button type="button" class="board-icon board-src" data-board-ai="perplexity" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#20808d" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5v-13L12 3l7 3.5v13l-7-3.4z"/><path d="M12 3v13.1"/><path d="M5.2 10l6.8 3.2 6.8-3.2"/></svg><span>Perplexity</span></button>
-                <button type="button" class="board-icon board-src" data-board-ai="metaai" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0082fb" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 12c-3-5.4-8.5-5.1-8.5 0s5.5 5.4 8.5 0c3-5.4 8.5-5.1 8.5 0s-5.5 5.4-8.5 0z"/></svg><span>Meta AI</span></button>
-                <button type="button" class="board-icon board-src" data-board-ai="muse" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="#ff5280"/></svg><span>Muse</span></button>
-              </div>
-            </div>
-            <div class="board-mid">
-              <button type="button" class="board-go" id="boardGo" disabled>Pick the AI to extract from, on the left</button>
-            </div>
-            <div class="board-col board-col-dst">
-              <p class="board-col-head" id="boardDstHead">Where it goes</p>
-              <div class="board-icons" role="group" aria-labelledby="boardDstHead">
-                <button type="button" class="board-icon board-dst" data-board-ai="chatgpt" aria-pressed="false"><svg viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><g><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(60 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(120 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(180 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(240 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(300 12 12)"/></g></svg><span>ChatGPT</span></button>
-                <button type="button" class="board-icon board-dst" data-board-ai="claude" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#d97757" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.1" fill="#d97757" stroke="none"/><line x1="16.6" y1="12.0" x2="20.4" y2="12.0"/><line x1="16.0" y1="14.3" x2="18.1" y2="15.5"/><line x1="14.3" y1="16.0" x2="16.2" y2="19.3"/><line x1="12.0" y1="16.6" x2="12.0" y2="19.0"/><line x1="9.7" y1="16.0" x2="7.8" y2="19.3"/><line x1="8.0" y1="14.3" x2="5.9" y2="15.5"/><line x1="7.4" y1="12.0" x2="3.6" y2="12.0"/><line x1="8.0" y1="9.7" x2="5.9" y2="8.5"/><line x1="9.7" y1="8.0" x2="7.8" y2="4.7"/><line x1="12.0" y1="7.4" x2="12.0" y2="5.0"/><line x1="14.3" y1="8.0" x2="16.2" y2="4.7"/><line x1="16.0" y1="9.7" x2="18.1" y2="8.5"/></svg><span>Claude</span></button>
-                <button type="button" class="board-icon board-dst" data-board-ai="gemini" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="#4796e3"/></svg><span>Gemini</span></button>
-                <button type="button" class="board-icon board-dst" data-board-ai="copilot" aria-pressed="false"><span class="chip-ico" aria-hidden="true"></span><span>Copilot</span></button>
-                <button type="button" class="board-icon board-dst" data-board-ai="grok" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="currentColor"/><rect x="3.2" y="10.7" width="17.6" height="2.6" rx="1.3" transform="rotate(-45 12 12)" style="fill:var(--panel-2)"/></svg><span>Grok</span></button>
-                <button type="button" class="board-icon board-dst" data-board-ai="perplexity" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#20808d" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5v-13L12 3l7 3.5v13l-7-3.4z"/><path d="M12 3v13.1"/><path d="M5.2 10l6.8 3.2 6.8-3.2"/></svg><span>Perplexity</span></button>
-                <button type="button" class="board-icon board-dst" data-board-ai="metaai" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0082fb" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 12c-3-5.4-8.5-5.1-8.5 0s5.5 5.4 8.5 0c3-5.4 8.5-5.1 8.5 0s-5.5 5.4-8.5 0z"/></svg><span>Meta AI</span></button>
-                <button type="button" class="board-icon board-dst" data-board-ai="muse" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="#ff5280"/></svg><span>Muse</span></button>
-              </div>
-            </div>
-          </div>
-          <div class="board-prompt" id="boardPrompt" hidden>
-            <div class="bp-head">
-              <span class="bp-title" id="boardPromptTitle">The extraction request</span>
-              <span class="bp-actions">
-                <button type="button" id="boardCopyBtn">Copy the request</button>
-                <a class="inline-link" id="boardOpenLink" href="#" target="_blank" rel="noopener" hidden>Open your AI with the request ready</a>
-              </span>
-            </div>
-            <pre id="boardPromptText"></pre>
-          </div>
-          <h3>Bring the report here</h3>
-          <p>Paste it, or drop the file. Reports from more than one AI merge into one capsule.</p>
+        <section class="step ob-face" id="faceCompile" aria-label="Step 2, Create a capsule">
+          <h3>Create a capsule</h3>
+          <p>Your previous AI&rsquo;s self-report goes here. Paste it, or drop the file. Reports from more than one AI merge into one capsule.</p>
           <p class="clip-hint" id="clipHint" role="status" hidden>Paste the report here. If it did not copy, the copy icon under your AI&rsquo;s reply grabs the whole report.</p>
             <div class="compiler">
               <div class="intake" id="intakeBox">
                 <textarea id="compileInput" rows="6" placeholder="Paste the report here, or drop the file on this box."></textarea>
-                <div class="intake-bar">
-                  <span class="intake-hint">Paste the report, or drop .md or .txt files on this box, one file or several. Files are read on this page only, never uploaded.</span>
-                  <button type="button" id="browseBtn">Browse for a file</button>
-                  <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" multiple hidden />
-                </div>
+                <p class="intake-hint">Paste the report, or drop .md or .txt files on this box, one file or several. Files are read on this page only, never uploaded.</p>
               </div>
+              <div class="fam-or" aria-hidden="true"><span>OR</span></div>
+              <button type="button" class="fam-btn" id="browseBtn">Browse for a file</button>
+              <input type="file" id="compileFile" accept=".md,.txt,text/plain,text/markdown" multiple hidden />
               <div class="sourcelist" id="sourceList" hidden></div>
               <p class="flavor-detect" id="flavorDetect" hidden></p>
               <details class="desk-details flavor-details">
@@ -3308,14 +3386,28 @@
             <button type="button" class="ob-back" id="backToExtractBtn">Back to Extract</button>
           </div>
         </section>
-        <section class="step ob-face" id="faceRestore" aria-label="Step 3, Restore">
-          <h3>Take your capsule anywhere</h3>
+        <section class="step ob-face" id="faceRestore" aria-label="Step 3, Install your capsule to your new AI">
+          <h3>Install your capsule to your new AI</h3>
           <p>Out comes your capsule. Paste it into any AI as messages, part by part, and that AI starts as yours: same rules, same people, same open loops. The file is yours to keep; the paste is how it travels.</p>
           <div class="filechip" aria-label="Your compiled capsule">
             <div class="fc-icon" aria-hidden="true">.md</div>
             <div>
               <div class="fc-name">capsule.md</div>
               <div class="fc-meta">12 sections · yours to keep, back up, and recompile</div>
+            </div>
+          </div>
+          <div class="dst-block">
+            <p class="fam-head" id="dstPickHead">Where it goes</p>
+            <p class="fam-sub">Pick the AI you are moving to, here where the choice is made. The compile asks for a destination before it runs, and you can pick more than one.</p>
+            <div class="dst-picks" role="group" aria-labelledby="dstPickHead">
+                <button type="button" class="dst-pick" data-dst-ai="chatgpt" aria-pressed="false"><svg viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><g><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(60 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(120 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(180 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(240 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(300 12 12)"/></g></svg><span>ChatGPT</span></button>
+                <button type="button" class="dst-pick" data-dst-ai="claude" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#d97757" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.1" fill="#d97757" stroke="none"/><line x1="16.6" y1="12.0" x2="20.4" y2="12.0"/><line x1="16.0" y1="14.3" x2="18.1" y2="15.5"/><line x1="14.3" y1="16.0" x2="16.2" y2="19.3"/><line x1="12.0" y1="16.6" x2="12.0" y2="19.0"/><line x1="9.7" y1="16.0" x2="7.8" y2="19.3"/><line x1="8.0" y1="14.3" x2="5.9" y2="15.5"/><line x1="7.4" y1="12.0" x2="3.6" y2="12.0"/><line x1="8.0" y1="9.7" x2="5.9" y2="8.5"/><line x1="9.7" y1="8.0" x2="7.8" y2="4.7"/><line x1="12.0" y1="7.4" x2="12.0" y2="5.0"/><line x1="14.3" y1="8.0" x2="16.2" y2="4.7"/><line x1="16.0" y1="9.7" x2="18.1" y2="8.5"/></svg><span>Claude</span></button>
+                <button type="button" class="dst-pick" data-dst-ai="gemini" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="#4796e3"/></svg><span>Gemini</span></button>
+                <button type="button" class="dst-pick" data-dst-ai="copilot" aria-pressed="false"><span class="chip-ico" aria-hidden="true"></span><span>Copilot</span></button>
+                <button type="button" class="dst-pick" data-dst-ai="grok" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="currentColor"/><rect x="3.2" y="10.7" width="17.6" height="2.6" rx="1.3" transform="rotate(-45 12 12)" style="fill:var(--panel-2)"/></svg><span>Grok</span></button>
+                <button type="button" class="dst-pick" data-dst-ai="perplexity" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#20808d" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5v-13L12 3l7 3.5v13l-7-3.4z"/><path d="M12 3v13.1"/><path d="M5.2 10l6.8 3.2 6.8-3.2"/></svg><span>Perplexity</span></button>
+                <button type="button" class="dst-pick" data-dst-ai="metaai" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="#0082fb" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 12c-3-5.4-8.5-5.1-8.5 0s5.5 5.4 8.5 0c3-5.4 8.5-5.1 8.5 0s-5.5 5.4-8.5 0z"/></svg><span>Meta AI</span></button>
+                <button type="button" class="dst-pick" data-dst-ai="muse" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="#ff5280"/></svg><span>Muse</span></button>
             </div>
           </div>
                       <div id="compileOut" hidden>
@@ -3345,6 +3437,15 @@
                 </div>
                 <p class="fineprint">The download is your keepsake: save it, back it up, recompile it later. To install, paste the parts above. If a platform happily takes the file instead, the install line still works: send the file with the install line pasted into the same message.</p>
               </div>
+          <div class="parity-close">
+            <p class="fam-head">Then prove it landed: the parity check</p>
+            <p class="fam-sub">Your capsule ends with a check your new AI runs on itself, in three rounds. You grade each round in one line, and every miss becomes a saved correction.</p>
+            <ol class="parity-rounds">
+              <li><strong>Summarize-back.</strong> Your new AI answers three questions from the capsule alone: who it is to you, your never-do rules in your own words, and your open loops, with prices and deadlines.</li>
+              <li><strong>Prediction.</strong> It predicts how you would choose, judge, and act in three situations it was never told about. You grade all three in one line, yes, yes, no.</li>
+              <li><strong>Voice.</strong> It answers one ordinary prompt in the voice the capsule installed. You grade that in one line too: sounds like them, or sounds new.</li>
+            </ol>
+          </div>
           <div class="ob-navrow">
             <button type="button" class="ob-back" id="backToCompileBtn">Back to Compile</button>
           </div>
@@ -3428,8 +3529,8 @@
       </div>
       <div class="v6-visual">
         <div class="planks">
-          <div class="plank"><h3>Nothing leaves your browser</h3><p>The compiler runs on this page, in your tab. Your report is never uploaded, stored, or seen by us. That is not a policy promise. There is no server for it to go to: what you make stays in a file you hold.</p></div>
-          <div class="plank"><h3>Proven by a parity check</h3><p>Every capsule ends with a self-check: three questions the new AI answers from the capsule alone, in your own words. Then the prediction round: it predicts how you would choose, judge, and act in three situations it was never told about, you grade all three in one line (yes, yes, no), and any miss becomes a saved correction. Reciting you back proves recall. Predicting you proves the calibration landed. The voice round proves the sound. With us, you know exactly what you&rsquo;re getting, and where it ends.</p></div>
+          <div class="plank"><h3>Nothing leaves your browser</h3><p>The compiler runs on this page, in your tab. Your report is never uploaded or seen by us. There is no server for it to go to: what you make stays in a file you hold.</p></div>
+          <div class="plank"><h3>Proven by a parity check</h3><p>Every capsule ends with a self-check, a prediction round, and a voice round, graded by you. Reciting you back proves recall. Predicting you proves the calibration landed. The voice round proves the sound.</p></div>
           <div class="plank"><h3>The format is open</h3><p>The Capsule Format is published and versioned, free for anyone to read, write, or build on. The tool was borrowed; what you made with it is yours.</p></div>
         </div>
       </div>
@@ -3524,7 +3625,7 @@
   </div>
 
       </div>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI, your memories, yours to keep.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.80</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI, your memories, yours to keep.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.84</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket">
 
@@ -3556,7 +3657,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.80</span>
+      <span>clonemy.ai, working prototype · v6.84</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -4311,155 +4412,172 @@ Where any of this is absent, write MISSING.
   }
 </script>
 <script>
-  // v6.68: the transfer board controller. The board is the
-  // compiler's front door: a source column ("extract from",
-  // single select), a destination column (multi-select), and
-  // one narrating button between them. That button is the
-  // page's real Compile button, the element itself: the
-  // compile script above bound its click listener to the
-  // element at parse time, so the controller below relocates
-  // the element into the board's middle (and removes the row
-  // it leaves empty) rather than moving an id, which would
-  // strand the listener on a detached node. The compile, the
-  // clipboard hand-off, the parts view, and the download all
-  // run exactly as before, because the compiler itself is
-  // untouched. This controller only decides WHEN the button
-  // may fire and what it says while it waits: grayed until a
-  // source is picked, then until the report is in the box
-  // (the paste box, or an added merge file, the compiler's
-  // own source count), then until at least one destination
-  // is lit, and only then enabled, lit in the ECR gradient,
-  // reading COMPILE. The compile click still overwrites the
-  // label while it runs and restores it by calling the
-  // intake's painter; the painter now lands on this
-  // controller's hook and the state machine repaints, so
-  // the button can never be stranded enabled or mislabelled
-  // after a run. The chosen source shows the extraction
-  // panel below the board: the site's one extraction file
-  // verbatim (the same text Step 1's Copy button copies),
-  // with its own copy button and, where Step 1 already opens
-  // that AI with the request ready (ChatGPT, Claude, Grok,
-  // Perplexity by link; Muse and Meta AI by copy-then-open),
-  // a link that replays Step 1's own button for that AI.
-  // The pair (source plus destinations) is remembered in
-  // local storage only; on return the icons load pre-lit,
-  // the panel is open, and the button arms the moment the
-  // report is pasted. Nothing here leaves the browser.
-  (function () {
-    var ph = document.getElementById('boardGo');
-    var go = document.getElementById('compileBtn');
-    if (!ph || !go) { return; }
-    var rowEl = go.parentNode;
-    ph.parentNode.replaceChild(go, ph);
-    go.className = 'board-go';
-    if (rowEl && rowEl.parentNode && !rowEl.children.length) { rowEl.parentNode.removeChild(rowEl); }
-    var L0 = 'Pick the AI to extract from, on the left';
-    var L1 = 'Paste your AI\u2019s report in the box below';
-    var L2 = 'Now pick where it goes, on the right';
-    var L3 = 'COMPILE';
-    var NAMES = { chatgpt: 'ChatGPT', claude: 'Claude', gemini: 'Gemini', copilot: 'Copilot', grok: 'Grok', perplexity: 'Perplexity', metaai: 'Meta AI', muse: 'Muse' };
-    var src = null;
-    var dst = {};
-    var srcBtns = Array.prototype.slice.call(document.querySelectorAll('.board-src'));
-    var dstBtns = Array.prototype.slice.call(document.querySelectorAll('.board-dst'));
-    function save() {
-      try { window.localStorage.setItem('clonemyBoard', JSON.stringify({ src: src, dst: Object.keys(dst) })); } catch (e) {}
+/* clonemy.ai v6.81: the three steps gate in order, in the
+   app's grammar. This controller stands in the v6.68
+   transfer board controller's slot; the board's two chip
+   grids are gone. The Extract step's doors are the source
+   pick (the door itself travels when clicked, exactly as
+   before), and the Install step's destination picks are
+   where the destination choice is made. State still
+   persists under 'clonemyBoard' with the same shape,
+   {src, dst[]}, so picks made on the old board survive
+   the redesign. The extraction panel lives in the Extract
+   step, under the doors, and still holds the site's one
+   extraction file verbatim. The Compile button stays in
+   its own step (nothing relocates it now) and stays
+   disabled until source, report, and destination are all
+   chosen, narrated on its face in the gate's order. The
+   compiler's refresh hook is still answered through
+   window.__boardRefresh, and the busy guard still leaves
+   the button's face alone mid-compile and mid-download. */
+(function () {
+  var NAMES = { chatgpt: 'ChatGPT', claude: 'Claude', gemini: 'Gemini', copilot: 'Copilot',
+    grok: 'Grok', perplexity: 'Perplexity', metaai: 'Meta AI', muse: 'Muse' };
+  var DOOR_KEYS = { chatgpt: 1, claude: 1, grok: 1, perplexity: 1, muse: 1, metaai: 1 };
+  var LINK_AIS = { chatgpt: 1, claude: 1, grok: 1, perplexity: 1, muse: 1, metaai: 1 };
+  var src = null;
+  var dst = [];
+  var compileBtn = document.getElementById('compileBtn');
+  var compileInput = document.getElementById('compileInput');
+  var panel = document.getElementById('boardPrompt');
+  var panelTitle = document.getElementById('boardPromptTitle');
+  var panelText = document.getElementById('boardPromptText');
+  var openLink = document.getElementById('boardOpenLink');
+  var copyBtn = document.getElementById('boardCopyBtn');
+  var dlBtn = document.getElementById('dlWordingBtn');
+  if (!compileBtn || !compileInput || !panel) { return; }
+  function exText() {
+    var el = document.getElementById('extractionFile');
+    return el ? el.textContent.trim() : '';
+  }
+  function save() {
+    try { localStorage.setItem('clonemyBoard', JSON.stringify({ src: src, dst: dst })); } catch (e) {}
+  }
+  function load() {
+    try {
+      var saved = JSON.parse(localStorage.getItem('clonemyBoard') || 'null');
+      if (saved && saved.src && DOOR_KEYS[saved.src]) { src = saved.src; }
+      if (saved && Array.isArray(saved.dst)) { dst = saved.dst.filter(function (k) { return NAMES[k]; }); }
+    } catch (e) {}
+  }
+  function hasReport() {
+    if (compileInput.value && compileInput.value.trim()) { return true; }
+    if (window.__capsuleExtraTexts && window.__capsuleExtraTexts.length) { return true; }
+    return false;
+  }
+  function state() {
+    if (!src) { return 0; }
+    if (!hasReport()) { return 1; }
+    if (!dst.length) { return 2; }
+    return 3;
+  }
+  function doorFor(key) { return document.querySelector('.ai-btn[data-ai="' + key + '"]'); }
+  function paintPanel() {
+    if (!src) { panel.hidden = true; return; }
+    panel.hidden = false;
+    panelTitle.textContent = 'The extraction request: send this to ' + NAMES[src];
+    panelText.textContent = exText();
+    if (LINK_AIS[src]) {
+      openLink.hidden = false;
+      openLink.textContent = 'Open ' + NAMES[src] + ' with the request ready';
+    } else {
+      openLink.hidden = true;
     }
-    function load() {
-      try {
-        var raw = window.localStorage.getItem('clonemyBoard');
-        if (!raw) { return; }
-        var d = JSON.parse(raw);
-        if (d && NAMES[d.src]) { src = d.src; }
-        if (d && d.dst && d.dst.length) { d.dst.forEach(function (k) { if (NAMES[k]) { dst[k] = true; } }); }
-      } catch (e) {}
+  }
+  function paint() {
+    document.querySelectorAll('.ai-btn[data-ai]').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-ai') === src ? 'true' : 'false');
+    });
+    document.querySelectorAll('.dst-pick').forEach(function (b) {
+      b.setAttribute('aria-pressed', dst.indexOf(b.getAttribute('data-dst-ai')) >= 0 ? 'true' : 'false');
+    });
+    if (compileBtn.disabled && (compileBtn.textContent.trim() === 'Compiling...' ||
+        compileBtn.textContent.trim() === 'Compiled, downloading your file')) { return; }
+    var s = state();
+    if (s === 3) {
+      compileBtn.disabled = false;
+      compileBtn.classList.add('go-live');
+      compileBtn.classList.add('ready');
+      compileBtn.textContent = 'Compile my capsule';
+    } else {
+      compileBtn.disabled = true;
+      compileBtn.classList.remove('go-live');
+      compileBtn.classList.remove('ready');
+      compileBtn.textContent = ['First, pick your AI in Extract',
+        'Now paste the report in the box above',
+        'Now pick where it goes, in Install'][s];
     }
-    function reportIn() {
-      var t = document.getElementById('compileInput');
-      return !!((t && t.value.trim()) || (window.__capsuleExtraTexts || []).length);
-    }
-    function state() {
-      if (!src) { return 0; }
-      if (!reportIn()) { return 1; }
-      if (!Object.keys(dst).length) { return 2; }
-      return 3;
-    }
-    function paint() {
-      srcBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-board-ai') === src ? 'true' : 'false'); });
-      dstBtns.forEach(function (b) { b.setAttribute('aria-pressed', dst[b.getAttribute('data-board-ai')] ? 'true' : 'false'); });
-      var busy = go.disabled && (go.textContent === 'Compiling...' || go.textContent === 'Compiled, downloading your file');
-      if (busy) { return; }
-      var st = state();
-      go.classList.toggle('go-live', st === 3);
-      go.classList.toggle('ready', st === 3);
-      if (st === 3) { go.disabled = false; go.textContent = L3; }
-      else {
-        go.disabled = true;
-        go.textContent = st === 0 ? L0 : (st === 1 ? L1 : L2);
-      }
-    }
-    /* The intake's ready painter (it rewrites this button's
-       label and ready class after compiles and source changes)
-       lands here: the state machine repaints instead. */
-    window.__boardRefresh = paint;
-    /* The extraction panel: the site's one extraction file,
-       framed for the picked source. */
-    var panel = document.getElementById('boardPrompt');
-    var title = document.getElementById('boardPromptTitle');
-    var text = document.getElementById('boardPromptText');
-    var openLink = document.getElementById('boardOpenLink');
-    var LINK_AIS = { chatgpt: 1, claude: 1, grok: 1, perplexity: 1, muse: 1, metaai: 1 };
-    function paintPanel() {
-      if (!src) { panel.hidden = true; return; }
-      panel.hidden = false;
-      title.textContent = 'The extraction request: send this to ' + NAMES[src];
-      var ef = document.getElementById('extractionFile');
-      text.textContent = ef ? ef.textContent.trim() : '';
-      if (LINK_AIS[src]) {
-        openLink.hidden = false;
-        openLink.textContent = 'Open ' + NAMES[src] + ' with the request ready';
-      } else { openLink.hidden = true; }
-    }
+  }
+  window.__boardRefresh = paint;
+  document.querySelectorAll('.ai-btn[data-ai]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      src = b.getAttribute('data-ai');
+      save();
+      paintPanel();
+      paint();
+    });
+  });
+  document.querySelectorAll('.dst-pick').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var k = b.getAttribute('data-dst-ai');
+      var i = dst.indexOf(k);
+      if (i >= 0) { dst.splice(i, 1); } else { dst.push(k); }
+      save();
+      paint();
+    });
+  });
+  compileInput.addEventListener('input', paint);
+  if (openLink) {
     openLink.addEventListener('click', function (e) {
       e.preventDefault();
-      var b = document.querySelector('.ai-btn[data-ai="' + src + '"]');
-      if (b) { b.click(); }
+      var d = src && doorFor(src);
+      if (d) { d.click(); }
     });
-    var copyBtn = document.getElementById('boardCopyBtn');
+  }
+  if (copyBtn) {
     copyBtn.addEventListener('click', function () {
-      var content = document.getElementById('extractionFile').textContent;
+      var t = exText();
       function done() {
-        if (window.goatcounter && window.goatcounter.count) { window.goatcounter.count({ path: 'copy', title: 'Extraction request copied', event: true }); }
         copyBtn.textContent = 'Copied';
-        setTimeout(function () { copyBtn.textContent = 'Copy the request'; }, 2600);
+        setTimeout(function () { copyBtn.textContent = 'Copy the wording'; }, 2600);
       }
-      function fallback() {
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: 'copy', title: 'Copy extraction text', event: true });
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).then(done, done);
+      } else {
         var ta = document.createElement('textarea');
-        ta.value = content; document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); } catch (e2) {}
-        document.body.removeChild(ta); done();
+        ta.value = t;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        done();
       }
-      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(content).then(done, fallback); } else { fallback(); }
     });
-    srcBtns.forEach(function (b) {
-      b.addEventListener('click', function () {
-        src = b.getAttribute('data-board-ai');
-        paintPanel(); save(); paint();
-      });
+  }
+  if (dlBtn) {
+    dlBtn.addEventListener('click', function () {
+      if (window.makeDownload) { window.makeDownload('clonemy-extract.md', exText()); }
     });
-    dstBtns.forEach(function (b) {
-      b.addEventListener('click', function () {
-        var k = b.getAttribute('data-board-ai');
-        if (dst[k]) { delete dst[k]; } else { dst[k] = true; }
-        save(); paint();
-      });
-    });
-    var ci = document.getElementById('compileInput');
-    if (ci) { ci.addEventListener('input', paint); }
-    load();
-    paintPanel();
-    paint();
-  })();
+  }
+  function leadDoor() {
+    if (!src) { return; }
+    var box = document.querySelector('.ai-btns');
+    var d = doorFor(src);
+    if (!box || !d) { return; }
+    if (box.firstElementChild !== d) { box.insertBefore(d, box.firstElementChild); }
+    var label = d.querySelector('span:not(.way-ico)');
+    if (label && label.textContent.indexOf('your usual') < 0) {
+      label.textContent = label.textContent + ' · your usual';
+    }
+  }
+  load();
+  leadDoor();
+  paintPanel();
+  paint();
+})();
 </script>
 
 <script>
@@ -5069,9 +5187,9 @@ Where any of this is absent, write MISSING.
       <span class="welcome-name" id="welcomeName">clonemy.ai</span>
     </div>
     <p class="welcome-tag"><span class="wt-a">Your AI, </span><span class="wt-b">your memories, </span><span class="wt-c">yours to keep.</span></p>
-    <p class="welcome-sub">Create your AI capsule for you to keep forever in 3 easy steps:</p>
     <div class="welcome-cols">
       <div class="welcome-steps">
+        <p class="welcome-sub">Create your AI capsule for you to keep forever in 3 easy steps:</p>
         <div class="welcome-step"><span class="welcome-badge">1</span><div>
           <p class="welcome-step-t">Extract</p>
           <p class="welcome-step-d">Your current AI tells all: everything it knows about you, in the self-report your capsule is built from.</p>
@@ -5105,8 +5223,10 @@ Where any of this is absent, write MISSING.
         </div>
       </div>
     </div>
-    <button type="button" class="welcome-start" id="welcomeStart">Get started</button>
-    <p class="welcome-foot">No accounts. Move never touches the network, and clonemy holds nothing of yours.</p>
+    <div class="welcome-actions">
+      <button type="button" class="welcome-start" id="welcomeStart">Get started</button>
+      <p class="welcome-foot">No accounts. Move never touches the network, and clonemy holds nothing of yours.</p>
+    </div>
   </div>
 </div>
 <script>
