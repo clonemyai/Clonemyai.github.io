@@ -3441,6 +3441,32 @@
 .hero-ios.app-dl{border-style:solid;text-decoration:none;cursor:pointer}
 .hero-ios.app-dl:hover{border-color:var(--L-ink)}
 </style>
+<style id="v703-contain">
+/* v7.03 containment (Tony's folded Fold 8 photo, 2026-11-08). On a
+   narrow cover screen the page laid itself out against a width
+   nearly twice the screen and shrank into a column on the left,
+   dead space on the right: three things sized to their content
+   and would not shrink. The header chips row had no min-width:0,
+   so the v7.00 sideways scroller never engaged and the row pushed
+   the page wide. The welcome card's text blocks did the same
+   inside the veil. And nothing stopped any wide element from
+   widening the page itself. Three fixes, presentation only: the
+   chips row may shrink inside the phone breakpoint, the welcome
+   content may shrink at any width, and the page clips sideways
+   overflow outright (clip, not hidden, so the sticky header
+   keeps sticking; the hidden line above it is only a fallback
+   for engines too old for clip). No words, nodes, or wiring
+   move, and the veil's show and hide logic is untouched. */
+@media (max-width:700px){
+  .v6-head .head-chips-row{min-width:0}
+  .v6-head .ext-chips{min-width:0;max-width:100%}
+}
+.welcome-card{min-width:0}
+.welcome-head,.welcome-cols,.welcome-steps,.welcome-tiles{min-width:0}
+.welcome-tag,.welcome-sub,.welcome-step-d,.welcome-after,.welcome-tile-d,.welcome-foot{min-width:0;overflow-wrap:break-word}
+html,body{overflow-x:hidden}
+html,body{overflow-x:clip}
+</style>
 </head>
 <body>
 <header class="v6-head">
