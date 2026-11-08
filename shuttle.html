@@ -88,17 +88,21 @@
   .offer p { margin:2px 0 6px; }
   .fineprint { color:var(--ink-3); font-size:.9rem; }
   [hidden] { display:none !important; }
+  /* Receive-only view (v6.87): a page that arrived carrying a
+     code shows the receive panel and nothing else. */
+  body.recv-only .recv-hide { display:none !important; }
+  body.recv-only h1 { display:none !important; }
 </style>
 </head>
 <body>
 <div class="page">
   <div class="brand"><a href="https://clonemy.ai"><svg viewBox="0 0 100 100" width="15" height="15" style="vertical-align:-2px;margin-right:.3em" aria-hidden="true"><defs><linearGradient id="cmOrigin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="cmDest" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#cmOrigin)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#cmDest)"/><circle cx="48.2" cy="50" r="1.9" fill="#37c8e8"/><circle cx="50.9" cy="50" r="1.9" fill="#b45fd0"/><circle cx="53.6" cy="50" r="1.9" fill="#ff5ea8"/></g></svg><span class="wm">clonemy.ai</span></a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/whitepaper/">White Paper</a> &middot; <a href="https://clonemy.ai/contact/">Contact</a> <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">&#9728; Light</button></div>
 <h1>Your Capsule. A(i) personality, in a file, yours to keep. Forever.</h1>
-<h2>The shuttle</h2>
-<p>The shuttle moves a capsule file from one screen to another, directly. Open this page on both screens. The sending screen shows a six character code; type it on the receiving screen; the receiving screen accepts; the file crosses between the two browsers. No account, no upload, nothing stored on a server.</p>
-<p>It is a Capsule Bridge transport: the same file the homepage makes, carried screen to screen instead of pasted by hand. The shuttle never opens the file. It cannot read it, parse it, or keep it.</p>
+<h2 class="recv-hide">The shuttle</h2>
+<p class="recv-hide">The shuttle moves a capsule file from one screen to another, directly. Open this page on both screens. The sending screen shows a six character code; type it on the receiving screen; the receiving screen accepts; the file crosses between the two browsers. No account, no upload, nothing stored on a server.</p>
+<p class="recv-hide">It is a Capsule Bridge transport: the same file the homepage makes, carried screen to screen instead of pasted by hand. The shuttle never opens the file. It cannot read it, parse it, or keep it.</p>
 
-<section class="box panel" id="sendPanel" aria-label="Send a capsule from this screen">
+<section class="box panel recv-hide" id="sendPanel" aria-label="Send a capsule from this screen">
   <h3>Send from this screen</h3>
   <label for="sendFile">Choose the capsule file (.md or .txt)</label>
   <input class="field" type="file" id="sendFile" accept=".md,.txt,text/markdown,text/plain" />
@@ -131,12 +135,13 @@
   </div>
   <div class="bar" id="recvBarWrap" hidden><i id="recvBar"></i></div>
   <p class="btnrow"><a class="btn" id="saveLink" download hidden>Save the file</a></p>
+  <p class="fineprint" id="recvFull" hidden>Receiving is all this page shows, because a code came in with it. <a href="https://clonemy.ai/shuttle.html">Open the full shuttle</a> to send instead.</p>
 </section>
 
-<h2>What crosses where</h2>
-<p>Your file travels straight between the two browsers, encrypted in transit by WebRTC (DTLS), and it is never stored on any server. The introduction is borrowed for now: a public rendezvous service, the PeerJS broker, matches the code to the two browsers, and it can see the code, both IP addresses, and the time. It cannot see the file, and neither can we. If the two browsers cannot reach each other directly, a borrowed public relay carries the same encrypted crossing; it sees the addresses and the time, and it cannot see the file either. A later version of the shuttle will run on clonemy's own rendezvous service; until then, that is the honest shape of it.</p>
-<p>The code is a name, not a lock. What protects the file is that the receiving screen must accept a named offer before anything moves, and that the crossing itself is encrypted. Share a code only with the screen you mean to send to.</p>
-  <p><a href="https://clonemy.ai">Start this transfer</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/whitepaper/">White Paper</a></p>
+<h2 class="recv-hide">What crosses where</h2>
+<p class="recv-hide">Your file travels straight between the two browsers, encrypted in transit by WebRTC (DTLS), and it is never stored on any server. The introduction is borrowed for now: a public rendezvous service, the PeerJS broker, matches the code to the two browsers, and it can see the code, both IP addresses, and the time. It cannot see the file, and neither can we. If the two browsers cannot reach each other directly, a borrowed public relay carries the same encrypted crossing; it sees the addresses and the time, and it cannot see the file either. A later version of the shuttle will run on clonemy's own rendezvous service; until then, that is the honest shape of it.</p>
+<p class="recv-hide">The code is a name, not a lock. What protects the file is that the receiving screen must accept a named offer before anything moves, and that the crossing itself is encrypted. Share a code only with the screen you mean to send to.</p>
+  <p class="recv-hide"><a href="https://clonemy.ai">Start this transfer</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/whitepaper/">White Paper</a></p>
   <footer>
     <span>clonemy.ai, working prototype</span>
     <div class="sig">Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California.</div>
@@ -533,6 +538,28 @@
       setTimeout(function () { if (p) { try { p.destroy(); } catch (e) {} } }, 600);
     }
 
+    /* ---- a code that arrived with the page (v6.73) ----
+       The extension's pairing page shows a QR encoding
+       https://clonemy.ai/shuttle.html#c=CODE; the hash is
+       never sent to the server. A valid code is filled into
+       the receive field and named in the status line, and
+       the visitor knocks with the ordinary Connect tap.
+       Nothing connects by itself, and a malformed hash is
+       ignored silently.
+       v6.87: an arrival carrying a valid code also puts
+       the page into its receive-only view (the receive
+       panel and nothing else), and the sender never
+       starts: no code is minted for a screen that came
+       here to receive. The full page is one tap away,
+       on the note at the foot of the receive panel. */
+    var arrivedCode = (function () {
+      var m = /#c=([A-Za-z0-9]+)/.exec(window.location.hash || '');
+      if (!m) { return ''; }
+      var code = m[1].toUpperCase();
+      if (!/^[A-NP-Z]{2}[0-9]{4}$/.test(code)) { return ''; }
+      return code;
+    })();
+
     /* ---------------- start ---------------- */
     window.addEventListener('beforeunload', function () {
       if (sendPeer) { try { sendPeer.destroy(); } catch (e) {} }
@@ -542,25 +569,15 @@
       setStatus(sendStatusEl, 'The shuttle library did not load. Check the connection and reload.', true);
       endRecvNote('The shuttle library did not load. Check the connection and reload.', true);
       sendCodeEl.textContent = mintCode();
-    } else {
+    } else if (!arrivedCode) {
       startSender();
     }
-    /* ---- a code that arrived with the page (v6.73) ----
-       The extension's pairing page shows a QR encoding
-       https://clonemy.ai/shuttle.html#c=CODE; the hash is
-       never sent to the server. A valid code is filled into
-       the receive field and named in the status line, and
-       the visitor knocks with the ordinary Connect tap.
-       Nothing connects by itself, and a malformed hash is
-       ignored silently. */
-    (function () {
-      var m = /#c=([A-Za-z0-9]+)/.exec(window.location.hash || '');
-      if (!m) { return; }
-      var code = m[1].toUpperCase();
-      if (!/^[A-NP-Z]{2}[0-9]{4}$/.test(code)) { return; }
-      $('recvCode').value = code;
-      endRecvNote('The code ' + code + ' came in with this page. It is filled in above; tap Connect to knock. Nothing arrives before the other screen offers its file and you accept it.');
-    })();
+    if (arrivedCode) {
+      document.body.classList.add('recv-only');
+      $('recvFull').hidden = false;
+      $('recvCode').value = arrivedCode;
+      endRecvNote('The code ' + arrivedCode + ' came in with this page. It is filled in above; tap Connect to knock. Nothing arrives before the other screen offers its file and you accept it.');
+    }
 
     // A small handle for the headless checks: the mint, and the two
     // state reads. It moves no data and opens nothing.
