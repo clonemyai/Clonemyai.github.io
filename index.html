@@ -3257,6 +3257,61 @@
   .landing-inner .v6-slide[aria-label="The difference"] .v6-visual>.compare{flex:0 1 auto}
   .landing-inner .v6-slide[aria-label="The difference"] .compare{grid-template-rows:none;row-gap:10px}
 </style>
+<style id="v692-manual">
+  /* v6.92: the manual process, pocketed (Tony,
+     2026-11-07: "pocket this tool under a fixed
+     Manual Compile process button and it opens
+     the whole process like a pop up; the whole
+     point is that this is going to be the fall
+     back method within the week"). The tool
+     zone leaves the page flow and stands as a
+     sheet: a fixed gradient button, bottom
+     right on every scroll position, opens it;
+     Close, the backdrop, Escape, or Back to
+     the story put it away. The one-box, its
+     faces, and the compiler are untouched;
+     only the room changes. A #tool load opens
+     the sheet instead of scrolling. */
+  #tool{display:none}
+  body.manual-open{overflow:hidden}
+  body.manual-open #tool{display:block;position:fixed;inset:0;z-index:95;overflow-y:auto;background:rgba(16,14,34,.52);backdrop-filter:blur(3px);margin:0;padding:26px 14px 44px}
+  body.manual-open #tool .col-tool{max-width:940px;margin:0 auto}
+  body.manual-open #tool .back-line{max-width:940px;margin:0 auto 10px}
+  .manual-head{display:flex;align-items:center;justify-content:space-between;gap:14px;max-width:940px;margin:0 auto 12px}
+  .manual-head h2{margin:0;color:#fff;font-size:1.3rem}
+  .manual-close{font:inherit;font-weight:700;font-size:.9rem;color:var(--L-ink);background:#fff;border:1px solid var(--L-line);border-radius:999px;padding:.45rem 1.05rem;cursor:pointer}
+  #manualOpen{position:fixed;right:18px;bottom:20px;z-index:70;display:flex;align-items:center;gap:.5rem;font:inherit;font-weight:800;font-size:.95rem;color:#fff;background:linear-gradient(90deg,#7b6cff,#37c8e8 55%,#ff5ea8);border:none;border-radius:999px;padding:.8rem 1.35rem;cursor:pointer;box-shadow:0 12px 30px rgba(24,18,64,.35),0 3px 8px rgba(24,18,64,.25)}
+  #manualOpen:hover{filter:brightness(1.07)}
+  /* The iOS app's reserved area, beside Get the
+     extension: a dashed-rim badge holding the
+     spot where the App Store badge and the
+     app's advertising land when the app ships.
+     The swap point is #iosSoon itself. */
+  .hero-ios{display:inline-flex;align-items:center;gap:.5rem;border:1.5px dashed rgba(123,108,255,.55);border-radius:999px;padding:.55rem 1.05rem;font-size:.92rem;color:var(--L-ink2);vertical-align:middle;white-space:nowrap}
+  .hero-ios b{color:var(--L-ink)}
+  /* One singular card (Tony's clarification,
+     2026-11-07): the three steps, Extract,
+     Create, Install, are self-contained on one
+     card that changes state as the user moves
+     through the process. In the old in-flow
+     board the faces spread out as separate
+     stacked cards; inside the sheet the card
+     shows one face at a time, the rail on top
+     carries the state (done steps checked,
+     the current step lit, the rest dimmed),
+     and the flow swaps the face as each step
+     completes. The one-box contract underneath
+     is untouched; the done tags are read off
+     its own current marker by the v692 script. */
+  #tool .onebox .ob-face{display:none}
+  #tool .onebox .ob-face.ob-on{display:flex}
+  #tool .ob-step.is-done .ob-num{background:linear-gradient(120deg,var(--ecr-1),var(--ecr-2));color:#fff;border-color:transparent}
+  #tool .ob-step.is-done{color:var(--L-ink)}
+  #tool .ob-step.is-current~.ob-step{opacity:.55}
+  @media (max-width:700px){
+    #manualOpen{bottom:86px;right:14px;padding:.7rem 1.15rem;font-size:.9rem}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3280,8 +3335,8 @@
     <div id="landingWrap"><div class="landing-inner">
 <section class="hero" aria-label="What clonemy.ai is">
   <h1 class="hero-tag"><span class="ht-line">Your Capsule. A(i) personality, in a file,</span> <span class="ht-line"><span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep. Forever</span>.</span></h1>
-  <p class="hero-sub">Unlock your AI. Clonemy moves what your AI knows about you into any other AI, compiled into one structured file that you own and keep.</p>
-  <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a></p>
+  <p class="hero-sub">Clonemy gives you the power to move the relationship you&rsquo;ve built with your current AI and clone it to a file that stays in your hands, from start, to finish.</p>
+  <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a> <span class="hero-ios" id="iosSoon" role="note" aria-label="The iOS app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="iosO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="iosD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#iosO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#iosD)"/></g></svg><span><b>iOS app</b> &middot; Coming soon</span></span></p>
   <div class="hero-ext-note" id="extNote" hidden>
     <p class="hero-ext-note-text">The extension runs in desktop Chrome. Take its link with you:</p>
     <p class="hero-ext-note-actions"><button type="button" class="v6-btn v6-btn-glass" id="extCopyBtn">Copy link</button> <a class="v6-btn v6-btn-glass" id="extMailBtn" href="mailto:?subject=clonemy.ai%20extension&amp;body=Open%20this%20on%20your%20desktop%20to%20install%20the%20clonemy.ai%20extension.%0A%0Ahttps%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fclonemyai-clone-your-ai%2Fejoibikgcgekmoejipegnpabjpndofdo">Email it to me</a></p>
@@ -3290,6 +3345,7 @@
   </div>
 </section>
     <div class="tool-zone" id="tool">
+<div class="manual-head"><h2>Manual Compile</h2><button type="button" class="manual-close" id="manualClose">Close</button></div>
 <p class="back-line"><button type="button" class="back-link" id="backToStory">Back to the story</button></p>
     <div class="col-tool">
       <div class="v6-band" id="band6">
@@ -5396,6 +5452,50 @@ Where any of this is absent, write MISSING.
       }
     });
     window.__welcome = { open: open, close: close };
+  })();
+</script>
+<button type="button" id="manualOpen" aria-haspopup="dialog"><svg viewBox="0 0 100 100" width="17" height="17" aria-hidden="true"><defs><linearGradient id="mfO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eaf7ff"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#mfO)" opacity=".95"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="#ffffff" opacity=".65"/></g></svg>Manual Compile</button>
+<script id="v692-manual">
+  /* v6.92: pocket and popup for the manual process. The tool
+     zone is the sheet; this script only opens and closes it.
+     The compiler and the one-box keep their own state. */
+  (function () {
+    var open = document.getElementById('manualOpen');
+    var close = document.getElementById('manualClose');
+    var back = document.getElementById('backToStory');
+    var tool = document.getElementById('tool');
+    if (!open || !tool) return;
+    function show() { document.body.classList.add('manual-open'); tool.setAttribute('aria-hidden', 'false'); markDone(); }
+    function hide() { document.body.classList.remove('manual-open'); tool.setAttribute('aria-hidden', 'true'); }
+    hide();
+    open.addEventListener('click', show);
+    if (close) close.addEventListener('click', hide);
+    if (back) back.addEventListener('click', hide);
+    tool.addEventListener('click', function (e) { if (e.target === tool) hide(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+    /* The singular card's state: steps before the current one
+       are done. Read off the one-box's own current marker;
+       the flow contract itself is never touched. Retagged
+       after any click inside the tool, once the flow's own
+       handlers have settled. (A MutationObserver here spun
+       the test harness; clicks are the honest trigger, the
+       flow only ever advances on one.) */
+    var steps = tool.querySelectorAll('.ob-step');
+    var applying = false;
+    function markDone() {
+      if (applying) return;
+      applying = true;
+      var seenCurrent = false;
+      steps.forEach(function (st) {
+        if (st.classList.contains('is-current')) { seenCurrent = true; st.classList.remove('is-done'); }
+        else if (!seenCurrent) { st.classList.add('is-done'); }
+        else { st.classList.remove('is-done'); }
+      });
+      applying = false;
+    }
+    tool.addEventListener('click', function () { setTimeout(markDone, 0); });
+    markDone();
+    if (window.location && window.location.hash === '#tool') show();
   })();
 </script>
 </body>
