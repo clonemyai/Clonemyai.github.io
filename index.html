@@ -3236,6 +3236,27 @@
   .landing-inner .v6-slide[aria-label="The product"] .section-list li:nth-child(3n+2) .n{color:var(--ecr-2)}
   .landing-inner .v6-slide[aria-label="The product"] .section-list li:nth-child(3n) .n{color:var(--ecr-3)}
 </style>
+<style id="v691-diff">
+  /* v6.91: the Difference boxes hug their text
+     (Tony, 2026-11-07, with his screenshot of
+     the panel: "The spacing feels too stretched
+     in the boxes, too much open space between
+     the text and borders vertically"). The
+     comparison was built to fill its column:
+     at tall viewports its rows stretch to
+     1fr shares of the slide height, so every
+     card stands far taller than its words.
+     Here the rows go back to their natural
+     height and the panel stops filling: the
+     boxes hug their text, and the panel sits
+     centred in its column with the spare
+     height outside the boxes, where it
+     belongs. The v6.65 fill rules stand in
+     their block as history; this block
+     supersedes their effect on this slide. */
+  .landing-inner .v6-slide[aria-label="The difference"] .v6-visual>.compare{flex:0 1 auto}
+  .landing-inner .v6-slide[aria-label="The difference"] .compare{grid-template-rows:none;row-gap:10px}
+</style>
 </head>
 <body>
 <header class="v6-head">
