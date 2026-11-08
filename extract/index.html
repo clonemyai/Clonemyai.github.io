@@ -4,15 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <script>
-  // Theme starts before first paint: a choice made earlier in this
-  // session wins, otherwise the visitor's system preference decides.
+  // Theme starts before first paint: a choice made earlier wins,
+  // otherwise light. The choice lives in local storage, so a click
+  // on the toggle is remembered across visits.
   (function () {
     var t = null;
-    try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
-    if (t !== 'light' && t !== 'dark') {
-      t = 'light';
-      try { if (window.matchMedia('(prefers-color-scheme: dark)').matches) { t = 'dark'; } } catch (e) {}
-    }
+    try { t = window.localStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') { t = 'light'; }
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>

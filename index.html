@@ -19,15 +19,13 @@
 <meta name="twitter:description" content="Your Capsule. A(i) personality, in a file, yours to keep. Forever. clonemy.ai compiles your AI's own self-report into a capsule file you own, so its personality, rules, and memory move with you to any AI." />
 
 <script>
-  // Theme starts before first paint: a choice made earlier in this
-  // session wins, otherwise the visitor's system preference decides.
+  // Theme starts before first paint: a choice made earlier wins,
+  // otherwise light. The choice lives in local storage, so a click
+  // on the toggle is remembered across visits.
   (function () {
     var t = null;
-    try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
-    if (t !== 'light' && t !== 'dark') {
-      t = 'light';
-      try { if (window.matchMedia('(prefers-color-scheme: dark)').matches) { t = 'dark'; } } catch (e) {}
-    }
+    try { t = window.localStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') { t = 'light'; }
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
@@ -2263,7 +2261,7 @@
   .landing-signoff .signoff-outro{display:block;padding-bottom:8px;font-size:1rem;line-height:1.35;color:var(--L-ink2)}
 
   /* (3) The fitted landing: one screen, scaling with the viewport */
-  @media (min-width:1280px) and (min-height:960px){
+  @media (min-width:1280px) and (min-height:880px){
     body:not(.landing-cleared){height:100dvh;overflow:hidden}
     body:not(.landing-cleared) .v6-stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
     body:not(.landing-cleared) .stage2{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
@@ -2369,7 +2367,7 @@
      share grows, and slide type stops outgrowing its measure at
      wide sizes: the column is capped at 1204px, so past about
      2000px an uncapped vw scale only buys more wrapped lines */
-  @media (min-width:1280px) and (min-height:960px){
+  @media (min-width:1280px) and (min-height:880px){
     body:not(.landing-cleared) .hero{padding-top:clamp(8px,1.6vh,30px)}
     body:not(.landing-cleared) .hero-tag{font-size:clamp(2.35rem,2.55vw,5.6rem);margin-bottom:clamp(.4rem,1vh,.85rem)}
     body:not(.landing-cleared) .hero-sub{margin-bottom:clamp(.5rem,1.1vh,1.15rem)}
@@ -2441,7 +2439,7 @@
 
   /* The fitted tier keeps its scale and loses its lock: the
      landing may scroll honestly rather than clip */
-  @media (min-width:1280px) and (min-height:960px){
+  @media (min-width:1280px) and (min-height:880px){
     body:not(.landing-cleared){height:auto;overflow:visible}
     body:not(.landing-cleared) .landing-inner{height:auto}
     body:not(.landing-cleared) .landing-inner .col-story{flex:0 1 auto}
@@ -2584,7 +2582,7 @@
     .landing-inner .v6-carousel{display:block;transition:height .35s ease}
     .landing-inner .v6-slide{position:absolute;top:0;right:0;bottom:auto;left:0;height:auto}
   }
-  @media (min-width:1280px) and (min-height:960px){
+  @media (min-width:1280px) and (min-height:880px){
     body:not(.landing-cleared) .landing-inner .v6-slide{position:absolute;top:0;right:0;bottom:auto;left:0}
   }
   @media (prefers-reduced-motion: reduce){
@@ -2652,7 +2650,7 @@
   @media (min-width:1080px){
     .landing-inner .v6-carousel{flex:0 0 auto}
   }
-  @media (min-width:1280px) and (min-height:960px){
+  @media (min-width:1280px) and (min-height:880px){
     body:not(.landing-cleared) .landing-inner .col-story{flex:0 0 auto;min-height:0}
     body:not(.landing-cleared) .landing-inner .v6-carousel{flex:0 0 auto;min-height:0}
     body:not(.landing-cleared) .landing-inner .v6-slide{height:auto;bottom:auto}
@@ -2661,7 +2659,7 @@
   /* (2) The leftover lives outside the panel: the fitted
      column is at least a viewport tall and the landing stack
      centres in it, splitting the spare as background */
-  @media (min-width:1280px) and (min-height:960px){
+  @media (min-width:1280px) and (min-height:880px){
     body:not(.landing-cleared) .v6-stage{min-height:calc(100dvh - 50px)}
     body:not(.landing-cleared) .landing-inner{justify-content:center}
   }
@@ -3467,6 +3465,62 @@
 html,body{overflow-x:hidden}
 html,body{overflow-x:clip}
 </style>
+<style id="v704-align">
+/* v7.04 alignment (Tony, 2026-11-08, from his fullscreen 4K look
+   and his slide screenshots). Six presentation fixes in one last
+   block. (1) The footer pocket centred on the stage rail: the
+   pocket hung from the header's 40px rail (the 1160px cap plus a
+   max() padding each side, which lands a full-width footer's
+   content box 40px left of the stage column), while the hero and
+   stage ride the 1204px rail; the pocket now takes the stage
+   rail itself, 1204px max with 22px side padding, so its content
+   column is the stage's own 1160px, centred. (2) The kicker rule
+   runs the full copy column on every slide: the kicker was an
+   inline block, so its gradient border spanned only its words;
+   as a block it spans the column like the rule in Tony's
+   screenshot asks. (3) The Confirmations slide breathes evenly:
+   the two margin-top:auto bottom pins (the rows on the left, the
+   verdict on the right) opened different voids (105px against
+   76px at 1080p, 182px against 267px at 1440p), and the columns'
+   text rails disagreed (the copy text flush at the slide's 30px
+   padding, the proof text 18px deeper inside its card); both
+   pins become one even clamp gap, and on desktop the copy column
+   takes the same 18px inset, so both text rails stand 48px in
+   from the slide edges. (4) The Why It Works planks stand equal:
+   later restyles left the planks grid with no row template, so
+   each card sized to its own words (143/140/125 at 1080p); the
+   equal rows are restored at the slide's own specificity.
+   (5) The Difference comparison stands as a grid in its column:
+   the visual is a flex box, so the grid's even rows only ever
+   shared the row's height among each row's own cells (label
+   cells 57/55/77/58 down the rows); as a grid the visual hands
+   the comparison its full height and the even rows engage.
+   (6) The hero's two app pills get their own row (Tony: move the
+   iOS and Android icons below and centred under the extension
+   line, visually separate): both pills leave the extension line
+   for a centred row of their own under it, same ids, same faces,
+   same order, and the v7.02 download swap contract stands
+   untouched. No words, nodes beyond the one hero row, or wiring
+   move; the compiler is untouched. */
+.tool-pocket{max-width:1204px;margin-left:auto;margin-right:auto;padding-left:22px;padding-right:22px}
+@media (max-width:1079px){
+  .tool-pocket{padding-left:16px;padding-right:16px}
+}
+.landing-inner .v6-slide .v6-slide-copy .v6-kicker{display:block}
+.landing-inner .v6-slide[aria-label="The confirmations"] .v6-slide-copy .conf-rows{margin-top:clamp(18px,4vh,44px)}
+.landing-inner .v6-slide .proof p:last-child{margin-top:clamp(18px,4vh,44px)}
+@media (min-width:1080px){
+  .landing-inner .v6-slide[aria-label="The confirmations"] .v6-slide-copy{padding-left:18px;padding-right:18px}
+}
+.landing-inner .v6-slide[aria-label="Why it works"] .planks{grid-template-rows:repeat(3,1fr)}
+@media (min-width:1080px){
+  .landing-inner .v6-visual:has(> .compare){display:grid}
+}
+@media (max-width:1079px){
+  .landing-inner .v6-visual:has(> .compare){display:grid}
+}
+.hero-apps{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 16px;margin:14px auto 0}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3504,7 +3558,8 @@ html,body{overflow-x:clip}
 <section class="hero" aria-label="What clonemy.ai is">
   <h1 class="hero-tag"><span class="ht-line">Your Capsule. A(i) personality, in a file,</span> <span class="ht-line"><span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep. Forever</span>.</span></h1>
   <p class="hero-sub">Clonemy gives you the power to move the relationship you&rsquo;ve built with your current AI and clone it to a file that stays in your hands, from start, to finish.</p>
-  <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a> <span class="hero-ios" id="iosSoon" role="note" aria-label="The iOS app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="iosO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="iosD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#iosO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#iosD)"/></g></svg><span><b>iOS app</b> &middot; Coming soon</span></span> <span class="hero-ios" id="androidSoon" role="note" aria-label="The Android app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="andO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#37c8e8"/><stop offset="1" stop-color="#7b6cff"/></linearGradient><linearGradient id="andD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e03d86"/><stop offset="1" stop-color="#ff5ea8"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#andO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#andD)"/></g></svg><span><b>Android app</b> &middot; Coming soon</span></span></p>
+  <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a></p>
+  <p class="hero-apps"><span class="hero-ios" id="iosSoon" role="note" aria-label="The iOS app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="iosO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="iosD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#iosO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#iosD)"/></g></svg><span><b>iOS app</b> &middot; Coming soon</span></span> <span class="hero-ios" id="androidSoon" role="note" aria-label="The Android app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="andO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#37c8e8"/><stop offset="1" stop-color="#7b6cff"/></linearGradient><linearGradient id="andD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e03d86"/><stop offset="1" stop-color="#ff5ea8"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#andO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#andD)"/></g></svg><span><b>Android app</b> &middot; Coming soon</span></span></p>
   <div class="hero-ext-note" id="extNote" hidden>
     <p class="hero-ext-note-text">The extension runs in desktop Chrome. Take its link with you:</p>
     <p class="hero-ext-note-actions"><button type="button" class="v6-btn v6-btn-glass" id="extCopyBtn">Copy link</button> <a class="v6-btn v6-btn-glass" id="extMailBtn" href="mailto:?subject=clonemy.ai%20extension&amp;body=Open%20this%20on%20your%20desktop%20to%20install%20the%20clonemy.ai%20extension.%0A%0Ahttps%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fclonemyai-clone-your-ai%2Fejoibikgcgekmoejipegnpabjpndofdo">Email it to me</a></p>
@@ -5045,10 +5100,10 @@ Where any of this is absent, write MISSING.
   })();
 </script>
 <script>
-  // Theme toggle: flips the theme for this session only. The choice
-  // lives in session storage, never leaves the browser, and is gone
-  // when the tab closes. The starting theme (set in the head) is the
-  // stored choice, or the visitor's system preference.
+  // Theme toggle: flips the theme and remembers the choice in
+  // local storage, so it holds across visits. The choice never
+  // leaves the browser. The starting theme (set in the head) is
+  // the stored choice, or light.
   (function () {
     var btn = document.getElementById('themeToggle');
     if (!btn) { return; }
@@ -5073,7 +5128,7 @@ Where any of this is absent, write MISSING.
     btn.addEventListener('click', function () {
       var next = current() === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      try { sessionStorage.setItem('clonemy-theme', next); } catch (e) {}
+      try { window.localStorage.setItem('clonemy-theme', next); } catch (e) {}
       render();
     });
     render();

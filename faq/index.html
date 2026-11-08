@@ -4,15 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <script>
-  // Theme starts before first paint: a choice made earlier in this
-  // session wins, otherwise the visitor's system preference decides.
+  // Theme starts before first paint: a choice made earlier wins,
+  // otherwise light. The choice lives in local storage, so a click
+  // on the toggle is remembered across visits.
   (function () {
     var t = null;
-    try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
-    if (t !== 'light' && t !== 'dark') {
-      t = 'light';
-      try { if (window.matchMedia('(prefers-color-scheme: dark)').matches) { t = 'dark'; } } catch (e) {}
-    }
+    try { t = window.localStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') { t = 'light'; }
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
@@ -70,6 +68,58 @@
   td:last-child, th:last-child { border-radius:0 12px 12px 0; }
   /* v6.20: wordmark gradient */
   .wm{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* FAQ liquid glass tiles: each question is a collapsible
+     glass tile, the answer folded away until its header is
+     tapped. The recipe mirrors the homepage's glass pieces:
+     the desk steps' quiet pane (panel colour at partial
+     alpha, blur(10px) saturate(1.4) like the head chips,
+     a 1px line-token border) plus the conf-row chips'
+     inset highlights, so the top edge catches the light.
+     Radius 20px, the iOS tile radius the homepage slides
+     wear on phones. Tint and border ride the theme tokens,
+     so both themes glass the same way; where backdrop-filter
+     is unsupported the tint alone carries the tile at a
+     stronger mix. */
+  .faq-tile{
+    background:color-mix(in srgb, var(--surface) 66%, transparent);
+    -webkit-backdrop-filter:blur(10px) saturate(1.4);
+    backdrop-filter:blur(10px) saturate(1.4);
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06), inset 0 -7px 12px rgba(10,10,40,.05), 0 14px 30px rgba(74,62,40,.07);
+    margin:14px 0;
+    overflow:hidden;
+  }
+  :root:not([data-theme="light"]) .faq-tile{
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.45), inset 0 -7px 12px rgba(10,10,40,.16), inset 1px 0 0 rgba(255,255,255,.18), 0 14px 34px rgba(0,0,0,.22);
+  }
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .faq-tile{ background:color-mix(in srgb, var(--surface) 88%, transparent); }
+  }
+  .faq-tile summary{
+    list-style:none;
+    display:flex; align-items:center; gap:12px;
+    min-height:44px;
+    padding:16px 20px;
+    cursor:pointer;
+  }
+  .faq-tile summary::-webkit-details-marker{ display:none; }
+  .faq-tile summary:focus-visible{ outline:3px solid var(--accent); outline-offset:-3px; }
+  .faq-tile summary h2{ flex:1 1 auto; min-width:0; margin:0; font-size:20px; line-height:1.3; }
+  .faq-chev{
+    flex:0 0 auto; width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:color-mix(in srgb, var(--surface) 66%, transparent);
+    border:1px solid var(--line);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
+    color:var(--ink-2); font-size:15px; line-height:1;
+    transition:transform .35s ease;
+  }
+  .faq-tile[open ] .faq-chev{ transform:rotate(180deg); }
+  .faq-body{ padding:2px 20px 18px; }
+  .faq-body > :first-child{ margin-top:0; }
+  .faq-body > :last-child{ margin-bottom:0; }
 </style>
 </head>
 <body>
@@ -78,29 +128,65 @@
 <h1>Your Capsule. A(i) personality, in a file, yours to keep. Forever.</h1>
 <h2>Frequently asked questions</h2>
 <p>The short answers, in the same plain terms as the rest of the site. The depth behind them lives in <a href="https://clonemy.ai/format/">The Capsule Format</a> and the <a href="https://clonemy.ai/whitepaper/">White Paper</a>.</p>
-<h2>What is a capsule, and how is it different from a chat export?</h2>
+<details class="faq-tile">
+<summary><h2>What is a capsule, and how is it different from a chat export?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>A capsule is one structured plain text file that holds what your AI knows about you: who it is to you, your rules in your own words, your preferences, your people, your projects and open loops, its calibration history, and its voice: how it sounds with you, and the rapport the two of you have built, in twelve fixed sections. Your old AI writes the report, the compiler orders it, and your new AI reads it. A chat export is the raw transcript, everything said and nothing distilled, and a summary is not a personality. The capsule is the configuration, not the conversation.</p>
-<h2>What does clonemy actually capture, and where does it end?</h2>
+</div>
+</details>
+<details class="faq-tile">
+<summary><h2>What does clonemy actually capture, and where does it end?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>It captures what your current AI can report about its working relationship with you: its persona with you, who you are, your preferences and operating rules, your people, your projects and open loops, how your corrections have calibrated it, and what it does not know. It does not capture your chat history itself, and it cannot capture anything a platform holds that never surfaces in the report your AI writes. The capsule replicates the operating point of the relationship, not a lifetime archive, and anything missing is marked MISSING or listed under Unknowns instead of being filled in with invention. The extraction wording also asks for its voice as data: the sentence enders and sign-offs it actually uses, its habitual phrases, how it opens, what it never says, and short real exchanges, so how it sounds is captured too, not just what it knows.</p>
-<h2>What is the parity check, and what does the grade mean?</h2>
+</div>
+</details>
+<details class="faq-tile">
+<summary><h2>What is the parity check, and what does the grade mean?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>Every capsule ends with a parity check. The new AI answers three questions from the capsule alone, in your own words, then takes a prediction round: it predicts how you would choose, judge, and act in three situations it was never told about, and you grade all three in one line. Then it takes a voice round: it answers one ordinary prompt in the voice the capsule installed, and you grade that in one line too, sounds like them or sounds new. Reciting you back proves recall; predicting you proves the calibration landed. The grade is the receipt for the transfer: what carried, what did not, and what the platform blocked, stated instead of assumed.</p>
-<h2>How do I install a capsule in a new AI?</h2>
+</div>
+</details>
+<details class="faq-tile">
+<summary><h2>How do I install a capsule in a new AI?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>Paste it in as messages, part by part, in order. The first part opens with the install line, which tells the new AI what the parts are, and the last part asks it to confirm what it saved. Pasting works everywhere, including on a phone and on platforms that refuse uploaded files; some AIs accept the capsule.md file itself, and if one refuses the file, or the chat behaves strangely afterward, abandon that chat, start a fresh one, and paste the parts.</p>
-<h2>Can I check for myself that my data never leaves my machine?</h2>
+</div>
+</details>
+<details class="faq-tile">
+<summary><h2>Can I check for myself that my data never leaves my machine?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>Yes, and you do not have to take our word for it. The compiler runs on this page, in your tab; there is no server for your report to go to, and the extension adds no files or network of its own inside your AI's tab. To watch it happen:</p>
 <ol>
 <li>Open this site and press F12 to open your browser's developer tools, then choose the Network tab.</li>
 <li>Paste a report into the compiler and click Compile my capsule.</li>
 <li>Watch the list as the compile finishes: no request carries your report or your capsule anywhere. What you make stays in a file you hold.</li>
 </ol>
-<h2>Which AIs can I move between?</h2>
+</div>
+</details>
+<details class="faq-tile">
+<summary><h2>Which AIs can I move between?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>Any direction among the AIs this site works with: ChatGPT, Claude, Gemini, Copilot, Grok, Perplexity, Meta AI, and Muse. A capsule travels as your own pasted messages rather than as a platform feature, so the same file also works on a platform that refuses uploaded files, and on the next AI. Measured restores on the home page moved a full personal-depth capsule into a fresh Claude and a fresh Gemini.</p>
-<h2>What does it cost?</h2>
+</div>
+</details>
+<details class="faq-tile">
+<summary><h2>What does it cost?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>Nothing. Building a capsule here is free, takes about two minutes, and needs no account. The Capsule Format itself is published and open, free for anyone to read, write, or build on.</p>
-<h2>Can I do all of this by hand, without the tool?</h2>
+</div>
+</details>
+<details class="faq-tile">
+<summary><h2>Can I do all of this by hand, without the tool?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>Yes. The tool only saves you the typing; the method is the product. Keep your context as one plain text file you own: who your AI is to you, your rules in your own words, your preferences, your people, your open loops, and what is still unknown. When you move, paste the file into the new AI, have it summarize the file back to you, and ask it questions whose answers you already know. If the summary is wrong, the transfer failed, however clean the file looked, and you fix the file rather than trust the nod.</p>
-<h2>What happens if the check fails?</h2>
+</div>
+</details>
+<details class="faq-tile">
+<summary><h2>What happens if the check fails?</h2><span class="faq-chev" aria-hidden="true">&#9662;</span></summary>
+<div class="faq-body">
 <p>The failure is named, not hidden. A wrong answer in the self-check, a miss in the prediction round, or a voice that grades sounds new becomes a saved correction, so the gap enters the record instead of surfacing weeks later as a quiet misunderstanding. Where a platform blocks part of a capsule, that limit is announced at install rather than smoothed over, as happened on one measured restore. You hold the file throughout, so you can correct it, recompile, and install again in a fresh chat.</p>
+</div>
+</details>
   <p><a href="https://clonemy.ai">Start this transfer</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/whitepaper/">White Paper</a></p>
   <footer>
     <span>clonemy.ai, working prototype</span>
@@ -108,10 +194,10 @@
   </footer>
 </div>
 <script>
-  // Theme toggle: flips the theme for this session only. The choice
-  // lives in session storage, never leaves the browser, and is gone
-  // when the tab closes. The starting theme (set in the head) is the
-  // stored choice, or the visitor's system preference.
+  // Theme toggle: flips the theme and remembers the choice in
+  // local storage, so it holds across visits. The choice never
+  // leaves the browser. The starting theme (set in the head) is
+  // the stored choice, or light.
   (function () {
     var btn = document.getElementById('themeToggle');
     if (!btn) { return; }
@@ -134,7 +220,7 @@
     btn.addEventListener('click', function () {
       var next = current() === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      try { sessionStorage.setItem('clonemy-theme', next); } catch (e) {}
+      try { window.localStorage.setItem('clonemy-theme', next); } catch (e) {}
       render();
     });
     render();

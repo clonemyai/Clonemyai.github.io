@@ -4,15 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <script>
-  // Theme starts before first paint: a choice made earlier in this
-  // session wins, otherwise the visitor's system preference decides.
+  // Theme starts before first paint: a choice made earlier wins,
+  // otherwise light. The choice lives in local storage, so a click
+  // on the toggle is remembered across visits.
   (function () {
     var t = null;
-    try { t = sessionStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
-    if (t !== 'light' && t !== 'dark') {
-      t = 'light';
-      try { if (window.matchMedia('(prefers-color-scheme: dark)').matches) { t = 'dark'; } } catch (e) {}
-    }
+    try { t = window.localStorage.getItem('clonemy-theme'); } catch (e) { t = null; }
+    if (t !== 'light' && t !== 'dark') { t = 'light'; }
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
@@ -130,10 +128,10 @@
   </footer>
 </div>
 <script>
-  // Theme toggle: flips the theme for this session only. The choice
-  // lives in session storage, never leaves the browser, and is gone
-  // when the tab closes. The starting theme (set in the head) is the
-  // stored choice, or the visitor's system preference.
+  // Theme toggle: flips the theme and remembers the choice in
+  // local storage, so it holds across visits. The choice never
+  // leaves the browser. The starting theme (set in the head) is
+  // the stored choice, or light.
   (function () {
     var btn = document.getElementById('themeToggle');
     if (!btn) { return; }
@@ -156,7 +154,7 @@
     btn.addEventListener('click', function () {
       var next = current() === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      try { sessionStorage.setItem('clonemy-theme', next); } catch (e) {}
+      try { window.localStorage.setItem('clonemy-theme', next); } catch (e) {}
       render();
     });
     render();
