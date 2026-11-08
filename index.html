@@ -3525,6 +3525,14 @@ html,body{overflow-x:clip}
     .cap-sheet .cap-panel{height:auto;max-height:min(94vh,100%);max-height:min(94dvh,100%)}
   }
 </style>
+<style id="v707-mobile-head">
+/* v7.07 mobile compact row (Tony, 2026-11-08): at phone widths the
+   first row stays on one level, brand left and utility right,
+   instead of the utility cluster wrapping under the brand. */
+@media (max-width:700px){.v6-head{gap:12px}}
+@media (max-width:700px){.v6-head .v6-util{gap:12px;flex-wrap:nowrap}}
+@media (max-width:700px){.v6-head .v6-util a{white-space:nowrap}}
+</style>
 </head>
 <body>
 <header class="v6-head">
