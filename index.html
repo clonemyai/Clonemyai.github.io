@@ -3187,6 +3187,55 @@
   .landing-inner .v6-slide[aria-label="The confirmations"] .conf-row p{color:var(--L-ink)}
   .landing-inner .v6-slide[aria-label="The confirmations"] .proof-stat{border:1.5px solid transparent;background:linear-gradient(90deg, rgba(123,108,255,.12), rgba(55,200,232,.09), rgba(255,94,168,.12)) padding-box, linear-gradient(var(--L-panel),var(--L-panel)) padding-box, linear-gradient(90deg,var(--ecr-1),var(--ecr-2),var(--ecr-3)) border-box}
 </style>
+<style id="v690-family">
+  /* v6.90: one family, not one stamp (Tony,
+     2026-11-07: the panels and styling and
+     colors look too "copy paste" and too
+     "corporate"; vary them across all the
+     panels but keep them part of the same
+     family). The family anchors stay: the ECR
+     tri-color, the capsule radius, the type
+     system, and two reference pieces untouched
+     (the Product's capsule window, the
+     Difference's gradient verdict column).
+     What varies is the construction and which
+     hue leads:
+       Why It Works: spine cards. A plain panel
+         with a 4px gradient spine down its left
+         edge; each commitment's label takes its
+         own ECR hue in sequence.
+       The Confirmations: wash cards. The three
+         rows and the three stat boxes wear soft
+         single-hue washes rotating violet, cyan,
+         pink, with hairline hue rims; the stat
+         numbers take their hue.
+       The Difference: the Their-import cells
+         take a faint cool wash, so the two
+         voices differ in texture as well as
+         weight; the gradient stays on ours.
+       The Product: the capsule's section
+         numbers rotate the three hues in
+         sequence down the list.
+     Scoped per slide; v688-why and v689-conf
+     stand as history above. */
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank p{border:1px solid var(--L-line);background:linear-gradient(180deg,var(--ecr-1),var(--ecr-2) 55%,var(--ecr-3)) left/4px 100% no-repeat,var(--L-panel);padding-left:1.15rem}
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank:nth-child(1) h3{color:var(--ecr-1)}
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank:nth-child(2) h3{color:var(--ecr-2)}
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank:nth-child(3) h3{color:var(--ecr-3)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .conf-row:nth-child(1){border:1px solid rgba(123,108,255,.38);background:rgba(123,108,255,.08)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .conf-row:nth-child(2){border:1px solid rgba(55,200,232,.42);background:rgba(55,200,232,.09)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .conf-row:nth-child(3){border:1px solid rgba(255,94,168,.38);background:rgba(255,94,168,.08)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .proof-stat:nth-child(1){border:1px solid rgba(123,108,255,.38);background:rgba(123,108,255,.07)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .proof-stat:nth-child(2){border:1px solid rgba(55,200,232,.42);background:rgba(55,200,232,.08)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .proof-stat:nth-child(3){border:1px solid rgba(255,94,168,.38);background:rgba(255,94,168,.07)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .proof-stat:nth-child(1) b{color:var(--ecr-1)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .proof-stat:nth-child(2) b{color:var(--ecr-2)}
+  .landing-inner .v6-slide[aria-label="The confirmations"] .proof-stat:nth-child(3) b{color:var(--ecr-3)}
+  .landing-inner .v6-slide[aria-label="The difference"] .cmp-theirs{background:rgba(96,110,150,.07)}
+  .landing-inner .v6-slide[aria-label="The product"] .section-list li:nth-child(3n+1) .n{color:var(--ecr-1)}
+  .landing-inner .v6-slide[aria-label="The product"] .section-list li:nth-child(3n+2) .n{color:var(--ecr-2)}
+  .landing-inner .v6-slide[aria-label="The product"] .section-list li:nth-child(3n) .n{color:var(--ecr-3)}
+</style>
 </head>
 <body>
 <header class="v6-head">
