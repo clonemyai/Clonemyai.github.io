@@ -3351,6 +3351,10 @@
   .v6-head .ext-chips{margin-left:0;justify-content:flex-start}
   .v6-head .chip{font-size:.8rem}
 </style>
+<style id="v698-manual">
+  .v6-foot .foot-manual{display:flex;justify-content:center;margin-top:16px}
+  #manualOpen{position:static;box-shadow:0 8px 22px rgba(24,18,64,.28),0 2px 6px rgba(24,18,64,.22)}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3872,6 +3876,7 @@
         <span><b>Nothing uploaded</b>, ever</span>
         <span><b>About two minutes</b>, start to finish</span>
       </div>
+  <div class="foot-manual"><button type="button" id="manualOpen" aria-haspopup="dialog"><svg viewBox="0 0 100 100" width="17" height="17" aria-hidden="true"><defs><linearGradient id="mfO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eaf7ff"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#mfO)" opacity=".95"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="#ffffff" opacity=".65"/></g></svg>Manual Compile</button></div>
   <div class="version-row">
       <span>clonemy.ai, working prototype</span>
       <span>The format is open. The capsule is yours.</span>
@@ -5495,7 +5500,7 @@ Where any of this is absent, write MISSING.
     window.__welcome = { open: open, close: close };
   })();
 </script>
-<button type="button" id="manualOpen" aria-haspopup="dialog"><svg viewBox="0 0 100 100" width="17" height="17" aria-hidden="true"><defs><linearGradient id="mfO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eaf7ff"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#mfO)" opacity=".95"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="#ffffff" opacity=".65"/></g></svg>Manual Compile</button>
+
 <script id="v692-manual">
   /* v6.92: pocket and popup for the manual process. The tool
      zone is the sheet; this script only opens and closes it.
