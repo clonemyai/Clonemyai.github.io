@@ -3365,6 +3365,51 @@
   .chip-door:hover{transform:translateY(-1px)}
   .chip-door:focus-visible{outline:2px solid currentColor;outline-offset:2px}
 </style>
+<style id="v700-mobile">
+  /* v7.00: the mobile composition (Tony, 2026-11-08). Phone
+     visitors get their own composition in the same file: the
+     sticky bar turns to liquid glass, the works-with chips
+     become the hero doors (full-size tap targets on a single
+     sideways row), and the slides read top to bottom as a
+     stack of full-width cards, iOS-style, inset and grouped.
+     Every rule lives inside the phone breakpoint the page
+     already uses (max-width:700px, the breakpoint of the
+     shelf, section, and footer phone passes; the only smaller
+     one, 560px, governs nothing but a tab label). The desktop
+     composition is untouched, and no words, nodes, or wiring
+     move. */
+  @media (max-width:700px){
+    /* The bar as liquid glass: the theme panel colour at
+       partial alpha, blurred and saturated, the hairline
+       under it kept, a soft shadow below; the --L- variables
+       carry the theme, so it reads over the scroll in dark
+       and light alike. */
+    .v6-head{background:color-mix(in srgb, var(--L-panel) 72%, transparent);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border-bottom:1px solid var(--L-line);box-shadow:0 12px 32px rgba(0,0,0,.26);row-gap:9px}
+    html[data-theme="light"] .v6-head{box-shadow:0 12px 32px rgba(40,32,96,.13)}
+    /* The chips as the hero doors: one row that scrolls
+       sideways with no visible scrollbar, glass pills at tap
+       size. The v6.99 door wiring and labels are untouched. */
+    .v6-head .ext-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 2px 4px}
+    .v6-head .ext-chips::-webkit-scrollbar{display:none}
+    .v6-head .ext-chips-label{flex:0 0 auto}
+    .v6-head .chip{flex:0 0 auto;min-height:40px;padding:.5rem .9rem .5rem .65rem;font-size:.85rem;background:color-mix(in srgb, var(--L-panel2) 66%, transparent);backdrop-filter:blur(10px) saturate(1.4);-webkit-backdrop-filter:blur(10px) saturate(1.4)}
+    /* The hero keeps its words; a breath of room at the top. */
+    .landing-inner .hero{padding-top:24px}
+    /* The slides as stacked cards: the carousel stands down,
+       every slide shows, full width, one column, the iOS
+       radius the slides already wear, air between cards. */
+    .landing-inner .v6-carousel{display:flex;flex-direction:column;gap:16px;height:auto;min-height:0;overflow:visible;perspective:none}
+    .landing-inner .v6-slide{display:grid;grid-template-columns:1fr;grid-template-rows:none;position:relative;inset:auto;height:auto;margin:0;padding:24px 18px;gap:18px;opacity:1;pointer-events:auto;transform:none;border-radius:20px}
+    .landing-inner .v6-slide-copy{padding-top:0;max-width:none}
+    .landing-inner .v6-slide .capsule{border-radius:16px}
+    .landing-inner .v6-slide .proof{border-radius:16px}
+    /* The footer as a grouped list: air between the rows and
+       full-size taps on the link row. */
+    .v6-foot{gap:14px}
+    .v6-foot .desk-foot{gap:10px 20px}
+    .v6-foot .foot-links a{padding-block:.5rem}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
