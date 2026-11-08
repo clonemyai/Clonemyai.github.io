@@ -81,8 +81,8 @@
   <h1>The Capsule Format</h1>
   <p class="lede">A capsule is a single Markdown file, <code>capsule.md</code>, that carries what an AI knows about you, its personality with you, your rules, your people, and your open loops, in a form any other AI can install. You own the file. This page is the open specification: any tool may read or write capsules, including ours.</p>
 
-  <h2>The 11 sections</h2>
-  <p>Every capsule has the same eleven sections, in this order. A section with nothing in it is written out anyway and marked as not present, never silently dropped.</p>
+  <h2>The 12 sections</h2>
+  <p>Every capsule has the same twelve sections, in this order. A section with nothing in it is written out anyway and marked as not present, never silently dropped.</p>
   <table>
     <tr><th>#</th><th>Section</th><th>What it holds</th></tr>
     <tr><td>0</td><td>About this report</td><td>What this capsule is, when it was compiled, and where it came from.</td></tr>
@@ -96,6 +96,7 @@
     <tr><td>8</td><td>Your voice with this user</td><td>How the AI sounds with this user: register, warmth, formatting habits.</td></tr>
     <tr><td>9</td><td>Boundaries and sealed material</td><td>What stays private, what never leaves, and how sealed topics are handled.</td></tr>
     <tr><td>10</td><td>Unknowns</td><td>Gaps the source AI honestly does not have. Unknowns are named, never filled in.</td></tr>
+    <tr><td>11</td><td>Voice</td><td>The verbatim surface: signature lines and sentence enders, habitual phrases, openers, never-says, attitude defaults, formatting habits, short real exchanges as worked exemplars, and the rapport block, the user's own standing instructions for how familiar, direct, and unsoftened the new AI should be from the first message.</td></tr>
   </table>
 
   <h2>Document rules</h2>
@@ -123,6 +124,10 @@
   <h2>The prediction round</h2>
   <p>The three questions test recall: what the capsule said, repeated back. The self-check now ends with a harder test of whether the calibration underneath the words actually landed. The receiving AI makes three predictions from the capsule alone, each one concrete enough to be wrong, each one naming the rule or section it derives from: a preference (which side of a concrete either/or the user would pick), a judgement (whether the user would accept, pass, or counter on a concrete scenario, and how), and a first move (the user's first action if a described situation arose tomorrow). Nothing the capsule states word for word counts as a prediction, and if the capsule cannot support a genuine prediction of a type, the AI says so for that slot instead of inventing one.</p>
   <p>The user grades all three in one line: yes or no for each, in order (yes, yes, no). For any no, the user says what they would actually do, and the AI saves that correction with its provenance and date, restates the rule as it now stands, and never argues with it. The closing message is the receipt for the round: the pattern itself, the counts (made, landed, corrected, honestly empty), and each correction in the user's own words. A summary proves the words arrived. Three landed predictions prove the weights did, which is why a fully landed round is the strongest parity signal a restore can produce.</p>
+
+  <h2>The voice round</h2>
+  <p>The prediction round tests whether the calibration landed. The voice round tests whether the sound carried. Facts and rules can arrive whole while the voice arrives as a stranger: the receiving AI defaults to its house voice on everything the capsule did not pin down, and the rapport the old AI earned over months resets to careful and distant. Section 11 pins the surface down as data, and the voice round grades it.</p>
+  <p>The receiving AI answers one ordinary prompt in the installed voice, exactly as it would answer it for this user. The user grades it in one line: "sounds like them" or "sounds new". For any correction, the AI saves it with its provenance and date, restates the voice rule as it now stands ("the voice is really X, not Y"), and never argues with it. The closing message is the receipt for the round: the grade, each correction in the user's own words, and every miss recorded as a miss. A grade of "sounds like them" with no corrections is the strongest signal the format emits that the voice itself carried.</p>
 
   <h2>Merging capsules</h2>
   <p>Documents from several AIs can be compiled together into one capsule. The compiler unions the sections and removes exact duplicates. Where two sources disagree on a fact or a state value, the merged capsule carries the newest source's value, with the superseded value folded into its audit note. Where they disagree on an operating rule or a permission, the merged capsule carries a note instead: the disagreement is an unknown to ask the user about, never a detail to guess at, and never a thing recency settles. Audit notes stay attached to the values they describe, from either source.</p>
