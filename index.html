@@ -2017,7 +2017,20 @@
      welcome script opens it on a first visit (or on
      the #welcome hash, the Extract page's replay link)
      and the dismissal persists in localStorage under
-     the app's own key, hasSeenWelcome. */
+     the app's own key, hasSeenWelcome.
+     v6.80 (layout only; Tony, 2026-11-07: "make sure
+     the left and right are balanced to each other"):
+     the two columns stand as true peers. The wide
+     tracks are repeat(2,minmax(0,1fr)), an even split
+     content cannot widen, and the columns stretch to
+     the one row height. Inside that height the steps
+     group centers, the iOS wide layout's answer, and
+     the tiles spread under space-between with the
+     8px gap as their floor, so neither column reads
+     padded and the two share one bottom edge. No
+     copy moves; the button and footer stand as they
+     were. Local commit only, under Tony's hold on
+     pushes; the live site stays at v6.79. */
   .welcome-veil{position:fixed;inset:0;z-index:120;overflow-y:auto;
     background:var(--bg);color:var(--ink)}
   .welcome-veil[hidden]{display:none}
@@ -2033,6 +2046,7 @@
   :root[data-theme="light"] .wt-c{color:#e03d86}
   .welcome-sub{margin:.45rem 0 0;color:var(--ink-2);font-size:.95rem;line-height:1.5}
   .welcome-cols{display:grid;gap:26px;margin-top:20px}
+  .welcome-steps{display:flex;flex-direction:column;justify-content:center}
   .welcome-step{display:flex;gap:10px;align-items:flex-start;margin-top:14px}
   .welcome-step:first-child{margin-top:0}
   .welcome-badge{flex:none;width:26px;height:26px;border-radius:13px;
@@ -2043,7 +2057,7 @@
   .welcome-step-t{margin:2px 0 0;font-weight:700;font-size:1rem;line-height:1.35}
   .welcome-step-d{margin:3px 0 0;color:var(--ink-2);font-size:.92rem;line-height:1.5}
   .welcome-after{margin:16px 0 0;color:var(--ink-2);font-size:.92rem;line-height:1.5}
-  .welcome-tiles{display:grid;gap:8px;align-content:start}
+  .welcome-tiles{display:flex;flex-direction:column;gap:8px;justify-content:space-between}
   .welcome-tile{border-radius:14px;padding:10px 16px;
     box-shadow:0 3px 8px rgba(0,0,0,.04)}
   .welcome-tile-t{margin:0;font-weight:700;font-size:1rem;line-height:1.35}
@@ -2064,7 +2078,7 @@
   .welcome-foot{margin:14px 0 0;color:var(--ink-3);font-size:.82rem;line-height:1.5}
   @media (min-width:900px){
     .welcome-card{max-width:1060px}
-    .welcome-cols{grid-template-columns:1fr 1fr;gap:28px}
+    .welcome-cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:stretch}
     .welcome-start{max-width:calc((100% - 28px)/2);margin-left:auto;margin-right:auto}
     .welcome-foot{text-align:center}
   }
@@ -3510,7 +3524,7 @@
   </div>
 
       </div>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI, your memories, yours to keep.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.79</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI, your memories, yours to keep.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.80</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket">
 
@@ -3542,7 +3556,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.79</span>
+      <span>clonemy.ai, working prototype · v6.80</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
