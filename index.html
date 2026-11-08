@@ -3138,6 +3138,35 @@
     .landing-inner .v6-slide[aria-label="Why it works"] .plank h3{margin:0 0 .35rem}
   }
 </style>
+<style id="v688-why">
+  /* v6.88: Why It Works, split like The Difference
+     (Tony, 2026-11-07, from his screenshots of the
+     two slides: "The why it works panel should be
+     split like the difference panel"). v6.84 stood
+     this slide as one column of horizontal bands;
+     Tony prefers the deck's standard split, the
+     same one The Difference uses: the copy column
+     on the left (kicker, heading, lede, fine), and
+     in the visual column the three commitments as
+     rows in the comparison panel's own language, a
+     plain label beside a gradient capsule card.
+     No copy moves. Scoped to this slide only;
+     v684-why stands as history above. */
+  .landing-inner .v6-slide[aria-label="Why it works"]{grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-rows:none;gap:36px}
+  .landing-inner .v6-slide[aria-label="Why it works"] .v6-slide-copy{max-width:54ch;display:flex;flex-direction:column;justify-content:center}
+  .landing-inner .v6-slide[aria-label="Why it works"] .v6-visual{display:flex;flex-direction:column;justify-content:center}
+  .landing-inner .v6-slide[aria-label="Why it works"] .planks{display:grid;grid-template-columns:1fr;grid-template-rows:none;gap:12px;margin:0;max-width:none;max-height:none;overflow:visible;width:100%}
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank{display:grid;grid-template-columns:minmax(150px,.95fr) minmax(0,2.6fr);gap:8px 12px;align-items:stretch;min-height:0;overflow:visible}
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank h3{margin:0;display:flex;align-items:center;padding:.48rem .85rem;font-size:.86rem;font-weight:600;color:var(--L-ink)}
+  .landing-inner .v6-slide[aria-label="Why it works"] .plank p{margin:0;display:flex;align-items:center;padding:.85rem 1rem;font-size:.86rem;color:var(--L-ink);border-radius:12px;border:1.5px solid transparent;background:linear-gradient(90deg, rgba(123,108,255,.12), rgba(55,200,232,.09), rgba(255,94,168,.12)) padding-box, linear-gradient(var(--L-panel),var(--L-panel)) padding-box, linear-gradient(90deg,var(--ecr-1),var(--ecr-2),var(--ecr-3)) border-box}
+  @media (max-width:900px){
+    .landing-inner .v6-slide[aria-label="Why it works"]{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (max-width:700px){
+    .landing-inner .v6-slide[aria-label="Why it works"] .plank{grid-template-columns:1fr}
+    .landing-inner .v6-slide[aria-label="Why it works"] .plank h3{padding:.3rem .2rem 0}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
