@@ -261,5 +261,65 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
     render();
   })();
 </script>
+<script id="v708-chipwire">
+  /* v7.08: the works-with chips are doors (Tony, 2026-11-08).
+     One delegated listener on the bar chips row. Four AIs
+     take the extraction prompt by link: the chip opens the
+     very href the Extract step door for that AI carries, in
+     a popup, falling back to a new tab when the popup is
+     blocked. Four take it by paste: the chip copies the
+     prompt (the decoded words of that same link), opens the
+     plain site in the same popup, and the chip face says
+     where the prompt went for a moment. Nothing else moves:
+     the step doors keep their own wiring and behaviour. */
+  (function () {
+    var row = document.querySelector('.v6-head .head-chips-row');
+    if (!row) return;
+    var DOORS = {
+      gemini: 'https://gemini.google.com/app',
+      copilot: 'https://copilot.microsoft.com/',
+      metaai: 'https://www.meta.ai/',
+      muse: 'https://muse.ai'
+    };
+    var PROMPT = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, as a downloadable file named capsule-source.md if you can, otherwise as one full code block I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
+    function openDoor(url) {
+      var w = window.open(url, 'clonemyDoor', 'popup=yes,width=1120,height=820');
+      if (!w) { window.open(url, '_blank', 'noopener'); }
+    }
+    function copyText(text, done) {
+      function fallback() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch (e) {}
+        done();
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
+    }
+    row.addEventListener('click', function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest('.chip-door') : null;
+      if (!btn || btn.disabled) return;
+      var key = btn.getAttribute('data-chip-ai');
+      var door = document.querySelector('.ai-btn[data-ai="' + key + '"]');
+      if (door && door.tagName === 'A' && door.getAttribute('href')) { openDoor(door.getAttribute('href')); return; }
+      var url = DOORS[key];
+      if (!url) return;
+      var spans = btn.querySelectorAll('span');
+      var label = spans.length ? spans[spans.length - 1] : null;
+      btn.disabled = true;
+      copyText(PROMPT, function () {
+        openDoor(url);
+        if (label) {
+          var orig = label.textContent;
+          label.textContent = 'Copied, paste it there';
+          setTimeout(function () { label.textContent = orig; btn.disabled = false; }, 2400);
+        } else { btn.disabled = false; }
+      });
+    });
+  })();
+</script>
 </body>
 </html>
