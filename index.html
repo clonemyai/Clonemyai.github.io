@@ -2004,6 +2004,23 @@
   .clip-read-note{margin:.6rem 0 0;font-size:.86rem;line-height:1.5;color:var(--ink-2);text-align:left}
   .clip-hint{margin:0 0 .95rem;padding:.75rem .95rem;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--install-bg);color:var(--ink-2);font-size:.93rem;line-height:1.55}
 </style>
+<style id="v678-success">
+  /* v6.78: the compile-success closer (Tony's line,
+     2026-11-07: "your AI knows you, now you own that").
+     The banner sits at the head of the deliver state,
+     inside #compileOut, so it renders only when a
+     compile has finished and the capsule is being
+     presented, the state that leads into the parity
+     check. Presentation chrome only: the line is never
+     part of the capsule text, the paste parts, or the
+     download. */
+  .compile-success{
+    margin:0 0 .9rem;padding:.9rem 1rem;text-align:center;
+    border:1px solid var(--line);border-radius:12px;background:var(--install-bg);
+    color:var(--ink);font-weight:800;font-size:1.06rem;line-height:1.5;
+    box-shadow:0 0 22px rgba(255,94,168,.16);
+  }
+</style>
 <style id="v645-parts">
   /* v6.45: parts only when needed, unmistakable when they happen.
      A multi-part capsule gets a first-class notice above the parts
@@ -3223,6 +3240,7 @@
             </div>
           </div>
                       <div id="compileOut" hidden>
+                <p class="compile-success" id="compileSuccess" role="status">Your AI knows you. Now you own that.</p>
                 <p class="compile-warn" id="compileWarn" role="note" hidden></p>
                 <p class="clip-note" id="clipNote" role="status" hidden></p>
                 <p class="deliver-lead"><strong>Send it as messages.</strong> Copy your capsule below and paste it into your new AI, one part per message, in order. Pasting works everywhere, including on a phone and on platforms that refuse uploaded files: your new AI takes it from your hand, in your own words. The first part opens with a line that tells your new AI what the parts are, and the last part asks it to confirm what it saved.</p>
@@ -3427,7 +3445,7 @@
   </div>
 
       </div>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI, your memories, yours to keep.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.77</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI, your memories, yours to keep.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.78</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket">
 
@@ -3459,7 +3477,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.77</span>
+      <span>clonemy.ai, working prototype · v6.78</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
