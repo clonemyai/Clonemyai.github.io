@@ -2004,6 +2004,71 @@
   .clip-read-note{margin:.6rem 0 0;font-size:.86rem;line-height:1.5;color:var(--ink-2);text-align:left}
   .clip-hint{margin:0 0 .95rem;padding:.75rem .95rem;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--install-bg);color:var(--ink-2);font-size:.93rem;line-height:1.55}
 </style>
+<style id="v679-welcome">
+  /* v6.79: the welcome layer, the iOS get started
+     screen adopted for the web (Tony, 2026-11-07: "The
+     welcome + guided 3-step flow"). A first-visit layer
+     over the homepage: brand header, the tagline in its
+     three ECR clause colors, Tony's subtitle and the
+     three steps in his exact words, the four glass
+     benefit tiles, the floating-glass Get started
+     button in the app's style, and the app's footer
+     line. The veil is authored hidden; the v6.79
+     welcome script opens it on a first visit (or on
+     the #welcome hash, the Extract page's replay link)
+     and the dismissal persists in localStorage under
+     the app's own key, hasSeenWelcome. */
+  .welcome-veil{position:fixed;inset:0;z-index:120;overflow-y:auto;
+    background:var(--bg);color:var(--ink)}
+  .welcome-veil[hidden]{display:none}
+  html.welcome-open{overflow:hidden}
+  .welcome-card{max-width:720px;margin:0 auto;padding:52px 20px 28px;text-align:left}
+  .welcome-head{display:flex;align-items:center;gap:10px}
+  .welcome-logo{flex:none;width:auto;height:42px}
+  .welcome-name{font-size:2rem;font-weight:800;line-height:1.1;color:var(--ink)}
+  .welcome-tag{margin:.55rem 0 0;font-size:1.06rem;font-weight:700;line-height:1.4}
+  .wt-a{color:#7b6cff}.wt-b{color:#37c8e8}.wt-c{color:#ff5ea8}
+  :root[data-theme="light"] .wt-a{color:#5a48e0}
+  :root[data-theme="light"] .wt-b{color:#0e7fa8}
+  :root[data-theme="light"] .wt-c{color:#e03d86}
+  .welcome-sub{margin:.45rem 0 0;color:var(--ink-2);font-size:.95rem;line-height:1.5}
+  .welcome-cols{display:grid;gap:26px;margin-top:20px}
+  .welcome-step{display:flex;gap:10px;align-items:flex-start;margin-top:14px}
+  .welcome-step:first-child{margin-top:0}
+  .welcome-badge{flex:none;width:26px;height:26px;border-radius:13px;
+    background:var(--panel);border:1px solid var(--line);
+    color:#7b6cff;font-size:.85rem;font-weight:700;
+    display:flex;align-items:center;justify-content:center}
+  :root[data-theme="light"] .welcome-badge{color:#5a48e0}
+  .welcome-step-t{margin:2px 0 0;font-weight:700;font-size:1rem;line-height:1.35}
+  .welcome-step-d{margin:3px 0 0;color:var(--ink-2);font-size:.92rem;line-height:1.5}
+  .welcome-after{margin:16px 0 0;color:var(--ink-2);font-size:.92rem;line-height:1.5}
+  .welcome-tiles{display:grid;gap:8px;align-content:start}
+  .welcome-tile{border-radius:14px;padding:10px 16px;
+    box-shadow:0 3px 8px rgba(0,0,0,.04)}
+  .welcome-tile-t{margin:0;font-weight:700;font-size:1rem;line-height:1.35}
+  .welcome-tile-d{margin:2px 0 0;color:var(--ink-2);font-size:.92rem;line-height:1.45}
+  .tint-a{background:rgba(123,108,255,.05);border:1px solid rgba(123,108,255,.35)}
+  .tint-b{background:rgba(55,200,232,.05);border:1px solid rgba(55,200,232,.35)}
+  .tint-c{background:rgba(255,94,168,.05);border:1px solid rgba(255,94,168,.35)}
+  .tint-d{background:rgba(84,41,184,.05);border:1px solid rgba(84,41,184,.35)}
+  .welcome-start{position:relative;display:block;width:100%;margin-top:26px;
+    padding:13px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.55);
+    background:var(--grad);color:#fff;font:inherit;font-weight:700;font-size:1rem;
+    cursor:pointer;overflow:hidden;
+    box-shadow:0 10px 18px rgba(255,94,168,.30),0 8px 16px rgba(0,0,0,.18)}
+  .welcome-start::after{content:"";position:absolute;left:0;right:0;top:0;height:50%;
+    background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.04));
+    pointer-events:none}
+  .welcome-start:active{transform:scale(.98)}
+  .welcome-foot{margin:14px 0 0;color:var(--ink-3);font-size:.82rem;line-height:1.5}
+  @media (min-width:900px){
+    .welcome-card{max-width:1060px}
+    .welcome-cols{grid-template-columns:1fr 1fr;gap:28px}
+    .welcome-start{max-width:calc((100% - 28px)/2);margin-left:auto;margin-right:auto}
+    .welcome-foot{text-align:center}
+  }
+</style>
 <style id="v678-success">
   /* v6.78: the compile-success closer (Tony's line,
      2026-11-07: "your AI knows you, now you own that").
@@ -3445,7 +3510,7 @@
   </div>
 
       </div>
-  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI, your memories, yours to keep.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.78</span></p>
+  <p class="landing-signoff" id="landingSignoff"><span class="signoff-outro">Your AI, your memories, yours to keep.</span>Built with <svg class="sig-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by a founder and his AI, Vivian in California. <span class="signoff-ver">&middot; v6.79</span></p>
 </div></div>
     <div class="tool-pocket" id="toolPocket">
 
@@ -3477,7 +3542,7 @@
         <span><b>About two minutes</b>, start to finish</span>
       </div>
   <div class="version-row">
-      <span>clonemy.ai, working prototype · v6.78</span>
+      <span>clonemy.ai, working prototype · v6.79</span>
       <span>The format is open. The capsule is yours.</span>
     </div>
 </footer>
@@ -4981,6 +5046,103 @@ Where any of this is absent, write MISSING.
         } else { showUrl(); }
       });
     }
+  })();
+</script>
+<div class="welcome-veil" id="welcomeVeil" hidden>
+  <div class="welcome-card" role="dialog" aria-modal="true" aria-labelledby="welcomeName">
+    <div class="welcome-head">
+      <img class="welcome-logo" id="welcomeLogo" alt="" height="42">
+      <span class="welcome-name" id="welcomeName">clonemy.ai</span>
+    </div>
+    <p class="welcome-tag"><span class="wt-a">Your AI, </span><span class="wt-b">your memories, </span><span class="wt-c">yours to keep.</span></p>
+    <p class="welcome-sub">Create your AI capsule for you to keep forever in 3 easy steps:</p>
+    <div class="welcome-cols">
+      <div class="welcome-steps">
+        <div class="welcome-step"><span class="welcome-badge">1</span><div>
+          <p class="welcome-step-t">Extract</p>
+          <p class="welcome-step-d">Your current AI tells all: everything it knows about you, in the self-report your capsule is built from.</p>
+        </div></div>
+        <div class="welcome-step"><span class="welcome-badge">2</span><div>
+          <p class="welcome-step-t">Create a capsule</p>
+          <p class="welcome-step-d">Compile that report into your capsule, a file you own.</p>
+        </div></div>
+        <div class="welcome-step"><span class="welcome-badge">3</span><div>
+          <p class="welcome-step-t">Install your capsule to your new AI</p>
+          <p class="welcome-step-d">Paste your capsule into a new AI and it wakes up as yours, memories and all.</p>
+        </div></div>
+        <p class="welcome-after">Then chat with it in your new AI, in the app or on the site you already use.</p>
+      </div>
+      <div class="welcome-tiles">
+        <div class="welcome-tile tint-a">
+          <p class="welcome-tile-t">Yours to keep.</p>
+          <p class="welcome-tile-d">Your capsule is a file you own.</p>
+        </div>
+        <div class="welcome-tile tint-b">
+          <p class="welcome-tile-t">Private by design.</p>
+          <p class="welcome-tile-d">No clonemy server ever sees it.</p>
+        </div>
+        <div class="welcome-tile tint-c">
+          <p class="welcome-tile-t">Proof, not promises.</p>
+          <p class="welcome-tile-d">Verifies it arrived whole.</p>
+        </div>
+        <div class="welcome-tile tint-d">
+          <p class="welcome-tile-t">Syncs on your say-so.</p>
+          <p class="welcome-tile-d">Use our extension to keep all of your AIs synced. One place for all your capsules.</p>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="welcome-start" id="welcomeStart">Get started</button>
+    <p class="welcome-foot">No accounts. Move never touches the network, and clonemy holds nothing of yours.</p>
+  </div>
+</div>
+<script>
+  /* v6.79: the welcome layer. The iOS get started
+     screen, adopted for the web: shown over the
+     homepage on a first visit, dismissed for good by
+     its Get started button (the dismissal is stored in
+     localStorage under the app's own key,
+     hasSeenWelcome, so later visits open straight onto
+     the page), and shown again whenever the URL carries
+     the #welcome hash, which is where the Extract
+     page's "See the get started screen again" link
+     points. Signage only: it holds nothing of the
+     visitor's and touches no network. The header logo
+     borrows the brand bar's transparent capsule image
+     at init, so the artwork's bytes live on the page
+     exactly once. */
+  (function () {
+    var veil = document.getElementById('welcomeVeil');
+    if (!veil) { return; }
+    var KEY = 'hasSeenWelcome';
+    function seen() {
+      try { return window.localStorage.getItem(KEY) === '1'; } catch (e) { return false; }
+    }
+    function mark() {
+      try { window.localStorage.setItem(KEY, '1'); } catch (e) {}
+    }
+    var brand = document.querySelector('.v6-brand img');
+    var logo = document.getElementById('welcomeLogo');
+    if (brand && logo) {
+      var src = brand.getAttribute('src');
+      if (src) { logo.setAttribute('src', src); }
+    }
+    function open() {
+      veil.hidden = false;
+      document.documentElement.classList.add('welcome-open');
+    }
+    function close() {
+      veil.hidden = true;
+      document.documentElement.classList.remove('welcome-open');
+    }
+    if (window.location.hash === '#welcome' || !seen()) { open(); }
+    document.getElementById('welcomeStart').addEventListener('click', function () {
+      mark();
+      close();
+      if (window.location.hash === '#welcome' && window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    });
+    window.__welcome = { open: open, close: close };
   })();
 </script>
 </body>
