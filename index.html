@@ -3671,6 +3671,48 @@ html,body{overflow-x:clip}
      brand-row arrangement stands untouched. */
   @media (min-width:701px){.v6-head .head-apps{margin-left:auto}}
 </style>
+<style id="v721-bar-bands">
+  /* v7.21: the bar keeps everything at every width
+     (Tony, 2026-11-09): on his phone the bar wrapped
+     its utility row onto a second line and the nav
+     links vanished entirely, folded and unfolded
+     alike, because a standing rule hid the nav at
+     1079px and under and the phone bar wrapped by
+     design. The bar now works in bands instead of
+     hiding things. At 1280px and up nothing changes.
+     From 1279 down the dress compacts (tighter gaps,
+     a smaller nav voice) so the whole row fits, the
+     app pills go icon-only from 1149 down, where the
+     stacked text no longer fits, and the nav stands
+     back up at 1079 and under, the old hide line.
+     From 1023 down the row stops wrapping and
+     scrolls sideways instead, every child rigid so
+     nothing crushes, in the order brand, pills,
+     utility, nav, so the actions stay on the first
+     screen and the links are a swipe away. In no
+     band is anything display:none. */
+  @media (max-width:1279px){
+    .v6-head{gap:14px}
+    .v6-head .v6-nav{gap:12px}
+    .v6-head .v6-nav a{font-size:.92rem}
+    .v6-head .v6-util{gap:12px}
+  }
+  @media (max-width:1149px){
+    .v6-head .head-apps .hero-ios{padding:.32rem}
+    .v6-head .head-apps .hero-ios>span{display:none}
+  }
+  @media (max-width:1079px){
+    .v6-head .v6-nav{display:flex}
+  }
+  @media (max-width:1023px){
+    .v6-head{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+    .v6-head::-webkit-scrollbar{display:none}
+    .v6-head .v6-brand,.v6-head .v6-nav,.v6-head .head-apps,.v6-head .v6-util{flex:0 0 auto}
+    .v6-head .head-apps{order:1}
+    .v6-head .v6-util{order:2}
+    .v6-head .v6-nav{order:3}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
