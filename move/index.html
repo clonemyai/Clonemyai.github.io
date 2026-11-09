@@ -165,6 +165,31 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
    (Tony, 2026-11-09): the same rule the homepage carries
    in its v720-center-apps block. */
   @media (min-width:701px){.v6-head .head-apps{margin-left:auto}}
+
+/* v7.21: the bar keeps everything at every width
+   (Tony, 2026-11-09): the same band rules the
+   homepage carries in its v721-bar-bands block. */
+  @media (max-width:1279px){
+    .v6-head{gap:14px}
+    .v6-head .v6-nav{gap:12px}
+    .v6-head .v6-nav a{font-size:.92rem}
+    .v6-head .v6-util{gap:12px}
+  }
+  @media (max-width:1149px){
+    .v6-head .head-apps .hero-ios{padding:.32rem}
+    .v6-head .head-apps .hero-ios>span{display:none}
+  }
+  @media (max-width:1079px){
+    .v6-head .v6-nav{display:flex}
+  }
+  @media (max-width:1023px){
+    .v6-head{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+    .v6-head::-webkit-scrollbar{display:none}
+    .v6-head .v6-brand,.v6-head .v6-nav,.v6-head .head-apps,.v6-head .v6-util{flex:0 0 auto}
+    .v6-head .head-apps{order:1}
+    .v6-head .v6-util{order:2}
+    .v6-head .v6-nav{order:3}
+  }
 </style>
 </head>
 <body>
