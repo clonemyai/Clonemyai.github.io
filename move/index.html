@@ -141,6 +141,15 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
 @media (max-width:700px){.v6-head .v6-util{gap:12px;flex-wrap:nowrap}}
 @media (max-width:700px){.v6-head .v6-util a{white-space:nowrap}}
 
+
+/* v7.18: the app pills in the bar (Tony, 2026-11-09): the same
+   seat and squeeze rules the homepage carries in its
+   v718-bar-apps block. */
+  .v6-head .head-apps{display:flex;align-items:center;gap:8px;flex:0 1 auto;min-width:0;flex-wrap:nowrap}
+  .v6-head .head-apps .hero-ios{font-size:.78rem;padding:.3rem .65rem;gap:.45rem;white-space:nowrap}
+  .v6-head .head-apps .hero-ios svg{width:13px;height:13px;flex:0 0 auto}
+  @media (max-width:1200px){.v6-head .head-apps .app-soon{display:none}}
+  @media (max-width:700px){.v6-head .head-apps{gap:6px}.v6-head .head-apps .hero-ios{padding:.32rem}.v6-head .head-apps .hero-ios>span{display:none}}
 </style>
 </head>
 <body>
@@ -152,6 +161,7 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
     <a href="https://clonemy.ai/whitepaper/">White Paper</a>
     <a href="https://clonemy.ai/faq/">FAQ</a>
   </nav>
+  <div class="head-apps" role="group" aria-label="Get the app"><span class="hero-ios" id="iosSoon" role="note" aria-label="The iOS app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="iosO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="iosD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#iosO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#iosD)"/></g></svg><span><b>iOS app</b><span class="app-soon"> &middot; Coming soon</span></span></span> <span class="hero-ios" id="androidSoon" role="note" aria-label="The Android app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="andO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#37c8e8"/><stop offset="1" stop-color="#7b6cff"/></linearGradient><linearGradient id="andD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e03d86"/><stop offset="1" stop-color="#ff5ea8"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#andO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#andD)"/></g></svg><span><b>Android app</b><span class="app-soon"> &middot; Coming soon</span></span></span></div>
   <div class="v6-util">
     <a href="https://clonemy.ai/extract/">Extract</a>
     <a href="https://clonemy.ai/contact/">Contact</a>
