@@ -3572,6 +3572,35 @@ html,body{overflow-x:clip}
   .v710-quiet-link{display:inline-block;margin-top:14px;background:none;border:none;padding:0;color:var(--L-ink2);text-decoration:underline;cursor:pointer;font-size:.92rem}
   .v710-outcome-mystery{border:2px dashed #7c3aed;background:color-mix(in srgb, #8b5cf6 8%, var(--L-panel))}
 </style>
+<style id="v716-mobile-shelf">
+  /* v7.16: the rotating panels come to phones (Tony,
+     2026-11-09: on mobile the story panels were "just one
+     long scroll page instead of rotating panels", and he
+     chose the shelf). The v7.00 phone composition stood the
+     carousel down into a stack of cards; this block stands
+     it back up below the desktop width. The four slides
+     share one grid cell, so the stage is exactly as tall as
+     the tallest slide at this width, the v6.65 one-shape
+     rule by other means, and only the active slide shows:
+     the rest sit at opacity zero with pointer events off,
+     the desktop crossfade contract, which the existing
+     transition on the slides already animates. Nothing is
+     restyled inside the slides: at phone widths the v7.00
+     paddings, radius, and one-column grid stand as they
+     were, and in the tablet band the v6 values stand. The
+     counter, hidden below desktop by the v6 layout block,
+     comes back, so the panel position reads at every width.
+     The carousel script needed no changes: rotation, tabs,
+     arrows, the toggle, and the stage fitting already run
+     at every width, and the swipe arrives in the v716-swipe
+     script at the end of the body. Desktop is untouched. */
+  @media (max-width:1079px){
+    .landing-inner .v6-carousel{display:grid;grid-template-columns:minmax(0,1fr);gap:0;height:auto;min-height:0;overflow:hidden;perspective:none}
+    .landing-inner .v6-slide{grid-area:1/1;position:relative;inset:auto;display:grid;grid-template-columns:1fr;opacity:0;pointer-events:none}
+    .landing-inner .v6-slide.active{opacity:1;pointer-events:auto}
+    .landing-inner .v6-counter{display:inline-block}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -6450,6 +6479,48 @@ Where any of this is absent, write MISSING.
     paintInstallGate();
     updateDstGuide();
   })();
+</script>
+<script id="v716-swipe">
+'use strict';
+(function () {
+  /* v7.16: the phone swipe for the story panels. The carousel
+     machinery (rotation, tabs, arrows, counter) already runs
+     at every width; the v716 style block gives it the stage
+     below desktop widths, and this adds the one missing
+     gesture. A sideways swipe on the stage steps the panels
+     through the same prev and next buttons a tap uses, so
+     every state rule comes from the one path: the touch
+     stops the auto-rotation, the tabs and counter repaint,
+     the stage refits. The gesture must travel at least 48px
+     and stay mostly horizontal, so ordinary vertical
+     scrolling over the stage is never hijacked. A step also
+     swallows the click the touch would otherwise deliver,
+     so a swipe that starts on the capsule teaser steps the
+     panel instead of opening the sheet. */
+  var stage = document.getElementById('carousel6');
+  var next = document.getElementById('cNext');
+  var prev = document.getElementById('cPrev');
+  if (!stage || !next || !prev) return;
+  var sx = 0, sy = 0, tracking = false, stepped = false;
+  stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; tracking = true;
+  }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (!tracking) return;
+    tracking = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.6) return;
+    stepped = true;
+    if (dx < 0) next.click(); else prev.click();
+  }, { passive: true });
+  stage.addEventListener('click', function (e) {
+    if (!stepped) return;
+    stepped = false;
+    e.preventDefault(); e.stopPropagation();
+  }, true);
+})();
 </script>
 </body>
 </html>
