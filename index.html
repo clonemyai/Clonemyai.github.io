@@ -3619,6 +3619,23 @@ html,body{overflow-x:clip}
     .hero .chip{flex:0 0 auto;min-height:40px;padding:.5rem .9rem .5rem .65rem;font-size:.85rem}
   }
 </style>
+<style id="v718-bar-apps">
+  /* v7.18: the app pills move into the bar (Tony, 2026-11-09):
+     he saw the empty middle of the bar, between the nav and
+     the utility links, and distilled the two coming-soon
+     pills into it. The bar does not grow: the pills are
+     squeezed to sit inside the row the bar already has,
+     compact at full width, the Coming soon suffix dropped
+     at mid widths, and icon-only chips at phone widths,
+     where their aria labels still say the whole thing. The
+     pills keep their dashed hero-ios face, their ids and
+     their swap spot for the live download doors (v7.02). */
+  .v6-head .head-apps{display:flex;align-items:center;gap:8px;flex:0 1 auto;min-width:0;flex-wrap:nowrap}
+  .v6-head .head-apps .hero-ios{font-size:.78rem;padding:.3rem .65rem;gap:.45rem;white-space:nowrap}
+  .v6-head .head-apps .hero-ios svg{width:13px;height:13px;flex:0 0 auto}
+  @media (max-width:1200px){.v6-head .head-apps .app-soon{display:none}}
+  @media (max-width:700px){.v6-head .head-apps{gap:6px}.v6-head .head-apps .hero-ios{padding:.32rem}.v6-head .head-apps .hero-ios>span{display:none}}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3629,6 +3646,7 @@ html,body{overflow-x:clip}
     <a href="https://clonemy.ai/whitepaper/">White Paper</a>
     <a href="https://clonemy.ai/faq/">FAQ</a>
   </nav>
+  <div class="head-apps" role="group" aria-label="Get the app"><span class="hero-ios" id="iosSoon" role="note" aria-label="The iOS app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="iosO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="iosD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#iosO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#iosD)"/></g></svg><span><b>iOS app</b><span class="app-soon"> &middot; Coming soon</span></span></span> <span class="hero-ios" id="androidSoon" role="note" aria-label="The Android app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="andO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#37c8e8"/><stop offset="1" stop-color="#7b6cff"/></linearGradient><linearGradient id="andD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e03d86"/><stop offset="1" stop-color="#ff5ea8"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#andO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#andD)"/></g></svg><span><b>Android app</b><span class="app-soon"> &middot; Coming soon</span></span></span></div>
   <div class="v6-util">
     <a href="https://clonemy.ai/extract/">Extract</a>
     <a href="https://clonemy.ai/contact/">Contact</a>
@@ -3657,7 +3675,6 @@ html,body{overflow-x:clip}
     <button type="button" class="chip chip-door" data-chip-ai="metaai" aria-label="Open Meta AI with the clonemy.ai extraction prompt"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><defs><linearGradient id="chipMetaGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0082fb"/><stop offset=".55" stop-color="#a033ff"/><stop offset="1" stop-color="#ff5280"/></linearGradient></defs><path d="M12 12c-3-5.4-8.5-5.1-8.5 0s5.5 5.4 8.5 0c3-5.4 8.5-5.1 8.5 0s-5.5 5.4-8.5 0z" stroke="url(#chipMetaGrad)"/></svg><span>Meta AI</span></button>
     <button type="button" class="chip chip-door" data-chip-ai="muse" aria-label="Open Muse with the clonemy.ai extraction prompt"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="chipMuseGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0082fb"/><stop offset=".55" stop-color="#a033ff"/><stop offset="1" stop-color="#ff5280"/></linearGradient></defs><path d="M12 2.2l2.1 7.7 7.7 2.1-7.7 2.1L12 21.8l-2.1-7.7-7.7-2.1 7.7-2.1z" fill="url(#chipMuseGrad)"/></svg><span>Muse</span></button>
   </div></div>
-  <p class="hero-apps"><span class="hero-ios" id="iosSoon" role="note" aria-label="The iOS app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="iosO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7b6cff"/><stop offset="1" stop-color="#37c8e8"/></linearGradient><linearGradient id="iosD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5ea8"/><stop offset="1" stop-color="#e03d86"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#iosO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#iosD)"/></g></svg><span><b>iOS app</b> &middot; Coming soon</span></span> <span class="hero-ios" id="androidSoon" role="note" aria-label="The Android app is coming soon"><svg viewBox="0 0 100 100" width="16" height="16" aria-hidden="true"><defs><linearGradient id="andO" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#37c8e8"/><stop offset="1" stop-color="#7b6cff"/></linearGradient><linearGradient id="andD" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e03d86"/><stop offset="1" stop-color="#ff5ea8"/></linearGradient></defs><g transform="rotate(-45 50 50)"><path d="M18,50 a15,15 0 0 1 15,-15 h13 v30 h-13 a15,15 0 0 1 -15,-15 z" fill="url(#andO)"/><path d="M54,35 h13 a15,15 0 0 1 0,30 h-13 z" fill="url(#andD)"/></g></svg><span><b>Android app</b> &middot; Coming soon</span></span></p>
   <div class="hero-ext-note" id="extNote" hidden>
     <p class="hero-ext-note-text">The extension runs in desktop Chrome. Take its link with you:</p>
     <p class="hero-ext-note-actions"><button type="button" class="v6-btn v6-btn-glass" id="extCopyBtn">Copy link</button> <a class="v6-btn v6-btn-glass" id="extMailBtn" href="mailto:?subject=clonemy.ai%20extension&amp;body=Open%20this%20on%20your%20desktop%20to%20install%20the%20clonemy.ai%20extension.%0A%0Ahttps%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fclonemyai-clone-your-ai%2Fejoibikgcgekmoejipegnpabjpndofdo">Email it to me</a></p>
