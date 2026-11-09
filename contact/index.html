@@ -168,6 +168,11 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
   .v6-head .head-apps .app-stack{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.1}
   .v6-head .head-apps .app-soon{font-size:.6rem;font-weight:400;letter-spacing:.02em;opacity:.72}
   @media (max-width:1200px){.v6-head .head-apps .hero-ios .app-soon{display:block}}
+
+/* v7.20: the app pills center in the bar's dead middle
+   (Tony, 2026-11-09): the same rule the homepage carries
+   in its v720-center-apps block. */
+  @media (min-width:701px){.v6-head .head-apps{margin-left:auto}}
 </style>
 </head>
 <body>
