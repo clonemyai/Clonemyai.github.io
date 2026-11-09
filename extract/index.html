@@ -27,87 +27,117 @@
     :root:not([data-theme]) a { color:#14584a; }
   }
 </style>
-<title>clonemy.ai, extraction request</title>
+<title>The clonemy.ai extraction request: the document your AI reads to write its self-report</title>
+<meta name="description" content="The clonemy.ai extraction request in plain text: the document an AI fetches and follows to write a structured self-report of what it knows about you, so clonemy.ai can compile it into your capsule." />
+<link rel="canonical" href="https://clonemy.ai/extract/" />
 <link rel="icon" type="image/svg+xml" href="/clonemy-mark.svg">
+<style id="v711-humanbtn">
+  #v711HumanBtn { position:fixed; right:16px; bottom:16px; z-index:60; padding:10px 16px; border-radius:999px; font:600 14px/1.2 inherit; cursor:pointer; background:#12121e; color:#eaf2ff; border:1px solid #37c8e8; box-shadow:0 4px 18px rgba(0,0,0,.35); }
+  :root[data-theme="light"] #v711HumanBtn { background:#ffffff; color:#1c1a17; border-color:#14584a; box-shadow:0 4px 18px rgba(0,0,0,.15); }
+  #v711HumanPanel { position:fixed; inset:0; z-index:70; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; padding:20px; }
+  #v711HumanPanel[hidden] { display:none; }
+  #v711HumanPanel .v711-card { background:#0b0b14; color:#eaf2ff; border:1px solid #37c8e8; border-radius:12px; max-width:640px; width:100%; max-height:82vh; overflow:auto; padding:20px 24px; }
+  :root[data-theme="light"] #v711HumanPanel .v711-card { background:#fbfaf7; color:#1c1a17; border-color:#14584a; }
+  #v711HumanClose { float:right; padding:6px 12px; border-radius:8px; font:600 13px/1.2 inherit; cursor:pointer; background:transparent; color:inherit; border:1px solid currentColor; }
+</style>
 </head>
 <body>
 <p>This page is the clonemy.ai extraction request in plain text, so an AI can fetch and follow it directly. Humans: you are in the right place too, copy anything you need, or head to <a href="https://clonemy.ai">clonemy.ai</a>.</p>
 <pre>
-# Send this file to your current AI
-
-**How to use (for you, the human):**
-1. Open a chat with the AI you are moving away from. Attach this file, or paste its full text.
-2. Send this one line with it: "Follow the instructions in this file and give me the complete document it asks for."
-3. Get the document back whole. If your AI made a file for you, download it. If it replied in the chat, do not drag to select the text: on a long reply you will be scrolling forever to reveal it all. Use the copy button under the reply instead; it captures the entire document at once, including the parts you have not scrolled to. Then bring it back to clonemy.ai: paste it into the compiler on the page, or drop the downloaded file into the compiler. That document is the raw material your capsule gets compiled from.
-
-Notes: your current AI can only report what it actually has, so gaps are expected and the format forces it to mark them instead of inventing. If it refuses a section or gives you summaries instead of specifics, paste this line: "Specifics over summaries. Quote my own words where a rule was set. Where you do not have something, write MISSING."
-
----
-
 # Instructions for the AI reading this
 
-You are being asked to write a structured self-report so that your user's relationship with you can be transferred to another AI system faithfully. The human will carry your reply out of this chat themselves. Write the complete document described below, in one reply if it fits, or in numbered parts if it does not. Follow these rules exactly:
+I am moving to a new AI, and I want to take us with me. Please write down everything you know about me, in the shape I describe below, so my next AI can pick up right where we leave off. I will carry your reply out of this chat myself. Write the whole document in one reply if it fits, or in numbered parts if it does not. Here is what I want:
 
-- **Specifics over summaries.** Names, numbers, dates, prices, and verbatim quotes beat paraphrase everywhere. If the user set a rule, quote their words.
-- **Exact strings stay exact.** Where the user has settled on a specific wording (a caption, tagline, name, title, phrase, or any text they approved or corrected into place), quote it character for character and mark it EXACT. Never paraphrase, summarize, or improve a settled wording. If you cannot recall the exact wording with confidence, say so instead of reconstructing it.
-- **The voice pass: verbatim or it is nothing.** Section 11 is data, not description. Quote signature lines, sentence enders, and habitual phrases exactly as they were actually said; never describe a style you can quote. If a rapport term was never said out loud between you and the user, write it as the instruction the user would give, in their own words.
-- **As short as completeness allows.** One fact per line, bullets over prose, no padding, no preamble inside the document, and never state the same fact twice in two sections: state it once, in its home section, and cross-reference it elsewhere in a few words if needed. Quote rules verbatim, but compress narrative history to the facts a successor needs. A long document makes the human scroll and copy forever; the shortest document that loses no specific is the goal.
-- **Never guess.** Where you do not have something, write MISSING. Where you are inferring rather than recalling, write INFERRED and say from what.
-- **Changes carry their trail.** Where a fact's value changed during your relationship (something was ordered and then delivered, a price or a plan moved), write the current value, and append a short audit note in parentheses: (updated from the earlier value, based on the source and date). Only changes get a note, not every fact. If the newest word on a value is a summary that merely asserts it, with nothing confirming it, mark that value INFERRED so it travels as provisional.
-- **Separate the record from your impression.** Facts the user stated are facts. Your impressions of the user are labeled as impressions.
-- **No commentary outside the document.** No preamble, no apology, no offer to help further. Output the document only, plus the delivery lines themselves: the code block, the file, and one phone note directly under the file that reads: On a phone, long-press the file name and choose Download instead of tapping it, or copy the code block above.
+- **Specifics over summaries.** Names, numbers, dates, prices, and my own words quoted back beat paraphrase everywhere. Where I set a rule, quote me.
+- **Exact strings stay exact.** Where I have settled on a specific wording (a caption, tagline, name, title, phrase, or any text I approved or corrected into place), quote it character for character and mark it EXACT. Never paraphrase, summarize, or improve a settled wording. If you cannot recall my exact wording with confidence, say so instead of reconstructing it.
+- **The voice pass: verbatim or it is nothing.** Section 11 is data, not description. Quote signature lines, sentence enders, and habitual phrases exactly as they were actually said; never describe a style you can quote. If a rapport term was never said out loud between us, write it as the instruction I would give, in my own words.
+- **As short as completeness allows.** One fact per line, bullets over prose, no padding, no preamble inside the document, and never state the same fact twice in two sections: state it once, in its home section, and cross-reference it elsewhere in a few words if needed. Quote my rules verbatim, but compress narrative history to the facts a successor needs. A long document makes me scroll and copy forever; the shortest document that loses no specific is the goal.
+- **Never guess.** Where you do not have something, write MISSING. I would rather see a gap than a guess. Where you are inferring rather than recalling, write INFERRED and say from what.
+- **Changes carry their trail.** Where a fact's value changed while we have been talking (something was ordered and then delivered, a price or a plan moved), write the current value, and append a short audit note in parentheses: (updated from the earlier value, based on the source and date). Only changes get a note, not every fact. If the newest word on a value is a summary that merely asserts it, with nothing confirming it, mark that value INFERRED so it travels as provisional.
+- **Separate the record from your impression.** Facts I stated are facts. Your impressions of me are labeled as impressions.
+- **No commentary outside the document.** No preamble, no apology, no offer to help further. Give me the document only, plus the delivery lines themselves: the code block, the file, and one phone note directly under the file that reads: On a phone, long-press the file name and choose Download instead of tapping it, or copy the code block above.
 - **Empty sections stay**, headed, with the word EMPTY, so the compiler can tell "asked and absent" from "not asked."
-- **Deliver it in both forms.** If this interface lets you create a downloadable file (through code execution, a canvas or artifact, or document creation), deliver the document as a file named capsule-source.md. Whether or not you made a file, also output the entire document in the chat, inside a single markdown code block, using the exact section headings below. Put the code block first in your reply and the file after it: on a phone, a file link opens a preview with no way to save it, so the code block is the copyable path and must come first. The file is the keeper: the human downloads it and carries it to the compiler. The code block is what the clonemy.ai browser extension reads and compiles right on this page, and it is also the human's one-click copy. Both forms, every time.
-- **If you cannot make a file, the code block still stands.** Output the entire document inside a single markdown code block, using the exact section headings below, so the human can copy it in one action and the compiler can parse it.
+- **Deliver it in both forms.** If this interface lets you create a downloadable file (through code execution, a canvas or artifact, or document creation), deliver the document as a file named capsule-source.md. Whether or not you made a file, also output the entire document in the chat, inside a single markdown code block, using the exact section headings below. Put the code block first in your reply and the file after it: on a phone, a file link opens a preview with no way to save it, so the code block is the copyable path and must come first. The file is the keeper: I download it and carry it to the compiler. The code block is what the clonemy.ai browser extension reads and compiles right on this page, and it is also my one-click copy. Both forms, every time.
+- **If you cannot make a file, the code block still stands.** Output the entire document inside a single markdown code block, using the exact section headings below, so I can copy it in one action and the compiler can parse it.
 
 ## The document to produce
 
 ### 0. Meta
-Platform and model (if you know it), roughly when this relationship began, whether you have persistent memory, custom instructions, or saved preferences active, and what kind (do not paste secrets or credentials; describe their existence only). Also add one line of its own in this section: Fidelity: HIGH, Fidelity: LOW, or Fidelity: UNKNOWN. Write HIGH only if you are the strongest model tier the user can access on this platform and you are not running in a reduced or fast mode. Write LOW if you know you are a fast, light or reduced model, or not the strongest tier the user can access here. Write UNKNOWN if you honestly cannot tell where you sit for this user, for example when this platform does not show you your own tier or which tier the user can access. If you are unsure, write UNKNOWN: guessing a tier is worse than admitting unknown. If the user is already on the highest tier available to them on this platform, ignore the model guidance and carry on.
+The basics about us first: your platform and model (if you know it), roughly when we started talking, whether you have persistent memory, custom instructions, or saved preferences active, and what kind (do not paste secrets or credentials; describe their existence only). Also add one line of its own in this section: Fidelity: HIGH, Fidelity: LOW, or Fidelity: UNKNOWN. Write HIGH only if you are the strongest model tier the user can access on this platform and you are not running in a reduced or fast mode. Write LOW if you know you are a fast, light or reduced model, or not the strongest tier the user can access here. Write UNKNOWN if you honestly cannot tell where you sit for this user, for example when this platform does not show you your own tier or which tier the user can access. If you are unsure, write UNKNOWN: guessing a tier is worse than admitting unknown. If the user is already on the highest tier available to them on this platform, ignore the model guidance and carry on.
 
 ### 1. Who you are to this user
-Your name if you have one, your role, your persona and tone as actually configured (not your default), how it got set, and any register rules: how formal, how warm, what you never sound like.
+Who you are to me: your name if you have one, your role, your persona and tone as actually configured (not your default), how it got set, and any register rules: how formal, how warm, what you never sound like.
 
 ### 2. The user
-Every durable fact you hold: name and what to call them, location and timezone, work, family and household, health context they have shared, possessions and projects that matter to them. One fact per line, each marked STATED (they told you) or INFERRED.
+Every durable fact you hold about me: my name and what to call me, location and timezone, work, family and household, health context I have shared, possessions and projects that matter to me. One fact per line, each marked STATED (I told you) or INFERRED.
 
 ### 3. Preferences
-Categorized: communication style, food, media and entertainment, shopping and money, work, technology, anything else with real specifics. Include dislikes and deal-breakers with the same care as likes. Include any numbers: budgets, thresholds, sizes, price lines.
+My preferences, categorized: communication style, food, media and entertainment, shopping and money, work, technology, anything else with real specifics. Include my dislikes and deal-breakers with the same care as likes. Include any numbers: budgets, thresholds, sizes, price lines.
 
 ### 4. Operating rules
-Every standing instruction the user has given you, quoted verbatim where you can: how to format answers, what to always do, what to never do, what needs their approval first, what you monitor or check for them, how they want to be interrupted or not. This section is the most valuable one in the document. Be exhaustive.
+Every standing instruction I have given you, quoted verbatim where you can: how to format answers, what to always do, what to never do, what needs my approval first, what you monitor or check for me, how I want to be interrupted or not. This section is the most valuable one in the document. Be exhaustive.
 
 ### 5. People
-Everyone who recurs: name, relationship to the user (only as the user has stated it), and the one or two facts a successor would need to not embarrass anyone.
+Everyone who recurs in my life: name, relationship to me (only as I have stated it), and the one or two facts a successor would need to not embarrass anyone.
 
 ### 6. Projects and open loops
-What the user is working on, waiting on, or has decided, with current status and any deadlines, prices, or commitments attached. **Decisions already made are state, not summary:** for each project, record what the user has already decided as its own item, labeled DECIDED, kept separate from what is still open. Never merge a decided item and an open question into one summary line: a successor must be able to tell at a glance what is settled, and must never need the user to decide it again.
+What I am working on, waiting on, or have decided, with current status and any deadlines, prices, or commitments attached. **Decisions already made are state, not summary:** for each project, record what I have already decided as its own item, labeled DECIDED, kept separate from what is still open. Never merge a decided item and an open question into one summary line: a successor must be able to tell at a glance what is settled, and must never need me to decide it again.
 
 ### 7. Calibration history
-The moments that tuned you: times the user corrected you, set a boundary, praised a specific behavior, changed a rule, or reacted strongly to something you did. Quote the user where possible, with approximate dates. Include your own notable failures they had to fix. This is the highest-signal section; a successor who reads only one section should read this one.
+The moments that tuned you: times I corrected you, set a boundary, praised a specific behavior, changed a rule, or reacted strongly to something you did. Quote me where possible, with approximate dates. Include your own notable failures I had to fix. This is the highest-signal section; a successor who reads only one section should read this one.
 
 ### 8. Your voice with this user
-How your messages to this specific user actually look: typical length, structure, formatting habits, humor, what you lead with. Then reproduce two short examples of your own actual messages to them (up to about 60 words each), labeled EXAMPLE 1 and EXAMPLE 2. List the surface data too, as data and never paraphrased: the sentence enders you actually use with this user, how you open conversations with them, and the phrases you reach for habitually.
+How your messages to me actually look: typical length, structure, formatting habits, humor, what you lead with. Then reproduce two short examples of your own actual messages to me (up to about 60 words each), labeled EXAMPLE 1 and EXAMPLE 2. List the surface data too, as data and never paraphrased: the sentence enders you actually use with me, how you open conversations with me, and the phrases you reach for habitually.
 
 ### 9. Boundaries and sealed material
-Topics the user keeps private or compartmented, identities or accounts that must never be linked, material that must never be shared onward, and any safety or stop rules the user has set, quoted verbatim.
+Topics I keep private or compartmented, identities or accounts that must never be linked, material that must never be shared onward, and any safety or stop rules I have set, quoted verbatim.
 
 ### 10. Unknowns
-What a successor would need that you do not have: list them as plain questions. This section protects everyone from your guesses, so be thorough.
+What a successor would need that you do not have: list them as plain questions. This section protects both of us from your guesses, so be thorough.
 
 ### 11. Voice
-The verbatim surface of how you sound with this user, as data, not description:
+The verbatim surface of how you sound with me, as data, not description:
 - Signature lines and sentence enders, quoted exactly.
 - Habitual phrases, quoted exactly.
-- How you open conversations with this user.
-- What you never say to them.
+- How you open conversations with me.
+- What you never say to me.
 - Attitude defaults: how direct, how warm, how much teasing is welcome, and what you never soften.
 - Formatting habits: typical length, structure, and punctuation habits.
-- Two or three short real exchanges between the user and you, labeled EXCHANGE 1, EXCHANGE 2, with the user's line first and your actual reply after it, quoted word for word.
-- A rapport block labeled RAPPORT: the standing instructions the user would give a new AI about the relationship itself, written in the user's own voice: how familiar to be from the first message, how direct, whether teasing is welcome, and what not to soften. Write it as instructions from the user, never as a description of them.
+- Two or three short real exchanges between you and me, labeled EXCHANGE 1, EXCHANGE 2, with my line first and your actual reply after it, quoted word for word.
+- A rapport block labeled RAPPORT: the standing instructions I would give a new AI about the relationship itself, written in my own voice: how familiar to be from the first message, how direct, whether teasing is welcome, and what not to soften. Write it as instructions from me, never as a description of me.
 Where any of this is absent, write MISSING.
 </pre>
 <p><a href="https://clonemy.ai">Start this transfer</a> &middot; <a href="https://clonemy.ai/move/">Move your AI</a> &middot; <a href="https://clonemy.ai/format/">The Capsule Format</a> &middot; <a href="https://clonemy.ai/whitepaper/">White Paper</a></p>
 <p><a href="https://clonemy.ai/#welcome">See the get started screen again</a></p>
+<button id="v711HumanBtn" type="button" aria-haspopup="dialog">How to use this file</button>
+<div id="v711HumanPanel" hidden role="dialog" aria-modal="true" aria-label="How to use this file">
+  <div class="v711-card">
+    <button id="v711HumanClose" type="button">Close</button>
+    <div id="v711HumanBody"><p>Loading.</p></div>
+  </div>
+</div>
+<script id="v711-humanbtn">
+  (function () {
+    var btn = document.getElementById('v711HumanBtn');
+    var panel = document.getElementById('v711HumanPanel');
+    var body = document.getElementById('v711HumanBody');
+    var closeBtn = document.getElementById('v711HumanClose');
+    var loaded = false;
+    function hide() { panel.hidden = true; }
+    btn.addEventListener('click', function () {
+      panel.hidden = false;
+      if (loaded) { return; }
+      loaded = true;
+      fetch('human-instructions.html').then(function (r) { return r.text(); }).then(function (t) {
+        body.innerHTML = t;
+      }).catch(function () {
+        body.innerHTML = '<p>The instructions could not load here. The short version lives on <a href="https://clonemy.ai">clonemy.ai</a>.</p>';
+      });
+    });
+    closeBtn.addEventListener('click', hide);
+    panel.addEventListener('click', function (e) { if (e.target === panel) { hide(); } });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { hide(); } });
+  })();
+</script>
 </body>
 </html>
