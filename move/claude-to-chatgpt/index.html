@@ -275,5 +275,84 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
     });
   })();
 </script>
+<script id="v710-chipapp">
+  /* v7.10: on Android the works-with chips try the app first
+     (Tony, 2026-11-08: apply it to all the buttons). One
+     capture listener: the prompt is copied exactly as the
+     v7.08 wire copies it, then the door opens as an intent
+     pinned to the platform's app package, with the door's
+     web address as its built-in fallback. Desktop and iOS
+     never see this block run: it returns at once when the
+     browser is not Android, and the wire keeps its flow.
+     Packages verified against each Google Play listing on
+     2026-11-08, the same eight as the homepage wizard. */
+  (function () {
+    if (!/Android/i.test(navigator.userAgent || '')) { return; }
+    var row = document.querySelector('.v6-head .head-chips-row');
+    if (!row) { return; }
+    var PKG = { chatgpt: 'com.openai.chatgpt', claude: 'com.anthropic.claude', gemini: 'com.google.android.apps.bard', grok: 'ai.x.grok', perplexity: 'ai.perplexity.app.android', copilot: 'com.microsoft.copilot', metaai: 'com.facebook.stella', muse: 'com.facebook.aura' };
+    var DOORS = {
+      chatgpt: 'https://chatgpt.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.&hints=search',
+      claude: 'https://claude.ai/new?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.',
+      grok: 'https://grok.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.',
+      perplexity: 'https://www.perplexity.ai/search?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.',
+      gemini: 'https://gemini.google.com/app',
+      copilot: 'https://copilot.microsoft.com/',
+      metaai: 'https://www.meta.ai/',
+      muse: 'https://muse.ai'
+    };
+    var PROMPT = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, as a downloadable file named capsule-source.md if you can, otherwise as one full code block I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
+    function intentFor(webUrl, pkg) {
+      try {
+        var u = new URL(webUrl);
+        return 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=https;package=' + pkg + ';S.browser_fallback_url=' + encodeURIComponent(webUrl) + ';end';
+      } catch (e) { return webUrl; }
+    }
+    function openApp(webUrl, pkg) {
+      var it = intentFor(webUrl, pkg);
+      if (typeof window.__v710AppOpen === 'function') { window.__v710AppOpen(it); return; }
+      var a = document.createElement('a');
+      a.href = it;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { if (a.parentNode) { a.parentNode.removeChild(a); } }, 400);
+    }
+    function copyText(text, done) {
+      function fallback() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch (e) {}
+        done();
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest('.chip-door') : null;
+      if (!btn || btn.disabled) { return; }
+      var key = btn.getAttribute('data-chip-ai');
+      var url = DOORS[key];
+      var pkg = PKG[key];
+      if (!url || !pkg) { return; }
+      e.preventDefault();
+      e.stopPropagation();
+      var spans = btn.querySelectorAll('span');
+      var label = spans.length ? spans[spans.length - 1] : null;
+      btn.disabled = true;
+      copyText(PROMPT, function () {
+        openApp(url, pkg);
+        if (label) {
+          var orig = label.textContent;
+          label.textContent = 'Copied, paste it there';
+          setTimeout(function () { label.textContent = orig; btn.disabled = false; }, 2400);
+        } else { btn.disabled = false; }
+      });
+    }, true);
+  })();
+</script>
 </body>
 </html>

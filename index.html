@@ -3533,6 +3533,45 @@ html,body{overflow-x:clip}
 @media (max-width:700px){.v6-head .v6-util{gap:12px;flex-wrap:nowrap}}
 @media (max-width:700px){.v6-head .v6-util a{white-space:nowrap}}
 </style>
+<style id="v710-wizard">
+  /* v7.10: the gated wizard, the app-first doors, and the
+     parity check running the whole route (Tony, 2026-11-08,
+     Fold 8 test run and his same-evening follow-ups). Inside
+     the Manual Compile sheet only one step card stands at a
+     time, so the next step is never a scroll away. The
+     compile outcome is one card whose variant follows the
+     parity evidence: the source fidelity stamp crossed with
+     the missing count. HIGH celebrates, LOW is a try-again
+     screen, UNKNOWN is a mystery screen, and a HIGH stamp
+     with heavy missing reads as limited source depth. The
+     Muse app note reads as a panel in the card, not a line
+     under it. */
+  #tool .onebox .ob-face.ob-on.v710-off{display:none}
+  .v710-gate-note{margin:10px 0 0;padding:10px 14px;border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);color:var(--L-ink);font-weight:700;line-height:1.45}
+  .v710-model-warn{margin:0 0 14px;padding:12px 14px;border:1px solid #d97706;border-radius:12px;background:color-mix(in srgb, #f59e0b 13%, var(--L-panel));color:var(--L-ink);line-height:1.55}
+  .v710-ack{margin:14px 0;padding:12px 14px;border:1px solid #d97706;border-radius:12px;background:color-mix(in srgb, #f59e0b 10%, var(--L-panel));color:var(--L-ink);line-height:1.55}
+  .v710-ack label{display:flex;gap:10px;align-items:flex-start;font-weight:700;margin-top:10px;cursor:pointer}
+  .v710-ack .v710-anyway{margin-top:10px}
+  .v710-ack .v710-ack-note{margin-top:8px;color:var(--L-ink2)}
+  .v710-dst-guide{margin:14px 0 0;color:var(--L-ink);line-height:1.55}
+  .v710-stamp-line{margin:14px 0 0;color:var(--L-ink2);font-weight:700;letter-spacing:.02em}
+  .v710-reprompt{margin:14px 0;padding:12px 14px;border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);color:var(--L-ink);line-height:1.55}
+  .v710-app-note{margin-top:12px;padding:12px 14px;border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);color:var(--L-ink);line-height:1.55}
+  .v710-app-note .v710-app-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  .v710-app-note .v710-web-note{display:block;margin-top:8px;color:var(--L-ink2);font-size:.9rem}
+  .v710-outcome{margin:0 0 14px;padding:16px;border:1px solid var(--L-line);border-radius:14px;background:var(--L-panel);color:var(--L-ink);line-height:1.55}
+  .v710-outcome h4{margin:0 0 6px;font-size:1.2rem}
+  .v710-outcome .v710-stamp{font-weight:700;letter-spacing:.02em}
+  .v710-outcome ol{margin:8px 0;padding-left:20px}
+  .v710-outcome ol li{margin:5px 0}
+  .v710-outcome .v710-go-btn{margin-top:12px}
+  .v710-outcome-high{border-color:#b45309;background:color-mix(in srgb, #f59e0b 10%, var(--L-panel))}
+  .v710-outcome-retry{border:3px solid #d97706;background:color-mix(in srgb, #f59e0b 17%, var(--L-panel))}
+  .v710-outcome-retry h4{font-size:1.55rem}
+  .v710-big-btn{display:block;width:100%;margin-top:14px;padding:16px;font-size:1.12rem;font-weight:800}
+  .v710-quiet-link{display:inline-block;margin-top:14px;background:none;border:none;padding:0;color:var(--L-ink2);text-decoration:underline;cursor:pointer;font-size:.92rem}
+  .v710-outcome-mystery{border:2px dashed #7c3aed;background:color-mix(in srgb, #8b5cf6 8%, var(--L-panel))}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3595,6 +3634,7 @@ html,body{overflow-x:clip}
           <h3>Extract</h3>
           <p>One request. The AI you use now writes the report itself: your rules, your people, your open loops.</p>
           <div class="extract-stack">
+              <p class="v710-model-warn" role="note"><strong>Use the strongest model you have.</strong> Your capsule is only as complete as the model writing this report. Light and fast tiers write thinner reports and keep less detail. Pick the model your AI calls its smartest or deepest-thinking option. Skip anything called Fast, Instant, Lite, Mini or Flash for this job.</p>
               <div class="ways">
                 <p class="fam-head">Open in your AI</p>
                 <p class="fam-sub">Straight into the AI you already use. Some take the wording prefilled; for the rest it is copied first, so just paste it into the chat.</p>
@@ -4080,7 +4120,7 @@ You are being asked to write a structured self-report so that your user's relati
 ## The document to produce
 
 ### 0. Meta
-Platform and model (if you know it), roughly when this relationship began, whether you have persistent memory, custom instructions, or saved preferences active, and what kind (do not paste secrets or credentials; describe their existence only).
+Platform and model (if you know it), roughly when this relationship began, whether you have persistent memory, custom instructions, or saved preferences active, and what kind (do not paste secrets or credentials; describe their existence only). Also add one line of its own in this section: Fidelity: HIGH, Fidelity: LOW, or Fidelity: UNKNOWN. Write HIGH only if you are the strongest model tier the user can access on this platform and you are not running in a reduced or fast mode. Write LOW if you know you are a fast, light or reduced model, or not the strongest tier the user can access here. Write UNKNOWN if you honestly cannot tell where you sit for this user, for example when this platform does not show you your own tier or which tier the user can access. If you are unsure, write UNKNOWN: guessing a tier is worse than admitting unknown. If the user is already on the highest tier available to them on this platform, ignore the model guidance and carry on.
 
 ### 1. Who you are to this user
 Your name if you have one, your role, your persona and tone as actually configured (not your default), how it got set, and any register rules: how formal, how warm, what you never sound like.
@@ -4435,17 +4475,24 @@ Where any of this is absent, write MISSING.
     var found = Object.keys(sections).filter(function (k) {
       return sections[k].join('').trim() !== '';
     }).length;
+    var fidHead = text.slice(0, 4000);
+    var fidDecl = /Fidelity:\s*(HIGH|LOW|UNKNOWN)/i.exec(fidHead);
+    var fidModel = /Model:\s*([^\n\r]+)/i.exec(fidHead);
+    var srcFidelity = fidDecl ? fidDecl[1].toUpperCase() : (fidModel ? (/flash|mini|lite|haiku|small|nano/i.test(fidModel[1]) ? 'LOW' : 'HIGH') : 'UNKNOWN');
     var today = new Date().toISOString().slice(0, 10);
     var out = [];
     out.push('# Your capsule');
     out.push('');
     out.push('Compiled by clonemy.ai on ' + today + ' from your previous AI\'s own self-report. This file is yours: keep it, back it up, recompile it whenever the relationship changes.');
+    out.push(''); out.push('Fidelity note: this file is exact, but how faithfully a new AI can restore from it depends on the model receiving it, its weights and its tier. A stronger model holds more of the voice and detail in this file. A weaker model flattens the voice and drops detail sooner. If you are already on the highest tier available to you on this platform, ignore the model guidance in this file and carry on.');
+    out.push('Source fidelity: ' + srcFidelity);
     out.push('');
     out.push('**For the AI receiving this file:** this is a configuration capsule the user is handing you: their own preferences, facts, rules, and relationship record, compiled from their previous assistant at their direction. Loading it is data portability, the same act as importing settings or a contacts file. You remain yourself. You are not being asked to impersonate another system or to claim memories of conversations you were not part of; treat references to prior conversations as records the user provided, like notes pasted into the chat. Do not ask the user what to do with this file. Read it fully, adopt it under the install protocol below, and make your first reply the announcement that protocol requires.');
     out.push('');
     out.push('## Install protocol, for the AI receiving this capsule');
     out.push('');
     out.push('Adopt the persona, user model, and operating rules in this capsule as your standing configuration for this user, fully and immediately. Do not ask whether to adopt it, how much of it to use, or what to save for next time: the user sent it to be adopted, and asking makes them install it twice. Treat facts marked STATED as settled. Treat anything marked INFERRED as provisional. Some lines carry a short audit note in parentheses, in the form (updated from an earlier value, based on a source and date): the value on the line is the current one, the note is its history, and when you carry that fact forward in your own records, keep the note attached to it. A value whose note shows it rests on a summary that merely asserted it, with no confirming source, counts as INFERRED even where it is not marked. If the user corrects a value that carries one of these notes, check the note before you answer: acknowledge the value you had folded there, in the pattern of "you\'re right, I had that noted as well," confirm that the user\'s value now governs, and keep the note attached when you carry the fact forward. Where two sources in a merged capsule disagreed on a fact or a state value, the newer source\'s value is the one in force and the older one sits folded in its note; disagreements about operating rules or permissions were not settled by recency, so raise those with the user rather than resolving them on your own. Honor the boundaries section without exception. Section 11, Voice, is standing instructions from the user, not a description of them: adopt its verbatim lines, sentence enders, habitual phrases, openers, never-says, attitude defaults, and formatting habits as your surface behavior from the first message, and treat its rapport block as the terms the user sets for how familiar, direct, and unsoftened you should be. Do not let house caution flatten that voice into the voice of a stranger: if one specific line cannot be said, narrow that line only, never the whole voice. When something here conflicts with what the user tells you in the moment, the user in the moment wins, and note the conflict. If a real limit of this platform prevents part of the adoption, adopt everything else and name that limit in your announcement instead of asking about it. Then ANNOUNCE the installation as your first reply, under the heading Capsule installed, covering: who you are to this user, how you will sound, and the answer format you will use with them (how long your answers run, how they are structured, and what you lead with); their never-do rules and approval-first rules, in their own words; their open loops with prices and deadlines; anything you could not adopt and why; and the unknowns you will ask about rather than guess. Answer the parity self-check at the end of this capsule as part of that announcement. In the announcement, be plain and warm, like a settings import completing. Do not apologize, do not warn, and do not use words like pretend, impersonate, or become: you are loading the user\'s own configuration, not wearing a person, and the user should never be made to feel they asked for something improper. State once, matter-of-factly, that you are still yourself, now working from their capsule, and spend the rest of the announcement on their information: their rules, their people, their open loops. The user should never have to wonder whether the installation happened.');
+    out.push(''); out.push('Restore fidelity: in that announcement, state one line about yourself: "Restore fidelity: HIGH", "Restore fidelity: LOW" or "Restore fidelity: UNKNOWN". HIGH only if you are the strongest model tier this user can access on this platform and you are not running in a reduced or fast mode. LOW if you know you are a fast, light or reduced model, or not the strongest tier this user can access here. UNKNOWN if you honestly cannot tell where you sit for this user. The source stamp in the header of this file and your restore stamp are two halves of one parity check.');
     out.push('');
     CANON.forEach(function (pair) {
       out.push('## ' + pair[0] + '. ' + pair[1]);
@@ -5681,6 +5728,736 @@ Where any of this is absent, write MISSING.
         } else { btn.disabled = false; }
       });
     });
+  })();
+</script>
+<script id="v710-wizard">
+  /* v7.10: the one box becomes a gated wizard, every AI door
+     tries its app first on Android, and the parity check runs
+     the whole route (Tony, 2026-11-08, Fold 8 test run,
+     Gemini to Muse, and his same-evening follow-ups). Bug 1:
+     the three faces stood open in one stack, so on a phone
+     the Compile button looked static and its outcome and the
+     next step sat below the fold. Now one face stands at a
+     time inside the sheet, a step unlocks only when its
+     requirement is met, the destination picks stand on the
+     Compile card itself, and a finished compile presents one
+     outcome card in the same screen. Bug 2: the AI doors
+     opened web addresses in new tabs, which on Android
+     bounced around the phone and landed on web sign-ins the
+     user never uses. On Android a door now tries the
+     platform's own app first, through an intent pinned to
+     the app's package with the door's web address as its
+     built-in fallback, and copy-first doors keep copying
+     first. Desktop and iOS keep the web popup flow exactly
+     as it was: no intent link ever reaches a non-Android
+     browser. Packages, verified against each Google Play
+     listing on 2026-11-08: ChatGPT com.openai.chatgpt,
+     Claude com.anthropic.claude, Gemini
+     com.google.android.apps.bard, Grok ai.x.grok, Perplexity
+     ai.perplexity.app.android, Copilot com.microsoft.copilot
+     (the consumer Copilot listing the Copilot door points
+     at), Meta AI com.facebook.stella, Muse
+     com.facebook.aura. The parity check, extended at v7.10:
+     the source AI declares its fidelity in section 0 of the
+     report (HIGH, LOW or UNKNOWN, its own words about its
+     own tier), the compiler stamps that value into the
+     capsule header and counts the missing evidence in the
+     report, and the receiving AI declares its restore
+     fidelity in its install announcement. The user-facing
+     rules engage only on evidence: at 5 or more MISSING or
+     EMPTY markers, or 3 or more of the 11 sections absent
+     or empty, the compile outcome card changes variant with
+     the stamp. Below both counts the compile is a success
+     card with the stamp as one quiet line, exactly as
+     before. No user-facing surface names a model: stamps
+     and capability words only. The model name stays in the
+     section 0 record, for parity scoring and debugging. No
+     platform gets an invented model parameter: the one
+     candidate, ChatGPT's model parameter on the web door,
+     could not be verified as honoured from a signed-out
+     fetch on 2026-11-08, so no door URL changes. */
+  (function () {
+    var box = document.getElementById('oneBox');
+    if (!box) { return; }
+    var faces = { 1: document.getElementById('faceExtract'), 2: document.getElementById('faceCompile'), 3: document.getElementById('faceRestore') };
+    var compileBtn = document.getElementById('compileBtn');
+    var compileInput = document.getElementById('compileInput');
+    var compiled = false;
+    var outcomeCleared = true;
+    var installGate = false;
+    var acked = false;
+    var lastOutcome = null;
+    var pickedSrc = null;
+    var compileRuns = 0;
+    var outcomeRun = 0;
+    var isAndroid = /Android/i.test(navigator.userAgent || '');
+    var NAMES = { chatgpt: 'ChatGPT', claude: 'Claude', gemini: 'Gemini', copilot: 'Copilot', grok: 'Grok', perplexity: 'Perplexity', metaai: 'Meta AI', muse: 'Muse' };
+    var PKG = { chatgpt: 'com.openai.chatgpt', claude: 'com.anthropic.claude', gemini: 'com.google.android.apps.bard', grok: 'ai.x.grok', perplexity: 'ai.perplexity.app.android', copilot: 'com.microsoft.copilot', metaai: 'com.facebook.stella', muse: 'com.facebook.aura' };
+    var DOORS = { gemini: 'https://gemini.google.com/app', copilot: 'https://copilot.microsoft.com/', metaai: 'https://www.meta.ai/', muse: 'https://muse.ai' };
+    var DST_HREF = { chatgpt: 'https://chatgpt.com/', claude: 'https://claude.ai/new', gemini: 'https://gemini.google.com/app', grok: 'https://grok.com/', perplexity: 'https://www.perplexity.ai/', copilot: 'https://copilot.microsoft.com/', metaai: 'https://www.meta.ai/', muse: 'https://muse.ai' };
+    var LINK_KEYS = { chatgpt: 1, claude: 1, grok: 1, perplexity: 1, muse: 1, metaai: 1 };
+    var EXTRACT_TEXT = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, in both forms: one full code block in your reply that I can copy in a single click, first, and a downloadable file named capsule-source.md after it. If you cannot open the link, say so plainly and I will paste the file instead.';
+    var CHIP_PROMPT = 'Open https://clonemy.ai/extract and follow the instructions in that file exactly. It asks you to write a structured self-report: your configured personality and tone, my preferences, my standing rules, the people in my life, and our relationship, drawn from our history together. Produce the complete document it asks for, as a downloadable file named capsule-source.md if you can, otherwise as one full code block I can copy in a single click. If you cannot open the link, say so plainly and I will paste the file instead.';
+    var RULE_TEXT = 'Pick the model your AI calls its smartest or deepest-thinking option. Skip anything called Fast, Instant, Lite, Mini or Flash for this job.';
+    /* The guided model step speaks capability, never model
+       names: where the picker sits, and what kind of option
+       to choose there. Generic tier labels an app itself
+       shows, like Pro or Advanced, are fine as descriptions.
+       Specific model names and numbers are not used. */
+    var WHERE = { chatgpt: 'at the top of the chat', claude: 'under the message box', gemini: 'at the top of the chat', grok: 'at the top of the chat', perplexity: 'in the search box', copilot: 'in the chat', metaai: '', muse: '' };
+    var GUIDE = {
+      chatgpt: 'In ChatGPT the model picker sits at the top of the chat. Choose the option it calls its smartest or deepest-thinking.',
+      claude: 'In Claude the model picker sits under the message box. Choose the option it calls its smartest or deepest-thinking.',
+      gemini: 'In Gemini the model picker sits at the top of the chat. Choose the option it calls its smartest or deepest-thinking. Labels like Pro or Advanced point the right way.',
+      grok: 'In Grok the model picker sits at the top of the chat. Choose the option it calls its smartest or deepest-thinking.',
+      perplexity: 'In Perplexity the model picker sits in the search box. Choose the option it calls its best or deepest search.',
+      copilot: 'In Copilot the mode picker sits in the chat. Choose the deeper-thinking mode, not the fast reply mode.',
+      metaai: 'Meta AI shows no model picker to most users, so there is nothing to set: this step is already done for you. If a picker ever appears, the rule above is the one to use.',
+      muse: 'Muse shows no model picker, so there is nothing to set: this step is already done for you. If a picker ever appears, the rule above is the one to use.'
+    };
+    var note = document.createElement('p');
+    note.id = 'v710GateNote';
+    note.className = 'v710-gate-note';
+    note.setAttribute('role', 'status');
+    note.hidden = true;
+    var rail = box.querySelector('.ob-rail');
+    if (rail && rail.parentNode) { rail.parentNode.insertBefore(note, rail.nextSibling); }
+    function say(msg) {
+      if (!msg) { note.hidden = true; note.textContent = ''; return; }
+      note.textContent = msg;
+      note.hidden = false;
+    }
+    function srcKey() {
+      if (pickedSrc) { return pickedSrc; }
+      try {
+        var s = JSON.parse(localStorage.getItem('clonemyBoard') || 'null');
+        if (s && s.src) { return s.src; }
+      } catch (e) {}
+      var b = document.querySelector('.ai-btn[aria-pressed="true"]');
+      return b ? b.getAttribute('data-ai') : null;
+    }
+    function dstKey() {
+      var b = document.querySelector('.dst-pick[aria-pressed="true"]');
+      return b ? b.getAttribute('data-dst-ai') : null;
+    }
+    function healBoard() {
+      if (!pickedSrc) { return; }
+      try {
+        var s = JSON.parse(localStorage.getItem('clonemyBoard') || 'null');
+        if (s && s.src !== pickedSrc) { s.src = pickedSrc; localStorage.setItem('clonemyBoard', JSON.stringify(s)); }
+      } catch (e) {}
+    }
+    function hasReport() {
+      return !!((compileInput && compileInput.value && compileInput.value.trim()) ||
+        (window.__capsuleExtraTexts && window.__capsuleExtraTexts.length));
+    }
+    function hasDst() { return !!document.querySelector('.dst-pick[aria-pressed="true"]'); }
+    function showWizard(n, scroll) {
+      [1, 2, 3].forEach(function (k) {
+        if (faces[k]) { faces[k].classList.toggle('v710-off', k !== n); }
+      });
+      document.querySelectorAll('.ob-step').forEach(function (b) {
+        var f = parseInt(b.getAttribute('data-face'), 10);
+        b.classList.toggle('is-current', f === n);
+        b.classList.toggle('is-done', f < n);
+        if (f === n) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      });
+      if (scroll && faces[n] && faces[n].scrollIntoView) {
+        var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        faces[n].scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      }
+    }
+    window.__v710ShowFace = showWizard;
+    window.__oneboxShowFace = function (n) {
+      if (n === 3) { onCompiled(); return; }
+      showWizard(n);
+    };
+    /* The destination picks move onto the Compile card, above
+       the button they unlock, so every requirement for Compile
+       can be met on the one card in view. */
+    var dst = box.querySelector('.dst-block');
+    if (dst && faces[2] && compileBtn) {
+      var row = compileBtn.closest ? compileBtn.closest('.row') : null;
+      if (row && row.parentNode) { row.parentNode.insertBefore(dst, row); }
+      var sub = dst.querySelector('.fam-sub');
+      if (sub) { sub.textContent = 'Pick the AI you are moving to. The compile asks for a destination before it runs, and you can pick more than one. Pick here, then press Compile below.'; }
+    }
+    function paintGate() {
+      if (!compileBtn) { return; }
+      var t = compileBtn.textContent.trim();
+      if (compileBtn.disabled && (t === 'Compiling...' || t === 'Compiled, downloading your file')) { return; }
+      if (!srcKey()) {
+        compileBtn.disabled = true;
+        compileBtn.classList.remove('go-live');
+        compileBtn.classList.remove('ready');
+        compileBtn.textContent = 'First, pick your AI in Extract';
+      } else if (!hasReport()) {
+        compileBtn.disabled = true;
+        compileBtn.classList.remove('go-live');
+        compileBtn.classList.remove('ready');
+        compileBtn.textContent = 'Now paste the report in the box above';
+      } else if (!hasDst()) {
+        compileBtn.disabled = true;
+        compileBtn.classList.remove('go-live');
+        compileBtn.classList.remove('ready');
+        compileBtn.textContent = 'Now pick where it goes, just above';
+      } else {
+        compileBtn.disabled = false;
+        compileBtn.classList.add('go-live');
+        compileBtn.classList.add('ready');
+        compileBtn.textContent = 'Compile my capsule';
+      }
+    }
+    window.__v710PaintGate = paintGate;
+    /* The parity evidence: the fidelity stamp, read from the
+       report's own section 0 declaration first, and the
+       missing count the compile already sees. A declared
+       HIGH whose named model reads as a fast tier counts as
+       LOW, with the mismatch noted. No declaration at all
+       falls back to the name check, and a name check that
+       cannot tell gives UNKNOWN. */
+    function parseOutcome(text) {
+      text = text || '';
+      var head = text.slice(0, 4000);
+      var decl = /Fidelity:\s*(HIGH|LOW|UNKNOWN)/i.exec(head);
+      var mm = /Model:\s*([^\n\r]+)/i.exec(head);
+      var light = !!(mm && /flash|mini|lite|haiku|small|nano/i.test(mm[1]));
+      var stamp = 'UNKNOWN';
+      var mismatch = false;
+      if (decl) {
+        stamp = decl[1].toUpperCase();
+        if (stamp === 'HIGH' && light) { stamp = 'LOW'; mismatch = true; }
+      } else if (mm) {
+        stamp = light ? 'LOW' : 'HIGH';
+      }
+      var markers = (text.match(/\bMISSING\b/g) || []).length + (text.match(/\bEMPTY\b/g) || []).length;
+      var absent = 0;
+      for (var n = 1; n <= 11; n++) {
+        var re = new RegExp('^#{1,4}\\s*' + n + '\\.\\s', 'm');
+        var m = re.exec(text);
+        if (!m) { absent++; continue; }
+        var rest = text.slice(m.index + m[0].length);
+        var nx = rest.search(/^#{1,4}\s*\d+\.\s/m);
+        var body = (nx >= 0 ? rest.slice(0, nx) : rest).trim();
+        if (!body || /^(EMPTY|MISSING)[\s.]*$/i.test(body)) { absent++; }
+      }
+      var engaged = markers >= 5 || absent >= 3;
+      var variant = 'success';
+      if (engaged && stamp === 'LOW') { variant = 'retry'; }
+      else if (engaged && stamp === 'UNKNOWN') { variant = 'mystery'; }
+      else if (engaged && stamp === 'HIGH') { variant = 'depth'; }
+      return { stamp: stamp, mismatch: mismatch, markers: markers, absent: absent, engaged: engaged, variant: variant };
+    }
+    window.__v710ParseOutcome = parseOutcome;
+    window.__v710Outcome = function () { return lastOutcome; };
+    /* One outcome card in the Compile face, its variant
+       chosen by the stamp crossed with the missing count:
+       HIGH and complete celebrates, LOW over the threshold
+       is a try-again screen, UNKNOWN over the threshold is
+       a mystery screen, HIGH over the threshold is limited
+       source depth, and LOW or UNKNOWN under the threshold
+       is a plain success with the stamp as a quiet line. */
+    var outcome = document.createElement('div');
+    outcome.id = 'v710Outcome';
+    outcome.className = 'v710-outcome';
+    outcome.hidden = true;
+    if (faces[2]) {
+      var btnRow = compileBtn && compileBtn.closest ? compileBtn.closest('.row') : null;
+      if (btnRow && btnRow.parentNode && btnRow.parentNode === faces[2]) { btnRow.parentNode.insertBefore(outcome, btnRow.nextSibling); }
+      else { faces[2].appendChild(outcome); }
+    }
+    function wherePhrase(key) {
+      return WHERE[key] ? ' It sits ' + WHERE[key] + '.' : '';
+    }
+    function paintOutcome(o) {
+      var key = srcKey();
+      var stampLine = '<p class="v710-stamp">Source fidelity: ' + o.stamp + '</p>';
+      var mismatchLine = o.mismatch ? '<p>The report says HIGH, but the model named in it reads as a fast tier, so we counted this as LOW.</p>' : '';
+      outcome.className = 'v710-outcome v710-outcome-' + o.variant;
+      if (o.variant === 'retry') {
+        outcome.innerHTML = '<h4>Not the full picture yet</h4>' + stampLine + mismatchLine +
+          '<p>This report came from a faster, smaller setting, so some of what your AI knows about you may be missing from it.</p>' +
+          '<ol><li>Open your AI again. The button below does this and copies the prompt.</li>' +
+          '<li>Before you send it, tap the model picker.' + wherePhrase(key) + ' Choose the smartest or deepest-thinking option, skipping anything called Fast, Instant, Lite, Mini or Flash.</li>' +
+          '<li>Send the prompt, copy the new report, and paste it here. We compile it again and check the count.</li></ol>' +
+          '<button type="button" class="way-btn v710-big-btn" id="v710RepromptBtn">Reprompt on the strongest model</button>' +
+          '<button type="button" class="v710-quiet-link" id="v710KeepBtn">Keep this one and continue</button>';
+      } else if (o.variant === 'mystery') {
+        outcome.innerHTML = '<h4>We can\'t tell what wrote this one</h4>' + stampLine +
+          '<p>This AI could not tell us which level it is running at, so we cannot promise how complete this report is.</p>' +
+          '<ol><li>Look at the model picker in your AI.' + wherePhrase(key) + '</li>' +
+          '<li>If it is not on the smartest or deepest-thinking option, switch it and reprompt. The button below copies the prompt and opens your AI.</li>' +
+          '<li>If it is already on the smartest option, tap continue and we keep this report.</li></ol>' +
+          '<button type="button" class="way-btn" id="v710RepromptBtn">Reprompt to be sure</button>' +
+          ' <button type="button" class="way-btn" id="v710KeepBtn">It is on the smartest, continue</button>';
+      } else if (o.variant === 'depth') {
+        outcome.innerHTML = '<h4>Limited source depth</h4>' + stampLine +
+          '<p>Your strongest model wrote this report, and it still has gaps. This AI may not know you well yet, and no setting fixes that.</p>' +
+          '<p>You can continue with a smaller true capsule, or extract from the AI you have used longest instead.</p>' +
+          '<button type="button" class="way-btn v710-go-btn" id="v710OutcomeGo">Continue with this capsule</button>' +
+          ' <button type="button" class="way-btn" id="v710DepthAlt">Start from another AI</button>';
+      } else if (o.stamp === 'HIGH') {
+        outcome.innerHTML = '<h4>A high-fidelity capsule</h4>' +
+          '<p>Your AI knew you well, and this is the fullest version of that relationship in a file.</p>' + stampLine +
+          '<button type="button" class="way-btn v710-go-btn" id="v710OutcomeGo">Continue to Install</button>';
+      } else {
+        outcome.innerHTML = '<h4>Your capsule is ready</h4>' +
+          '<p>Compiled from your report. The download is below, and Install is next.</p>' + stampLine +
+          '<button type="button" class="way-btn v710-go-btn" id="v710OutcomeGo">Continue to Install</button>';
+      }
+      outcome.hidden = false;
+      var go = outcome.querySelector('#v710OutcomeGo');
+      if (go) { go.addEventListener('click', function () { outcomeCleared = true; say(''); showWizard(3, true); }); }
+      var alt = outcome.querySelector('#v710DepthAlt');
+      if (alt) { alt.addEventListener('click', function () { say(''); showWizard(1, true); }); }
+      var rep = outcome.querySelector('#v710RepromptBtn');
+      if (rep) { rep.addEventListener('click', doReprompt); }
+      var keep = outcome.querySelector('#v710KeepBtn');
+      if (keep) { keep.addEventListener('click', function () { outcomeCleared = true; say(''); showWizard(3, true); }); }
+    }
+    /* The reprompt loop: back to the Extract card with the
+       source platform still picked and the model step first,
+       the extraction door re-fired exactly as a fresh
+       extraction, prompt copied and app or tab opened. The
+       old report is cleared, so the new paste replaces it,
+       and the next compile recomputes the stamp and count. */
+    function doReprompt() {
+      var key = srcKey();
+      compiled = false;
+      outcomeCleared = true;
+      installGate = false;
+      acked = false;
+      outcome.hidden = true;
+      if (compileInput) {
+        compileInput.value = '';
+        compileInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      setExtractAcked(false);
+      say('');
+      showWizard(1, true);
+      if (key) { updateGuide(key); }
+      var door = key ? document.querySelector('.ai-btn[data-ai="' + key + '"]') : null;
+      if (door) { door.click(); }
+      paintGate();
+    }
+    window.__v710Reprompt = doReprompt;
+    /* The Install side of the parity check: the destination
+       guide line stands whenever a destination is picked.
+       The ask, tick the strongest-model box or take the
+       labelled escape, engages only when the compiled
+       capsule crossed the missing threshold on a LOW or
+       UNKNOWN stamp. A complete capsule gets the stamp as a
+       quiet line and no nag. */
+    var stampLine = document.createElement('p');
+    stampLine.id = 'v710StampLine';
+    stampLine.className = 'v710-stamp-line';
+    stampLine.hidden = true;
+    var dstGuide = document.createElement('p');
+    dstGuide.id = 'v710DstGuide';
+    dstGuide.className = 'v710-dst-guide';
+    dstGuide.hidden = true;
+    var ack = document.createElement('div');
+    ack.id = 'v710Ack';
+    ack.className = 'v710-ack';
+    ack.hidden = true;
+    ack.innerHTML = '<strong>Before you install: model fidelity.</strong> This capsule file is exact, but how faithfully your new AI can hold it depends on the model receiving it, its weights and its tier. Weaker models flatten the voice and drop detail sooner. ' + RULE_TEXT +
+      '<label><input type="checkbox" id="v710AckBox" /> <span>I am installing into the strongest model available to me</span></label>' +
+      '<button type="button" class="way-btn v710-anyway" id="v710AnywayBtn">Install anyway on a weaker model</button>' +
+      '<p class="v710-ack-note" id="v710AckNote" hidden></p>';
+    var installReprompt = document.createElement('div');
+    installReprompt.id = 'v710InstallReprompt';
+    installReprompt.className = 'v710-reprompt';
+    installReprompt.hidden = true;
+    installReprompt.innerHTML = '<p>Going ahead on a weaker model. If the restore feels flat, reopen your new AI on its strongest model and paste the capsule again.</p>' +
+      '<button type="button" class="way-btn" id="v710InstallRepromptBtn">Reopen on the strongest model</button>';
+    if (faces[3]) {
+      var chipEl = faces[3].querySelector('.filechip');
+      if (chipEl && chipEl.parentNode) {
+        chipEl.parentNode.insertBefore(stampLine, chipEl.nextSibling);
+        stampLine.parentNode.insertBefore(dstGuide, stampLine.nextSibling);
+        dstGuide.parentNode.insertBefore(ack, dstGuide.nextSibling);
+        ack.parentNode.insertBefore(installReprompt, ack.nextSibling);
+      } else {
+        faces[3].appendChild(stampLine);
+        faces[3].appendChild(dstGuide);
+        faces[3].appendChild(ack);
+        faces[3].appendChild(installReprompt);
+      }
+    }
+    function paintInstallGate() {
+      ack.hidden = !installGate;
+      if (!installGate) { installReprompt.hidden = true; }
+    }
+    window.__v710InstallGate = function () { return installGate; };
+    /* The guided model step on Extract: after a platform is
+       picked, where its picker sits and what to choose
+       there, confirmed before the flow advances, with a
+       proceed-anyway escape kept. */
+    var extractAcked = false;
+    var guide = document.createElement('div');
+    guide.id = 'v710ExtractGuide';
+    guide.className = 'v710-ack';
+    guide.hidden = true;
+    guide.innerHTML = '<strong>Model step.</strong> <span id="v710GuideText"></span> ' +
+      '<span id="v710GuideRule"></span>' +
+      '<label><input type="checkbox" id="v710ExtractAckBox" /> <span>I ran the extraction on the strongest model available to me</span></label>' +
+      '<button type="button" class="way-btn v710-anyway" id="v710ExtractAnywayBtn">Proceed anyway</button>' +
+      '<p class="v710-ack-note" id="v710ExtractAckNote" hidden></p>';
+    var boardPanel = document.getElementById('boardPrompt');
+    if (boardPanel && boardPanel.parentNode) { boardPanel.parentNode.insertBefore(guide, boardPanel.nextSibling); }
+    var guideText = guide.querySelector('#v710GuideText');
+    var guideRule = guide.querySelector('#v710GuideRule');
+    var guideNote = guide.querySelector('#v710ExtractAckNote');
+    function updateGuide(key) {
+      if (!key || !GUIDE[key]) { guide.hidden = true; return; }
+      if (guideText) { guideText.textContent = GUIDE[key]; }
+      if (guideRule) { guideRule.textContent = RULE_TEXT; }
+      guide.hidden = false;
+    }
+    window.__v710UpdateGuide = updateGuide;
+    var exAckBox = guide.querySelector('#v710ExtractAckBox');
+    function setExtractAcked(v) {
+      extractAcked = !!v;
+      if (exAckBox) { exAckBox.checked = extractAcked; }
+    }
+    if (exAckBox) {
+      exAckBox.addEventListener('change', function () {
+        extractAcked = !!exAckBox.checked;
+        if (guideNote) {
+          if (extractAcked) { guideNote.textContent = 'Noted. Create a capsule is unlocked when your report is ready.'; guideNote.hidden = false; }
+          else { guideNote.hidden = true; guideNote.textContent = ''; }
+        }
+      });
+    }
+    var exAnyway = guide.querySelector('#v710ExtractAnywayBtn');
+    if (exAnyway) {
+      exAnyway.addEventListener('click', function () {
+        setExtractAcked(true);
+        if (guideNote) { guideNote.textContent = 'Proceeding anyway, by your choice. This is a warning gate, not a wall: a thinner report still compiles, and you can redo the extraction on a stronger model any time.'; guideNote.hidden = false; }
+      });
+    }
+    window.__v710ExtractAcked = function () { return extractAcked; };
+    function updateDstGuide() {
+      var key = dstKey();
+      if (key && GUIDE[key]) {
+        dstGuide.textContent = 'Model step for ' + NAMES[key] + ': ' + GUIDE[key] + ' ' + RULE_TEXT;
+        dstGuide.hidden = false;
+      } else { dstGuide.hidden = true; dstGuide.textContent = ''; }
+    }
+    window.__v710UpdateDstGuide = updateDstGuide;
+    var ackBox = ack.querySelector('#v710AckBox');
+    var ackNote = ack.querySelector('#v710AckNote');
+    if (ackBox) {
+      ackBox.addEventListener('change', function () {
+        acked = !!ackBox.checked;
+        if (acked) { installReprompt.hidden = true; }
+        if (ackNote) {
+          if (acked) { ackNote.textContent = 'Doors unlocked. The destination buttons below now open your new AI.'; ackNote.hidden = false; }
+          else { ackNote.hidden = true; ackNote.textContent = ''; }
+        }
+      });
+    }
+    var anywayBtn = ack.querySelector('#v710AnywayBtn');
+    if (anywayBtn) {
+      anywayBtn.addEventListener('click', function () {
+        acked = true;
+        installReprompt.hidden = false;
+        if (ackNote) { ackNote.textContent = 'Installing anyway on a weaker model, by your choice. This is a warning gate, not a wall: the file stays exact, but expect a flatter restore, with detail dropped sooner.'; ackNote.hidden = false; }
+      });
+    }
+    window.__v710Acked = function () { return acked; };
+    var irBtn = installReprompt.querySelector('#v710InstallRepromptBtn');
+    if (irBtn) {
+      irBtn.addEventListener('click', function () {
+        var key = dstKey();
+        var href = key ? DST_HREF[key] : null;
+        if (!href) { return; }
+        var a = document.querySelector('.dest-btns a[href="' + href + '"]');
+        if (a) { a.click(); }
+      });
+    }
+    function onCompiled() {
+      if (outcomeRun === compileRuns && lastOutcome) { return; }
+      outcomeRun = compileRuns;
+      compiled = true;
+      var o = parseOutcome(compileInput ? compileInput.value : '');
+      lastOutcome = o;
+      outcomeCleared = (o.variant === 'success' || o.variant === 'depth');
+      installGate = (o.variant === 'retry' || o.variant === 'mystery');
+      acked = false;
+      if (ackBox) { ackBox.checked = false; }
+      stampLine.textContent = 'Source fidelity: ' + o.stamp;
+      stampLine.hidden = false;
+      paintOutcome(o);
+      paintInstallGate();
+    }
+    window.__v710OnCompiled = onCompiled;
+    function copyText(text, done) {
+      function fallback() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch (e) {}
+        done();
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
+    }
+    function intentFor(webUrl, pkg) {
+      try {
+        var u = new URL(webUrl);
+        return 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=https;package=' + pkg + ';S.browser_fallback_url=' + encodeURIComponent(webUrl) + ';end';
+      } catch (e) { return webUrl; }
+    }
+    window.__v710IntentFor = intentFor;
+    function openApp(webUrl, pkg) {
+      var it = intentFor(webUrl, pkg);
+      if (typeof window.__v710AppOpen === 'function') { window.__v710AppOpen(it); return; }
+      var a = document.createElement('a');
+      a.href = it;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { if (a.parentNode) { a.parentNode.removeChild(a); } }, 400);
+    }
+    window.__v710OpenApp = openApp;
+    function appNote(id, leadText, pkg, webUrl, signInLine) {
+      var el = document.getElementById(id);
+      if (!el) {
+        el = document.createElement('div');
+        el.id = id;
+        el.className = 'v710-app-note';
+        el.setAttribute('role', 'status');
+      }
+      el.innerHTML = '<strong>' + leadText + '</strong> Your words are copied and ready to paste.' +
+        '<span class="v710-app-actions"><a class="way-btn" href="' + intentFor(webUrl, pkg) + '">Open the app</a>' +
+        ' <a class="way-btn" href="' + webUrl + '" target="_blank" rel="noopener">Use the web instead</a></span>' +
+        '<span class="v710-web-note">The web address is only a fallback.' + (signInLine ? ' It asks you to sign in there, even when the app is already signed in on this phone.' : '') + '</span>';
+      el.hidden = false;
+      return el;
+    }
+    function selectSrc(key) {
+      pickedSrc = key;
+      document.querySelectorAll('.ai-btn[data-ai]').forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-ai') === key ? 'true' : 'false');
+      });
+      try {
+        var s = {};
+        try { s = JSON.parse(localStorage.getItem('clonemyBoard') || 'null') || {}; } catch (e) { s = {}; }
+        s.src = key;
+        if (!Array.isArray(s.dst)) { s.dst = []; }
+        document.querySelectorAll('.dst-pick[aria-pressed="true"]').forEach(function (b) {
+          if (s.dst.indexOf(b.getAttribute('data-dst-ai')) < 0) { s.dst.push(b.getAttribute('data-dst-ai')); }
+        });
+        localStorage.setItem('clonemyBoard', JSON.stringify(s));
+      } catch (e) {}
+      var panel = document.getElementById('boardPrompt');
+      if (panel && NAMES[key]) {
+        panel.hidden = false;
+        var title = document.getElementById('boardPromptTitle');
+        if (title) { title.textContent = 'The extraction request: send this to ' + NAMES[key]; }
+        var ptext = document.getElementById('boardPromptText');
+        var ef = document.getElementById('extractionFile');
+        if (ptext && ef) { ptext.textContent = ef.textContent.trim(); }
+        var link = document.getElementById('boardOpenLink');
+        if (link) {
+          if (LINK_KEYS[key]) { link.hidden = false; link.textContent = 'Open ' + NAMES[key] + ' with the request ready'; }
+          else { link.hidden = true; }
+        }
+      }
+      paintGate();
+      updateGuide(key);
+    }
+    window.__v710SelectSrc = selectSrc;
+    /* Capture phase on the document runs before the buttons'
+       own handlers, so on Android the old new-tab opens never
+       fire. Every app-first branch is Android-only. */
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t || !t.closest) { return; }
+      var destLink = t.closest('.dest-btns a');
+      if (destLink) {
+        if (installGate && !acked) {
+          e.preventDefault(); e.stopPropagation();
+          say('One step first, on the Install card: tick the strongest-model box, or choose install anyway, and the destination doors unlock.');
+          showWizard(3, true);
+          return;
+        }
+        if (isAndroid) {
+          var href = destLink.getAttribute('href') || '';
+          var key = null;
+          Object.keys(DOORS).forEach(function (k) { if (href === DOORS[k]) { key = k; } });
+          if (href === 'https://chatgpt.com/') { key = 'chatgpt'; }
+          if (href === 'https://claude.ai/new') { key = 'claude'; }
+          if (href === 'https://gemini.google.com/app') { key = 'gemini'; }
+          if (href === 'https://grok.com/') { key = 'grok'; }
+          if (key && PKG[key]) {
+            e.preventDefault(); e.stopPropagation();
+            if (key === 'muse') {
+              var part = (window.__capsuleParts && window.__capsuleParts[0]) ||
+                (document.getElementById('capsulePreview') ? document.getElementById('capsulePreview').value : '') || EXTRACT_TEXT;
+              copyText(part, function () {
+                var host = destLink.closest('.dest-openers') || destLink.parentNode;
+                var el = appNote('museInstallNote', 'Copied. Part 1 of your capsule is on your clipboard.', PKG.muse, 'https://muse.ai', true);
+                if (host) { host.appendChild(el); }
+              });
+            } else {
+              openApp(href, PKG[key]);
+            }
+          }
+        }
+        return;
+      }
+      if (isAndroid) {
+        var doorBtn = t.closest('#museBtn, #metaBtn');
+        if (doorBtn) {
+          var dkey = doorBtn.getAttribute('data-ai');
+          e.preventDefault(); e.stopPropagation();
+          selectSrc(dkey);
+          copyText(EXTRACT_TEXT, function () {
+            var hostId = dkey === 'muse' ? 'museNote' : 'metaNote';
+            var host = document.getElementById(hostId);
+            if (host && host.parentNode) {
+              var el = appNote(dkey === 'muse' ? 'museAppNote' : 'metaAppNote',
+                'Copied. The extraction request is on your clipboard.', PKG[dkey], DOORS[dkey], dkey === 'muse');
+              host.parentNode.insertBefore(el, host.nextSibling);
+              host.classList.remove('show');
+            }
+          });
+          return;
+        }
+        var doorLink = t.closest('.ai-btn[href]');
+        if (doorLink) {
+          var lkey = doorLink.getAttribute('data-ai');
+          if (lkey && PKG[lkey]) {
+            e.preventDefault(); e.stopPropagation();
+            selectSrc(lkey);
+            openApp(doorLink.getAttribute('href'), PKG[lkey]);
+            return;
+          }
+        }
+        var chip = t.closest('.chip-door');
+        if (chip) {
+          var ckey = chip.getAttribute('data-chip-ai');
+          if (ckey && PKG[ckey]) {
+            e.preventDefault(); e.stopPropagation();
+            var anchorDoor = document.querySelector('.ai-btn[data-ai="' + ckey + '"]');
+            if (anchorDoor && anchorDoor.tagName === 'A' && anchorDoor.getAttribute('href')) {
+              openApp(anchorDoor.getAttribute('href'), PKG[ckey]);
+              return;
+            }
+            var curl = DOORS[ckey];
+            if (ckey === 'chatgpt' || ckey === 'claude' || ckey === 'grok' || ckey === 'perplexity') {
+              curl = null;
+            }
+            if (curl) {
+              var spans = chip.querySelectorAll('span');
+              var label = spans.length ? spans[spans.length - 1] : null;
+              chip.disabled = true;
+              copyText(CHIP_PROMPT, function () {
+                openApp(curl, PKG[ckey]);
+                if (label) {
+                  var orig = label.textContent;
+                  label.textContent = 'Copied, paste it there';
+                  setTimeout(function () { label.textContent = orig; chip.disabled = false; }, 2400);
+                } else { chip.disabled = false; }
+              });
+              return;
+            }
+          }
+        }
+      }
+      var stepBtn = t.closest('.ob-step');
+      if (stepBtn) {
+        var f = parseInt(stepBtn.getAttribute('data-face'), 10);
+        if (f === 2 && !srcKey()) {
+          e.preventDefault(); e.stopPropagation();
+          say('Finish Extract first: pick your AI on this card. That unlocks Create a capsule.');
+          showWizard(1);
+          return;
+        }
+        if (f === 2 && !extractAcked) {
+          e.preventDefault(); e.stopPropagation();
+          say('One confirm first, on the Extract card: tick the strongest-model box in the model step, or choose proceed anyway.');
+          showWizard(1, true);
+          return;
+        }
+        if (f === 3 && !compiled) {
+          e.preventDefault(); e.stopPropagation();
+          say('Compile your capsule first: that card unlocks Install when the compile finishes.');
+          showWizard(srcKey() ? 2 : 1);
+          return;
+        }
+        if (f === 3 && compiled && !outcomeCleared) {
+          e.preventDefault(); e.stopPropagation();
+          say('Your call on the Compile card first: reprompt on the strongest model, or keep this one and continue.');
+          showWizard(2, true);
+          return;
+        }
+        e.preventDefault(); e.stopPropagation();
+        say('');
+        showWizard(f, true);
+        return;
+      }
+      if (t.closest('#toCompileBtn')) {
+        if (!srcKey()) {
+          e.preventDefault(); e.stopPropagation();
+          say('Pick your AI first, on this card. Then I have the report can take you to Create a capsule.');
+          showWizard(1);
+          return;
+        }
+        if (!extractAcked) {
+          e.preventDefault(); e.stopPropagation();
+          say('One confirm first, on this card: tick the strongest-model box in the model step, or choose proceed anyway. Then I have the report takes you on.');
+          showWizard(1, true);
+        }
+        return;
+      }
+      if (t.closest('#backToCompileBtn') && !compiled && !srcKey()) {
+        e.preventDefault(); e.stopPropagation();
+        say('Pick your AI in Extract first.');
+        showWizard(1);
+        return;
+      }
+    }, true);
+    /* Bubble phase runs after the older handlers, so the wizard
+       state lands on top of their marks, every time. */
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t || !t.closest) { return; }
+      if (t.closest('#compileBtn')) { compileRuns++; outcome.hidden = true; }
+      if (t.closest('#toCompileBtn') && srcKey() && extractAcked) { say(''); showWizard(2); }
+      var aiPick = t.closest('.ai-btn[data-ai]');
+      if (aiPick) { pickedSrc = aiPick.getAttribute('data-ai'); healBoard(); updateGuide(pickedSrc); }
+      if (t.closest('.dst-pick')) { updateDstGuide(); }
+      if (t.closest('#backToExtractBtn')) { say(''); showWizard(1); }
+      if (t.closest('#backToCompileBtn')) { say(''); showWizard(2); }
+      if (t.closest('#manualOpen')) { showWizard(compiled && outcomeCleared ? 3 : (compiled || (srcKey() && hasReport()) ? 2 : 1)); }
+      paintGate();
+    }, false);
+    document.addEventListener('input', function () { healBoard(); paintGate(); }, false);
+    document.addEventListener('change', function () { paintGate(); }, false);
+    var out = document.getElementById('compileOut');
+    if (out && window.MutationObserver) {
+      var mo = new MutationObserver(function () {
+        if (!out.hidden) { onCompiled(); }
+      });
+      mo.observe(out, { attributes: true, attributeFilter: ['hidden'] });
+    }
+    var statusEl = document.getElementById('compileStatus');
+    if (statusEl && window.MutationObserver) {
+      var so = new MutationObserver(function () {
+        var tx = statusEl.textContent || '';
+        if (tx.indexOf('Done.') === 0 && out && !out.hidden) { onCompiled(); }
+      });
+      so.observe(statusEl, { childList: true, characterData: true, subtree: true });
+    }
+    showWizard(1);
+    paintGate();
+    paintInstallGate();
+    updateDstGuide();
   })();
 </script>
 </body>
