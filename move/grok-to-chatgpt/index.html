@@ -209,20 +209,28 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
   })();
 </script>
 <script id="v708-chipwire">
-  /* v7.08: the works-with chips are doors (Tony, 2026-11-08).
-     One delegated listener on the bar chips row. Four AIs
-     take the extraction prompt by link: the chip opens the
-     very href the Extract step door for that AI carries, in
-     a popup, falling back to a new tab when the popup is
-     blocked. Four take it by paste: the chip copies the
-     prompt (the decoded words of that same link), opens the
-     plain site in the same popup, and the chip face says
-     where the prompt went for a moment. Nothing else moves:
-     the step doors keep their own wiring and behaviour. */
+  /* v7.08, v7.09: the works-with chips are doors (Tony, 2026-11-08).
+     v7.09: the four link chips work from every header. One
+     delegated listener on the bar chips row. A chip matching
+     a step door standing on the page opens that door's very
+     href in a popup, falling back to a new tab when the popup
+     is blocked. A chip with no door on the page works from
+     the DOORS map: the four link doors carry the extraction
+     prompt in the address itself, built from the same PROMPT
+     string so the address can never drift from the prompt,
+     and the four paste doors take it by clipboard. Either
+     way the chip copies the prompt, opens the mapped door
+     in the same popup, and the chip face says where the
+     prompt went for a moment. Nothing else moves: the step
+     doors keep their own wiring and behaviour. */
   (function () {
     var row = document.querySelector('.v6-head .head-chips-row');
     if (!row) return;
     var DOORS = {
+      chatgpt: 'https://chatgpt.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.&hints=search',
+      claude: 'https://claude.ai/new?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.',
+      grok: 'https://grok.com/?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.',
+      perplexity: 'https://www.perplexity.ai/search?q=Open%20https%3A%2F%2Fclonemy.ai%2Fextract%20and%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.',
       gemini: 'https://gemini.google.com/app',
       copilot: 'https://copilot.microsoft.com/',
       metaai: 'https://www.meta.ai/',
