@@ -40,6 +40,50 @@
   :root[data-theme="light"] #v711HumanPanel .v711-card { background:#fbfaf7; color:#1c1a17; border-color:#14584a; }
   #v711HumanClose { float:right; padding:6px 12px; border-radius:8px; font:600 13px/1.2 inherit; cursor:pointer; background:transparent; color:inherit; border:1px solid currentColor; }
 </style>
+<style id="v729-humanbtn">
+  /* v7.29: the How to use this file button takes the
+     capsule gradient (Tony, 2026-11-12: "I barely
+     noticed the button on the extract page, make it
+     ecr colored and flashy"). ECR is read as the
+     capsule brand gradient, violet to cyan to pink,
+     the same stops the logo and the yours to keep
+     headline carry, in each theme's own values. The
+     pill fills with the gradient, the words go white
+     and bold, and a soft ring pulse runs on a slow
+     beat so the eye lands on it without the page
+     shouting; the pulse stills under reduced motion.
+     The v711 seat, size, panel and wiring do not
+     move; this block only re-dresses the pill, and
+     it stands after the v711 block so its word wins
+     at equal specificity in both themes. */
+  #v711HumanBtn{
+    background:linear-gradient(90deg,#7b6cff,#37c8e8 55%,#ff5ea8);
+    color:#ffffff;font-weight:700;border:1px solid transparent;
+    text-shadow:0 1px 2px rgba(11,11,20,.45);
+    box-shadow:0 4px 18px rgba(0,0,0,.35),0 0 0 0 rgba(55,200,232,.55);
+    animation:v729-pulse 2.6s ease-out infinite;
+  }
+  :root[data-theme="light"] #v711HumanBtn{
+    background:linear-gradient(90deg,#5a48e0,#0e7fa8 55%,#e03d86);
+    color:#ffffff;border-color:transparent;
+    text-shadow:0 1px 2px rgba(11,11,20,.35);
+    box-shadow:0 4px 18px rgba(40,32,96,.25),0 0 0 0 rgba(14,127,168,.5);
+    animation-name:v729-pulse-light;
+  }
+  @keyframes v729-pulse{
+    0%{box-shadow:0 4px 18px rgba(0,0,0,.35),0 0 0 0 rgba(55,200,232,.55)}
+    70%{box-shadow:0 4px 18px rgba(0,0,0,.35),0 0 0 14px rgba(55,200,232,0)}
+    100%{box-shadow:0 4px 18px rgba(0,0,0,.35),0 0 0 0 rgba(55,200,232,0)}
+  }
+  @keyframes v729-pulse-light{
+    0%{box-shadow:0 4px 18px rgba(40,32,96,.25),0 0 0 0 rgba(14,127,168,.5)}
+    70%{box-shadow:0 4px 18px rgba(40,32,96,.25),0 0 0 14px rgba(14,127,168,0)}
+    100%{box-shadow:0 4px 18px rgba(40,32,96,.25),0 0 0 0 rgba(14,127,168,0)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    #v711HumanBtn{animation:none}
+  }
+</style>
 </head>
 <body>
 <p>This page is the clonemy.ai extraction request in plain text, so an AI can fetch and follow it directly. Humans: you are in the right place too, copy anything you need, or head to <a href="https://clonemy.ai">clonemy.ai</a>.</p>
