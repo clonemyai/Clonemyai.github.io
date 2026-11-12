@@ -3845,6 +3845,32 @@ html,body{overflow-x:clip}
     .v6-head .head-apps .hero-ios .app-stack{display:none}
   }
 </style>
+<style id="v731-kicker">
+  /* v7.31: one seat for every panel's title card
+     (Tony, 2026-11-12: "make sure each panel's title
+     card circled in red is aligned to the same area
+     so the scroll throughs feel more fluid"). Every
+     copy column is a centred flex column, so the
+     kicker, its first item, floated to a different
+     height on each panel: measured at 1920 the four
+     kicker tops stood at 48.8, 146, 204.1 and 226.5.
+     The Confirmations copy also carried 18px of side
+     padding no other panel has, pushing its kicker
+     18px right and narrowing its rule by 36px, and
+     its kicker box stood 3px taller than the rest.
+     The copies now stack from the top on a shared
+     seat, so the kicker and the gradient rule under
+     it land at the same left, top and width on all
+     four panels; the bottom-anchored feet (the fine
+     print, the confirmation rows) keep the auto and
+     clamp margins that hold them at the foot, and
+     the kicker box is pinned to one height so the
+     rule sits at the same height everywhere. */
+  @media (min-width:1024px){
+    .landing-inner .v6-slide[aria-label] .v6-slide-copy{justify-content:flex-start;padding-left:0;padding-right:0}
+    .landing-inner .v6-slide .v6-slide-copy .v6-kicker{height:31px;box-sizing:border-box}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
