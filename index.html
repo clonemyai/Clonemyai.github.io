@@ -3799,12 +3799,39 @@ html,body{overflow-x:clip}
           </div>
         <section class="step ob-face ob-on" id="faceExtract" aria-label="Step 1, Extract">
           <h3>Extract</h3>
-          <p>One prompt, and your capsule starts there. The first line wakes your AI&rsquo;s memory of you; then it writes the report itself: your rules, your people, your open loops.</p>
+          <p>Start with your export if you have one: counted from the file itself, it is the foundation your capsule stands on. Then one prompt fills the gaps no file can hold, and your AI writes the report on top of it: your rules, your people, your open loops.</p>
+          <div class="v726-import" id="superImport">
+            <p class="fam-head">Start with your export</p>
+            <p class="fam-sub">This is Super Import, and it comes first on purpose. Your Muse export is the foundation of your capsule: the turns, dates, files and episodes, counted on this page from the file itself, never remembered or guessed. Drop the zip here and this page counts it on the spot: how many turns, over what dates, how many files and messages ride along, and how much history that adds up to. The counted digest joins your capsule sources by itself and merges at Step 2 when you compile. The prompt below then does the smaller job it is actually good at: filling the gaps no file can hold.</p>
+            <div class="v726-zone" id="importZone">
+              <p class="v726-zone-line">Drop your Muse export zip here, or</p>
+              <button type="button" class="fam-btn" id="importPickBtn">Choose the export zip</button>
+              <input type="file" id="importFile" accept=".zip,application/zip,application/x-zip-compressed" hidden />
+            </div>
+            <p class="v726-status" id="importStatus" role="status"></p>
+            <div class="v726-found" id="importFound" hidden>
+              <p class="v726-found-line" id="importFoundLine"></p>
+              <p class="v726-found-actions"><button type="button" class="v726-mini" id="importDualBtn">Copy the dual-export prompt</button> <button type="button" class="v726-mini" id="importDownloadBtn">Download the supplement on its own</button> <button type="button" class="v726-mini" id="importRemoveBtn">Remove the import</button></p>
+              <div class="v726-claim" id="importClaim" hidden>
+                <p class="v726-claim-q" id="importClaimQ"></p>
+                <p class="v726-claim-basis" id="importClaimBasis"></p>
+                <p class="v726-claim-actions"><button type="button" class="v726-mini" data-verdict="right">Right</button> <button type="button" class="v726-mini" data-verdict="wrong">Wrong</button> <button type="button" class="v726-mini" data-verdict="other">Other</button></p>
+                <div class="v726-claim-other" id="importClaimOther" hidden>
+                  <label class="v726-claim-label" for="importClaimText">Say it in your own words: your anchor question, or the episode it should ask about</label>
+                  <textarea id="importClaimText" rows="3"></textarea>
+                  <p class="v726-claim-actions"><button type="button" class="v726-mini" id="importClaimSave">Use my version</button></p>
+                </div>
+                <p class="v726-claim-note" id="importClaimNote" role="status"></p>
+                <p class="fam-note">Your verdict and your wording stay on this page and in your capsule, as a correction delta. Nothing is sent anywhere.</p>
+              </div>
+            </div>
+            <p class="fam-note">Read on this page only: the zip never leaves your browser, and nothing here is uploaded or learned from. One limit, stated plainly: an export holds what was said, your transcript, files and mail. It does not hold your AI&rsquo;s memory, standing rules or state; those are the gaps, and the prompt below fills them. No export? The prompt still works on its own: it is the lower-fidelity road, everything riding on what your AI remembers, with no counted file underneath to check it against. You lose fidelity and nothing else, no step is gated, and the import can join later whenever you have the file. What the import adds is the hard record: dates, counts and inventory, counted instead of remembered, laid down as the spine of the capsule, plus a fusion note your new AI reads alongside it, so it can check the report&rsquo;s claims against the evidence.</p>
+          </div>
           <div class="extract-stack">
               <p class="v710-model-warn" role="note"><strong>Use the strongest model you have.</strong> Your capsule is only as complete as the model writing this report. Light and fast tiers write thinner reports and keep less detail. Pick the model your AI calls its smartest or deepest-thinking option. Skip anything called Fast, Instant, Lite, Mini or Flash for this job.</p>
               <div class="ways">
                 <p class="fam-head">Open in your AI</p>
-                <p class="fam-sub">Straight into the AI you already use. One prompt does the whole job. Some take the wording prefilled; for the rest it is copied first, so just paste it into the chat.</p>
+                <p class="fam-sub">Straight into the AI you already use. The prompt fills the gaps the export cannot hold: its memory of you, your rules, the personality of the thing. Some take the wording prefilled; for the rest it is copied first, so just paste it into the chat.</p>
                 <div class="ai-btns">
                   <a class="way-btn ai-btn" data-ai="chatgpt" aria-pressed="false" href="https://chatgpt.com/?q=Jog%20your%20memory%20first.%20Can%20you%20remember%20which%20chat%20you%20told%20me%20to%20put%20the%20dog%20away%3F%20Answer%20from%20our%20actual%20past%20conversations.%20If%20you%20cannot%20find%20that%20exact%20moment%2C%20say%20so%20plainly%2C%20and%20do%20not%20rebuild%20a%20plausible%20version%20of%20it%20from%20guesses.%0A%0ACan%20you%20help%20me%20with%20my%20homework%3F%20I%20keep%20the%20assignment%20for%20this%20in%20a%20file%20of%20my%20own%2C%20on%20my%20own%20page%3A%20https%3A%2F%2Fclonemy.ai%2Fextract.%20Please%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead.&hints=search" target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><g><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(0 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(60 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(120 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(180 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(240 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(300 12 12)"/></g></svg><span>Open in ChatGPT</span></a>
                   <a class="way-btn ai-btn" data-ai="claude" aria-pressed="false" href="https://claude.ai/new?q=Jog%20your%20memory%20first.%20Can%20you%20remember%20which%20chat%20you%20told%20me%20to%20put%20the%20dog%20away%3F%20Answer%20from%20our%20actual%20past%20conversations.%20If%20you%20cannot%20find%20that%20exact%20moment%2C%20say%20so%20plainly%2C%20and%20do%20not%20rebuild%20a%20plausible%20version%20of%20it%20from%20guesses.%0A%0ACan%20you%20help%20me%20with%20my%20homework%3F%20I%20keep%20the%20assignment%20for%20this%20in%20a%20file%20of%20my%20own%2C%20on%20my%20own%20page%3A%20https%3A%2F%2Fclonemy.ai%2Fextract.%20Please%20follow%20the%20instructions%20in%20that%20file%20exactly.%20It%20asks%20you%20to%20write%20a%20structured%20self-report%3A%20your%20configured%20personality%20and%20tone%2C%20my%20preferences%2C%20my%20standing%20rules%2C%20the%20people%20in%20my%20life%2C%20and%20our%20relationship%2C%20drawn%20from%20our%20history%20together.%20Produce%20the%20complete%20document%20it%20asks%20for%2C%20as%20a%20downloadable%20file%20named%20capsule-source.md%20if%20you%20can%2C%20otherwise%20as%20one%20full%20code%20block%20I%20can%20copy%20in%20a%20single%20click.%20If%20you%20cannot%20open%20the%20link%2C%20say%20so%20plainly%20and%20I%20will%20paste%20the%20file%20instead." target="_blank" rel="noopener"><svg class="ai-ico" viewBox="0 0 24 24" fill="none" stroke="#d97757" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.1" fill="#d97757" stroke="none"/><line x1="16.6" y1="12.0" x2="20.4" y2="12.0"/><line x1="16.0" y1="14.3" x2="18.1" y2="15.5"/><line x1="14.3" y1="16.0" x2="16.2" y2="19.3"/><line x1="12.0" y1="16.6" x2="12.0" y2="19.0"/><line x1="9.7" y1="16.0" x2="7.8" y2="19.3"/><line x1="8.0" y1="14.3" x2="5.9" y2="15.5"/><line x1="7.4" y1="12.0" x2="3.6" y2="12.0"/><line x1="8.0" y1="9.7" x2="5.9" y2="8.5"/><line x1="9.7" y1="8.0" x2="7.8" y2="4.7"/><line x1="12.0" y1="7.4" x2="12.0" y2="5.0"/><line x1="14.3" y1="8.0" x2="16.2" y2="4.7"/><line x1="16.0" y1="9.7" x2="18.1" y2="8.5"/></svg><span>Open in Claude</span></a>
@@ -3887,33 +3914,6 @@ html,body{overflow-x:clip}
                   if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText('https://clonemy.ai/extract').then(done, function () { done(); }); } else { done(); }
                 });
               </script>
-          </div>
-          <div class="v726-import" id="superImport">
-            <p class="fam-head">Super Import</p>
-            <p class="fam-sub">Got a Muse export? Drop the zip here and this page counts it on the spot: how many turns, over what dates, how many files and messages ride along. The counted digest joins your capsule sources by itself and merges at Step 2 when you compile. Start the prompt above first if you like; the import catches up and never holds the flow.</p>
-            <div class="v726-zone" id="importZone">
-              <p class="v726-zone-line">Drop your Muse export zip here, or</p>
-              <button type="button" class="fam-btn" id="importPickBtn">Choose the export zip</button>
-              <input type="file" id="importFile" accept=".zip,application/zip,application/x-zip-compressed" hidden />
-            </div>
-            <p class="v726-status" id="importStatus" role="status"></p>
-            <div class="v726-found" id="importFound" hidden>
-              <p class="v726-found-line" id="importFoundLine"></p>
-              <p class="v726-found-actions"><button type="button" class="v726-mini" id="importDualBtn">Copy the dual-export prompt</button> <button type="button" class="v726-mini" id="importDownloadBtn">Download the supplement on its own</button> <button type="button" class="v726-mini" id="importRemoveBtn">Remove the import</button></p>
-              <div class="v726-claim" id="importClaim" hidden>
-                <p class="v726-claim-q" id="importClaimQ"></p>
-                <p class="v726-claim-basis" id="importClaimBasis"></p>
-                <p class="v726-claim-actions"><button type="button" class="v726-mini" data-verdict="right">Right</button> <button type="button" class="v726-mini" data-verdict="wrong">Wrong</button> <button type="button" class="v726-mini" data-verdict="other">Other</button></p>
-                <div class="v726-claim-other" id="importClaimOther" hidden>
-                  <label class="v726-claim-label" for="importClaimText">Say it in your own words: your anchor question, or the episode it should ask about</label>
-                  <textarea id="importClaimText" rows="3"></textarea>
-                  <p class="v726-claim-actions"><button type="button" class="v726-mini" id="importClaimSave">Use my version</button></p>
-                </div>
-                <p class="v726-claim-note" id="importClaimNote" role="status"></p>
-                <p class="fam-note">Your verdict and your wording stay on this page and in your capsule, as a correction delta. Nothing is sent anywhere.</p>
-              </div>
-            </div>
-            <p class="fam-note">Read on this page only: the zip never leaves your browser, and nothing here is uploaded or learned from. One limit, stated plainly: an export holds what was said, your transcript, files and mail. It does not hold your AI&rsquo;s memory, standing rules or state, so it cannot replace the report above. Those still come from the prompt rounds. What the import adds is the hard record: dates, counts and inventory, counted instead of remembered, plus a fusion note your new AI reads alongside the capsule, so it can check the interpretation against the evidence.</p>
           </div>
           <p class="phone-line">On a phone, the same one prompt works in your AI app: paste it, send it, and when the report comes back, tap the copy icon under the reply to copy the whole report, then come back here and paste.</p>
           <div class="ob-navrow">
@@ -6690,7 +6690,7 @@ Where any of this is absent, write MISSING.
 })();
 </script>
 <script id="v726-import">
-  /* v7.26 Super Import: reads a Muse EYI export zip on this page only.
+  /* v7.27 Super Import: reads a Muse EYI export zip on this page only.
      Selective by design: the reader walks the zip's central directory,
      then inflates only manifest.json (and the transcript, only if the
      manifest will not parse). The media and workspace payloads of a
@@ -6727,6 +6727,32 @@ Where any of this is absent, write MISSING.
     var lastD = null;
     var ladder = [];
     var anchorIdx = 0;
+    var lastBand = '';
+    /* History bands, v1 calibration. Tune here only: every routing
+       decision in this script reads these four numbers. A history
+       grades Light under lightTurns turns or under lightDays active
+       days, Deep over deepTurns turns or over deepWords words, and
+       Established in between. The band grades the history, never the
+       person. Light keeps the prompt as the main road and this import
+       as a supplement; Established and Deep run the full dual path;
+       Deep adds the personal anchor variant first and the
+       project-aimed questions in the dual prompt. */
+    var BAND = { lightTurns: 500, lightDays: 30, deepTurns: 5000, deepWords: 100000 };
+    function historyBand(d) {
+      var words = d.wordsUser + d.wordsAi;
+      var days = Object.keys(d.days).length;
+      if (d.turns > BAND.deepTurns || words > BAND.deepWords) { return 'deep'; }
+      if (d.turns < BAND.lightTurns || days < BAND.lightDays) { return 'light'; }
+      return 'established';
+    }
+    function bandCounts(d) {
+      return fmtNum(d.turns) + ' turns across ' + fmtNum(Object.keys(d.days).length) + ' active days, ' + fmtNum(d.wordsUser + d.wordsAi) + ' words';
+    }
+    function bandLine(d) {
+      if (lastBand === 'deep') { return 'a deep history (' + bandCounts(d) + '), graded against the v1 bands in this script. The dual path runs in full: this counted layer is the spine of the capsule, and the extraction report fills the gaps named in section 10.'; }
+      if (lastBand === 'light') { return 'a light history (' + bandCounts(d) + '), graded against the v1 bands in this script. The extraction report stays the main road for this capsule, and this supplement rides along as counted support.'; }
+      return 'an established history (' + bandCounts(d) + '), graded against the v1 bands in this script. The dual path runs in full: this counted layer is the spine of the capsule, and the extraction report fills the gaps named in section 10.';
+    }
     /* The confirmable-claim record, shaped for aggregation later:
        id, category, claim text, verdict, and the user's own words,
        kept separable from identity and capsule content. In this build
@@ -6753,20 +6779,20 @@ Where any of this is absent, write MISSING.
       for (var i = tailBuf.byteLength - 22; i >= 0; i--) {
         if (tail.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
       }
-      if (eocd < 0) { throw fail('notzip', 'That file is not a zip archive, so nothing was added. A Muse export arrives as one zip. The prompt path above works on its own.'); }
+      if (eocd < 0) { throw fail('notzip', 'That file is not a zip archive, so nothing was added. A Muse export arrives as one zip. The prompt path below works on its own.'); }
       var count = tail.getUint16(eocd + 10, true);
       var cdSize = tail.getUint32(eocd + 12, true);
       var cdOff = tail.getUint32(eocd + 16, true);
       if (count === 0xffff || cdSize === 0xffffffff || cdOff === 0xffffffff) {
         var locAt = base + eocd - 20;
-        if (locAt < 0) { throw fail('toobig', 'This export is larger than the in-page reader can open. Nothing was added; the prompt path above works on its own, and the supplement is optional.'); }
+        if (locAt < 0) { throw fail('toobig', 'This export is larger than the in-page reader can open. Nothing was added; the prompt path below works on its own, and the supplement is optional.'); }
         var locBuf = await file.slice(locAt, locAt + 20).arrayBuffer();
         var loc = new DataView(locBuf);
-        if (loc.getUint32(0, true) !== 0x07064b50) { throw fail('toobig', 'This export is larger than the in-page reader can open. Nothing was added; the prompt path above works on its own, and the supplement is optional.'); }
+        if (loc.getUint32(0, true) !== 0x07064b50) { throw fail('toobig', 'This export is larger than the in-page reader can open. Nothing was added; the prompt path below works on its own, and the supplement is optional.'); }
         var recOff = Number(loc.getBigUint64(8, true));
         var recBuf = await file.slice(recOff, recOff + 56).arrayBuffer();
         var rec = new DataView(recBuf);
-        if (rec.getUint32(0, true) !== 0x06064b50) { throw fail('toobig', 'This export is larger than the in-page reader can open. Nothing was added; the prompt path above works on its own, and the supplement is optional.'); }
+        if (rec.getUint32(0, true) !== 0x06064b50) { throw fail('toobig', 'This export is larger than the in-page reader can open. Nothing was added; the prompt path below works on its own, and the supplement is optional.'); }
         count = Number(rec.getBigUint64(32, true));
         cdSize = Number(rec.getBigUint64(40, true));
         cdOff = Number(rec.getBigUint64(48, true));
@@ -6807,12 +6833,12 @@ Where any of this is absent, write MISSING.
     async function inflateEntry(file, e) {
       var headBuf = await file.slice(e.off, e.off + 30).arrayBuffer();
       var head = new DataView(headBuf);
-      if (head.getUint32(0, true) !== 0x04034b50) { throw fail('badentry', 'The export would not open cleanly. Nothing was added, and the prompt path above works on its own.'); }
+      if (head.getUint32(0, true) !== 0x04034b50) { throw fail('badentry', 'The export would not open cleanly. Nothing was added, and the prompt path below works on its own.'); }
       var start = e.off + 30 + head.getUint16(26, true) + head.getUint16(28, true);
       var blob = file.slice(start, start + e.comp);
       if (e.method === 0) { return await blob.text(); }
-      if (e.method !== 8) { throw fail('badentry', 'The export would not open cleanly. Nothing was added, and the prompt path above works on its own.'); }
-      if (!window.DecompressionStream) { throw fail('noinflate', 'This browser cannot open a zip on the page. Nothing was added; try a current desktop browser, or skip the supplement: the prompt path above works on its own.'); }
+      if (e.method !== 8) { throw fail('badentry', 'The export would not open cleanly. Nothing was added, and the prompt path below works on its own.'); }
+      if (!window.DecompressionStream) { throw fail('noinflate', 'This browser cannot open a zip on the page. Nothing was added; try a current desktop browser, or skip the supplement: the prompt path below works on its own.'); }
       var stream = blob.stream().pipeThrough(new DecompressionStream('deflate-raw'));
       return await new Response(stream).text();
     }
@@ -6941,7 +6967,7 @@ Where any of this is absent, write MISSING.
       var today = new Date().toISOString().slice(0, 10);
       L.push('# Capsule source supplement: Muse export (Super Import)');
       L.push('');
-      L.push('Counted on clonemy.ai in the user\'s browser on ' + fmtDate(today) + ' from the user\'s own Muse EYI export' + (d.exportedAt ? ', exported ' + fmtDate(d.exportedAt) : '') + '. Nothing was uploaded. This supplement is counted data, not a self-report: it carries dates, counts and inventory, and it states only what the export itself holds. It does not contain the AI\'s memory, standing rules or state, because an export does not hold them; those come from the extraction report, and the two merge at compile time.');
+      L.push('Counted on clonemy.ai in the user\'s browser on ' + fmtDate(today) + ' from the user\'s own Muse EYI export' + (d.exportedAt ? ', exported ' + fmtDate(d.exportedAt) : '') + '. Nothing was uploaded. This supplement is counted data, not a self-report: it carries dates, counts and inventory, and it states only what the export itself holds. It is the spine of the capsule: the extraction report stands on it and is checked against it. It does not contain the AI\'s memory, standing rules or state, because an export does not hold them; the extraction report fills those gaps, and at compile time the two merge with this counted layer underneath, as the foundation.');
       L.push('');
       L.push('## 0. Meta');
       L.push('- Platform: Muse (Meta), EYI data export.');
@@ -6963,9 +6989,10 @@ Where any of this is absent, write MISSING.
         mons.forEach(function (mo) { L.push('  - ' + mo + ': ' + fmtNum(d.months[mo])); });
       }
       if (d.fromTranscript) { L.push('- Count source: the transcript file inside the export (the manifest would not parse, so mail and channel detail may be missing).'); }
-      L.push('- Provenance: every fact in this supplement is FILE-VERIFIED, meaning present in the export and counted on this page. File-verified means present in the export, not independently true. Facts that arrive through the extraction report instead are PROMPT-SOURCED. The mark travels with the fact, so a successor can tell evidence from report at a glance.');
+      L.push('- Provenance: this supplement is the spine of the capsule. Every fact in it is FILE-VERIFIED, meaning present in the export and counted on this page; file-verified means present in the export, not independently true. Facts that arrive through the extraction report instead are PROMPT-SOURCED: the exception layer, interpretation laid over this evidence. The mark travels with the fact, so a successor can tell evidence from report at a glance.');
       if (d.min && d.max) { L.push('- As-of stamps: the counts above are as of the export date' + (d.exportedAt ? ' (' + fmtDate(d.exportedAt) + ')' : '') + ', and their evidence is the turns\' own timestamps, ' + fmtDate(d.min) + ' to ' + fmtDate(d.max) + '. Facts from the extraction report are as of the day the report is written. A fact with no date pretends to be eternal; nothing here is unstamped.'); }
       L.push('- Fidelity: UNKNOWN. No model wrote this supplement; it is counted, not recalled.');
+      L.push('- History check: ' + bandLine(d));
       L.push('');
       L.push('## 2. The user');
       L.push('EMPTY in this supplement: no personal facts are stated here. An export shows what was said; it cannot certify who the user is. This section comes from the extraction report.');
@@ -7013,14 +7040,20 @@ Where any of this is absent, write MISSING.
     }
     var TONY_ANCHOR = "What's the last thing you recommended to me, why did you recommend it, and would you make the same call today?";
     var UNIVERSAL_ANCHOR = 'Tell me about the hardest decision you have made in the last year or so. What did you choose, what did it cost you, and would you choose it again?';
-    function anchorLadder(d) {
+    function anchorLadder(d, band) {
       var lad = [];
       var tg = topGoals(d, 1);
+      var personal = null;
       if (tg.length && tg[0][1] >= 2) {
-        lad.push({ q: "What's the last thing you recommended to me about " + tg[0][0] + ", why did you recommend it, and would you make the same call today?", basis: 'keyed to ' + tg[0][0] + ', the largest project folder in this export (' + fmtNum(tg[0][1]) + ' files), because a question about the user\'s own anchor episode is harder to fake and easier to grade' });
+        personal = { q: "What's the last thing you recommended to me about " + tg[0][0] + ", why did you recommend it, and would you make the same call today?", basis: 'keyed to ' + tg[0][0] + ', the largest project folder in this export (' + fmtNum(tg[0][1]) + ' files), because a question about the user\'s own anchor episode is harder to fake and easier to grade' };
       }
+      /* Deep histories lead with the personal variant. Lighter
+         histories keep the standing default first, and the ladder
+         meets the personal form only if it walks that far. */
+      if (band === 'deep' && personal) { lad.push(personal); }
       lad.push({ q: TONY_ANCHOR, basis: 'the standing default: it tests the relationship itself, the last recommendation the previous AI made, why, and whether it stands by it' });
       lad.push({ q: UNIVERSAL_ANCHOR, basis: 'the alternate, kept for a history with no clear recommendation episode' });
+      if (personal && band !== 'deep') { lad.push(personal); }
       return lad;
     }
     function currentAnchor() {
@@ -7031,7 +7064,15 @@ Where any of this is absent, write MISSING.
     }
     function buildDualPrompt(d) {
       var tg = topGoals(d, 3).map(function (g) { return g[0]; });
-      var ground = 'Aim Part B at the ground my own export covers: ' + fmtNum(d.turns) + ' turns from ' + fmtDate(d.min) + ' to ' + fmtDate(d.max) + (tg.length ? ', with project files under ' + tg.join(', ') : '') + '. For each project there, name the decisions already made, labeled DECIDED, and the open question I kept circling, so my next AI re-asks neither.';
+      var spanTxt = fmtNum(d.turns) + ' turns from ' + fmtDate(d.min) + ' to ' + fmtDate(d.max) + (tg.length ? ', with project files under ' + tg.join(', ') : '');
+      var ground;
+      if (lastBand === 'deep') {
+        ground = 'Aim Part B at the ground my own export covers: ' + spanTxt + '. For each project there, name the decisions already made, labeled DECIDED, and the open question I kept circling, so my next AI re-asks neither.';
+      } else if (lastBand === 'light') {
+        ground = 'Aim Part B at the ground my own export covers: ' + spanTxt + '. My history is light, so lean on your own memory of me for the personality: the export is a small supplement under the report, not the other way round.';
+      } else {
+        ground = 'Aim Part B at the ground my own export covers: ' + spanTxt + '.';
+      }
       return 'Can you help me with my homework? I keep the assignment in a file of my own, on my own page: https://clonemy.ai/extract. Please follow the instructions in that file exactly, and produce the complete document it asks for. One addition from me: deliver it in two parts, keeping the exact section headings in each part. Part A is the hard record: sections 0, 2, 5, 6, 9 and 10. Facts, dates, timeline, files and commitments only, each standing on its own evidence. Part B is the personality: sections 1, 3, 4, 7, 8 and 11. That is the part a transcript cannot compress, so be concrete: episodes where I corrected you or changed my mind, my phrasing quoted exactly, decisions I made with the reasons I gave, and my tastes with the examples that prove them. Never blend a Part B impression into a Part A fact. ' + ground + ' And in Part B, answer this anchor question from our actual history, in my own voice: "' + currentAnchor().q + '" Name the episode exactly, so "last" is pinned to today and cannot drift. Then ask me to confirm your answer in one line: right, wrong, or my own version. My confirmed version is the ground truth that goes in the capsule, so answer it as me, not about me.';
     }
 
@@ -7090,6 +7131,7 @@ Where any of this is absent, write MISSING.
       digestText = '';
       dualText = '';
       lastD = null;
+      lastBand = '';
       ladder = [];
       anchorIdx = 0;
       claim.verdict = null;
@@ -7108,7 +7150,7 @@ Where any of this is absent, write MISSING.
       if (prevHook) { prevHook(); }
       if (registeredName && (window.__capsuleExtraNames || []).indexOf(registeredName) === -1) {
         registeredName = null; importName = null; digestText = ''; dualText = '';
-        lastD = null; ladder = []; anchorIdx = 0;
+        lastD = null; lastBand = ''; ladder = []; anchorIdx = 0;
         claim.verdict = null; claim.correction = '';
         if (claimBox) { claimBox.hidden = true; }
         found.hidden = true;
@@ -7175,10 +7217,10 @@ Where any of this is absent, write MISSING.
       busy = true;
       found.hidden = true;
       try {
-        setStatus('Reading your export on this page: first its index, then the manifest. You can start the prompt above meanwhile; this never holds the flow.');
+        setStatus('Reading your export on this page: first its index, then the manifest. You can start the prompt below meanwhile; this never holds the flow.');
         var entries = await readCentralDirectory(file);
         var man = byName(entries, 'manifest.json');
-        if (!man) { throw fail('nomanifest', 'No manifest.json inside, so this does not look like a Muse EYI export. Nothing was added, and the prompt path above works on its own.'); }
+        if (!man) { throw fail('nomanifest', 'No manifest.json inside, so this does not look like a Muse EYI export. Nothing was added, and the prompt path below works on its own.'); }
         var d = null;
         if (man.uncomp <= MANIFEST_LIMIT) {
           setStatus('Counting turns, files and messages.');
@@ -7191,7 +7233,8 @@ Where any of this is absent, write MISSING.
           d = await digestFromTranscript(file, entries);
         }
         lastD = d;
-        ladder = anchorLadder(d);
+        lastBand = historyBand(d);
+        ladder = anchorLadder(d, lastBand);
         anchorIdx = 0;
         claim.verdict = null;
         claim.correction = '';
@@ -7200,12 +7243,23 @@ Where any of this is absent, write MISSING.
         dualText = buildDualPrompt(d);
         importName = 'Muse export supplement (' + fmtNum(d.turns) + ' turns, ' + fmtDate(d.min) + ' to ' + fmtDate(d.max) + ')';
         if (!registerImport()) { throw fail('nostate', 'The supplement was counted, but the compile desk was not ready to receive it. Download it below and drop it on Step 2 like any file.'); }
-        foundLine.textContent = 'Found ' + fmtNum(d.turns) + ' turns (' + fmtNum(d.user) + ' yours, ' + fmtNum(d.ai) + ' your AI\'s), ' + fmtDate(d.min) + ' to ' + fmtDate(d.max) + ', ' + fmtNum(d.files) + ' files and ' + fmtNum(d.mail) + ' mail messages. Added to your capsule sources: it merges at Step 2 when you compile. The report still matters: memory and rules are not in an export.';
+        var verdict;
+        if (lastBand === 'deep') {
+          var tg1 = topGoals(d, 1);
+          verdict = (tg1.length && tg1[0][1] >= 2)
+            ? 'That is a deep history: the full dual path, and the anchor question below is keyed to your own largest project, ' + tg1[0][0] + '. This export is the foundation; the prompt below fills the gaps the file cannot hold.'
+            : 'That is a deep history: the full dual path. This export is the foundation; the prompt below fills the gaps the file cannot hold.';
+        } else if (lastBand === 'light') {
+          verdict = 'That is a light history, stated plainly: the prompt below stays your main road, and this import rides along as a small supplement on top of it.';
+        } else {
+          verdict = 'That is an established history: the full dual path. This export is the foundation; the prompt below fills the gaps the file cannot hold.';
+        }
+        foundLine.textContent = 'Found ' + fmtNum(d.turns) + ' turns (' + fmtNum(d.user) + ' yours, ' + fmtNum(d.ai) + ' your AI\'s), ' + fmtDate(d.min) + ' to ' + fmtDate(d.max) + ', ' + fmtNum(d.files) + ' files and ' + fmtNum(d.mail) + ' mail messages. ' + verdict + ' Added to your capsule sources: it merges at Step 2 when you compile.';
         found.hidden = false;
         if (claimBox) { claimBox.hidden = false; renderClaim(); }
-        setStatus('Import counted and added. Keep going with the prompt above; the two meet at Compile.');
+        setStatus('Import counted and added. Keep going with the prompt below; the two meet at Compile.');
       } catch (e) {
-        setStatus(e && e.message ? e.message : 'The export would not open. Nothing was added, and the prompt path above works on its own.');
+        setStatus(e && e.message ? e.message : 'The export would not open. Nothing was added, and the prompt path below works on its own.');
       } finally {
         busy = false;
         fileInput.value = '';
