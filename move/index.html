@@ -194,6 +194,52 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
   footer .foot-priv{order:3;flex:0 0 100%;text-align:center;color:var(--ink-3);text-decoration:none;margin-top:10px}
   footer .foot-priv:hover{color:var(--ink);text-decoration:underline}
 </style>
+<style id="v728-head">
+  /* v7.28: the bar, widened, centered, skinny again
+     (Tony, 2026-11-12: "Bar got thick again, can you
+     widen it, center the texts and then make it skinny
+     again?"). Diagnosis, measured on the shipped
+     v7.27 tree: the v697 rule lets the bar wrap at
+     every width, the bar's content column is capped
+     at 1160px, and the row's four pieces measure
+     148 + 508 + 226 + 292 plus 78 of gaps, 1252 in
+     all; the Flavor Quiz line the v7.25 build added
+     took the row past the cap, so the utility cluster
+     fell to a second row and the bar stood 93px tall
+     at desktop widths. From 1024px up the bar now
+     runs on one row: the column widens to 1560px, the
+     wrap is off, the vertical padding tightens to 7px
+     (a 49px bar, the height the bar was designed at),
+     and the nav text group centers in the bar: the
+     brand and utility zones take equal shares of the
+     slack so the middle group sits centered, and from
+     1660px up, where the geometry provably clears on
+     both sides, the nav centers on the bar's own
+     midpoint. The compact dress of the v7.21 bands,
+     which stood to 1279px, stands to 1319px, so the
+     full dress never resumes into a width it cannot
+     fit. At 1023px and under nothing changes: the
+     standing scroll band stands. */
+  @media (min-width:1024px){
+    .v6-head{flex-wrap:nowrap;padding-left:max(22px,calc((100% - 1560px)/2));padding-right:max(22px,calc((100% - 1560px)/2));padding-top:7px;padding-bottom:7px}
+    .v6-head .v6-brand{flex:1 1 0;min-width:0}
+    .v6-head .v6-nav{flex:0 0 auto}
+    .v6-head .head-apps{margin-left:0;flex:0 0 auto}
+    .v6-head .v6-util{flex:1 1 0;justify-content:flex-end;margin-left:0;min-width:0}
+  }
+  @media (min-width:1024px) and (max-width:1319px){
+    .v6-head{gap:14px}
+    .v6-head .v6-nav{gap:12px}
+    .v6-head .v6-nav a{font-size:.92rem}
+    .v6-head .v6-util{gap:12px}
+  }
+  @media (min-width:1660px){
+    .v6-head .v6-brand{flex:0 0 auto}
+    .v6-head .head-apps{margin-left:auto}
+    .v6-head .v6-util{flex:0 0 auto;margin-left:auto}
+    .v6-head .v6-nav{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
