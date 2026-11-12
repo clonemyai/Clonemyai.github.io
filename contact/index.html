@@ -248,6 +248,67 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
     .v6-head .v6-nav{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
   }
 </style>
+<style id="v730-head">
+  /* v7.30: the pills take a real seat, and the bar
+     gathers around the centre (Tony, 2026-11-12:
+     "Top bar still needs work, the two coming soon
+     app icons are behind the text", and "the two
+     areas on the sides should be closer to the main
+     title texts"). Diagnosis, measured on the
+     shipped v7.28 tree in headless Chromium (boxes
+     for every zone, every nav link, both pills and
+     every utility child, 1024 to 1920): from 1660px
+     up the v7.28 wide band takes the nav out of the
+     flow onto the bar's midpoint and hands the app
+     cluster an auto left margin, which walks the
+     pills into the vacated middle and parks them on
+     the centred nav: at 1920 the pill cluster spans
+     775 to 1001 across a nav spanning 706 to 1214,
+     covering 24px of Move your AI, all 141px of The
+     Capsule Format and 21px of White Paper. The
+     same pass caught the elastic zones of the mid
+     bands spilling their fixed contents: at 1024,
+     1150 and 1280 the utility children overflow
+     their flex-grown zone leftwards over the pills
+     (Extract under the Android pill by up to 49px).
+     The fix gives every zone a real seat: from
+     1024px up the nav stands back in the flow
+     (position static, no transform), no zone flexes
+     and no auto margins stand, and the bar centres
+     its contents as one gathered cluster on the
+     1560px column the v7.28 build widened: brand,
+     nav, pills and utility sit side by side with
+     the standing gaps, the side areas pulled in
+     toward the title texts instead of pinned to
+     the column's edges. In the tight band, 1024 to
+     1199, where the four contents plus gaps measure
+     wider than the inner width, the pills take the
+     icon-only dress the v7.18 build gave them at
+     phone widths (the logo alone, their aria labels
+     still saying the whole thing) and the gaps and
+     nav dress tighten a step, so the cluster fits
+     with slack at every width and nothing overlaps
+     or wraps. The 1200 to 1319 band keeps the
+     v7.28 compact dress. At 1023px and under
+     nothing changes: the standing scroll band
+     stands. */
+  @media (min-width:1024px){
+    .v6-head{justify-content:center}
+    .v6-head .v6-brand{flex:0 0 auto;min-width:0}
+    .v6-head .v6-nav{position:static;transform:none;flex:0 0 auto}
+    .v6-head .head-apps{margin-left:0;flex:0 0 auto}
+    .v6-head .v6-util{flex:0 0 auto;justify-content:flex-start;margin-left:0;min-width:0}
+  }
+  @media (min-width:1024px) and (max-width:1199px){
+    .v6-head{gap:10px}
+    .v6-head .v6-nav{gap:10px}
+    .v6-head .v6-nav a{font-size:.88rem}
+    .v6-head .v6-util{gap:10px}
+    .v6-head .head-apps{gap:6px}
+    .v6-head .head-apps .hero-ios{padding:.32rem .38rem}
+    .v6-head .head-apps .hero-ios .app-stack{display:none}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
