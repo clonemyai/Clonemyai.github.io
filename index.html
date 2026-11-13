@@ -3871,6 +3871,56 @@ html,body{overflow-x:clip}
     .landing-inner .v6-slide .v6-slide-copy .v6-kicker{height:31px;box-sizing:border-box}
   }
 </style>
+<style id="v733-panels">
+  /* v7.33: two panel layouts, from Tony's annotated
+     screenshots at 1080p (2026-11-12). Why It Works:
+     "move the middle titles on top of the text boxes
+     so we can make more use of the space in the boxes
+     to allow a smaller vertical height". The
+     Difference: "There's still too much empty space
+     and the alignment doesn't look right. Either we
+     move it up or down and to the left to take
+     advantage of the empty space on the bottom left."
+     Desktop only; nothing at 1023px and under moves,
+     and no panel's title card seat (v7.31) moves. */
+  @media (min-width:1024px){
+    /* Why It Works: the title stacks on top of its
+       box. The plank grid goes to one column, so the
+       title stands above the text and the text takes
+       the card's full inner width and wraps shorter.
+       The title keeps the padding rhythm of a card
+       head and its own ECR hue (v690-family stands).
+       The stack stops stretching to the visual's full
+       height and takes its natural height, centred:
+       the cards' total extent is their content's. */
+    .landing-inner .v6-slide[aria-label="Why it works"] .planks{flex:0 1 auto}
+    .landing-inner .v6-slide[aria-label="Why it works"] .plank{grid-template-columns:minmax(0,1fr);gap:6px 12px}
+    .landing-inner .v6-slide[aria-label="Why it works"] .plank h3{padding:.3rem .85rem .05rem 1.15rem}
+    .landing-inner .v6-slide[aria-label="Why it works"] .plank p{padding-top:.7rem;padding-bottom:.7rem}
+    /* The Difference claims its panel: one column,
+       the copy band on top at its standing width, the
+       comparison below spanning the slide's full
+       inner width with its left edge under the
+       headline's start, claiming the vertical space
+       the split layout left empty at the bottom left.
+       The comparison's rows share the claimed height
+       evenly, the standing tall-window row template
+       (auto repeat(4,1fr)) now at desktop widths. */
+    .landing-inner .v6-slide[aria-label="The difference"]{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:18px 36px}
+    .landing-inner .v6-slide[aria-label="The difference"] .v6-visual{align-items:stretch}
+    .landing-inner .v6-slide[aria-label="The difference"] .compare{grid-template-rows:auto repeat(4,1fr)}
+  }
+  @media (min-width:1080px){
+    /* In the band where the deck's split layout stood,
+       the copy band keeps the width the 5fr column gave
+       it, so this panel's title card (v7.31) keeps the
+       exact width its three siblings carry: the kicker
+       and its gradient rule neither grow nor shrink
+       when the panels flip. Below 1080 the deck already
+       stacked, and the copy stands at its cap there. */
+    .landing-inner .v6-slide[aria-label="The difference"] .v6-slide-copy{max-width:calc((100% - 36px) * 5 / 12)}
+  }
+</style>
 </head>
 <body>
 <header class="v6-head">
