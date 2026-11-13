@@ -5507,7 +5507,7 @@ Where any of this is absent, write MISSING.
   var segsBox = document.getElementById('cTabs');
   var counter = document.getElementById('cCounter');
   var toggleBtn = document.getElementById('cToggle');
-  var idx = 0, elapsed = 0, lastTs = null;
+  var idx = 0, elapsed = 0, lastTs = null, lastAutoAt = -100000;
   var userStopped = false, interacted = false, hovering = false, focused = false, capSheetOpen = false;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var autoWanted = !reduced;
@@ -5516,8 +5516,20 @@ Where any of this is absent, write MISSING.
   function rotating() {
     return autoWanted && !userStopped && !interacted && !hovering && !focused && !capSheetOpen && !document.hidden;
   }
+  /* v7.32: the toggle speaks for the armed state, not the
+     passing one. Hover, focus and a hidden tab pause the
+     rotation without disarming it; the label and the
+     toggle's own action key on armed(), so the control
+     never offers Start for a carousel that will rotate,
+     or Stop for one that will not. The capsule sheet's
+     hold still reads off the label, as it has since
+     v6.58: while the sheet is open the rotation is
+     truly held, and the label says Start. */
+  function armed() {
+    return autoWanted && !userStopped && !interacted;
+  }
   function paintToggle() {
-    var on = rotating();
+    var on = armed() && !capSheetOpen;
     toggleBtn.innerHTML = on ? SVG_PAUSE : SVG_PLAY;
     toggleBtn.classList.toggle('live', on);
     toggleBtn.setAttribute('aria-label', on ? 'Stop rotation' : 'Start rotation');
@@ -5528,7 +5540,7 @@ Where any of this is absent, write MISSING.
     fills.forEach(function (f, j) {
       if (j < idx) f.style.width = '100%';
       else if (j > idx) f.style.width = '0%';
-      else if (!rotating()) f.style.width = '100%';
+      else if (!armed()) f.style.width = '100%';
     });
   }
   var fills = slides.map(function (s, i) {
@@ -5559,19 +5571,31 @@ Where any of this is absent, write MISSING.
   }
   function tick(ts) {
     if (lastTs === null) lastTs = ts;
-    var dt = ts - lastTs; lastTs = ts;
+    /* v7.32: clamp the frame gap. While the tab is hidden
+       the frames stop but the clock does not, and an
+       unclamped gap landed whole in the countdown on
+       return, advancing the panel the moment the tab
+       came back. */
+    var dt = Math.min(ts - lastTs, 250); lastTs = ts;
     if (rotating()) {
       elapsed += dt;
       fills[idx].style.width = Math.min(100, (elapsed / INTERVAL) * 100) + '%';
-      if (elapsed >= INTERVAL) { show(idx + 1); }
+      if (elapsed >= INTERVAL) { lastAutoAt = performance.now(); show(idx + 1); }
     }
     requestAnimationFrame(tick);
   }
-  document.getElementById('cNext').addEventListener('click', function () { interacted = true; show(idx + 1); paintToggle(); });
-  document.getElementById('cPrev').addEventListener('click', function () { interacted = true; show(idx - 1); paintToggle(); });
+  /* v7.32: a click that lands inside the crossfade of an
+     auto-advance was aimed at the panel before it: the auto
+     step is the step the click meant, and stepping again
+     reads as a double advance (measured on the shipped
+     script: panels 01 to 03 inside 0.4s from one click).
+     The 650ms guard covers the .55s fade plus a beat; the
+     click still stops the rotation either way. */
+  document.getElementById('cNext').addEventListener('click', function () { interacted = true; if (performance.now() - lastAutoAt >= 650) show(idx + 1); paintToggle(); });
+  document.getElementById('cPrev').addEventListener('click', function () { interacted = true; if (performance.now() - lastAutoAt >= 650) show(idx - 1); paintToggle(); });
   toggleBtn.addEventListener('click', function () {
-    if (rotating()) { userStopped = true; }
-    else { userStopped = false; interacted = false; autoWanted = true; }
+    if (armed()) { userStopped = true; }
+    else { userStopped = false; interacted = false; autoWanted = true; elapsed = 0; }
     paintToggle();
   });
   var carousel = document.getElementById('carousel6');
@@ -5644,6 +5668,7 @@ Where any of this is absent, write MISSING.
     var now = Date.now();
     if (now - wheelLock < 800 || Math.abs(e.deltaY) < 24) return;
     wheelLock = now;
+    if (performance.now() - lastAutoAt < 650) return;
     interacted = true;
     show(idx + (e.deltaY > 0 ? 1 : -1));
     paintToggle();
