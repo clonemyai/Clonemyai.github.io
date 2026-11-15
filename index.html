@@ -3921,6 +3921,19 @@ html,body{overflow-x:clip}
     .landing-inner .v6-slide[aria-label="The difference"] .v6-slide-copy{max-width:calc((100% - 36px) * 5 / 12)}
   }
 </style>
+<style id="v735-mkt">
+  /* v7.35: the promise strip under the hero subhead and
+     the founding creed on the Why panel. The strip states
+     the four numbers (local, tested, yours, free) with
+     the receipt under each; the creed stands under the
+     three commitment planks. Landing only. */
+  .hero .mkt-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:1080px;margin:1.15rem auto .35rem;text-align:left}
+  .hero .mkt-item{border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);padding:.72rem .85rem}
+  .hero .mkt-item b{display:block;font-size:1.06rem;line-height:1.2;color:var(--L-ink);letter-spacing:.01em}
+  .hero .mkt-item span{display:block;margin-top:.3rem;font-size:.83rem;line-height:1.5;color:var(--L-ink2)}
+  @media (max-width:820px){.hero .mkt-strip{grid-template-columns:1fr 1fr}}
+  .v6-slide .creed{margin:.95rem 0 0;font-size:1.04rem;font-weight:800;line-height:1.4;color:var(--L-ink)}
+</style>
 </head>
 <body>
 <header class="v6-head">
@@ -3949,6 +3962,12 @@ html,body{overflow-x:clip}
 <section class="hero" aria-label="What clonemy.ai is">
   <h1 class="hero-tag"><span class="ht-line">Your Capsule. A(i) personality, in a file,</span> <span class="ht-line"><span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep. Forever</span>.</span></h1>
   <p class="hero-sub">Clonemy gives you the power to move the relationship you&rsquo;ve built with your current AI and clone it to a file that stays in your hands, from start, to finish.</p>
+  <div class="mkt-strip" role="group" aria-label="The clonemy promise, with receipts">
+    <div class="mkt-item"><b>100% local</b><span>The compiler runs in this page, in your browser. There is no server for your capsule to go to, and the code is this page, open for anyone to inspect.</span></div>
+    <div class="mkt-item"><b>100% tested</b><span>Every release of this site passes a 492-check test suite before it ships. Your capsule grades its own restore too, with a parity check you score.</span></div>
+    <div class="mkt-item"><b>100% yours</b><span>One plain-text file, in your hands. No account, no sign-up, and nothing of yours is ever uploaded to us.</span></div>
+    <div class="mkt-item"><b>100% free</b><span>The compiler and the format are given away. The format stands as a permanent public record: DOI 10.5281/zenodo.24049746, CC BY 4.0.</span></div>
+  </div>
   <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a></p>
   <div class="head-chips-row"><div class="ext-chips" role="group" aria-label="Works with">
     <span class="ext-chips-label">Works with</span>
@@ -4289,7 +4308,7 @@ html,body{overflow-x:clip}
       <div class="v6-slide-copy">
         <p class="v6-kicker">The product</p>
         <p class="v6-tagline">Your Capsule is something you should have <u class="v6-yours">ownership</u> of. <span class="v6-tag-grad">Forever</span>.</p>
-        <p class="lede">Not a summary and not a chat export: one structured file, written by your old AI and read by your new one. Strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention.</p>
+        <p class="lede">Not a summary and not a chat export: one structured file, written by your old AI and read by your new one. Strict by design: specifics over summaries, your rules in your own words, gaps marked MISSING instead of filled with invention. And a capsule cuts three ways, pocket, session and archive, each layer readable on its own, so a small job never has to carry the whole file.</p>
         <p class="fine">An example capsule with invented details, so you can see the shape. Yours holds your real ones, and it never passes through our hands.</p>
       </div>
       <div class="v6-visual">
@@ -4351,15 +4370,16 @@ html,body{overflow-x:clip}
       <div class="v6-slide-copy">
         <p class="v6-kicker">Why it works</p>
         <h2>Why clonemy works this way</h2>
-        <p class="lede">Three commitments hold the whole design up: ownership first, proof instead of promises, and privacy by architecture.</p>
+        <p class="lede">100% local, 100% tested, 100% yours, 100% free. Underneath the numbers, three commitments: ownership first, proof instead of promises, and privacy by architecture.</p>
         <p class="fine">Your AI should belong to you, let us help with that.</p>
       </div>
       <div class="v6-visual">
         <div class="planks">
-          <div class="plank"><h3>Nothing leaves your browser</h3><p>The compiler runs on this page, in your tab. Your report is never uploaded or seen by us. There is no server for it to go to. What you make stays in a file you create and keep. Forever.</p></div>
+          <div class="plank"><h3>Nothing leaves your browser</h3><p>The compiler runs on this page, in your tab. Your report is never uploaded or seen by us. There is no server for it to go to. What you make stays in a file you create and keep. Forever. And you do not have to take our word for it: the compiler is part of this page, and your browser can show you every line of it.</p></div>
           <div class="plank"><h3>Proven by a parity check</h3><p>Every capsule ends with a self-check, a prediction round, and a voice round, graded by you. Reciting you back proves recall. Predicting you proves the calibration landed. This is the receipt only clonemy.ai will provide to you.</p></div>
-          <div class="plank"><h3>The format is open</h3><p>The Capsule Format is published and versioned, free for anyone to read, write, or build on. What you create is private, but the tools to create it are transparent.</p></div>
+          <div class="plank"><h3>The format is open</h3><p>The Capsule Format is published and versioned, free for anyone to read, write, or build on. What you create is private, but the tools to create it are transparent. The receipt is public and permanent: DOI 10.5281/zenodo.24049746, published under CC BY 4.0, and anyone may implement the format.</p></div>
         </div>
+        <p class="creed">Build it so it structurally can&rsquo;t be evil.</p>
       </div>
     </section>
 
@@ -4367,7 +4387,7 @@ html,body{overflow-x:clip}
       <div class="v6-slide-copy">
         <p class="v6-kicker">The difference</p>
         <h2>Not another import</h2>
-        <p class="lede">Their basic import moves your chat history and leaves you to figure out the rest on your own. A summary is not a personality.</p>
+        <p class="lede">Their basic import moves your chat history and leaves you to figure out the rest on your own. A summary is not a personality. And whatever it moves stays on their platform, in their account, under their rules.</p>
       </div>
       <div class="v6-visual">
         <div class="compare">
