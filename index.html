@@ -4910,6 +4910,126 @@ Where any of this is absent, write MISSING.
     return { text: out.join('\n') + '\n', found: found };
   }
 
+  // Layered export (capsule-codec-backlog C1, layered fidelity).
+  // A compiled capsule can also be cut into three independently
+  // decodable layers, the way a codec bitstream carries a base layer
+  // plus enhancement layers:
+  //   pocket  - the irreducible core that must decode coherently by
+  //             itself: identity, hard rules, parity checks. Always
+  //             loaded, survives any context window.
+  //   session - current projects, live commitments, relationships in
+  //             play. Loaded when the task touches them.
+  //   archive - history, evidence, and provenance. Loaded on demand,
+  //             cited rather than carried.
+  // The cut is section-granular and follows the layering map in the
+  // capsule format record (the 12-section lineage table):
+  //   pocket:  the capsule header (title, flavor, fidelity framing),
+  //            the install protocol, sections 1, 2, 4, 8, 9 and 11,
+  //            and the parity self-check with its prediction and
+  //            voice rounds.
+  //   session: sections 5 and 6. Sections 3 and 10 also belong to
+  //            this layer's remit but are housed in archive under the
+  //            one-home rule; session cross-references them by
+  //            heading name rather than duplicating them.
+  //   archive: sections 0, 3, 7 and 10, and any heading the compiler
+  //            does not recognise (nothing is ever dropped).
+  // Cut rules: exact excerpts only, the compiled wording is preserved
+  // byte for byte inside each block; one home layer per section; the
+  // human block at the end of the compiled capsule (READ THIS LAST)
+  // belongs to no layer and is carried into none of them.
+  var LAYER_HOME = { 0: 'archive', 1: 'pocket', 2: 'pocket', 3: 'archive', 4: 'pocket', 5: 'session', 6: 'session', 7: 'archive', 8: 'pocket', 9: 'pocket', 10: 'archive', 11: 'pocket' };
+  var LAYER_DEFS = {
+    pocket: 'the irreducible core that must decode coherently by itself: identity, hard rules, parity checks. Always loaded, survives any context window.',
+    session: 'current projects, live commitments, relationships in play. Loaded when the task touches them.',
+    archive: 'history, evidence, and provenance. Loaded on demand, cited rather than carried.'
+  };
+  var LAYER_XREFS = [3, 10]; // housed in archive, cross-referenced from session
+
+  function splitCapsuleLayers(capsuleText) {
+    var text = String(capsuleText);
+    var hb = text.indexOf('\n---\n\n# READ THIS LAST');
+    if (hb !== -1) { text = text.slice(0, hb + 1); }
+    var dateM = /Compiled by clonemy\.ai on (\d{4}-\d{2}-\d{2})/.exec(text);
+    var cutDate = dateM ? dateM[1] : new Date().toISOString().slice(0, 10);
+    var lines = text.replace(/\s+$/, '').split('\n');
+    var blocks = []; // { heading: string|null, num: number|null, lines: [] }
+    var cur = { heading: null, num: null, lines: [] };
+    blocks.push(cur);
+    lines.forEach(function (line) {
+      if (/^## /.test(line)) {
+        cur = { heading: line.slice(3).trim(), num: null, lines: [line] };
+        var m = /^(\d{1,2})\. /.exec(cur.heading);
+        if (m) { cur.num = parseInt(m[1], 10); }
+        blocks.push(cur);
+        return;
+      }
+      cur.lines.push(line);
+    });
+    function homeOf(b) {
+      if (b.heading === null) { return 'pocket'; }
+      if (b.num !== null && b.num >= 0 && b.num <= 11) { return LAYER_HOME[b.num]; }
+      if (b.heading === 'Capsule flavor' || b.heading.indexOf('Install protocol') === 0 ||
+          b.heading === 'Parity self-check' || b.heading === 'Prediction round' || b.heading === 'Voice round') { return 'pocket'; }
+      return 'archive';
+    }
+    function blockText(b) {
+      var ls = b.lines.slice();
+      while (ls.length && ls[ls.length - 1].trim() === '') { ls.pop(); }
+      return ls.join('\n');
+    }
+    function hasContent(b) {
+      var ls = b.lines.slice(1).filter(function (l) { return l.trim() !== ''; });
+      return !(ls.length === 1 && ls[0].trim() === 'Not present in the source document.');
+    }
+    var homes = { pocket: [], session: [], archive: [] };
+    blocks.forEach(function (b) { homes[homeOf(b)].push(b); });
+    function titles(list, numberedOnly) {
+      return list.filter(function (b) { return b.heading !== null && (!numberedOnly || b.num !== null); })
+        .map(function (b) { return b.heading; });
+    }
+    function buildLayer(name) {
+      var out = [];
+      out.push('# Capsule layer: ' + name.toUpperCase());
+      out.push('');
+      out.push('- Layer definition (capsule-codec-backlog C1): ' + LAYER_DEFS[name]);
+      out.push('- Cut method: cut by the clonemy compiler from the compiled capsule of ' + cutDate + ', section wording preserved exactly. A passage with its primary home in a deeper layer is cross-referenced by heading name in the shallower layer rather than duplicated. The human block at the end of the compiled capsule (READ THIS LAST) belongs to no layer and is carried into none of them.');
+      var mine = titles(homes[name], true);
+      out.push('- Contents: ' + (name === 'pocket' ? 'the capsule header, the install protocol, the parity self-check rounds' + (mine.length ? ', and sections ' + mine.join('; ') : '') : (mine.length ? 'sections ' + mine.join('; ') : 'no numbered sections')));
+      if (name === 'session') {
+        out.push('- State date: this layer carries the state of the source document as compiled on ' + cutDate + '; do not treat that state as current beyond it.');
+      }
+      if (name === 'archive') {
+        out.push('- Handling: material a section marks as sealed stays under that section\'s own rules wherever it is housed; nothing is copied into a shallower layer from here.');
+      }
+      out.push('');
+      out.push('---');
+      homes[name].forEach(function (b) { out.push(''); out.push(blockText(b)); });
+      if (name === 'session') {
+        var xrefs = blocks.filter(function (b) { return b.num !== null && LAYER_XREFS.indexOf(b.num) !== -1 && hasContent(b); });
+        if (xrefs.length) {
+          out.push('');
+          out.push('## Cross-references (passages housed in the archive layer)');
+          out.push('');
+          out.push('The passages below also belong to this layer\'s remit, but are housed in the archive layer under the one-home rule and are not duplicated here:');
+          out.push('');
+          xrefs.forEach(function (b) { out.push('- "' + b.heading + '" - full text in the archive layer.'); });
+        }
+      }
+      if (name === 'pocket') {
+        var deeper = titles(homes.session, true).concat(titles(homes.archive, true));
+        if (deeper.length) {
+          out.push('');
+          out.push('## Deeper layers');
+          out.push('');
+          out.push('This pocket layer decodes on its own. The same compiled capsule also cuts into a session layer and an archive layer, which hold, between them: ' + deeper.join('; ') + '. Load them when the task touches them.');
+        }
+      }
+      return out.join('\n') + '\n';
+    }
+    return { pocket: buildLayer('pocket'), session: buildLayer('session'), archive: buildLayer('archive') };
+  }
+
+
   function detectCompanionName(raw) {
     var stop = { the: 1, a: 1, an: 1, your: 1, this: 1, that: 1, i: 1, you: 1, ai: 1, assistant: 1, companion: 1, user: 1, name: 1, none: 1, unknown: 1, if: 1, when: 1, my: 1, me: 1, it: 1, she: 1, he: 1, they: 1 };
     function clean(c) {
