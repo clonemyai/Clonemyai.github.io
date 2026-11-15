@@ -3926,13 +3926,60 @@ html,body{overflow-x:clip}
      the founding creed on the Why panel. The strip states
      the four numbers (local, tested, yours, free) with
      the receipt under each; the creed stands under the
-     three commitment planks. Landing only. */
+     three commitment planks. Landing only.
+     v7.36: the strip stacks with the page, two by two
+     under the main 1080px step and one up under the
+     560px phone step, and the cards turn to glass:
+     frosted, lit along the top edge, each number in a
+     tinted capsule. On the desktop row a card rests on
+     its first sentence and the rest of the receipt
+     opens on hover or keyboard focus; stacked and
+     touch layouts read the full receipt by default.
+     The tilt is inline on each card, fine pointers
+     only, stilled for reduced motion. */
   .hero .mkt-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:1080px;margin:1.15rem auto .35rem;text-align:left}
-  .hero .mkt-item{border:1px solid var(--L-line);border-radius:12px;background:var(--L-panel);padding:.72rem .85rem}
-  .hero .mkt-item b{display:block;font-size:1.06rem;line-height:1.2;color:var(--L-ink);letter-spacing:.01em}
-  .hero .mkt-item span{display:block;margin-top:.3rem;font-size:.83rem;line-height:1.5;color:var(--L-ink2)}
-  @media (max-width:820px){.hero .mkt-strip{grid-template-columns:1fr 1fr}}
+  .hero .mkt-item{--tint:var(--ecr-1);border:1px solid var(--L-line);border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.09),rgba(255,255,255,0) 55%),color-mix(in srgb,var(--L-panel) 66%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.18),0 14px 34px rgba(3,3,12,.38),0 3px 10px rgba(3,3,12,.28);padding:.8rem .9rem}
+  html[data-theme="light"] .hero .mkt-item{background:linear-gradient(165deg,rgba(255,255,255,.55),rgba(255,255,255,0) 55%),color-mix(in srgb,var(--L-panel) 62%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -1px 0 rgba(20,20,40,.05),0 14px 34px rgba(60,50,120,.14),0 3px 10px rgba(60,50,120,.08)}
+  .hero .mkt-item:nth-child(2){--tint:var(--ecr-2)}
+  .hero .mkt-item:nth-child(3){--tint:var(--ecr-3)}
+  .hero .mkt-item:nth-child(4){--tint:color-mix(in srgb,var(--ecr-1) 55%,var(--ecr-2))}
+  .hero .mkt-item b{display:flex;align-items:center;gap:.5rem;font-size:1.06rem;line-height:1.2;color:var(--L-ink);letter-spacing:.01em}
+  .hero .mkt-pill{flex:0 0 auto;padding:.14em .55em;border-radius:999px;background:color-mix(in srgb,var(--tint) 16%,transparent);border:1px solid color-mix(in srgb,var(--tint) 38%,transparent);color:var(--tint);font-weight:800}
+  .hero .mkt-txt{display:block;margin-top:.42rem;font-size:.83rem;line-height:1.5;color:var(--L-ink2)}
+  .hero .mkt-more{display:grid;grid-template-rows:1fr;opacity:1;transition:grid-template-rows .5s ease,opacity .4s ease}
+  .hero .mkt-more>span{min-height:0;overflow:hidden}
+  .hero .mkt-item:focus-visible{outline:2px solid color-mix(in srgb,var(--tint) 65%,transparent);outline-offset:2px}
+  @media (min-width:1080px) and (hover:hover) and (pointer:fine){
+    .hero .mkt-item{transition:transform .18s ease-out,box-shadow .3s ease,border-color .3s ease;will-change:transform}
+    .hero .mkt-item:hover,.hero .mkt-item:focus-within{border-color:color-mix(in srgb,var(--tint) 45%,transparent)}
+    .hero .mkt-more{grid-template-rows:0fr;opacity:0}
+    .hero .mkt-item:hover .mkt-more,.hero .mkt-item:focus-within .mkt-more{grid-template-rows:1fr;opacity:1}
+  }
+  @media (max-width:1079px){.hero .mkt-strip{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.hero .mkt-strip{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){.hero .mkt-item,.hero .mkt-more{transition:none}}
   .v6-slide .creed{margin:.95rem 0 0;font-size:1.04rem;font-weight:800;line-height:1.4;color:var(--L-ink)}
+</style>
+<style id="v736-story">
+  /* v7.36: the story pocket and its opener. Tony's direction
+     (2026-11-14): the four promise cards spell it all out,
+     so the carousel no longer stands in the landing. It
+     waits in a pocket of its own, the v6.49 tool pocket's
+     pattern applied to the story column: fully hidden in
+     the landing state, opened by the Learn more control
+     under the hero's download line, the panels rising into
+     view with their controls, rotation and slides
+     untouched; the pocket's Close line restores the
+     landing exactly. Reduced motion: no rise, as with the
+     tool pocket. The fitted landing settles without the
+     carousel's share: the story column rests behind the
+     pocket until it opens. */
+  .learn-row{display:flex;justify-content:center;margin:14px auto 0}
+  .story-pocket[hidden]{display:none}
+  .story-pocket.rise{animation:pocketRise .55s cubic-bezier(.22,.8,.28,1) both}
+  .story-close-line{margin:0 0 10px}
+  @media (prefers-reduced-motion:reduce){.story-pocket.rise{animation:none}}
+  body.rm .story-pocket.rise{animation:none}
 </style>
 </head>
 <body>
@@ -3963,12 +4010,13 @@ html,body{overflow-x:clip}
   <h1 class="hero-tag"><span class="ht-line">Your Capsule. A(i) personality, in a file,</span> <span class="ht-line"><span class="v6-tag-grad"><u class="v6-yours">yours</u> to keep. Forever</span>.</span></h1>
   <p class="hero-sub">Clonemy gives you the power to move the relationship you&rsquo;ve built with your current AI and clone it to a file that stays in your hands, from start, to finish.</p>
   <div class="mkt-strip" role="group" aria-label="The clonemy promise, with receipts">
-    <div class="mkt-item"><b>100% local</b><span>The compiler runs in this page, in your browser. There is no server for your capsule to go to, and the code is this page, open for anyone to inspect.</span></div>
-    <div class="mkt-item"><b>100% tested</b><span>Every release of this site passes a 492-check test suite before it ships. Your capsule grades its own restore too, with a parity check you score.</span></div>
-    <div class="mkt-item"><b>100% yours</b><span>One plain-text file, in your hands. No account, no sign-up, and nothing of yours is ever uploaded to us.</span></div>
-    <div class="mkt-item"><b>100% free</b><span>The compiler and the format are given away. The format stands as a permanent public record: DOI 10.5281/zenodo.24049746, CC BY 4.0.</span></div>
+    <div class="mkt-item" tabindex="0" onpointermove="var m=window.matchMedia;if(m('(hover:hover) and (pointer:fine)').matches&&!m('(prefers-reduced-motion: reduce)').matches){var r=this.getBoundingClientRect(),x=(event.clientX-r.left)/r.width-.5,y=(event.clientY-r.top)/r.height-.5;this.style.transform='perspective(720px) rotateX('+(-6*y).toFixed(2)+'deg) rotateY('+(6*x).toFixed(2)+'deg) scale(1.03)'}" onpointerleave="this.style.transform=''"><b><span class="mkt-pill">100%</span> local</b><span class="mkt-txt"><span class="mkt-rest">The compiler runs in this page, in your browser.</span> <span class="mkt-more"><span class="mkt-in">There is no server for your capsule to go to, and the code is this page, open for anyone to inspect.</span></span></span></div>
+    <div class="mkt-item" tabindex="0" onpointermove="var m=window.matchMedia;if(m('(hover:hover) and (pointer:fine)').matches&&!m('(prefers-reduced-motion: reduce)').matches){var r=this.getBoundingClientRect(),x=(event.clientX-r.left)/r.width-.5,y=(event.clientY-r.top)/r.height-.5;this.style.transform='perspective(720px) rotateX('+(-6*y).toFixed(2)+'deg) rotateY('+(6*x).toFixed(2)+'deg) scale(1.03)'}" onpointerleave="this.style.transform=''"><b><span class="mkt-pill">100%</span> tested</b><span class="mkt-txt"><span class="mkt-rest">Every release of this site passes a 492-check test suite before it ships.</span> <span class="mkt-more"><span class="mkt-in">Your capsule grades its own restore too, with a parity check you score.</span></span></span></div>
+    <div class="mkt-item" tabindex="0" onpointermove="var m=window.matchMedia;if(m('(hover:hover) and (pointer:fine)').matches&&!m('(prefers-reduced-motion: reduce)').matches){var r=this.getBoundingClientRect(),x=(event.clientX-r.left)/r.width-.5,y=(event.clientY-r.top)/r.height-.5;this.style.transform='perspective(720px) rotateX('+(-6*y).toFixed(2)+'deg) rotateY('+(6*x).toFixed(2)+'deg) scale(1.03)'}" onpointerleave="this.style.transform=''"><b><span class="mkt-pill">100%</span> yours</b><span class="mkt-txt"><span class="mkt-rest">One plain-text file, in your hands.</span> <span class="mkt-more"><span class="mkt-in">No account, no sign-up, and nothing of yours is ever uploaded to us.</span></span></span></div>
+    <div class="mkt-item" tabindex="0" onpointermove="var m=window.matchMedia;if(m('(hover:hover) and (pointer:fine)').matches&&!m('(prefers-reduced-motion: reduce)').matches){var r=this.getBoundingClientRect(),x=(event.clientX-r.left)/r.width-.5,y=(event.clientY-r.top)/r.height-.5;this.style.transform='perspective(720px) rotateX('+(-6*y).toFixed(2)+'deg) rotateY('+(6*x).toFixed(2)+'deg) scale(1.03)'}" onpointerleave="this.style.transform=''"><b><span class="mkt-pill">100%</span> free</b><span class="mkt-txt"><span class="mkt-rest">The compiler and the format are given away.</span> <span class="mkt-more"><span class="mkt-in">The format stands as a permanent public record: DOI 10.5281/zenodo.24049746, CC BY 4.0.</span></span></span></div>
   </div>
   <p class="hero-ext"><span><strong>Start where your AI already is.</strong> The extension runs the desk inside your AI&rsquo;s tab.</span> <a class="v6-btn v6-btn-primary" id="extBtn" href="https://chromewebstore.google.com/detail/clonemyai-clone-your-ai/ejoibikgcgekmoejipegnpabjpndofdo" target="_blank" rel="noopener">Get the extension</a></p>
+  <p class="learn-row"><button type="button" class="v6-btn v6-btn-glass" id="learnMoreBtn" aria-expanded="false" aria-controls="storyPocket" onclick="var p=document.getElementById('storyPocket');if(!p.hidden)return;p.hidden=false;this.setAttribute('aria-expanded','true');p.classList.remove('rise');void p.offsetWidth;p.classList.add('rise');window.dispatchEvent(new Event('resize'));if(p.scrollIntoView)p.scrollIntoView({behavior:document.body.classList.contains('rm')?'auto':'smooth',block:'nearest'})">Learn more</button></p>
   <div class="head-chips-row"><div class="ext-chips" role="group" aria-label="Works with">
     <span class="ext-chips-label">Works with</span>
     <button type="button" class="chip chip-door" data-chip-ai="chatgpt" aria-label="Open ChatGPT with the clonemy.ai extraction prompt"><svg viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><g><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(60 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(120 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(180 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(240 12 12)"/><path d="M12 2.8c1.7 2.1 1.7 4.9 0 6.9-1.7-2-1.7-4.8 0-6.9z" transform="rotate(300 12 12)"/></g></svg><span>ChatGPT</span></button>
@@ -4302,6 +4350,8 @@ html,body{overflow-x:clip}
     </div>
     </div>
 <div class="col-story">
+<div class="story-pocket" id="storyPocket" hidden>
+<p class="back-line story-close-line"><button type="button" class="back-link" id="storyClose" onclick="var p=document.getElementById('storyPocket');p.hidden=true;p.classList.remove('rise');document.getElementById('learnMoreBtn').setAttribute('aria-expanded','false')">Close</button></p>
 <div class="v6-carousel" id="carousel6" aria-roledescription="carousel" aria-label="About clonemy.ai">
 
     <section class="v6-slide active" aria-label="The product">
@@ -4453,6 +4503,7 @@ html,body{overflow-x:clip}
       <button class="v6-ctl" id="cNext" type="button" aria-label="Next panel">&#8250;</button>
     </div>
   </div>
+    </div>
 
       </div>
 </div></div>
