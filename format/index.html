@@ -364,6 +364,17 @@ html[data-theme="light"] .v6-head{--L-ink:#14141f;--L-ink2:#45455e;--L-ink3:#7a7
   <h2>Merging capsules</h2>
   <p>Documents from several AIs can be compiled together into one capsule. The compiler unions the sections and removes exact duplicates. Where two sources disagree on a fact or a state value, the merged capsule carries the newest source's value, with the superseded value folded into its audit note. Where they disagree on an operating rule or a permission, the merged capsule carries a note instead: the disagreement is an unknown to ask the user about, never a detail to guess at, and never a thing recency settles. Audit notes stay attached to the values they describe, from either source.</p>
 
+  <h2>Design direction: adopted November 20, 2026, not yet implemented</h2>
+  <p>Capsule Format v3, the version this page specifies, does none of the following yet. The six commitments below were adopted as design on November 20, 2026, and are recorded in full in the white paper, in sections 4, 5, and 8. Until a release note says they shipped, treat this section as direction, not behaviour.</p>
+  <ul>
+    <li><strong>Canonical form.</strong> One pinned serialisation of the capsule: fixed section order, exact canonical headings, one pinned form for timestamps and numbers, a manifest listing a SHA-256 checksum for each file in the bundle, and optional Ed25519 signing of the manifest. Two tools can then produce and check the same capsule without trusting each other, and unknown fields and unknown record kinds pass through a load and save cycle untouched.</li>
+    <li><strong>Conformance, L0 to L3.</strong> L0 is a valid export that parses and carries the twelve sections. L1 is a lossless, idempotent merge, where a second merge of the same source changes nothing further. L2 is deletion propagation, with tombstones applied first on import. L3 is a signed and audited bundle. A golden-vector test suite lets any implementer test byte compatibility, and the public capsule-compatible badge is gated on passing the L2 deletion test.</li>
+    <li><strong>Tombstones that travel.</strong> Deleting a fact or a category records a tombstone in a stream that travels with the capsule. Every import applies tombstones first, before any additions, so a stale copy or an old backup cannot bring deleted content back. A deletion receipt names what was removed and what it reached.</li>
+    <li><strong>Supersede, never overwrite.</strong> Records become bi-temporal: each carries the time the fact was true and the time the capsule learned it. An update adds a new record that supersedes the old one instead of overwriting it, so any past state of the capsule can be reconstructed. Records sit in three layers: core, episodic, and cold archive.</li>
+    <li><strong>Per-record authorship.</strong> Every record carries a written_by field naming who wrote it: a person, a named model or assistant session, or a named extraction service and run. Approval never rewrites authorship, so a model-written fact stays visibly model-written.</li>
+    <li><strong>The Capsule Inbox.</strong> Newly extracted facts land first in a Capsule Inbox as proposals, held apart from the twelve sections until the owner approves them. Sensitive categories have no bulk approval path and need an explicit per-item approval every time. What was never approved never leaves in a share.</li>
+  </ul>
+
   <h2>Principles</h2>
   <ul>
     <li><strong>The file is the product.</strong> A capsule works even if clonemy.ai disappears tomorrow. That is the point.</li>
